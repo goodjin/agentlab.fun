@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagnostics Factory - matklad</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; }
+        h1 { color: #1a1a1a; border-bottom: 2px solid #4a90d9; padding-bottom: 10px; }
+        h2 { color: #2d2d2d; margin-top: 30px; }
+        .meta { color: #666; font-size: 0.9em; }
+        .tag { background: #4a90d9; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; }
+        .highlight { background: #f5f5f5; padding: 15px; border-left: 4px solid #4a90d9; margin: 20px 0; }
+        .stars { color: #f5a623; font-size: 1.2em; }
+        a { color: #4a90d9; }
+        code { background: #f0f0f0; padding: 2px 6px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <p class="stars">⭐⭐⭐⭐⭐</p>
+    <h1>Diagnostics Factory</h1>
+    <p class="meta">By matklad | February 16, 2026</p>
+    <p><span class="tag">Error Handling</span> <span class="tag">Diagnostics</span> <span class="tag">Zig</span> <span class="tag">Software Engineering</span></p>
+    
+    <h2>Summary</h2>
+    <p>A personal approach to the "reporting" half of error management - showing users useful error messages. The key insight: avoid thinking about error payloads, instead provide a set of functions for constructing errors.</p>
+    
+    <h2>Key Insights</h2>
+    <ul>
+        <li><strong>The Problem</strong>: Zig's strongly-typed error codes solve the "handling" half of error management, leaving "reporting" to users</li>
+        <li><strong>The Approach</strong>: In the negative - avoid thinking about error payloads and types. Instead, provide functions for constructing errors</li>
+        <li><strong>TigerBeetle Example</strong>: Concrete example from the author's work on TigerBeetle database</li>
+        <li><strong>User Experience</strong>: Focus on showing users useful error messages, not just technically correct ones</li>
+    </ul>
+    
+    <div class="highlight">
+        <strong>Core Insight:</strong> "Avoid thinking about error payloads, and what the type of error should be. Instead, provide a set of functions for constructing errors."
+    </div>
+    
+    <h2>Background</h2>
+    <p>Follow-up to the author's earlier post "Error Codes For Control Flow" which covered the "handling" aspect of error management. This addresses the complementary "reporting" side.</p>
+    
+    <h2>Why This Matters</h2>
+    <p>Good error messages are crucial for user experience, but often neglected. This approach provides a systematic way to think about diagnostics that prioritizes usability over technical correctness.</p>
+    
+    <hr>
+    <p><a href="https://matklad.github.io/2026/02/16/diagnostics-factory.html">Read Original →</a></p>
+    <p><a href="https://matklad.github.io/2025/11/06/error-codes-for-control-flow.html">Related: Error Codes For Control Flow →</a></p>
+</body>
+</html>

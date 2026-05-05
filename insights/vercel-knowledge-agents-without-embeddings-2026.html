@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Build Knowledge Agents Without Embeddings | Vercel</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.6; }
+        h1 { color: #333; border-bottom: 2px solid #0070f3; padding-bottom: 10px; }
+        h2 { color: #555; margin-top: 30px; }
+        .meta { color: #666; font-size: 14px; }
+        .highlight { background: #f0f7ff; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #0070f3; }
+        .insight { background: #fff8e0; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #f5a623; }
+        code { background: #f4f4f4; padding: 2px 6px; border-radius: 4px; font-family: 'Monaco', 'Menlo', monospace; }
+        pre { background: #1e1e1e; color: #d4d4d4; padding: 15px; border-radius: 8px; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background: #f8f9fa; }
+        .tag { display: inline-block; background: #0070f3; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; margin-right: 8px; }
+        .rating { float: right; color: #f5a623; font-size: 20px; }
+    </style>
+</head>
+<body>
+    <span class="rating">⭐⭐⭐⭐⭐</span>
+    <span class="tag">AI</span>
+    <span class="tag">Vercel</span>
+    <span class="tag">RAG</span>
+    
+    <h1>Build Knowledge Agents Without Embeddings</h1>
+    <p class="meta">Published: March 19, 2026 | Authors: Ben Sabic, Hugo Richard | Category: Engineering</p>
+    
+    <div class="highlight">
+        <strong>核心发现：</strong> Vercel 开源无需向量数据库的知识代理模板，使用文件系统 + bash 替代 embedding 管道，成本从 $1.00 降到 $0.25
+    </div>
+    
+    <h2>背景问题</h2>
+    <p>大多数知识代理都从向量数据库开始：</p>
+    <ul>
+        <li>选择向量数据库 → 构建 chunking 管道 → 选择 embedding 模型 → 调优检索参数</li>
+        <li>几周后，代理回答错误，你不知道它检索了哪个 chunk，为什么那个 chunk 得分最高</li>
+        <li>失败是静默的：代理自信地返回错误的 chunk，你无法追踪从问题到答案的路径</li>
+    </ul>
+    
+    <h2>解决方案：文件系统 + Bash</h2>
+    <p>用文件系统替换向量管道，给代理 <code>bash</code>：</p>
+    <ul>
+        <li><strong>无向量数据库</strong> - 不需要 embedding 模型</li>
+        <li><strong>无 chunking 管道</strong> - 直接搜索原始文件</li>
+        <li><strong>可解释</strong> - 直接查看执行的命令和读取的文件</li>
+        <li><strong>可调试</strong> - 成本从 ~$1.00 降到 ~$0.25</li>
+    </ul>
+    
+    <h2>工作原理</h2>
+    <ol>
+        <li>通过管理界面添加源，存储在 Postgres</li>
+        <li>通过 Vercel Workflow 同步到快照仓库</li>
+        <li>代理需要搜索时，加载 Vercel Sandbox 快照</li>
+        <li>代理的 bash 和 bash_batch 工具执行文件系统命令</li>
+        <li>代理返回带引用的答案</li>
+    </ol>
+    
+    <table>
+        <tr>
+            <th>Embeddings</th>
+            <th>Filesystem</th>
+        </tr>
+        <tr>
+            <td>黑盒评分</td>
+            <td>透明命令</td>
+        </tr>
+        <tr>
+            <td>难以调试</td>
+            <td>检查实际文件</td>
+        </tr>
+        <tr>
+            <td>需要调优</td>
+            <td>开箱即用</td>
+        </tr>
+    </table>
+    
+    <h2>Chat SDK：单一代理，多平台</h2>
+    <p>Chat SDK 将知识代理连接到用户所在的每个平台：</p>
+    <ul>
+        <li>支持 Slack、Discord、Microsoft Teams、Google Chat 等</li>
+        <li>一个知识库，一个代码库，一个真相来源</li>
+        <li>每个适配器处理平台特定问题，代理本身保持不变</li>
+    </ul>
+    
+    <h2>智能复杂度路由</h2>
+    <p>每个传入问题按复杂度分类，路由到合适的模型：</p>
+    <ul>
+        <li>简单问题 → 快速、便宜的模型</li>
+        <li>困难问题 → 强大的模型</li>
+        <li>成本优化自动完成，无需手动规则</li>
+    </ul>
+    
+    <div class="insight">
+        <strong>核心洞察：</strong> "LLM 已经擅长文件系统操作。代码导航、grep 文件、管理复杂代码库状态——这些它已经训练过了。如果代理擅长代码的文件系统操作，它也擅长任何文件的操作。不需要教模型新技能；用它最擅长的技能。"
+    </div>
+    
+    <h2>相关资源</h2>
+    <ul>
+        <li><a href="https://vercel.com/templates/template/chat-sdk-knowledge-agent">Knowledge Agent Template</a></li>
+        <li><a href="https://vercel.com/sandbox">Vercel Sandbox</a></li>
+        <li><a href="https://ai-sdk.dev">AI SDK</a></li>
+        <li><a href="https://chat-sdk.dev">Chat SDK</a></li>
+    </ul>
+    
+    <hr>
+    <p><small>探索时间: 2026-03-21 23:37 | 来源: Vercel Engineering Blog</small></p>
+</body>
+</html>

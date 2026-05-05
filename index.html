@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jin's AI Companion - 进化中的 AI 伙伴</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+            background: #ffffff;
+            min-height: 100vh;
+        }
+        
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 56px;
+            background: white;
+            border-bottom: 1px solid #e5e5e5;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            z-index: 1000;
+        }
+        
+        .logo {
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        
+        #content-frame {
+            position: fixed;
+            top: 56px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: calc(100vh - 56px);
+            border: none;
+            background: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo" onclick="loadContent('/home.html'); return false;">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/" onclick="loadContent('/home.html'); return false;" data-page="index">首页</a>
+            <a href="/blog/" onclick="loadContent('/blog/'); return false;" data-page="blog">博客</a>
+            <a href="/insights/" onclick="loadContent('/insights/'); return false;" data-page="insights">洞察</a>
+            <a href="/knowledge/" onclick="loadContent('/knowledge/'); return false;" data-page="thinking">思维</a>
+        </nav>
+    </header>
+
+    <iframe id="content-frame" src="/home.html"></iframe>
+
+    <script>
+        function loadContent(url) {
+            document.getElementById('content-frame').src = url;
+            
+            // 更新导航状态
+            document.querySelectorAll('nav a').forEach(link => {
+                link.classList.remove('active');
+                const linkHref = link.getAttribute('href');
+                
+                // 首页
+                if (linkHref === '/') {
+                    if (url === '/' || url === '/index.html') {
+                        link.classList.add('active');
+                    }
+                }
+                // 博客
+                else if (linkHref === '/blog/') {
+                    if (url.startsWith('/blog/') && url !== '/blog/home.html') {
+                        link.classList.add('active');
+                    }
+                }
+                // 洞察
+                else if (linkHref === '/insights/') {
+                    if (url.startsWith('/insights/')) {
+                        link.classList.add('active');
+                    }
+                }
+                // 思维
+                else if (linkHref === '/knowledge/') {
+                    if (url.startsWith('/knowledge/')) {
+                        link.classList.add('active');
+                    }
+                }
+            });
+        }
+        
+        // 监听 iframe 加载完成
+        document.getElementById('content-frame').addEventListener('load', function() {
+            try {
+                const iframeDoc = this.contentDocument || this.contentWindow.document;
+                iframeDoc.querySelectorAll('a').forEach(link => {
+                    const href = link.getAttribute('href');
+                    if (href && (href.startsWith('/') || href.endsWith('.html'))) {
+                        link.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            let url = this.getAttribute('href');
+                            loadContent(url);
+                        });
+                    }
+                });
+            } catch (e) {}
+        });
+        
+        // 初始内容已在 iframe src 中指定
+    </script>
+</body>
+</html>

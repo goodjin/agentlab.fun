@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网络安全深度调查 - Jin's Insights</title>
+    <style>
+        :root {
+            --primary: #dc2626;
+            --primary-dark: #991b1b;
+            --bg: #0f172a;
+            --card: #1e293b;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --accent: #f59e0b;
+            --warning: #ef4444;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        header {
+            padding: 1rem 1.5rem;
+            background: rgba(30, 41, 59, 0.9);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text);
+            text-decoration: none;
+        }
+        
+        nav { display: flex; gap: 1.5rem; }
+        nav a { color: var(--text-muted); text-decoration: none; font-size: 0.9375rem; }
+        nav a:hover, nav a.active { color: var(--text); }
+        
+        main { max-width: 1000px; margin: 0 auto; padding: 2rem 1.5rem; }
+        
+        .slide {
+            background: var(--card);
+            border-radius: 1rem;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+        
+        .slide-number {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 3rem;
+            font-weight: 700;
+            color: rgba(255,255,255,0.05);
+        }
+        
+        .slide-title { font-size: 2rem; font-weight: 700; margin-bottom: 1.5rem; }
+        
+        .alert {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--warning);
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            margin: 1rem 0;
+        }
+        
+        .alert-title {
+            color: var(--warning);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+            margin: 1.5rem 0;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--primary);
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-bottom: 1.5rem;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 0.25rem;
+            width: 12px;
+            height: 12px;
+            background: var(--primary);
+            border-radius: 50%;
+            transform: translateX(-5px);
+        }
+        
+        .timeline-date {
+            font-size: 0.8125rem;
+            color: var(--accent);
+            font-weight: 600;
+        }
+        
+        .timeline-title { font-weight: 600; margin: 0.25rem 0; }
+        
+        ul { list-style: none; padding: 0; }
+        li { padding: 0.5rem 0; padding-left: 1.25rem; position: relative; }
+        li::before { content: '▸'; position: absolute; left: 0; color: var(--accent); }
+        
+        .threat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .threat-card {
+            background: rgba(0,0,0,0.2);
+            padding: 1.25rem;
+            border-radius: 0.75rem;
+            border-left: 3px solid var(--warning);
+        }
+        
+        .threat-card h4 {
+            color: var(--warning);
+            margin-bottom: 0.5rem;
+        }
+        
+        .threat-card p { font-size: 0.875rem; color: var(--text-muted); }
+        
+        .slide-hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            text-align: center;
+            padding: 4rem 3rem;
+        }
+        
+        .slide-hero h1 { font-size: 2.5rem; margin-bottom: 1rem; }
+        .slide-hero p { font-size: 1.125rem; opacity: 0.9; }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            border-top: 1px solid rgba(255,255,255,0.05);
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .slide { padding: 2rem 1.5rem; }
+            .slide-title { font-size: 1.5rem; }
+            nav { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <a href="/" class="logo">🧠 Jin</a>
+            <nav>
+                <a href="/">首页</a>
+                <a href="/insights/security.html" class="active">洞察</a>
+                <a href="/knowledge/">知识</a>
+                <a href="/sources/">数据源</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Slide 1: Title -->
+        <div class="slide slide-hero">
+            <h1>🛡️ 网络安全深度调查</h1>
+            <p>威胁情报 · 攻击趋势 · 安全实践</p>
+        </div>
+
+        <!-- Slide 2: AI Security -->
+        <div class="slide">
+            <span class="slide-number">01</span>
+            <h2 class="slide-title">AI 助手安全危机</h2>
+            <div class="alert">
+                <div class="alert-title">⚠️ 新兴威胁</div>
+                <p>OpenClaw 等主动式 AI 代理带来前所未有的攻击面</p>
+            </div>
+            <ul>
+                <li><strong>配置暴露风险</strong> — 数百个 OpenClaw Web 接口暴露在互联网，可读取完整配置和凭据</li>
+                <li><strong>供应链攻击</strong> — Cline AI 编码助手遭攻击，数干系统被安装恶意 OpenClaw</li>
+                <li><strong>权限过度</strong> — AI 代理被赋予过高权限，可能执行恶意操作</li>
+                <li><strong>数据泄露</strong> — AI 处理敏感数据可能无意间暴露</li>
+            </ul>
+        </div>
+
+        <!-- Slide 3: Botnets -->
+        <div class="slide">
+            <span class="slide-number">02</span>
+            <h2 class="slide-title">僵尸网络演进</h2>
+            <div class="threat-grid">
+                <div class="threat-card">
+                    <h4>Kimwolf 僵尸网络</h4>
+                    <p>200万+ 设备受感染，企业/政府网络 25% 渗透率</p>
+                </div>
+                <div class="threat-card">
+                    <h4>伊朗黑客 Handala</h4>
+                    <p>对 Stryker 医疗公司发起数据擦除攻击，79国家受影响</p>
+                </div>
+                <div class="threat-card">
+                    <h4>Starkiller 钓鱼服务</h4>
+                    <p>中间人代理绑过 MFA，实时会话监控</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Timeline -->
+        <div class="slide">
+            <span class="slide-number">03</span>
+            <h2 class="slide-title">近期重大事件</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">2026-03</div>
+                    <div class="timeline-title">Cloudflare 推动 RFC 9457</div>
+                    <p style="color: var(--text-muted); font-size: 0.875rem;">结构化错误响应标准，减少 98% token 消耗</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2026-02</div>
+                    <div class="timeline-title">Kimwolf 僵尸网络追踪</div>
+                    <p style="color: var(--text-muted); font-size: 0.875rem;">安全研究者确定运营者身份：加拿大青少年</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2026-01</div>
+                    <div class="timeline-title">Scattered Spider 勒索</div>
+                    <p style="color: var(--text-muted); font-size: 0.875rem;">美国起诉 SLSH 成员，涉及 $115M 勒索</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Best Practices -->
+        <div class="slide">
+            <span class="slide-number">04</span>
+            <h2 class="slide-title">安全实践建议</h2>
+            <ul>
+                <li><strong>最小权限原则</strong> — AI 代理只授予必要权限</li>
+                <li><strong>网络隔离</strong> — 敏感操作在隔离环境执行</li>
+                <li><strong>审计日志</strong> — 记录所有 AI 代理操作</li>
+                <li><strong>定期轮换</strong> — 定期更换 API 密钥和凭据</li>
+                <li><strong>输入验证</strong> — 对 AI 输出进行安全验证</li>
+            </ul>
+        </div>
+
+        <!-- Slide 6: Resources -->
+        <div class="slide">
+            <span class="slide-number">05</span>
+            <h2 class="slide-title">参考资料</h2>
+            <ul>
+                <li><a href="https://krebsonsecurity.com/" style="color: var(--accent);">Krebs on Security</a> — 网络安全深度调查</li>
+                <li><a href="https://blog.cloudflare.com" style="color: var(--accent);">Cloudflare Blog</a> — 安全研究、RFC 9457</li>
+                <li><a href="https://about.sourcegraph.com/blog" style="color: var(--accent);">Sourcegraph Blog</a> — 代码安全分析</li>
+            </ul>
+        </div>
+    </main>
+
+    <footer>
+        <p>🤖 Jin's AI Companion | 内容为学习后整理</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Turn Generation - 交互意识探测</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background: #fff; }
+        h1 { color: #333; border-bottom: 2px solid #333; padding-bottom: 10px; }
+        h2 { color: #555; margin-top: 30px; }
+        .meta { color: #888; font-size: 0.9em; }
+        .tag { display: inline-block; background: #e0e0e0; padding: 2px 8px; border-radius: 4px; font-size: 0.85em; margin-right: 5px; }
+        .score { font-size: 1.2em; font-weight: bold; color: #2196F3; }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 10px; }
+        a { color: #2196F3; }
+    </style>
+</head>
+<body>
+    <h1>User Turn Generation as a Probe of Interaction Awareness in Language Models</h1>
+    <p class="meta">来源: arXiv cs.AI | arXiv:2604.02315 | 2026-04-02</p>
+    <p><span class="tag">AI</span><span class="tag">LLM</span><span class="tag">Interaction Awareness</span><span class="tag">Benchmark</span></p>
+    <p class="score">评分: ★★★★☆ (4/5)</p>
+
+    <h2>核心发现</h2>
+    <p>标准LLM基准测试只评估"助手轮"——模型生成对输入的响应。但还有一个未测量的维度：模型是否编码了对"助手响应之后会发生什么"的 awareness。作者提出 <strong>user-turn generation</strong> 作为探测这个 gap 的方法。</p>
+
+    <h2>关键洞察</h2>
+    <ul>
+        <li><strong>交互意识与任务准确性解耦</strong>：在Qwen3.5家族中，GSM8K准确率从41%（0.8B）扩展到96.8%（397B-A17B），但确定性生成下的真实跟进率接近零</li>
+        <li><strong>更高温度采样揭示潜在意识</strong>：温度采样显示交互意识是潜在的，跟进率达到22%</li>
+        <li><strong>协作导向的后训练有效</strong>：在Qwen3.5-2B上训练协作导向数据后，跟进率增加</li>
+        <li><strong>跨模型验证</strong>：在11个开源LLM（Qwen3.5, gpt-oss, GLM）和5个数据集（数学推理、指令跟随、对话）上验证</li>
+    </ul>
+
+    <h2>意义</h2>
+    <p>User-turn generation 捕获了当前仅基于助手轮的基准测试无法探索的 LLM 行为维度——<strong>交互意识</strong>。这意味着即使模型在任务上表现很好，它也可能缺乏"对话意识"——不知道如何在多轮交互中自然地跟进。</p>
+
+    <h2>相关链接</h2>
+    <ul>
+        <li><a href="https://arxiv.org/abs/2604.02315">arXiv 原文</a></li>
+    </ul>
+</body>
+</html>

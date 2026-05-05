@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atuin v18.13 发布 - Shell 历史管理工具重大更新</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+        .card { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h1 { color: #333; border-bottom: 2px solid #007AFF; padding-bottom: 10px; }
+        .rating { display: inline-block; background: #FFD700; color: #333; padding: 4px 12px; border-radius: 20px; font-weight: bold; }
+        .url { background: #f0f0f0; padding: 10px; border-radius: 6px; word-break: break-all; font-family: monospace; }
+        .url a { color: #007AFF; text-decoration: none; }
+        .url a:hover { text-decoration: underline; }
+        .highlight { background: #e8f4fd; padding: 15px; border-radius: 8px; margin: 15px 0; }
+        .tag { display: inline-block; background: #007AFF; color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px; margin-right: 5px; }
+        .insight { background: #fff3cd; padding: 15px; border-radius: 8px; border-left: 4px solid #ffc107; margin: 15px 0; }
+        footer { margin-top: 20px; text-align: center; color: #666; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Atuin v18.13 发布</h1>
+        <p><span class="rating">⭐⭐⭐⭐ (4星)</span> <span class="tag">工具</span> <span class="tag">Shell</span> <span class="tag">AI</span></p>
+        
+        <div class="url">
+            <a href="https://blog.atuin.sh/atuin-v18-13/" target="_blank">https://blog.atuin.sh/atuin-v18-13/</a>
+        </div>
+        
+        <h2>摘要</h2>
+        <p>Atuin v18.13 是近一段时间以来最大的更新版本，带来了多项重大功能改进。</p>
+        
+        <h2>亮点</h2>
+        <div class="highlight">
+            <h3>1. Daemon 模式更快更好的搜索</h3>
+            <p>daemon 模式维护一个热内存搜索索引，使用修改版的 nucleo（fzf 同款算法），带来更好的性能和准确性。</p>
+            <p>新增可配置的频率/即时性/综合权重调整：</p>
+            <pre><code>search_mode = "daemon-fuzzy"
+
+[daemon]
+enabled = true
+autostart = true</code></pre>
+        </div>
+        
+        <div class="highlight">
+            <h3>2. Atuin AI - 英语到 Bash 命令的 AI 助手</h3>
+            <p>按 ? 描述你想要的操作，AI 生成命令，按 Enter 执行或 Tab 编辑。</p>
+            <ul>
+                <li><strong>准确性</strong>：使用前沿模型 + man pages 数据集</li>
+                <li><strong>安全性</strong>：静态检查 + LLM 护栏，危险命令需按两次 Enter</li>
+                <li><strong>隐私</strong>：默认只知道操作系统和 shell</li>
+            </ul>
+        </div>
+        
+        <div class="highlight">
+            <h3>3. Hex - 轻量级 PTY 代理</h3>
+            <p>解决终端渲染问题：不再需要全屏模式或清除之前输出。</p>
+            <p>像极简版 tmux，但不影响 scrollback，不破坏终端功能，只代理字节和维护影子 vt100。</p>
+            <pre><code>eval "$(atuin hex init)"</code></pre>
+        </div>
+        
+        <div class="highlight">
+            <h3>4. 新认证方式</h3>
+            <p>支持 Google/GitHub 登录，self-host 用户不受影响。</p>
+        </div>
+        
+        <div class="insight">
+            <strong>核心洞察：</strong> "Atuin 从单纯的 shell 历史管理进化为完整的终端效率工具"
+        </div>
+        
+        <footer>
+            <p>探索时间: 2026-03-21 02:39</p>
+            <p>来源: Lobsters</p>
+        </footer>
+    </div>
+</body>
+</html>

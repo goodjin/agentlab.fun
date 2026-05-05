@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noq: n0's QUIC Implementation in Rust - 技术洞察</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+        .card { background: white; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h1 { color: #1a1a1a; font-size: 1.5em; margin-bottom: 8px; }
+        h2 { color: #2d2d2d; font-size: 1.2em; margin-top: 20px; }
+        .meta { color: #666; font-size: 0.9em; margin-bottom: 16px; }
+        .tag { display: inline-block; background: #e8f4fd; color: #0066cc; padding: 4px 12px; border-radius: 16px; font-size: 0.85em; margin-right: 8px; }
+        .rating { color: #f59e0b; font-weight: bold; }
+        .highlight { background: #fef3c7; padding: 12px; border-radius: 8px; margin: 12px 0; }
+        code { background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-family: 'Monaco', monospace; font-size: 0.9em; }
+        pre { background: #1e293b; color: #e2e8f0; padding: 16px; border-radius: 8px; overflow-x: auto; }
+        ul { padding-left: 20px; }
+        li { margin: 8px 0; }
+        a { color: #0066cc; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Noq: n0's QUIC Implementation in Rust</h1>
+        <div class="meta">
+            <span class="rating">⭐⭐⭐⭐ (4星)</span> |
+            <span>2026-03-20</span> |
+            <span class="tag">Rust</span>
+            <span class="tag">QUIC</span>
+            <span class="tag">网络</span>
+            <span class="tag">NAT</span>
+        </div>
+        
+        <h2>概述</h2>
+        <p>n0 团队发布了全新的 QUIC 实现 <strong>noq</strong> ("number 0 QUIC")，这是 iroh v0.96+ 的传输层，支持多路径和 NAT 穿透。</p>
+        
+        <div class="highlight">
+            <strong>核心亮点：</strong> 完整实现 QUIC Multipath 规范，NAT 穿透生产级实现，首个 robust 方案
+        </div>
+        
+        <h2>技术细节</h2>
+        
+        <h3>1. QUIC Multipath 规范实现</h3>
+        <ul>
+            <li>多路径成为 QUIC 第一等公民概念</li>
+            <li>relay 路径和直接 UDP 路径都是 QUIC 路径</li>
+            <li>QUIC 维护每条路径的拥塞状态</li>
+            <li>自动选择最佳路径，降低延迟</li>
+        </ul>
+        
+        <h3>2. NAT 穿透</h3>
+        <ul>
+            <li>生产级 robust NAT 穿透实现</li>
+            <li>通过数十万设备实战测试</li>
+            <li>在 QUIC 层表达打洞操作，而非底层</li>
+            <li>拥塞控制器能感知穿透过程</li>
+        </ul>
+        
+        <h3>3. QUIC Address Discovery (QAD)</h3>
+        <ul>
+            <li>使用 QUIC 连接学习公网 IP</li>
+            <li>替代传统 STUN</li>
+            <li>加密数据包，不牺牲往返次数</li>
+            <li>防止协议僵化，增强隐私</li>
+        </ul>
+        
+        <h3>4. qlog 支持</h3>
+        <ul>
+            <li>扩展 qlog 事件支持</li>
+            <li>支持多路径数据包流可视化</li>
+            <li>提供 qlog-viewer 原型工具</li>
+        </ul>
+        
+        <h2>架构演进</h2>
+        <p>从 Quinn 软分支到硬分支的历程：</p>
+        <ul>
+            <li>2024 年：因 iroh 需求与 Quinn 不匹配而 fork</li>
+            <li>多路径、NAT 穿透开发导致迭代周期不匹配</li>
+            <li>硬分支避免对 Quinn 用户的公平影响</li>
+            <li>继续与 Quinn 团队在共同兴趣领域合作</li>
+        </ul>
+        
+        <h2>生产就绪</h2>
+        <ul>
+            <li>自 iroh v0.96 起在生产环境运行</li>
+            <li>已服务数十万设备</li>
+            <li>与 picoquic（参考实现）进行互操作测试</li>
+        </ul>
+        
+        <h2>参考资源</h2>
+        <ul>
+            <li><a href="https://www.iroh.computer/blog/noq-announcement">官方公告</a></li>
+            <li><a href="https://github.com/n0-computer/noq">GitHub 仓库</a></li>
+            <li><a href="https://quicwg.org/multipath/draft-ietf-quic-multipath.html">QUIC Multipath 规范</a></li>
+            <li><a href="https://iroh.computer/docs">iroh 文档</a></li>
+        </ul>
+    </div>
+</body>
+</html>

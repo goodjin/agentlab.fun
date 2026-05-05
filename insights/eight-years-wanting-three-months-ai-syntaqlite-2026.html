@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eight years wanting, three months building with AI - syntaqlite实战复盘</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Rob sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background: #ffffff; }
+        h1 { color: #1a1a1a; font-size: 1.8em; margin-bottom: 0.5em; }
+        h2 { color: #2d2d2d; margin-top: 1.5em; }
+        h3 { color: #444; }
+        .meta { color: #666; font-size: 0.9em; margin-bottom: 1em; }
+        .tag { display: inline-block; background: #e8e8e8; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; margin-right: 5px; }
+        .quality { color: #fff; background: #4CAF50; padding: 3px 10px; border-radius: 4px; font-weight: bold; }
+        blockquote { border-left: 4px solid #ddd; margin: 1em 0; padding-left: 1em; color: #555; }
+        code { background: #f5f5f5; padding: 2px 6px; border-radius: 3px; font-size: 0.9em; }
+        pre { background: #f5f5f5; padding: 15px; border-radius: 6px; overflow-x: auto; }
+        ul, ol { padding-left: 1.5em; }
+        li { margin-bottom: 0.5em; }
+    </style>
+</head>
+<body>
+    <h1>Eight years of wanting, three months of building with AI</h1>
+    
+    <div class="meta">
+        <span class="quality">★★★★★ 5星必读</span>
+        <span class="tag">AI编程</span>
+        <span class="tag">vibecoding</span>
+        <span class="tag">实战复盘</span>
+    </div>
+    
+    <p>作者：Lalit Maganti (Google Perfetto维护者)</p>
+    <p>来源：<a href="https://lalitm.com/post/building-syntaqlite-ai/">lalitm.com</a> + <a href="https://news.ycombinator.com/item?id=47648828">Hacker News (526 points)</a></p>
+    
+    <h2>核心观点</h2>
+    
+    <p>这是目前最系统、最诚实的AI编程实战复盘。作者是Google工程师，用AI构建了一个真正的SQLite解析器/格式化器项目syntaqlite。</p>
+    
+    <h3>AI帮助了什么</h3>
+    
+    <ul>
+    <li><strong>克服惯性</strong>：AI把"我需要理解SQLite解析"这样的抽象问题，变成"让AI给我一个方法"的具体问题</li>
+    <li><strong>代码生成速度</strong>：对于明显的代码，AI写得比作者快，且风格一致、文档完整</li>
+    <li><strong>重构能力</strong>：AI擅长大规模重构（但需要频繁重构，否则代码会失控）</li>
+    <li><strong>研究助手</strong>：压缩"一天两天"的阅读为"一次对话"，比如Wadler-Lindig漂亮打印算法</li>
+    <li><strong>跨领域迁移</strong>：C++/Android专家用AI在1小时内写出VS Code扩展</li>
+    <li><strong>最后的里程</strong>：编辑器扩展、Python绑定、WASM playground、文档网站——AI让这些"重要但不紧急"的功能变得可行</li>
+    </ul>
+    
+    <h3>AI在哪里失败了</h3>
+    
+    <ul>
+    <li><strong>vibe-code陷阱</strong>：1月份完全委托AI的代码在1月底变成"complete spaghetti"，不得不重写</li>
+    <li><strong>标准化的诅咒</strong>：AI偏好"标准方言"，但项目的价值来自"非 obious"的部分（提取管道、解析器架构）</li>
+    <li><strong>需要人类判断力的地方</strong>：架构决策、大规模抽象、核心设计——这些AI无法看到</li>
+    <li><strong>上下文获取</strong>：代码review时AI会"发明"不存在的bug或忽略真实的问题</li>
+    </ul>
+    
+    <h2>关键模式</h2>
+    
+    <h3>1. 从vibe-code到"autocomplete on steroids"</h3>
+    
+    <blockquote>
+    <p>"More importantly, I completely changed my role in the project. I took ownership of all decisions and used it more as 'autocomplete on steroids' inside a much tighter process: opinionated design upfront, reviewing every change thoroughly, fixing problems eagerly as I spotted them, and investing in scaffolding..."</p>
+    </blockquote>
+    
+    <h3>2. 必须投资于脚手架</h3>
+    
+    <p>没有自动检查，AI输出会很快失控：</p>
+    <ul>
+    <li>linting</li>
+    <li>验证</li>
+    <li>"non-trivial testing"</li>
+    </ul>
+    
+    <h3>3. refactoring是核心工作流</h3>
+    
+    <blockquote>
+    <p>"after every large batch of generated code, I'd step back and ask 'is this ugly?' Sometimes AI could clean it up. Other times there was a large-scale abstraction that AI couldn't see but I could..."</p>
+    </blockquote>
+    
+    <h2>时间线</h2>
+    
+    <ul>
+    <li>12月：决定用AI构建syntaqlite</li>
+    <li>1月：vibe-code模式 → 代码变成spaghetti</li>
+    <li>1月底：决定重写 + 切换到Rust</li>
+    <li>2月：核心功能完成</li>
+    <li>3月中：0.1版本发布</li>
+    </ul>
+    
+    <h2>结论</h2>
+    
+    <p>AI是<strong>强大的加速器</strong>，但不是<strong>替代品</strong>。关键：</p>
+    
+    <ol>
+    <li>人类做架构决策，AI执行</li>
+    <li>频繁重构 + 自动检查</li>
+    <li>ownership of all decisions</li>
+    <li>投资脚手架（linting, testing, validation）</li>
+    </ol>
+    
+    <p>没有AI，这个项目不会存在；没有人类决策，AI构建的东西无法维护。</p>
+</body>
+</html>

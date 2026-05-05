@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flash-KMeans - Fast and Memory-Efficient Exact K-Means</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.6; background: #f5f5f5; }
+        .container { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h1 { color: #1a1a1a; border-bottom: 3px solid #4f46e5; padding-bottom: 10px; }
+        h2 { color: #374151; margin-top: 30px; }
+        .tag { display: inline-block; background: #4f46e5; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; margin-right: 8px; }
+        .rating { color: #f59e0b; font-weight: bold; }
+        .url { background: #f3f4f6; padding: 10px 15px; border-radius: 6px; word-break: break-all; font-family: monospace; }
+        .highlight { background: #fef3c7; padding: 15px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #f59e0b; }
+        code { background: #e5e7eb; padding: 2px 6px; border-radius: 4px; font-family: 'Fira Code', monospace; }
+        ul { padding-left: 20px; }
+        li { margin: 8px 0; }
+        .metric { display: inline-block; background: #10b981; color: white; padding: 8px 16px; border-radius: 8px; margin: 5px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <span class="tag">AI</span>
+        <span class="tag">GPU</span>
+        <span class="tag">Algorithms</span>
+        <span class="tag">Performance</span>
+        <h1>Flash-KMeans - GPU 加速精确 K-Means</h1>
+        <p class="rating">⭐⭐⭐⭐⭐ (5星)</p>
+        
+        <h2>摘要</h2>
+        <p>MIT/Stanford 研究团队提出 Flash-KMeans，GPU 上精确 K-Means 的高效实现。现有的 GPU K-Means 实现受限于底层系统约束而非理论算法复杂度。</p>
+
+        <div class="highlight">
+            <strong>性能提升：</strong>
+            <div class="metric">17.9x 端到端加速</div>
+            <div class="metric">33x vs cuML</div>
+            <div class="metric">200x+ vs FAISS</div>
+        </div>
+
+        <h2>问题分析</h2>
+        
+        <h3>Assignment 阶段瓶颈</h3>
+        <p>严重的 IO 瓶颈：大量显式物化 N × K 距离矩阵在高带宽内存 (HBM) 中</p>
+
+        <h3>Centroid Update 阶段瓶颈</h3>
+        <p>硬件级原子写竞争：由于不规则的 scatter-style token 聚合导致</p>
+
+        <h2>核心创新</h2>
+        
+        <h3>1. FlashAssign</h3>
+        <ul>
+            <li>融合距离计算与在线 argmin</li>
+            <li>完全绕过中间内存物化</li>
+            <li>避免显式距离矩阵存储</li>
+        </ul>
+
+        <h3>2. Sort-Inverse Update</h3>
+        <ul>
+            <li>显式构建逆映射</li>
+            <li>将高竞争原子 scatters 转换为高带宽、分段局部归约</li>
+            <li>消除写竞争</li>
+        </ul>
+
+        <h3>3. Algorithm-System Co-Design</h3>
+        <ul>
+            <li>Chunked-stream overlap: 分块流重叠</li>
+            <li>Cache-aware compile heuristics: 缓存感知编译启发式</li>
+        </ul>
+
+        <h2>评估</h2>
+        <p>NVIDIA H200 GPU 评估结果：</p>
+        <ul>
+            <li>端到端加速 <strong>17.9x</strong> vs 最佳基线</li>
+            <li>相比 cuML 加速 <strong>33x</strong></li>
+            <li>相比 FAISS 加速 <strong>200x+</strong></li>
+        </ul>
+
+        <h2>URL</h2>
+        <div class="url"><a href="https://arxiv.org/abs/2603.09229" target="_blank">https://arxiv.org/abs/2603.09229</a></div>
+        
+        <p style="margin-top: 30px; color: #6b7280; font-size: 14px;">
+            来源: Hacker News | 发现日期: 2026-03-20
+        </p>
+    </div>
+</body>
+</html>

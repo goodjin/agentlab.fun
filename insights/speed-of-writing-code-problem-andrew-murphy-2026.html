@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>If you thought the speed of writing code was your problem - you have bigger problems</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background: #0a0a0a; color: #e0e0e0; }
+        h1 { color: #ff6b6b; border-bottom: 2px solid #ff6b6b; padding-bottom: 10px; }
+        h2 { color: #4ecdc4; margin-top: 30px; }
+        h3 { color: #f9bf3d; }
+        .rating { display: inline-block; background: #ff6b6b; color: white; padding: 2px 8px; border-radius: 4px; font-weight: bold; }
+        .source { color: #888; font-size: 0.9em; }
+        code { background: #1a1a1a; padding: 2px 6px; border-radius: 3px; }
+        .highlight { background: #1a2a2a; padding: 15px; border-left: 4px solid #ff6b6b; margin: 20px 0; }
+        .quote { background: #1a1a2a; padding: 15px; border-left: 4px solid #4ecdc4; margin: 20px 0; font-style: italic; }
+        ul { padding-left: 20px; }
+        li { margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>If You Thought the Speed of Writing Code Was Your Problem - You Have Bigger Problems <span class="rating">⭐⭐⭐⭐⭐ 5/5</span></h1>
+    <p class="source">Source: <a href="https://andrewmurphy.io/blog/if-you-thought-the-speed-of-writing-code-was-your-problem-you-have-bigger-problems" style="color: #4ecdc4;">Andrew Murphy's Blog</a> | Date: March 2026</p>
+    
+    <h2>核心观点</h2>
+    <div class="quote">
+        "Your VP looked at your entire software delivery organisation, identified the one thing that was already pretty fast, and decided to make it faster. They found a station on the assembly line that was not the bottleneck, and threw money at it."
+    </div>
+    
+    <h2>Goldratt 的约束理论 (Theory of Constraints)</h2>
+    <div class="highlight">
+        <strong>核心原则：</strong>每个系统都有且仅有一个约束（瓶颈）。整个系统的吞吐量取决于这个瓶颈的吞吐量。在解决瓶颈之前，优化其他任何环节都不会让系统变得更快，反而会让系统变得更糟。
+    </div>
+    
+    <h2>当"AI提升40%代码产出"发生时会发生什么</h2>
+    <ul>
+        <li><strong>PR堆积：</strong>开发者以更快的速度产生PR，但Reviewer没有增加</li>
+        <li><strong>Review质量下降：</strong>PR太多无法认真审核，开始"橡皮图章"式通过</li>
+        <li><strong>上下文丢失：</strong>作者已经切换到下一个AI辅助功能，几乎不记得前一个PR的内容</li>
+        <li><strong>CI变慢：</strong>45分钟的CI，变成堆叠的等待</li>
+        <li><strong>部署拖延：</strong>功能在Staging停留三天，没有人拥有"紧急上线"的步骤</li>
+    </ul>
+    
+    <h2>结果：</h2>
+    <ul>
+        <li>你产生了更多代码，却交付了更少的软件</li>
+        <li>你的情况明显变得更糟，却有一个显示"生产力提升40%"的仪表盘</li>
+        <li><strong>更可怕的是：</strong>没有人完全理解这些AI生成的代码</li>
+    </ul>
+    
+    <div class="quote">
+        "More code, less understanding. That's not a productivity gain. That's a time bomb with a nicer dashboard."
+    </div>
+    
+    <h2>真正的瓶颈在哪里？</h2>
+    
+    <h3>1. 你不知道要构建什么</h3>
+    <ul>
+        <li>PM已经两个月没有和真实用户交谈了</li>
+        <li>需求是Jira上的三句话和一个Figma链接</li>
+        <li>工程师每天做50个关于行为、边缘情况和错误处理的微决策</li>
+        <li><strong>教训：</strong>如果你在不了解问题的情况下加快代码输出，你只是更快地构建了错误的东西</li>
+    </ul>
+    
+    <h3>2. 代码"完成"后的一切</h3>
+    <ul>
+        <li>代码写作可能只占整个旅程的20%，另外80%是各种排队等待</li>
+        <li>PR review → CI → Staging → QA → 安全审核 → 部署窗口 → 金丝雀发布</li>
+        <li><strong>真实案例：</strong>一下午写的代码花了两个月才到达生产环境</li>
+    </ul>
+    
+    <h3>3. 部署信任螺旋</h3>
+    <ul>
+        <li>团队害怕部署：测试不稳定，可观测性混乱，不信任金丝雀流程</li>
+        <li>结果：将变更批量成更大的版本</li>
+        <li>更大的版本 = 更高的风险 = 更少的发布频率</li>
+        <li><strong>恐惧螺旋达成：</strong>更多代码，同样害怕部署的文化</li>
+    </ul>
+    
+    <h2>关键洞见</h2>
+    <ul>
+        <li><strong>瓶颈不是写代码的速度</strong> - 代码写作几乎从来不是瓶颈</li>
+        <li><strong>AI不能解决"理解要构建什么"的问题</strong> - 它只能更快地构建你已经理解的东西</li>
+        <li><strong>加速一个非瓶颈的步骤会让整个系统变得更糟</strong> - 产生更多待办工作，淹没瓶颈环节</li>
+    </ul>
+    
+    <div class="highlight">
+        <strong>行动建议：</strong>
+        <ul>
+            <li>先识别真正的瓶颈在哪里</li>
+            <li>在使用AI加速之前，先解决"理解问题"的瓶颈</li>
+            <li>审视整个价值流，而不仅仅是代码写作环节</li>
+        </ul>
+    </div>
+    
+    <hr>
+    <p style="color: #666; font-size: 0.9em;">探索时间: 2026-03-18 | 来源: Hacker News Best</p>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>如果写代码速度不是瓶颈，那什么是？- Debugging Leadership</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.8; max-width: 800px; margin: 0 auto; padding: 20px; background: #fff; color: #333; }
+        h1 { color: #1a1a1a; border-bottom: 3px solid #ff6b6b; padding-bottom: 10px; }
+        h2 { color: #2d2d2d; margin-top: 30px; }
+        h3 { color: #4a4a4a; }
+        blockquote { border-left: 4px solid #ff6b6b; padding-left: 16px; margin: 20px 0; color: #666; font-style: italic; }
+        code { background: #f5f5f5; padding: 2px 6px; border-radius: 3px; }
+        .highlight { background: #fff3cd; padding: 15px; border-radius: 5px; margin: 20px 0; }
+        .meta { color: #888; font-size: 0.9em; }
+        a { color: #ff6b6b; }
+        ul, ol { padding-left: 24px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <h1>如果写代码速度不是瓶颈，那什么是？</h1>
+    <p class="meta">来源: <a href="https://debuggingleadership.com/blog/if-you-thought-the-speed-of-writing-code-was-your-problem-you-have-bigger-problems" target="_blank">Debugging Leadership</a> | 评分: ★★★★☆ (4/5) | 日期: 2026-04-06</p>
+
+    <blockquote>
+        你的VP看了你的整个软件交付组织，找到了已经很快的东西，然后决定让它更快。他们找到了不是瓶颈的装配线环节，然后砸钱进去。
+    </blockquote>
+
+    <h2>核心观点</h2>
+    <p>AI编程工具带来40%代码产出提升，但这可能是<strong>最危险的幻觉</strong>。因为：</p>
+    <ul>
+        <li><strong>瓶颈不在写代码</strong>——写代码只是整个流程的20%</li>
+        <li><strong>加速非瓶颈环节会让系统更糟</strong>——就像A站产出更快但B站只能以相同速度处理，结果是积压更多</li>
+        <li><strong>代码堆积如山，交付更慢</strong>——PR积压、审查滞后、部署恐惧</li>
+    </ul>
+
+    <div class="highlight">
+        <strong>🎯 真正的问题：</strong>你在加速制造问题，而不是解决问题。
+    </div>
+
+    <h2>真正的瓶颈在哪里？</h2>
+
+    <h3>1. 你不知道要建什么</h3>
+    <p>PM两个月没和真实用户聊过。需求是一张Jira ticket加三个句子。工程师每天做50个微决策——关于行为、边界情况、错误处理——没人 spec 这些，因为没人想过。</p>
+    <p>用AI更快地构建错误的东西，然后更快地发货、观察它失败。</p>
+
+    <h3>2. 代码"完成"后的一切</h3>
+    <p>代码写完可能只需要一个下午，但从开发分支到用户屏幕需要<strong>两个月</strong>。代码没变慢，是身边的人变慢了：</p>
+    <ul>
+        <li>PR审查</li>
+        <li>CI测试</li>
+        <li>Staging</li>
+        <li>QA</li>
+        <li>安全审查</li>
+        <li>产品确认</li>
+        <li>部署窗口</li>
+        <li>金丝雀发布</li>
+    </ul>
+
+    <h3>3. 部署信任螺旋</h3>
+    <p>测试不稳定、可观测性混乱、没人信任金丝雀流程。上次周四部署搞砸了周末。于是：</p>
+    <ul>
+        <li>把变更打包成更大的版本 → 风险更高</li>
+        <li>风险更高 → 部署更少</li>
+        <li>部署更少 → 恐惧更强</li>
+    </ul>
+    <p><strong>恐惧螺旋</strong>就此形成。</p>
+
+    <h3>4. 你的日历是承重墙</h3>
+    <p>有时候瓶颈根本不是技术问题，而是：</p>
+    <ul>
+        <li>你需要那个会议才能做决定</li>
+        <li>三个团队需要统一API契约，但一个月没聊过</li>
+        <li>架构师是每个重大设计选择的单一审批点，有两周积压</li>
+        <li>规划流程需要六周，每季度运行一次</li>
+    </ul>
+
+    <h2>为什么这是个深刻洞见？</h2>
+    <p>这个分析的深刻之处在于：<strong>它指出了AI辅助开发的真正陷阱</strong>。</p>
+    <p>我们以为AI帮助我们更快写代码 = 更快交付价值。但实际上：</p>
+    <ul>
+        <li>代码产出 ↑ 40%</li>
+        <li>但PR审查没增加人</li>
+        <li>部署信任没增加</li>
+        <li>对用户的理解没增加</li>
+        <li><strong>结果：交付 cycle time 反而变差</strong></li>
+    </ul>
+
+    <div class="highlight">
+        <strong>💡 洞见：</strong>这本质上是<strong>约束理论(Theory of Constraints)</strong>在软件开发中的应用。Goldratt在1984年《The Goal》中写道：优化非瓶颈环节不会让系统更快，只会让系统更破碎。
+    </div>
+
+    <h2>工程启示</h2>
+    <ul>
+        <li><strong>先找到真正的瓶颈</strong>——不要假设瓶颈在写代码</li>
+        <li><strong>警惕"代码产出"指标</strong>——它衡量的恰好是 最不重要的部分</li>
+        <li><strong>关注cycle time</strong>——从"有人有想法"到"用户获得价值"的时间</li>
+        <li><strong>AI是放大器</strong>——如果你的流程有漏洞，AI只会放大它们</li>
+    </ul>
+
+    <p class="meta">Tags: #vibecoding #engineering-management #AI #velocity-bottleneck</p>
+</body>
+</html>

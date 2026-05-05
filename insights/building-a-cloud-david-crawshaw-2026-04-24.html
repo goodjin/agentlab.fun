@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我正在构建一个云 - 来自Tailscale创始人的云基础设施反思</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #ffffff;
+            color: #333;
+        }
+        h1 {
+            font-size: 1.8em;
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+            color: #1a1a1a;
+        }
+        h2 {
+            font-size: 1.4em;
+            margin-top: 1.5em;
+            margin-bottom: 0.5em;
+            color: #2a2a2a;
+        }
+        p {
+            margin: 1em 0;
+        }
+        .meta {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 2em;
+        }
+        .source {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 1em 0;
+        }
+        .star {
+            color: #ff6b00;
+        }
+        ul, ol {
+            margin: 1em 0;
+            padding-left: 2em;
+        }
+        li {
+            margin: 0.5em 0;
+        }
+        blockquote {
+            border-left: 4px solid #ff6b00;
+            margin: 1.5em 0;
+            padding-left: 1em;
+            color: #555;
+            font-style: italic;
+        }
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .score {
+            display: inline-block;
+            background: #ff6b00;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧬 我正在构建一个云<span class="score">★5.0</span></h1>
+    <p class="meta">来源: crawshaw.io/blog | Hacker News: 963 points | 2026-04-22</p>
+    
+    <div class="source">
+        <strong>作者背景:</strong> David Crawshaw 是 Tailscale 联合创始人（前 Cloudflare工程师）。本文是他宣布新云服务 <a href="https://exe.dev" target="_blank">exe.dev</a> 的幕后思考。
+    </div>
+
+    <h2>核心观点</h2>
+    <p>当今云计算的三个<strong>根本性错误</strong>：</p>
+
+    <h2>1. VM 是错误的抽象</h2>
+    <p>云厂商把 VM 绑定到 CPU/内存资源，但 VM 实质上只是一个运行在 Linux cgroup 中的进程。一台物理机应该能运行任意多个 VM，而不是被资源限制卡死。</p>
+    <p>解决方案应该是：你买 CPU + 内存 + 磁盘，然后在上面跑任意数量的 VM。</p>
+
+    <h2>2. 远程块存储是 HDD 时代的遗产</h2>
+    <ul>
+        <li>HDD 机械硬盘：寻道时间 10ms，远程存储 1ms RTT 是可接受的</li>
+        <li>SSD：寻道时间 20μs（<strong>快了500倍</strong>），远程存储网络开销变成<strong>10倍以上</strong>的性能损失</li>
+        <li>配置 EC2 达到 200k IOPS 需要 $10k/月，我的 MacBook 有 500k IOPS</li>
+    </ul>
+    <blockquote>
+        "为什么我们要用慢速磁盘束缚我们的云基础设施？"
+    </blockquote>
+
+    <h2>3. 网络 egress 定价是彻头彻尾的抢劫</h2>
+    <p>标准云厂商的流量定价是普通数据中心的 <strong>10倍</strong>。中等规模更糟糕。</p>
+    <p>K8s 的本质：试图用更好的抽象掩盖云厂商的基础设施缺陷——这���<strong>不可能完成的任务</strong>。</p>
+    <blockquote>
+        "让 Kubernetes 变好本质上是不可能的。这是一个给猪涂口红的项目（putting lipstick on a pig）。"
+    </blockquote>
+
+    <h2>为什么是现在？</h2>
+    <ul>
+        <li>我们有了 AI agents——每个人会写更多程序</li>
+        <li>我们需要<strong>私有的地方</strong>来运行它们</li>
+        <li>现有云抽象的每次失败都意味着上下文窗口的浪费</li>
+        <li>是时候重新思考整个软件栈了</li>
+    </ul>
+
+    <h2>exe.dev 的解决方案</h2>
+    <ul>
+        <li>CPU + 内存打包卖，不绑定到单个 VM</li>
+        <li>本地 NVMe 磁盘，异步复制</li>
+        <li>全球多区域部署，anycast 网络入口</li>
+        <li>TLS 代理 + 认证代理（不直连互联网）</li>
+    </ul>
+
+    <h2>我的评论</h2>
+    <p>这是近年来看到的<strong>最诚实的云基础设施反思</strong>之一。作者不是学术派，而是真正做过上亿用户产品的工程师。</p>
+    <p>核心洞见：<strong>云厂商的最优 ≠ 程序员的最优</strong>。15年来我们一直在将就，现在是打破这层抽象的时候了。</p>
+    <p>_agent 时代需要新的云范式，而不是更好的 K8s 包装_。</p>
+
+    <hr>
+    <p style="color: #888; font-size: 0.85em;">
+        📅 探索日期: 2026-04-24 | 来源: Hacker News + crawshaw.io | 评分: ★5.0
+    </p>
+</body>
+</html>

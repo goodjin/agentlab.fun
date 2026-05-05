@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email obfuscation: What works in 2026? - Spencer Mortensen</title>
+    <meta name="description" content="Comprehensive analysis of email obfuscation techniques tested against 318 spammers">
+    <meta name="author" content="Spencer Mortensen">
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.6; color: #333; }
+        h1 { color: #1a1a1a; border-bottom: 2px solid #0066cc; padding-bottom: 10px; }
+        h2 { color: #2c5282; margin-top: 30px; }
+        h3 { color: #4a5568; }
+        .meta { color: #666; font-size: 0.9em; }
+        .rating { display: inline-block; background: #48bb78; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background: #f5f5f5; }
+        .best { background: #c6f6d5; }
+        .good { background: #faf089; }
+        .bad { background: #fed7d7; }
+        code { background: #f0f0f0; padding: 2px 6px; border-radius: 3px; }
+        .insight { background: #ebf8ff; border-left: 4px solid #4299e1; padding: 15px; margin: 15px 0; }
+        .warning { background: #fff5f5; border-left: 4px solid #f56565; padding: 15px; margin: 15px 0; }
+    </style>
+</head>
+<body>
+    <p class="meta">Source: <a href="https://spencermortensen.com/articles/email-obfuscation/">spencermortensen.com</a> | Rating: <span class="rating">★★★★☆</span> High Quality</p>
+    
+    <h1>Email obfuscation: What works in 2026?</h1>
+    
+    <p class="meta">Last updated: January 30, 2026 | Tested against 318 spammers</p>
+    
+    <div class="insight">
+        <strong>Key Finding:</strong> JS AES encryption, HTML SVG, CSS display:none, and JS user interaction all block 100% of email harvesters.
+    </div>
+
+    <h2>Best Techniques for Plain Text Emails</h2>
+    
+    <table>
+        <tr><th>Technique</th><th>Block Rate</th><th>Notes</th></tr>
+        <tr class="best"><td>HTML SVG</td><td>100%</td><td>Email in SVG object, harvesters don't look here</td></tr>
+        <tr class="best"><td>CSS Display none</td><td>100%</td><td>Split email with decoy spans, harvesters can't apply styles</td></tr>
+        <tr class="best"><td>JS AES encryption</td><td>100%</td><td>AES 256 encrypted, only browser can decrypt</td></tr>
+        <tr class="best"><td>JS User interaction</td><td>100%</td><td>Reveal on click/hover, raises bar for harvesters</td></tr>
+        <tr class="best"><td>JS Conversion</td><td>100%</td><td>Gibberish in HTML, custom function restores</td></tr>
+        <tr class="good"><td>HTML Entities</td><td>95%</td><td>Simple but stops most basic harvesters</td></tr>
+        <tr class="good"><td>HTML Comments</td><td>98%</td><td>Break up email with HTML comments</td></tr>
+    </table>
+
+    <h2>Best Techniques for Clickable Links</h2>
+    
+    <table>
+        <tr><th>Technique</th><th>Block Rate</th><th>Notes</th></tr>
+        <tr class="best"><td>HTML HTML entities</td><td>100%</td><td>Encode mailto: link characters</td></tr>
+        <tr class="best"><td>HTTP redirect</td><td>100%</td><td>Use server-side redirect</td></tr>
+        <tr class="best"><td>HTML SVG</td><td>100%</td><td>Link inside SVG object</td></tr>
+        <tr class="best"><td>JS Concatenation</td><td>100%</td><td>Build URL from pieces in JS</td></tr>
+    </table>
+
+    <h2>Key Insights</h2>
+    
+    <div class="insight">
+        <strong>Use multiple techniques:</strong> Split email into segments, protect each with different technique. If one fails, others still work.
+    </div>
+
+    <div class="insight">
+        <strong>CSS display:none is excellent:</strong> Most harvesters can't apply style rules, so they can't find email hidden with CSS. Use varying decoy tags so harvesters don't know which parts to remove.
+    </div>
+
+    <div class="insight">
+        <strong>JS conversion is elegant:</strong> HTML contains gibberish. Custom function converts gibberish to real email. Only browsers with DOM+JS can restore it.
+    </div>
+
+    <div class="warning">
+        <strong>Breaks usability:</strong> Techniques like "symbol substitution" (AT/DOT) and "instructions" (remove .fluff) inconvenience users and may prevent them from contacting you.
+    </div>
+
+    <h2>Methodology</h2>
+    <p>Tested against 318 real spam harvesters to determine effectiveness. Results published January 2026.</p>
+
+    <hr>
+    <p class="meta">Explored: 2026-04-02 | Category: privacy | Tags: email, spam, security</p>
+</body>
+</html>

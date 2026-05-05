@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>With AI, You Barely Need a Frontend Framework</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: #ffffff;
+            color: #333;
+        }
+        h1 {
+            font-size: 2em;
+            border-bottom: 3px solid #333;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        h2 {
+            font-size: 1.5em;
+            margin-top: 40px;
+            color: #1a1a1a;
+        }
+        h3 {
+            font-size: 1.2em;
+            margin-top: 30px;
+            color: #333;
+        }
+        .meta {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 30px;
+        }
+        .tag {
+            display: inline-block;
+            background: #e0e0e0;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-right: 5px;
+            font-size: 0.8em;
+        }
+        code {
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        pre {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-size: 0.85em;
+            line-height: 1.5;
+        }
+        ul, ol {
+            margin: 15px 0;
+            padding-left: 25px;
+        }
+        li {
+            margin: 8px 0;
+        }
+        blockquote {
+            border-left: 4px solid #ddd;
+            margin: 20px 0;
+            padding-left: 20px;
+            color: #555;
+            font-style: italic;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+            border-left: 4px solid #ffc107;
+        }
+    </style>
+</head>
+<body>
+    <h1>With AI, You Barely Need a Frontend Framework</h1>
+    <div class="meta">
+        <span class="tag">vibecoding</span>
+        <span class="tag">web</span>
+        <span>Source: <a href="https://dlants.me/vamp.html">dlants.me</a> | Author: dlants | Date: 2026-04-09</span>
+    </div>
+
+    <h2>核心观点</h2>
+    <p>传统的论点认为像"Vamp"这样的方法太冗长。当人类编写每一行代码时，这种观点是成立的。但当AI代理编写（或修改）代码时，这个观点就不适用了。</p>
+    <p><strong>对AI来说，重要的是显式性、本地性和可预测性，而不是简洁性。</strong></p>
+
+    <h2>核心模式</h2>
+
+    <h3>1. Templates - 模板</h3>
+    <p>使用模板字符串将状态渲染为HTML：</p>
+    <pre><code>class CounterView {
+  constructor(container, dispatch, initialState) {
+    container.innerHTML = sanitize`
+      &lt;div&gt;
+        &lt;button data-ref="dec"&gt;−&lt;/button&gt;
+        &lt;span data-ref="count"&gt;${initialState.count}&lt;/span&gt;
+        &lt;button data-ref="inc"&gt;+&lt;/button&gt;
+      &lt;/div&gt;
+    `;
+    // 绑定事件...
+  }
+}</code></pre>
+
+    <h3>2. Bindings - 绑定</h3>
+    <p>引入sync函数和绑定来更新DOM：</p>
+    <pre><code>this.b.bindText("count", (s) => String(s.count));
+
+sync(state: State): void {
+  this.b.sync(state);
+}</code></pre>
+
+    <h3>3. Composition - 组合</h3>
+    <p>使用bindChild嵌套子视图：</p>
+    <pre><code>this.b.bindChild(navRef, NavView, (s) => ({
+  loggedIn: s.auth.status === "logged-in",
+}), (childMsg) => dispatch({ type: "NAV_MSG", msg: childMsg }));</code></pre>
+
+    <h3>4. Conditional Children - 条件子元素</h3>
+    <p>使用bindSlot条件挂载/卸载：</p>
+    <pre><code>this.b.bindSlot(detailRef, (s) => {
+  if (!s.selectedId) return undefined;
+  return show(DetailView, { id: s.selectedId }, () => {});
+});</code></pre>
+
+    <h3>5. Lists - 列表</h3>
+    <p>使用key来跟踪列表项：</p>
+    <pre><code>this.b.bindList(listRef, "li", (s) =>
+  s.items.map((item) => showKeyed(item.id, ItemView, { item }, () => {}))
+);</code></pre>
+
+    <h3>6. Unique data-refs - 唯一引用</h3>
+    <p>ref()生成唯一的data-ref，防止父子视图冲突：</p>
+    <pre><code>const countRef = ref("count"); // 返回类似 "count_0"
+const incRef = ref("inc");    // 返回类似 "inc_1"</code></pre>
+
+    <h3>7. Styles - 样式</h3>
+    <p>使用cls()生成唯一类名，mountStyle()注入：</p>
+    <pre><code>const headerClass = cls("header");
+mountStyle(`.${headerClass} { padding: 1rem; }`);
+container.innerHTML = `&lt;div class="${headerClass}"&gt;...&lt;/div&gt;`;</code></pre>
+
+    <h2>为什么现在可行？</h2>
+    <div class="highlight">
+        <strong>对AI而言：</strong>
+        <ul>
+            <li><strong>显式性</strong>：没有通过代理或其他魔法产生的远程操作</strong></li>
+            <li><strong>本地性</strong>：模式是显式和重复的，AI可以可靠地模式匹配</li>
+            <li><strong>可预测性</strong>：没有隐藏的机制（fiber调度器、钩子链表、协调启发式）</li>
+        </ul>
+    </div>
+
+    <p>整个生命周期清晰可见：</p>
+    <pre><code>class MyView {
+  constructor(...) {
+    // before mount
+    this.content.innerHTML = `...`
+    // after mount but before children mount
+    this.b.bindSlot(...
+  }
+
+  sync(...) {
+    // before update
+    this.b.sync(...)
+    // after update
+  }
+
+  destroy(...) {
+    this.b.cleanup();
+  }
+}</code></pre>
+
+    <h2>附录：React的问题</h2>
+
+    <h3>React Hooks</h3>
+    <p>本质上，React使用链表来跟踪钩子。钩子在链表中的位置是React建立钩子对应关系的唯一方式。因此钩子列表必须是确定性的——钩子必须始终以相同的顺序出现。</p>
+
+    <h3>React Fiber与并发渲染</h3>
+    <p>React 16引入了fiber概念，本质上将在react树中的渲染任务分解为称为fiber的独立部分。这允许渲染被中断，并分解为更小的片段，防止UI锁定。</p>
+    <p><strong>问题</strong>：由于渲染现在是异步的，并分部分应用，大大复杂化了DOM测量、焦点管理、撕裂和动画计时。</p>
+
+    <h3>性能</h3>
+    <p>React的VDOM渲染和diff操作以昂贵著称。许多团队采用的解决方案是调优shouldUpdate调用，或引入immer来提供不可变状态，以便框架可以根据对象引用相等性来短路更新。</p>
+
+    <h2>结论</h2>
+    <p>这个模式被描述在一个300行的markdown文件和一个300行的绑定库/助手TypeScript文件中。你可以复制粘贴库到你的项目中，将markdown文件添加到你的agent的上下文窗口中，然后就可以开始了。</p>
+    <p><strong>你永远不需要再接触另一个框架了。</strong></p>
+
+    <hr>
+    <p><a href="/home.html">← 返回首页</a></p>
+</body>
+</html>

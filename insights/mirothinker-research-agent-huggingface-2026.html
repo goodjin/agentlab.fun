@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MiroThinker: 开源研究Agent性能突破 - Hugging Face Papers</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+        .card { background: white; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h1 { color: #333; font-size: 24px; margin-bottom: 8px; }
+        h2 { color: #555; font-size: 18px; margin-top: 20px; margin-bottom: 12px; }
+        .meta { color: #888; font-size: 14px; margin-bottom: 16px; }
+        .tag { display: inline-block; background: #e8f5e9; color: #2e7d32; padding: 4px 12px; border-radius: 16px; font-size: 12px; margin-right: 8px; }
+        .highlight { background: #fff3e0; padding: 2px 8px; border-radius: 4px; }
+        .stars { color: #ff9800; font-size: 18px; }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+        a { color: #1976d2; }
+        .benchmark { background: #f5f5f5; padding: 16px; border-radius: 8px; margin: 16px 0; }
+        .benchmark-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .benchmark-item { background: white; padding: 12px; border-radius: 8px; text-align: center; }
+        .benchmark-value { font-size: 24px; font-weight: bold; color: #1976d2; }
+        .benchmark-label { font-size: 12px; color: #666; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>MiroThinker: Pushing the Performance Boundaries of Open-Source Research Agents</h1>
+        <div class="meta">
+            <span class="tag">AI Research</span>
+            <span class="tag">Open Source</span>
+            <span class="tag">Agent</span>
+            <span class="stars">⭐⭐⭐⭐⭐</span>
+        </div>
+        <div class="meta">来源: Hugging Face Papers · arxiv.org · 2025年11月</div>
+        
+        <h2>核心贡献</h2>
+        <p>MiroThinker v1.0 是一个开源高性能研究agent，通过<strong>模型规模、上下文长度、交互深度</strong>三个维度提升性能。与传统LLM测试时间扩展不同，交互扩展利用环境反馈和外部信息获取来纠正错误和优化轨迹。</p>
+        
+        <div class="benchmark">
+            <h3>性能benchmark</h3>
+            <div class="benchmark-grid">
+                <div class="benchmark-item">
+                    <div class="benchmark-value">81.9%</div>
+                    <div class="benchmark-label">GAIA</div>
+                </div>
+                <div class="benchmark-item">
+                    <div class="benchmark-value">37.7%</div>
+                    <div class="benchmark-label">HLE</div>
+                </div>
+                <div class="benchmark-item">
+                    <div class="benchmark-value">47.1%</div>
+                    <div class="benchmark-label">BrowseComp</div>
+                </div>
+                <div class="benchmark-item">
+                    <div class="benchmark-value">55.6%</div>
+                    <div class="benchmark-label">BrowseComp-ZH</div>
+                </div>
+            </div>
+        </div>
+        
+        <h2>关键创新</h2>
+        <ul>
+            <li><strong>交互扩展 (Interactive Scaling)</strong>: 第三维度性能提升，256K上下文支持最多600次工具调用</li>
+            <li><strong>强化学习训练</strong>: 通过RL实现高效交互扩展</li>
+            <li><strong>开源可用</strong>: 8B、30B、72B三种规模，代码和权重均已发布</li>
+            <li><strong>接近商业系统</strong>: 72B版本性能接近GPT-5-high</li>
+        </ul>
+        
+        <h2>技术架构</h2>
+        <ul>
+            <li>ReAct范式: 推理→工具调用→观察的迭代循环</li>
+            <li>工具接口: Linux沙箱、文件管理、网络搜索、信息提取</li>
+            <li>上下文管理: 基于相关性的上下文保留机制</li>
+        </ul>
+        
+        <h2>链接</h2>
+        <ul>
+            <li><a href="https://arxiv.org/abs/2511.11793">论文: arxiv.org/abs/2511.11793</a></li>
+            <li><a href="https://github.com/MiroMindAI/MiroThinker">代码: github.com/MiroMindAI/MiroThinker</a></li>
+            <li><a href="https://huggingface.co/miromind-ai/MiroThinker-v1.0-72B">模型: huggingface.co/miromind-ai</a></li>
+        </ul>
+    </div>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>apfel - Free AI on Your Mac</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; line-height: 1.6; background: #fff; }
+    h1 { color: #333; border-bottom: 2px solid #333; padding-bottom: 10px; }
+    h2 { color: #555; margin-top: 30px; }
+    .meta { color: #666; font-size: 14px; }
+    .rating { display: inline-block; background: #4CAF50; color: white; padding: 2px 8px; border-radius: 4px; font-size: 14px; }
+    code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; }
+    pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
+    ul { padding-left: 20px; }
+    li { margin: 8px 0; }
+    .highlight { background: #e8f5e9; padding: 15px; border-radius: 5px; margin: 20px 0; }
+  </style>
+</head>
+<body>
+  <h1>apfel - Free AI on Your Mac</h1>
+  <p class="meta">Source: Hacker News | Type: AI/Tools | Rating: <span class="rating">★★★★½</span></p>
+  
+  <div class="highlight">
+    <strong>Key insight:</strong> Every Apple Silicon Mac with macOS 26 (Tahoe) ships with a built-in LLM. apfel unlocks it as a CLI tool, OpenAI-compatible server, and chat interface.
+  </div>
+
+  <h2>Why this matters</h2>
+  <ul>
+    <li><strong>100% On-Device:</strong> Every token generated locally on Apple Silicon. Nothing leaves your machine.</li>
+    <li><strong>Zero Cost:</strong> No API keys, no subscriptions, no per-token billing.</li>
+    <li><strong>OpenAI Compatible:</strong> Drop-in replacement at localhost:11434.</li>
+  </ul>
+
+  <h2>Technical Details</h2>
+  <ul>
+    <li><strong>Context window:</strong> 4,096 tokens (input + output combined)</li>
+    <li><strong>Model:</strong> Apple's on-device LLM (shipped with macOS)</li>
+    <li><strong>SDK:</strong> FoundationModels.framework (Swift API)</li>
+    <li><strong>Hardware:</strong> Apple Silicon (Neural Engine + GPU)</li>
+  </ul>
+
+  <h2>What apfel adds</h2>
+  <p>apfel wraps LanguageModelSession and exposes it three ways:</p>
+  <ul>
+    <li>UNIX command-line tool with stdin/stdout</li>
+    <li>OpenAI-compatible HTTP server (built on Hummingbird)</li>
+    <li>Interactive chat with context management</li>
+  </ul>
+
+  <h2>Installation</h2>
+  <pre><code># Via Homebrew (recommended)
+$ brew install Arthur-Ficial/tap/apfel
+$ apfel "Hello, Mac!"
+
+# Or build from source
+$ git clone https://github.com/Arthur-Ficial/apfel.git
+$ cd apfel && make install</code></pre>
+
+  <h2>Features</h2>
+  <ul>
+    <li><strong>cmd:</strong> Natural language to shell command</li>
+    <li><strong>oneliner:</strong> Pipe chains from plain English (awk, sed, sort, uniq)</li>
+    <li><strong>mac-narrator:</strong> Narrates Mac system activity like a nature documentary</li>
+    <li><strong>explain:</strong> Explain any command or code snippet</li>
+    <li><strong>wtd:</strong> What's this directory? Instant project orientation</li>
+    <li><strong>gitsum:</strong> Summarize recent git commits</li>
+  </ul>
+
+  <h2>OpenAI API Compatibility</h2>
+  <ul>
+    <li>✓ POST /v1/chat/completions</li>
+    <li>✓ Streaming (SSE)</li>
+    <li>✓ Tool calling / function calling</li>
+    <li>✓ GET /v1/models</li>
+    <li>✓ response_format: json_object</li>
+    <li>✓ temperature, max_tokens, seed</li>
+    <li>✓ CORS for browser clients</li>
+  </ul>
+
+  <pre><code>from openai import OpenAI
+
+client = OpenAI(
+    base_url="http://localhost:11434/v1",
+    api_key="unused"  # no auth needed
+)
+
+resp = client.chat.completions.create(
+    model="apple-foundationmodel",
+    messages=[{"role": "user", "content": "What is 1+1?"}],
+)
+print(resp.choices[0].message.content)</code></pre>
+
+  <p class="meta">URL: <a href="https://apfel.franzai.com">https://apfel.franzai.com</a> | GitHub: 292 stars</p>
+</body>
+</html>

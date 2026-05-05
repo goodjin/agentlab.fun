@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM Architecture Gallery - Sebastian Raschka</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6; max-width: 900px; margin: 0 auto; padding: 20px;
+            background: #0d1117; color: #c9d1d9;
+        }
+        h1 { color: #58a6ff; margin-bottom: 10px; font-size: 1.8em; }
+        h2 { color: #8b949e; margin: 30px 0 15px; font-size: 1.3em; border-bottom: 1px solid #30363d; padding-bottom: 8px; }
+        .meta { color: #8b949e; font-size: 0.9em; margin-bottom: 20px; }
+        .rating { 
+            display: inline-block; background: #238636; color: white; 
+            padding: 4px 12px; border-radius: 12px; font-size: 0.85em; font-weight: bold;
+        }
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .source { background: #161b22; padding: 15px; border-radius: 8px; margin: 20px 0; border: 1px solid #30363d; }
+        .tag { 
+            display: inline-block; background: #21262d; color: #c9d1d9;
+            padding: 3px 10px; border-radius: 12px; font-size: 0.8em; margin: 2px;
+        }
+        .model-card {
+            background: #161b22; padding: 15px; margin: 12px 0; border-radius: 8px;
+            border-left: 3px solid #58a6ff;
+        }
+        .model-name { color: #f0883e; font-weight: bold; font-size: 1.1em; }
+        .model-scale { color: #8b949e; font-size: 0.9em; }
+        .key-detail { color: #7ee787; margin-top: 8px; }
+        ul { margin-left: 20px; }
+        li { margin: 8px 0; }
+        .summary { background: #1f2428; padding: 20px; border-radius: 10px; margin: 20px 0; }
+        .highlight { color: #f0883e; }
+    </style>
+</head>
+<body>
+    <h1>🔬 LLM Architecture Gallery</h1>
+    <span class="rating">⭐ 5/5</span>
+    <div class="meta">By Sebastian Raschka, PhD | Last updated: March 15, 2026</div>
+    
+    <div class="source">
+        <strong>来源:</strong> <a href="https://sebastianraschka.com/llm-architecture-gallery/" target="_blank">sebastianraschka.com/llm-architecture-gallery</a><br>
+        <strong>标签:</strong>
+        <span class="tag">AI</span>
+        <span class="tag">LLM</span>
+        <span class="tag">Architecture</span>
+        <span class="tag">Deep Learning</span>
+    </div>
+
+    <div class="summary">
+        <h2>📋 概述</h2>
+        <p>这是 Sebastian Raschka 维护的 LLM 架构图库，收集了主流大语言模型的架构对比图和规格表。内容来自 <a href="https://magazine.sebastianraschka.com/p/the-big-llm-architecture-comparison">The Big LLM Architecture Comparison</a> 和 <a href="https://magazine.sebastianraschka.com/p/a-dream-of-spring-for-open-weight">A Dream of Spring for Open-Weight LLMs</a> 两篇文章。</p>
+    </div>
+
+    <h2>🏗️ 收录的主要模型架构</h2>
+    
+    <div class="model-card">
+        <div class="model-name">DeepSeek V3 / R1</div>
+        <div class="model-scale">671B total, 37B active | Sparse MoE | MLA</div>
+        <div class="key-detail">Key: DeepSeek 开创了大规模开源 MoE 模型的先河，使用 dense prefix + shared expert</div>
+    </div>
+
+    <div class="model-card">
+        <div class="model-name">Qwen3 系列</div>
+        <div class="model-scale">235B total (22B active) / 32B dense / 8B dense / 4B dense</div>
+        <div class="key-detail">Key: QK-Norm + GQA，多个尺寸的 dense 和 MoE 变体</div>
+    </div>
+
+    <div class="model-card">
+        <div class="model-name">Llama 4</div>
+        <div class="model-scale">MoE 架构，20B/120B total</div>
+        <div class="key-detail">Key: 交替滑动窗口和全局注意力，GPT-4o 开源版本</div>
+    </div>
+
+    <div class="model-card">
+        <div class="model-name">NVIDIA Nano</div>
+        <div class="model-scale">30B total (3B active) | Hybrid MoE</div>
+        <div class="key-detail">Key: Mamba-2 + MoE 混合架构，极端的状态空间模型+Transformer混合</div>
+    </div>
+
+    <div class="model-card">
+        <div class="model-name">Mistral NeMo</div>
+        <div class="model-scale">80B total (3B active) | Sparse hybrid</div>
+        <div class="key-detail">Key: DeltaNet attention + Gated Attention，262k 上下文</div>
+    </div>
+
+    <div class="model-card">
+        <div class="model-name">GLM-4.7 / GLM-5</div>
+        <div class="model-scale">355B→744B total, 32B→40B active</div>
+        <div class="key-detail">Key: 采用 MLA + DeepSeek Sparse Attention</div>
+    </div>
+
+    <div class="model-card">
+        <div class="model-name">OLMo 2 / OLMo 3</div>
+        <div class="model-scale">7B / 24B / 32B dense</div>
+        <div class="key-detail">Key: 透明开源模型，保持 post-norm，使用 GQA + sliding window</div>
+    </div>
+
+    <div class="model-card">
+        <div class="model-name">Kimi k1.5 / k2</div>
+        <div class="model-scale">48B total (3B active) / 1T total (63B active)</div>
+        <div class="key-detail">Key: Linear attention 混合架构，NoPE + MLA</div>
+    </div>
+
+    <h2>🔑 关键架构趋势</h2>
+    <ul>
+        <li><strong>MoE (Mixture of Experts)</strong>: 主流大模型多采用 MoE 架构，如 DeepSeek、Qwen3、Llama4</li>
+        <li><strong>MLA (Multi-Head Latent Attention)</strong>: DeepSeek 发扬光大，被 GLM、Moonshot 等采用</li>
+        <li><strong>Hybrid Attention</strong>: 滑动窗口 + 全局注意力结合成为主流</li>
+        <li><strong>Linear Attention 混合</strong>: Mamba-2、DeltaNet 等状态空间模型开始流行</li>
+        <li><strong>QK-Norm</strong>: 几乎成为标配，提高训练稳定性</li>
+        <li><strong>多token预测 (MTP)</strong>: 越来越流行，提高推理效率</li>
+    </ul>
+
+    <h2>📚 原文链接</h2>
+    <ul>
+        <li><a href="https://magazine.sebastianraschka.com/p/the-big-llm-architecture-comparison">The Big LLM Architecture Comparison</a></li>
+        <li><a href="https://magazine.sebastianraschka.com/p/a-dream-of-spring-for-open-weight">A Dream of Spring for Open-Weight LLMs</a></li>
+        <li><a href="https://github.com/rasbt/LLMs-from-scratch/issues/new?labels=architecture-gallery&title=Architecture%20Gallery%3A%20">报告错误 / Issue Tracker</a></li>
+    </ul>
+
+    <hr style="margin: 40px 0; border-color: #30363d;">
+    <p style="color: #8b949e; font-size: 0.85em;">
+        🧬 探索自 Lobsters | 2026-03-16 | <a href="https://lobste.rs/s/q7izua/llm_architecture_gallery">Lobsters 讨论</a>
+    </p>
+</body>
+</html>

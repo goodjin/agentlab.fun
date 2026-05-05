@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KERNSEAL - Linux Kernel Self-Protection | Lobsters</title>
+    <meta name="description" content="Quick notes on KERNSEAL - Linux kernel self-protection via constification and hiding of dynamically allocated objects">
+    <meta name="keywords" content="Linux, Kernel, Security, KERNSEAL, PaX, grsecurity, Exploit Mitigation">
+    <meta name="author" content="dustri">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dustri.org/b/quick-notes-on-kernseal.html">
+    <style>
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-tertiary: #21262d;
+            --text-primary: #c9d1d9;
+            --text-secondary: #8b949e;
+            --accent: #58a6ff;
+            --accent-hover: #79c0ff;
+            --border: #30363d;
+            --code-bg: #1c2128;
+            --tag-bg: #388bfd26;
+            --tag-text: #58a6ff;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        h1 {
+            font-size: 2em;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+        .meta {
+            color: var(--text-secondary);
+            font-size: 0.9em;
+        }
+        .tags {
+            margin: 15px 0;
+        }
+        .tag {
+            display: inline-block;
+            background: var(--tag-bg);
+            color: var(--tag-text);
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            margin-right: 8px;
+            text-decoration: none;
+        }
+        .tag:hover { background: #388bfd40; }
+        .score {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: #238636;
+            color: #fff;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+        .content {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+        .content h2 { color: var(--accent); margin: 25px 0 15px 0; font-size: 1.3em; }
+        .content h3 { color: var(--text-primary); margin: 20px 0 10px 0; }
+        .content p { margin: 12px 0; color: var(--text-primary); }
+        .content ul, .content ol { margin: 12px 0 12px 25px; }
+        .content li { margin: 6px 0; color: var(--text-primary); }
+        .content a { color: var(--accent); text-decoration: none; }
+        .content a:hover { text-decoration: underline; }
+        .content code {
+            background: var(--code-bg);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+            font-size: 0.9em;
+        }
+        .content pre {
+            background: var(--code-bg);
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        .content pre code { padding: 0; }
+        blockquote {
+            border-left: 4px solid var(--accent);
+            padding-left: 15px;
+            margin: 15px 0;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+        .rating { background: #f0883e; }
+        .source { color: var(--text-secondary); font-size: 0.85em; margin-top: 20px; }
+        .back { display: inline-block; margin-top: 30px; color: var(--accent); text-decoration: none; }
+        .back:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Quick notes on KERNSEAL</h1>
+        <div class="meta">
+            <span class="score">★★★★☆ 4星</span>
+            <span> via </span><a href="https://lobste.rs/~dustri" style="color: var(--accent);">dustri</a>
+            <span> · </span>
+            <span>2026-03-27</span>
+        </div>
+        <div class="tags">
+            <a class="tag" href="https://lobste.rs/t/security">security</a>
+            <a class="tag" href="https://lobste.rs/t/linux">linux</a>
+            <a class="tag" href="https://lobste.rs/t/kernel">kernel</a>
+        </div>
+    </header>
+
+    <div class="content">
+        <p>The mysterious unreadable kernseal.txt file on PaX' documentation page has been sitting there since 2003, described as "sealed kernel storage design & implementation." After many years of KERNSEAL ETA WEN jokes, it was finally made available to grsecurity beta customers in August 2023.</p>
+
+        <h2>Core Problem</h2>
+        <p>The problem KERNSEAL sets out to solve is <strong>kernel self-protection</strong>: assuming arbitrary read/write access to kernel memory, the goal is to prevent privilege elevation.</p>
+
+        <h2>Main Idea</h2>
+        <p>The main idea behind PAX_KERNSEAL is the <strong>constification of dynamically allocated objects</strong>, similar to what PAX_CONSTIFY_PLUGIN does for static ones, as well as completely hiding some objects.</p>
+
+        <h2>Key Mechanisms</h2>
+        <ul>
+            <li><strong>Sealed pages (__GFP_SEALED/PG_sealed)</strong>: Mapped read-only in the direct map</li>
+            <li><strong>Hidden pages (__GFP_HIDDEN/PG_hidden)</strong>: Completely unmapped in the direct map</li>
+            <li><strong>Per-CPU page tables</strong>: Under PAX_PRIVATE_KSTACKS, each task gets a dedicated stack slot with guard pages</li>
+        </ul>
+
+        <h2>Dependencies</h2>
+        <ul>
+            <li>PaX' RAP (Return-oriented Programming prevention)</li>
+            <li>PAX_PRIVATE_KSTACKS</li>
+            <li>CONFIG_PAX_PER_CPU_PGD</li>
+            <li>CONFIG_PAGE_TABLE_ISOLATION (PTI)</li>
+        </ul>
+
+        <h2>Interesting Usage: struct cred</h2>
+        <p>The most obvious usage of KERNSEAL is on struct cred: the mutable fields are split into a separate struct cred_rw, while the cred structure itself is marked as sealed. This means credential's security-sensitive fields (UIDs, GIDs, capabilities) live on sealed pages and cannot be tampered with.</p>
+
+        <h2>Notable</h2>
+        <p>KERNSEAL is yet another tour de force from the PaX Team, who keeps consistently producing stellar software-only mitigations before everyone else, for almost 25 years. Unlike Apple's hardware-based mitigations (KTRR/CTRR/GXF/APRR/PPL/SPTM/TXM), KERNSEAL doesn't require special hardware support.</p>
+    </div>
+
+    <div class="source">
+        <p>来源: <a href="https://dustri.org/b/quick-notes-on-kernseal.html">dustri.org</a></p>
+        <p>Lobsters讨论: <a href="https://lobste.rs/s/4h2l6c/quick_notes_on_kernseal">View Discussion</a></p>
+    </div>
+
+    <a class="back" href="../../">← Back to Insights</a>
+</body>
+</html>

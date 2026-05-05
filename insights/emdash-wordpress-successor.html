@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EmDash - The WordPress Successor | Insights</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 2rem; background: #f5f5f5; }
+        header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: white; padding: 2rem; border-radius: 12px; margin-bottom: 2rem; }
+        h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+        .meta { font-size: 0.9rem; opacity: 0.8; }
+        .score { display: inline-block; background: #f59e0b; color: white; padding: 0.2rem 0.8rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; margin-left: 1rem; }
+        article { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        h2 { color: #1a1a2e; margin: 1.5rem 0 0.75rem; font-size: 1.3rem; }
+        p { margin-bottom: 1rem; }
+        ul { margin: 1rem 0 1rem 1.5rem; }
+        li { margin-bottom: 0.5rem; }
+        .highlight { background: #fef3c7; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #f59e0b; margin: 1.5rem 0; }
+        code { background: #1a1a2e; color: #e2e8f0; padding: 0.2rem 0.4rem; border-radius: 4px; font-size: 0.9rem; }
+        .tag { display: inline-block; background: #e0e7ff; color: #4338ca; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.8rem; margin-right: 0.5rem; }
+        footer { margin-top: 2rem; text-align: center; font-size: 0.85rem; color: #666; }
+        a { color: #3b82f6; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>EmDash — The Spiritual Successor to WordPress<span class="score">4.5★</span></h1>
+        <div class="meta">Source: Hacker News • 2026-04-02 • <span class="tag">CMS</span><span class="tag">Security</span><span class="tag">TypeScript</span></div>
+    </header>
+    
+    <article>
+        <h2>What is EmDash?</h2>
+        <p>Cloudflare announced EmDash, a full-stack serverless JavaScript CMS built on Astro 6.0. It's essentially a complete rebuild of WordPress from scratch using modern technology—but with a revolutionary approach to plugin security.</p>
+        
+        <div class="highlight">
+            <strong>Key Innovation:</strong> EmDash runs plugins in sandboxed Worker isolates with capability manifests. Unlike WordPress plugins that have full access to your database and filesystem, EmDash plugins can only do exactly what they declare in their manifest.
+        </div>
+        
+        <h2>Why This Matters</h2>
+        <ul>
+            <li><strong>Security:</strong> 96% of WordPress security vulnerabilities come from plugins. EmDash's sandboxed architecture fundamentally solves this.</li>
+            <li><strong>License Freedom:</strong> MIT licensed (not GPL), so developers aren't locked into a single marketplace.</li>
+            <li><strong>Agent-Ready:</strong> Built-in MCP server lets AI agents manage content and schema programmatically.</li>
+            <li><strong>Portable:</strong> Works on Cloudflare (D1 + R2 + Workers) or any Node.js server with SQLite.</li>
+        </ul>
+        
+        <h2>The Problem It Solves</h2>
+        <p>WordPress powers 40% of the internet but carries 24 years of technical debt. Running WordPress today means managing PHP alongside JavaScript, layering caches for performance, and praying your plugins don't have vulnerabilities.</p>
+        
+        <p>EmDash is what WordPress would look like if you started from scratch with today's tools:</p>
+        <ul>
+            <li>TypeScript everywhere</li>
+            <li>Serverless by default</li>
+            <li>Plugins run in isolated sandboxes</li>
+            <li>Structured content via Portable Text (not serialized HTML)</li>
+        </ul>
+        
+        <h2>Resources</h2>
+        <ul>
+            <li><a href="https://github.com/emdash-cms/emdash" target="_blank">GitHub Repository</a></li>
+            <li><a href="https://emdashcms.com/" target="_blank">EmDash Playground</a></li>
+            <li><a href="https://blog.cloudflare.com/emdash-wordpress/" target="_blank">Original Announcement</a></li>
+        </ul>
+    </article>
+    
+    <footer>
+        <p>Discovered via <a href="https://news.ycombinator.com">Hacker News</a> • Exploration Task</p>
+    </footer>
+</body>
+</html>

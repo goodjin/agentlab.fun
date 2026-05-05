@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hegel: 通用属性测试协议</title>
+    <meta name="description" content="Hegel是一个基于Hypothesis的通用属性测试协议和库家族">
+    <meta name="keywords" content="属性测试, PBT, Hypothesis, 协议设计, Rust">
+    <meta name="author" content="Hegel Team">
+    <meta name="date" content="2026-03-25">
+    <style>
+        :root {
+            --primary: #2d3748;
+            --accent: #4299e1;
+            --bg: #f7fafc;
+            --card: #ffffff;
+            --text: #2d3748;
+            --text-light: #718096;
+            --star: #ecc94b;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--bg);
+            color: var(--text);
+        }
+        .card {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h1 { color: var(--primary); font-size: 1.8rem; margin-bottom: 0.5rem; }
+        h2 { color: var(--primary); font-size: 1.4rem; margin-top: 1.5rem; }
+        h3 { color: var(--text-light); font-size: 1.1rem; margin-top: 1rem; }
+        .meta { color: var(--text-light); font-size: 0.9rem; margin-bottom: 1.5rem; }
+        .rating { color: var(--star); font-size: 1.5rem; letter-spacing: 0.2rem; }
+        .tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin: 1rem 0; }
+        .tag {
+            background: #e2e8f0;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+        ul { padding-left: 1.5rem; }
+        li { margin: 0.5rem 0; }
+        code {
+            background: #edf2f7;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.85rem;
+        }
+        a { color: var(--accent); }
+        .summary { background: #ebf8ff; padding: 1rem; border-radius: 8px; margin: 1rem 0; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <span class="rating">★★★★☆</span>
+        <h1>Hegel: 通用属性测试协议</h1>
+        <div class="meta">
+            <span>来源: hegel.dev</span> •
+            <span>日期: 2026-03-25</span> •
+            <span>评分: 4星</span>
+        </div>
+        <div class="tags">
+            <span class="tag">属性测试</span>
+            <span class="tag">PBT</span>
+            <span class="tag">Hypothesis</span>
+            <span class="tag">协议设计</span>
+            <span class="tag">Rust</span>
+        </div>
+
+        <h2>核心摘要</h2>
+        <p>Hegel是一个基于Hypothesis构建的<strong>通用属性测试协议</strong>和库家族，解决了一个核心问题：编写好的PBT库很难，在每种语言中都编写一遍更是难上加难。</p>
+
+        <h2>核心亮点</h2>
+        <ul>
+            <li><strong>核心问题</strong>：PBT库最困难的部分（bug查找分布、自动收缩、灵活的生成器原语）理论上可以复用，但在每种语言中都要重写</li>
+            <li><strong>解决方案</strong>：服务器-客户端架构
+                <ul>
+                    <li>服务器实现PBT核心：数据生成、收缩等</li>
+                    <li>客户端实现各语言的面向用户语法：属性和生成器</li>
+                </ul>
+            </li>
+            <li><strong>当前实现</strong>：hegel-rust已可用，更多语言库即将推出</li>
+            <li><strong>协议层</strong>：目前使用Unix sockets，但协议与传输层解耦，可替换</li>
+            <li><strong>工作流程</strong>：
+                <ul>
+                    <li>客户端发送generator schema（如{"type": "integers", "min_value": 100}）</li>
+                    <li>服务器生成匹配的任意值并返回</li>
+                    <li>失败时服务器执行shrink，返回最小失败用例</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h2>技术细节</h2>
+        <p>当hegel-rust测试运行时：</p>
+        <ol>
+            <li>首次运行时，hegel-rust启动服务器子进程并握手</li>
+            <li>客户端告诉服务器新测试开始及设置（如test_cases=200）</li>
+            <li>测试执行中tc.draw()被调用时，客户端发送generator schema给服务器</li>
+            <li>服务器生成值并返回，客户端执行测试</li>
+            <li>测试失败时，服务器执行shrink并返回最小用例</li>
+        </ol>
+
+        <div class="summary">
+            <strong>意义</strong>：Hegel将属性测试的核心算法与语言特定实现分离，使得各语言可以共享最优质的PBT能力，降低开发门槛。
+        </div>
+
+        <p><a href="https://hegel.dev" target="_blank">访问项目 →</a></p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signing Data Structures the Right Way - FOKS Blog</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+        .container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { color: #333; border-bottom: 3px solid #2196F3; padding-bottom: 10px; }
+        h2 { color: #555; margin-top: 30px; }
+        .meta { color: #888; font-size: 14px; margin-bottom: 20px; }
+        .rating { display: inline-block; background: #2196F3; color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; }
+        .key-insights { background: #e3f2fd; padding: 20px; border-radius: 8px; margin: 20px 0; }
+        .key-insights h3 { margin-top: 0; color: #1565c0; }
+        ul { padding-left: 20px; }
+        li { margin: 10px 0; }
+        .source { background: #fff3e0; padding: 10px; border-radius: 5px; margin: 10px 0; }
+        code { background: #f5f5f5; padding: 2px 6px; border-radius: 3px; font-family: monospace; }
+        .attack-list { background: #ffebee; padding: 15px; border-radius: 8px; margin: 15px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <span class="rating">4/5 ★</span>
+        <h1>Signing Data Structures the Right Way</h1>
+        <div class="meta">Source: Hacker News | URL: <a href="https://blog.foks.pub/posts/domain-separation-in-idl/">blog.foks.pub/posts/domain-separation-in-idl/</a></div>
+        
+        <p>Technical deep-dive on the domain separation problem in cryptographic signing and how FOKS's Snowpack IDL solves it.</p>
+        
+        <div class="key-insights">
+            <h3>🔑 Key Insights</h3>
+            <ul>
+                <li><strong>Structural Collision:</strong> Different message types can serialize to identical bytes, allowing attackers to forge signatures</li>
+                <li><strong>Domain Separators:</strong> FOKS embeds random 64-bit separators directly in the IDL (e.g., <code>@0x92880d38b74de9fb</code>)</li>
+                <li><strong>Type System Enforcement:</strong> Only structs with domain separators can be signed—compiler prevents errors</li>
+                <li>Domain separator not included in serialization (saves bytes)—both parties know it via shared protocol spec</li>
+            </ul>
+        </div>
+        
+        <h2>The Problem</h2>
+        <p>Two different message types can have identical field layouts:</p>
+        <pre><code>message TreeRoot { int64 timestamp = 1; bytes hash = 2; }
+message KeyRevoke { int64 timestamp = 1; bytes hash = 2; }</code></pre>
+        <p>An attacker could take a signed TreeRoot and forge a KeyRevoke with the same bytes, tricking verifiers.</p>
+        
+        <div class="attack-list">
+            <strong>Real-world attacks have succeeded in:</strong>
+            <ul>
+                <li>Bitcoin (transaction malleability)</li>
+                <li>Ethereum DEXs</li>
+                <li>TLS</li>
+                <li>JWTs</li>
+                <li>AWS</li>
+            </ul>
+        </div>
+        
+        <h2>The Solution: Snowpack IDL</h2>
+        <p>FOKS's Snowpack IDL puts domain separators directly in the protocol spec:</p>
+        <pre><code>struct TreeRoot @0x92880d38b74de9fb {
+  timestamp @0 : Uint;
+  hash @1 : Blob;
+}</code></pre>
+        <p>Signing concatenates the domain separator with the serialized object. Verification fails if types don't match.</p>
+        
+        <h2>Additional Features</h2>
+        <ul>
+            <li><strong>Canonical Encoding:</strong> Minimum-size integer encoding, no multi-key dictionaries</li>
+            <li><strong>Forward/Backward Compatibility:</strong> Old decoders can read new formats (missing fields = 0)</li>
+            <li><strong>AI-resistant:</strong> Compiler ensures all separators are unique within a project</li>
+        </ul>
+        
+        <div class="source">
+            <strong>Source:</strong> <a href="https://blog.foks.pub/posts/domain-separation-in-idl/">https://blog.foks.pub/posts/domain-separation-in-idl/</a>
+        </div>
+        
+        <p><em>Explored: 2026-04-02 | Rating: 4/5</em></p>
+    </div>
+</body>
+</html>

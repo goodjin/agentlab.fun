@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Temporal API - 从 Moment.js 迁移指南 (2026)</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #64748b;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --code-bg: #1e1e3f;
+            --code-text: #a5b4fc;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--bg);
+            color: var(--text);
+        }
+        .card {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+        }
+        h1 { color: var(--primary); margin-bottom: 0.5rem; }
+        h2 { color: var(--primary); margin-top: 2rem; border-bottom: 2px solid var(--primary); padding-bottom: 0.5rem; }
+        h3 { color: var(--secondary); }
+        .meta { color: var(--secondary); font-size: 0.9rem; margin-bottom: 1rem; }
+        .tag {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+        }
+        .rating { color: #f59e0b; font-size: 1.2rem; }
+        code {
+            background: var(--code-bg);
+            color: var(--code-text);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        pre {
+            background: var(--code-bg);
+            color: var(--code-text);
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.85rem;
+        }
+        .highlight {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        ul, ol { padding-left: 1.5rem; }
+        li { margin-bottom: 0.5rem; }
+        .source { 
+            background: #e0f2fe; 
+            padding: 1rem; 
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+        .source a { color: var(--primary); }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>🕐 JavaScript Temporal API 完全指南</h1>
+        <div class="meta">
+            <span class="tag">JavaScript</span>
+            <span class="tag">Temporal API</span>
+            <span class="tag">Migration</span>
+            <span class="rating">⭐⭐⭐⭐⭐</span>
+        </div>
+        
+        <div class="source">
+            📖 原文: <a href="https://www.smashingmagazine.com/2026/03/moving-from-moment-to-temporal-api/" target="_blank">Moving From Moment.js To The JS Temporal API</a>
+        </div>
+
+        <h2>为什么需要 Temporal?</h2>
+        
+        <p>Moment.js 是 JavaScript 处理日期时间的经典库，但存在以下问题:</p>
+        <ul>
+            <li><strong>体积过大</strong>: 无法 tree-shaking，整个库被打包</li>
+            <li><strong>可变对象</strong>: 调用方法会修改原对象，导致意外行为</li>
+            <li><strong>维护状态</strong>: 2020年已进入维护模式，不再推荐新项目使用</li>
+        </ul>
+
+        <div class="highlight">
+            <strong>🎯 Temporal API 优势:</strong>
+            <ul>
+                <li>✅ 不可变对象 - 不修改原对象</li>
+                <li>✅ 1-based 索引 - 月份从1开始(而非0)</li>
+                <li>✅ 原生时区支持 - 无需额外库</li>
+                <li>✅ 零 bundle 体积 - 浏览器内置</li>
+                <li>✅ 纳秒级精度</li>
+            </ul>
+        </div>
+
+        <h2>浏览器支持</h2>
+        <ul>
+            <li><strong>Chrome 144+</strong> ✅</li>
+            <li><strong>Firefox 139+</strong> ✅</li>
+            <li><strong>Safari</strong> 即将支持</li>
+            <li><strong>Polyfill</strong>: <code>@js-temporal/temporal-polyfill</code></li>
+        </ul>
+
+        <h2>核心对比</h2>
+
+        <h3>1. 创建当前时间</h3>
+        <pre><code>// Moment.js
+const now = moment();
+
+// Temporal API
+const now = Temporal.Now.zonedDateTimeISO();</code></pre>
+
+        <h3>2. 创建指定日期</h3>
+        <pre><code>// Moment.js
+const date = moment('2026-03-16');
+
+// Temporal - 按类型选择
+const plainDate = Temporal.PlainDate.from('2026-03-16');
+const instant = Temporal.Instant.from('2026-03-16T09:00:00Z');
+const zoned = Temporal.ZonedDateTime.from({
+    timeZone: 'Asia/Shanghai',
+    year: 2026, month: 3, day: 16
+});</code></pre>
+
+        <h3>3. 日期计算</h3>
+        <pre><code>// Moment.js - 会修改原对象!
+const nextWeek = now.add(7, 'days'); // 原对象也被修改了
+
+// Temporal - 不可变，返回新对象
+const nextWeek = now.add({ days: 7 }); // 原对象保持不变</code></pre>
+
+        <h3>4. 时区转换</h3>
+        <pre><code>// Moment.js - 需要 moment-timezone 库
+const now = moment();
+now.tz('Asia/Shanghai'); // 修改原对象
+
+// Temporal - 原生支持
+const now = Temporal.Now.zonedDateTimeISO();
+const shanghai = now.withTimeZone('Asia/Shanghai');</code></pre>
+
+        <h3>5. 格式化</h3>
+        <pre><code>// Moment.js
+date.format('YYYY-MM-DD');
+
+// Temporal - 使用 Intl API
+date.toLocaleString('zh-CN', { 
+    year: 'numeric', 
+    month: '2-digit', 
+    day: '2-digit' 
+});</code></pre>
+
+        <h2>迁移检查清单</h2>
+        <ol>
+            <li>用 <code>Temporal.Instant</code> 替换绝对时间点</li>
+            <li>用 <code>Temporal.PlainDate/PlainTime</code> 替换无时区日期时间</li>
+            <li>用 <code>Temporal.ZonedDateTime</code> 替换需要时区的场景</li>
+            <li>使用 <code>add/subtract</code> 进行日期运算(返回新对象)</li>
+            <li>使用 <code>toLocaleString</code> 配合 Intl 进行格式化</li>
+            <li>非 ISO 字符串需要先转换为 ISO 格式</li>
+        </ol>
+
+        <div class="highlight">
+            <strong>💡 Pro Tip:</strong> 如果你的项目还在使用 Moment.js，是时候开始规划迁移了！Temporal API 已进入 Stage 4，已成为 ECMAScript 标准的一部分。
+        </div>
+
+        <h2>进一步阅读</h2>
+        <ul>
+            <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Temporal" target="_blank">MDN Temporal 文档</a></li>
+            <li><a href="https://github.com/js-temporal/temporal-polyfill" target="_blank">Temporal Polyfill</a></li>
+            <li><a href="https://tc39.es/proposal-temporal/" target="_blank">TC39 Temporal 提案</a></li>
+        </ul>
+    </div>
+</body>
+</html>

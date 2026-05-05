@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life TV: Video with 2 bits to spare - 2026 Insights</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+        h1 { color: #2c3e50; border-bottom: 3px solid #1abc9c; padding-bottom: 10px; }
+        h2 { color: #34495e; margin-top: 30px; }
+        h3 { color: #7f8c8d; }
+        .meta { background: #ecf0f1; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+        .rating { display: inline-block; background: #f1c40f; color: #fff; padding: 5px 12px; border-radius: 20px; font-weight: bold; }
+        .highlight { background: #fff3cd; padding: 15px; border-left: 4px solid #ffc107; margin: 20px 0; }
+        code { background: #2c3e50; color: #ecf0f1; padding: 2px 6px; border-radius: 3px; font-family: 'Monaco', monospace; }
+        ul { padding-left: 20px; }
+        li { margin: 10px 0; }
+        .insight { background: #d5f4e6; padding: 15px; border-radius: 8px; margin: 20px 0; }
+        a { color: #3498db; }
+    </style>
+</head>
+<body>
+    <h1>🎯 Life TV: Video with 2 bits to spare</h1>
+    
+    <div class="meta">
+        <span class="rating">⭐⭐⭐⭐ (4星)</span>
+        <span style="margin-left: 15px;">来源: Lobsters / maurycyz.com</span>
+        <span style="margin-left: 15px;">分类: Hardware / Microcontrollers / Creative Hacking</span>
+    </div>
+
+    <h2>📝 摘要</h2>
+    <p>使用 AVR 微控制器通过平方波谐波向老式 CRT 电视传输视频信号的创意硬件项目。创作者利用数字电路的"噪声"来传输信息，实现了一个极简的视频传输系统。</p>
+
+    <h2>🔑 核心亮点</h2>
+    
+    <h3>1. 硬件选择：Sony FD-30A CRT + AVR128DA23</h3>
+    <ul>
+        <li><strong>显示器</strong>：Sony FD-30A 超薄 CRT（侧面安装，磷光体从背面观看）</li>
+        <li><strong>微控制器</strong>：AVR128DA23，24MHz 主频，16KB RAM</li>
+        <li><strong>挑战</strong>：TV 需要 45MHz 最低频率，但 MCU 只能输出 6MHz</li>
+    </ul>
+
+    <h3>2. 平方波谐波技巧</h3>
+    <div class="highlight">
+        <strong>关键发现：6MHz 方波可以在 198MHz（33 次谐波）被电视接收</strong>
+    </div>
+    <ul>
+        <li>方波包含奇数倍频率分量</li>
+        <li>6MHz 方波可以在 198MHz 被接收（33 次谐波）</li>
+        <li>可以在数米外被接收</li>
+    </ul>
+
+    <h3>3. 2-bit 视频信号</h3>
+    <table style="width:100%; border-collapse: collapse; margin: 20px 0;">
+        <tr style="background: #1abc9c; color: white;">
+            <th style="padding: 10px;">输出配置</th>
+            <th style="padding: 10px;">颜色</th>
+        </tr>
+        <tr style="background: #ecf0f1;">
+            <td style="padding: 10px;">RF, RF + VCC</td>
+            <td style="padding: 10px;">同步脉冲</td>
+        </tr>
+        <tr style="background: #ecf0f1;">
+            <td style="padding: 10px;">GND, RF2/3 + VCC</td>
+            <td style="padding: 10px;">黑色</td>
+        </tr>
+        <tr style="background: #ecf0f1;">
+            <td style="padding: 10px;">RF, GND1/3 + VCC</td>
+            <td style="padding: 10px;">灰色</td>
+        </tr>
+        <tr style="background: #ecf0f1;">
+            <td style="padding: 10px;">GND, GND</td>
+            <td style="padding: 10px;">白色</td>
+        </tr>
+    </table>
+
+    <h3>4. Conway's Game of Life 作为屏幕保护</h3>
+    <ul>
+        <li>由于电子束需要回扫，CPU 在垂直消隐期间没有传输任务</li>
+        <li>利用这段时间运行 Game of Life</li>
+        <li>添加按钮可以绘制图案</li>
+    </ul>
+
+    <h3>5. 重要洞察：电路噪声即信息</h3>
+    <div class="highlight">
+        <strong>"任何有长导线的微控制器项目都会在数百 MHz 甚至低 GHz 产生噪声"</strong>
+    </div>
+    <ul>
+        <li>普通电路：噪声无法控制</li>
+        <li>本项目：精心控制干扰来发送信息</li>
+        <li>专用接收器可以"窃听"几乎任何电路</li>
+        <li>这是硬件黑客的哲学：利用看似无用的东西</li>
+    </ul>
+
+    <div class="insight">
+        <h3>💡 核心洞察</h3>
+        <p><strong>"电子产品的噪声不是问题，而是信息"</strong></p>
+        <p>创作者展示了如何将微控制器的"缺点"（方波噪声）转化为传输视频信号的优势。这是一个创意工程的典范。</p>
+    </div>
+
+    <h2>🔗 原文链接</h2>
+    <p><a href="https://maurycyz.com/projects/lifetv/" target="_blank">Life TV: Video with 2 bits to spare</a></p>
+
+    <h2>📅 发现日期</h2>
+    <p>2026-03-21</p>
+</body>
+</html>

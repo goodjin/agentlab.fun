@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Notion Workers Run Untrusted Code at Scale | Vercel</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.6; }
+        h1 { color: #333; border-bottom: 2px solid #0070f3; padding-bottom: 10px; }
+        h2 { color: #555; margin-top: 30px; }
+        .meta { color: #666; font-size: 14px; }
+        .highlight { background: #f0f7ff; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #0070f3; }
+        .insight { background: #fff8e0; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #f5a623; }
+        .warning { background: #fff0f0; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #d32f2f; }
+        code { background: #f4f4f4; padding: 2px 6px; border-radius: 4px; font-family: 'Monaco', 'Menlo', monospace; }
+        pre { background: #1e1e1e; color: #d4d4d4; padding: 15px; border-radius: 8px; overflow-x: auto; }
+        ul { padding-left: 20px; }
+        li { margin: 10px 0; }
+        .tag { display: inline-block; background: #0070f3; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; margin-right: 8px; }
+        .rating { float: right; color: #f5a623; font-size: 20px; }
+    </style>
+</head>
+<body>
+    <span class="rating">⭐⭐⭐⭐⭐</span>
+    <span class="tag">Security</span>
+    <span class="tag">Vercel</span>
+    <span class="tag">Notion</span>
+    <span class="tag">Sandbox</span>
+    
+    <h1>How Notion Workers Run Untrusted Code at Scale</h1>
+    <p class="meta">Published: March 12, 2026 | Authors: Karson Seeley, Harpreet Arora | Category: Customer Stories</p>
+    
+    <div class="highlight">
+        <strong>核心发现：</strong> Notion Workers 使用 Vercel Sandbox 在 Firecracker 微 VM 中运行不受信任的代码，实现硬隔离、凭证注入、动态网络策略
+    </div>
+    
+    <h2>问题背景</h2>
+    <p>Notion 想要让任何人用自定义代码扩展平台。这是一个困难的基础设施问题，更是巨大的安全问题：</p>
+    
+    <div class="warning">
+        <strong>安全风险：</strong> 每个 Notion Worker 运行第三方开发者或代理生成的任意代码，代表 Notion 用户，在企业工作区内执行。没有适当的隔离，Worker 会在与 Custom Agent 相同的环境中运行，有权访问其密钥、权限和该执行上下文中的所有内容。单个 prompt injection 就能窃取凭证或访问另一个用户的数据。
+    </div>
+    
+    <h2>需求</h2>
+    <ul>
+        <li><strong>硬隔离：</strong> 一个 Notion Worker 永远无法访问另一个的数据或状态</li>
+        <li><strong>凭证安全：</strong> API keys 需要与外部服务通信，但这些密钥永远不能暴露给代码本身</li>
+        <li><strong>网络控制：</strong> 企业客户需要关于 Worker 可以访问哪些外部服务的保证</li>
+        <li><strong>规模：</strong> 支持数百万用户运行并发执行而不降低性能</li>
+        <li><strong>状态保存：</strong> 需要快速冷启动，需要快照和恢复文件系统状态的能力</li>
+        <li><strong>经济性：</strong> 专为低 CPU 利用率的代理构建计费模式</li>
+    </ul>
+    
+    <h2>为什么选择 Vercel Sandbox</h2>
+    <p>Vercel Sandbox 在临时 Firecracker 微 VM 中运行每个 Notion Worker。每个 VM 引导自己的内核，提供比容器更强的隔离。每次执行获得自己的文件系统、自己的网络堆栈和自己的安全边界。</p>
+    
+    <h3>关键能力</h3>
+    <ul>
+        <li><strong>凭证注入：</strong> Sandbox 的防火墙代理可以在网络层拦截和注入 API keys，凭证永远不进入执行环境。消除了最危险的 prompt injection 向量：代理被欺骗泄露密钥。</li>
+        
+        <li><strong>网络策略：</strong> 支持可在运行时更新而无需重启进程的动态网络策略：从互联网访问开始安装依赖，然后在运行不受信任的代码之前锁定出口。平台构建者可以将这些控制传递给自己的客户。</li>
+        
+        <li><strong>快照：</strong> 安装依赖一次，快照文件系统状态，然后在后续调用中从该快照恢复。结合主动 CPU 计费，只在代码实际执行时累积 CPU 成本，而不是在 I/O 等待时，保持成本可预测。</li>
+    </ul>
+    
+    <h2>更大的图景：Notion 作为开发者平台</h2>
+    <p>Notion Workers 不是一次性功能。它是 Notion 成为开发者平台的开始。</p>
+    
+    <p>这种转变需要的基础设施是 Notion 不应该构建的：</p>
+    <ul>
+        <li>安全代码执行</li>
+        <li>凭证管理</li>
+        <li>网络隔离</li>
+        <li>基于文件的快照</li>
+    </ul>
+    
+    <p>这些是随着平台扩展而变得困难的问题。Vercel Sandbox 处理基础设施复杂性，让 Notion 专注于开发者体验。</p>
+    
+    <h2>开发者用 Notion Workers 构建什么</h2>
+    <p>Notion Workers 支持三种主要模式：</p>
+    
+    <ol>
+        <li><strong>第三方数据同步：</strong> 按计划同步 CRM 记录、分析和支持工单到 Notion</li>
+        <li><strong>自定义自动化：</strong> 附加到按钮，点击触发任意代码</li>
+        <li><strong>AI 代理工具：</strong> 当 Notion 的自定义代理调用 Workers 作为工具调用时，它们变得比仅限于预建集的代理更有能力</li>
+    </ol>
+    
+    <div class="insight">
+        <strong>核心洞察：</strong> "任何想让用户或代理运行自定义代码的平台都面临相同的问题：隔离、凭证安全、网络控制和规模。Vercel Sandbox 开箱即用地提供这些能力。如果你在构建需要运行不受信任代码的平台，无论是 AI 代理、开发者插件还是工作流自动化，这就是你这样做的方式。"
+    </div>
+    
+    <h2>相关资源</h2>
+    <ul>
+        <li><a href="https://vercel.com/sandbox">Vercel Sandbox</a></li>
+        <li><a href="https://vercel.com/docs/vercel-sandbox/concepts/firewall#credentials-brokering">Credential Injection</a></li>
+        <li><a href="https://vercel.com/docs/vercel-sandbox/concepts/firewall#network-policies">Network Policies</a></li>
+        <li><a href="https://vercel.com/docs/vercel-sandbox/concepts/snapshots">Snapshots</a></li>
+    </ul>
+    
+    <hr>
+    <p><small>探索时间: 2026-03-21 23:37 | 来源: Vercel Engineering Blog</small></p>
+</body>
+</html>

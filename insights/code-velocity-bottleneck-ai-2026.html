@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>代码速度不是瓶颈：AI加速让情况更糟 (4.5★)</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.8; max-width: 800px; margin: 0 auto; padding: 40px 20px; background: #ffffff; color: #333; }
+        h1 { font-size: 1.8em; margin-bottom: 0.5em; }
+        h2 { font-size: 1.4em; margin-top: 1.5em; border-bottom: 2px solid #eee; padding-bottom: 0.3em; }
+        .meta { color: #666; font-size: 0.9em; margin-bottom: 2em; }
+        .rating { display: inline-block; background: #ffd700; padding: 2px 8px; border-radius: 4px; font-weight: bold; }
+        .key-insight { background: #f5f5f5; padding: 15px; border-left: 4px solid #667eea; margin: 1em 0; }
+        blockquote { border-left: 3px solid #ddd; padding-left: 15px; color: #555; margin: 1em 0; font-style: italic; }
+        code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: monospace; }
+    </style>
+</head>
+<body>
+    <h1>🧠 代码速度不是瓶颈：AI加速让情况更糟</h1>
+    <div class="meta">
+        <span class="rating">★★★★☆ 4.5★ 优秀</span> | 
+        <span>来源: Debugging Leadership (Andrew Murphy)</span> |
+        <span>类型: Engineering Management/AI</span> |
+        <span>2026-04-06</span>
+    </div>
+
+    <div class="key-insight">
+        <strong>💡 核心洞察：</strong>AI加速代码产出但瓶颈在后：review、CI、部署、手动审批。结果：代码产出↑，实际交付↓。"你创造了更多的库存来腐烂在地板上"
+    </div>
+
+    <h2>问题的本质：Theory of Constraints</h2>
+    <p>Eli Goldratt在1984年的《The Goal》中提出：<strong>每个系统只有一个约束（bottleneck）。整个系统的吞吐量由这个瓶颈决定。</strong></p>
+    <p>关键洞察：<strong>优化非瓶颈步骤会让系统更糟糕。</strong></p>
+    <blockquote>
+        如果A站生产更快，但B站（瓶颈）处理速度不变，你只是在上游创造了更多未完成的库存。库存上升，lead time上升，B站的人现在淹死在等待中。
+    </blockquote>
+
+    <h2>AI时代的灾难：3x代码输出 = 3x问题</h2>
+    <p>当VP宣布"AI让代码产出提升40%"时，没有人在乎：</p>
+    <ul>
+        <li><strong>Reviewers没有翻倍</strong> —— PR堆积，一天、两天、一周</li>
+        <li><strong>CI没有翻倍</strong> —— 45分钟测试失败，重跑，又失败</li>
+        <li><strong>部署审批没有翻倍</strong> —— 手动审批环节永远卡着</li>
+        <li><strong>on-call没有增加</strong> —— 凌晨2点崩溃没人懂</li>
+    </ul>
+
+    <h2>真正的瓶颈在哪里？</h2>
+    <h3>1. 你不知道要做什么</h3>
+    <p>PM两个月没跟用户聊天，需求是Jira上三句话+Figma链接。工程师每天做50个微决策guess behavior、edge cases、error handling。</p>
+    <blockquote>
+        "六周做一个功能，基于sales在Slack上 paraphrased 的 prospect 的话。Prospect甚至没买。功能11个人用，9个是内部QA。"
+    </blockquote>
+    <p><strong>加速写代码 = 更快地构建错误的东西。</strong></p>
+
+    <h3>2. Code Review</h3>
+    <p>Reviewer没有翻倍，PR开始rubber-stamp。没人真的读代码就approve。代码带着bug进入生产。</p>
+
+    <h3>3. 部署</h3>
+    <p>CI 45分钟、flaky test、手动审批、staging躺三天因为没人 owning "get it to production"。</p>
+
+    <h3>4. 跨团队协调</h3>
+    <p>没人想当那个解释cycle time的人，dashboard只显示productivity up 40%。</p>
+
+    <h2>AI让情况更糟</h2>
+    <ul>
+        <li><strong>更多incident surface</strong> —— AI生成的代码没人完全理解</li>
+        <li><strong>更少能理解系统的人</strong> —— "写"代码的人prompted it没真的写，on-call的人不懂</li>
+        <li><strong>更多代码，更少理解</strong> —— 这不是 productivity gain，这是 time bomb with nicer dashboard</li>
+    </ul>
+
+    <h2>教训</h2>
+    <ul>
+        <li>Velocity是<strong>伪 KPI</strong>，board看不懂cycle time</li>
+        <li>先找到真正的瓶颈，再优化</li>
+        <li>AI是工具，不是解决方案本身</li>
+        <li><strong>理解问题 > 写代码速度</strong></li>
+    </ul>
+
+    <hr>
+    <p><a href="index.html">← 返回首页</a></p>
+</body>
+</html>

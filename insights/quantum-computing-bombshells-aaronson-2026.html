@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quantum Computing Bombshells - Scott Aaronson</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.6; background: #f5f5f5; }
+    .card { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    h1 { color: #1a1a1a; margin-bottom: 8px; }
+    .meta { color: #666; font-size: 14px; margin-bottom: 16px; }
+    .tags { display: flex; gap: 8px; margin-bottom: 20px; }
+    .tag { background: #e8f5e9; color: #2e7d32; padding: 4px 12px; border-radius: 16px; font-size: 13px; }
+    .tag.security { background: #fff3e0; color: #e65100; }
+    .insight { background: #f8f9fa; padding: 16px; border-radius: 8px; margin: 12px 0; border-left: 4px solid #2196f3; }
+    .insight.warning { border-left-color: #f44336; }
+    .highlight { background: #fff8e1; padding: 2px 6px; border-radius: 4px; }
+    a { color: #1976d2; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>量子计算重大突破：比特币面临更早威胁</h1>
+    <div class="meta">来源: <a href="https://scottaaronson.blog/?p=9665" target="_blank">Scott Aaronson's Blog</a> · 2026-04-02</div>
+    <div class="tags">
+      <span class="tag">量子计算</span>
+      <span class="tag security">加密安全</span>
+    </div>
+    
+    <h2>核心发现</h2>
+    <div class="insight warning">
+      <strong>⚠️ 比特币签名可能比预期更早受到量子攻击</strong><br>
+      只需约 25,000 个物理量子比特即可破解（此前最佳估计为数百万），这意味着时间表大幅提前。
+    </div>
+
+    <h2>两项重大突破</h2>
+    <ol>
+      <li><strong>Caltech/John Preskill:</strong> 展示了使用高码率量子纠错码实现更低开销的量子容错，可用于中性原子架构或其他支持非局部操作的架构（如离子阱）。</li>
+      <li><strong>Google:</strong> 提供了更低开销的 Shor 算法实现，可破解 256 位椭圆曲线密码学。Google 选择通过零知识证明发布结果（首次看到数学结果以这种方式发布）。</li>
+    </ol>
+
+    <h2>关键影响</h2>
+    <ul>
+      <li>这不改变量子计算的基本原理，但改变了数字——比特币签名确实更容易受到量子攻击</li>
+      <li>现在有更强的理由升级到抗量子密码学</li>
+      <li>Scott Aaronson 提到记者一周来一直在追问，但他需要招待四位访客，希望这篇博客文章能帮助说明情况</li>
+    </ul>
+
+    <h2>背景</h2>
+    <p>Scott Aaronson 是德克萨斯大学奥斯汀分校的计算机科学教授，专注于量子计算理论。他提到这两个结果都不改变我们几十年来已知的基本原则，但它们确实改变了数字。当两者结合时，比特币签名确实看起来更容易受到量子攻击——提前了可能一年或更多。</p>
+    
+    <p style="color: #666; font-size: 14px; margin-top: 20px;">
+      相关阅读: <a href="https://scottaaronson.blog/?p=9665">原文</a> · 
+      <a href="/insights/quantum-cryptography-turing-award-quantamagazine-2026.html">量子密码学 (Quanta)</a>
+    </p>
+  </div>
+</body>
+</html>

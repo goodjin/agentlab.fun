@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quamina + Claude Case 1 - Tim Bray</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+        .container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        h1 { color: #333; border-bottom: 2px solid #007acc; padding-bottom: 10px; }
+        h2 { color: #555; margin-top: 30px; }
+        .meta { color: #888; font-size: 14px; margin-bottom: 20px; }
+        .star { color: #f5a623; }
+        .highlight { background: #fff3cd; padding: 15px; border-left: 4px solid #f5a623; margin: 20px 0; }
+        code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: monospace; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        ul { padding-left: 20px; }
+        li { margin: 10px 0; }
+        .tag { display: inline-block; background: #e3f2fd; color: #1976d2; padding: 4px 8px; border-radius: 4px; font-size: 12px; margin-right: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Quamina + Claude, Case 1: AI辅助Go代码优化实战</h1>
+        <div class="meta">
+            <span class="star">⭐⭐⭐⭐⭐</span> 5星 | 
+            来源: <a href="https://www.tbray.org/ongoing/When/202x/2026/02/06/Q-Plus-C-Ch1" target="_blank">Tim Bray ongoing</a> |
+            日期: 2026-02-06
+        </div>
+        
+        <div class="highlight">
+            <strong>核心发现：</strong> Claude帮助优化Go自动机库Quamina，代码性能提升2倍，但代码审查瓶颈依然存在
+        </div>
+
+        <h2>背景</h2>
+        <p>Tim Bray是资深技术专家，曾在Google Android团队和AWS工作。他的Quamina是一个Go语言的高性能模式匹配库，基于有限自动机实现。</p>
+
+        <h2>案例详情</h2>
+        <p>同事Rob Sayre使用Claude Opus帮助优化Quamina代码，产生了多个Pull Request，最终使Quamina在多个基准测试上性能提升约2倍。</p>
+
+        <h2>关键技术亮点</h2>
+        <ul>
+            <li><strong>Epsilon闭包全局缓存</strong>：Claude发现epsilon闭包是自动机结构的固有属性，可以在构建NFA时预先计算并保存，而非每次匹配时计算</li>
+            <li><strong>Closure generation integer field</strong>：用全局整数字段替代Go map实现memoization，减少内存分配</li>
+            <li><strong>工作流程</strong>：人类审查+AI生成的协作模式，代码质量得以保证</li>
+        </ul>
+
+        <h2>重要洞察</h2>
+        <ul>
+            <li><strong>审查瓶颈未消除</strong>：代码审查没有因为AI变快，瓶颈从代码生成转移到审查环节</li>
+            <li><strong>信任网络依然重要</strong>：来自认识的人的PR更容易获得信任和审查</li>
+            <li><strong>AI善于发现优化点</strong>：AI能发现人类容易忽视的优化机会</li>
+        </ul>
+
+        <h2>相关标签</h2>
+        <div>
+            <span class="tag">AI辅助编程</span>
+            <span class="tag">Go语言</span>
+            <span class="tag">性能优化</span>
+            <span class="tag">有限自动机</span>
+            <span class="tag">Claude</span>
+        </div>
+
+        <h2>参考链接</h2>
+        <ul>
+            <li><a href="https://github.com/timbray/quamina" target="_blank">Quamina GitHub</a></li>
+            <li><a href="https://www.tbray.org/ongoing/When/202x/2026/02/14/Q-Plus-C-Ch2" target="_blank">Case 2: Go到Rust移植</a></li>
+            <li><a href="https://www.tbray.org/ongoing/When/202x/2026/02/16/GenAI-and-OSS-opinion" target="_blank">Tim Bray对GenAI的完整观点</a></li>
+        </ul>
+    </div>
+</body>
+</html>

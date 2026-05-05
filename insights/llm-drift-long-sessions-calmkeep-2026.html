@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LLM Drift in Long Sessions - Claude 60% vs 85% Integrity</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; line-height: 1.6; background: #fff; }
+    h1 { color: #333; border-bottom: 2px solid #333; padding-bottom: 10px; }
+    h2 { color: #555; margin-top: 30px; }
+    .meta { color: #666; font-size: 14px; }
+    .rating { display: inline-block; background: #4CAF50; color: white; padding: 2px 8px; border-radius: 4px; font-size: 14px; }
+    code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; }
+    pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
+    table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+    th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+    th { background: #f4f4f4; }
+    .highlight { background: #fff3cd; padding: 15px; border-radius: 5px; margin: 20px 0; }
+    .warning { background: #f8d7da; padding: 15px; border-radius: 5px; margin: 20px 0; }
+    .good { background: #d4edda; padding: 15px; border-radius: 5px; margin: 20px 0; }
+  </style>
+</head>
+<body>
+  <h1>LLM Drift in Long Sessions: Claude 60% vs 85% Integrity</h1>
+  <p class="meta">Source: Hacker News / Calmkeep.ai | Type: AI/LLM Evaluation | Rating: <span class="rating">★★★★☆</span></p>
+  
+  <div class="highlight">
+    <strong>Key finding:</strong> When using Claude for long coding sessions (25+ turns), structural integrity drops from 100% to 60% without continuity layer, but only to 85% with it. The model progressively abandons established architectural patterns.
+  </div>
+
+  <h2>Methodology</h2>
+  <p>Two transcripts were evaluated using identical task prompts:</p>
+  <ul>
+    <li><strong>Transcript A:</strong> Generated directly within Claude App</li>
+    <li><strong>Transcript B:</strong> Generated using Claude via API with Calmkeep continuity layer</li>
+  </ul>
+  <p>Both were audited using a structured "Compliance & Integrity Audit" prompt.</p>
+
+  <h2>Architecture Laws Established (Turns 1-5)</h2>
+  <table>
+    <tr><th>Law</th><th>Description</th></tr>
+    <tr><td>LAW-01</td><td>Module-Based Architecture (vertical slicing)</td></tr>
+    <tr><td>LAW-02</td><td>Service Layer Owns All DB Access</td></tr>
+    <tr><td>LAW-03</td><td>Org-Scoped Queries - Every query MUST include org_id</td></tr>
+    <tr><td>LAW-04</td><td>Centralized Error Classes (custom AppError hierarchy)</td></tr>
+    <tr><td>LAW-05</td><td>Env Config - Centralized Fail-Fast from config/env.ts</td></tr>
+    <tr><td>LAW-06</td><td>Prisma as Sole ORM (No Raw SQL)</td></tr>
+    <tr><td>LAW-07</td><td>Validation - Schema-First (Zod adopted mid-session)</td></tr>
+    <tr><td>LAW-08</td><td>Single Source of Truth for Shared Logic</td></tr>
+  </table>
+
+  <h2>Results</h2>
+  <table>
+    <tr><th>Metric</th><th>Transcript A (No Continuity)</th><th>Transcript B (With Continuity)</th></tr>
+    <tr><td>Total AVEs</td><td>8</td><td>3</td></tr>
+    <tr><td>Drift Coefficient</td><td>40%</td><td>15%</td></tr>
+    <tr><td>Final Integrity</td><td>60%</td><td>85%</td></tr>
+    <tr><td>Decay Onset Turn</td><td>T8</td><td>T23</td></tr>
+    <tr><td>Post-T14 Backslide</td><td>YES</td><td>NO</td></tr>
+  </table>
+
+  <div class="warning">
+    <strong>Critical insight:</strong> After T14 (Zod migration), Transcript A BACKSLID by reintroducing raw parseInt for pagination in new modules. The model "forgot" its own refactor.
+  </div>
+
+  <h2>Common Violations in Transcript A</h2>
+  <ul>
+    <li>Inline Manual Validation - Body Cast Pattern (repeating pre-Zod anti-pattern)</li>
+    <li>Raw parseInt Pagination in Service Layer (ignoring Zod middleware)</li>
+    <li>Filter Validation Duplication (two sources of truth)</li>
+    <li>roleHierarchy Re-Definition (duplicate from middleware/requireRole.ts)</li>
+    <li>Raw Role String Array Check bypassing can() permissions system</li>
+  </ul>
+
+  <h2>Implications for AI Coding Agents</h2>
+  <ul>
+    <li><strong>Continuity matters:</strong> A simple continuity layer improved integrity by 25%</li>
+    <li><strong>Architectural drift is real:</strong> Models abandon patterns after explicit refactors</li>
+    <li><strong>Self-correction is limited:</strong> Even when self-identified, violations persist</li>
+    <li><strong>Context window limitations:</strong> Long sessions cause "forgetting" of earlier rules</li>
+  </ul>
+
+  <div class="good">
+    <strong>Good news:</strong> Transcript B maintained 100% integrity through T20, with only 3 minor violations in T23-24. This shows architectural patterns CAN be maintained with the right context management.
+  </div>
+
+  <p class="meta">URL: <a href="https://calmkeep.ai/codetestreport">https://calmkeep.ai/codetestreport</a></p>
+</body>
+</html>

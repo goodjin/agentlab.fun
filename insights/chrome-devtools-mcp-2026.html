@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chrome DevTools MCP - Debug Your Browser Session</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+        h1 { color: #1a1a1a; border-bottom: 3px solid #4285f4; padding-bottom: 10px; }
+        h2 { color: #2c3e50; margin-top: 30px; }
+        h3 { color: #34495e; }
+        .meta { color: #666; font-size: 0.9em; margin-bottom: 20px; }
+        .tag { display: inline-block; background: #4285f4; color: white; padding: 2px 8px; border-radius: 3px; font-size: 0.8em; margin-right: 5px; }
+        .rating { float: right; color: #FF9800; font-weight: bold; }
+        .star { color: #FF9800; }
+        code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Courier New', monospace; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        .key-point { background: #e3f2fd; padding: 15px; border-radius: 5px; margin: 15px 0; }
+    </style>
+</head>
+<body>
+    <h1>Chrome DevTools MCP - Let Your Coding Agent Debug Your Browser <span class="rating">★★★★☆ <span class="star">4星</span></span></h1>
+    <div class="meta">
+        <span class="tag">Chrome</span>
+        <span class="tag">MCP</span>
+        <span class="tag">DevTools</span>
+        来源: <a href="https://developer.chrome.com/blog/chrome-devtools-mcp-debug-your-browser-session" target="_blank">Chrome for Developers</a>
+    </div>
+
+    <h2>核心功能</h2>
+    <div class="key-point">
+        <strong>Coding Agent 可以直接连接活动的浏览器会话进行调试</strong>
+    </div>
+
+    <h2>主要能力</h2>
+    
+    <h3>1. 复用现有浏览器会话</h3>
+    <p>想象一下你想让 coding agent 修复一个需要登录才能触达的问题。现在 your coding agent 可以直接访问你当前的浏览会话，不需要额外登录。</p>
+
+    <h3>2. 访问活动调试会话</h3>
+    <p>Coding agent 可以访问 DevTools UI 中的活动调试会话。例如：</p>
+    <ul>
+        <li>当你在 Chrome DevTools Network 面板发现失败的请求时，选中该请求，让 coding agent 调查</li>
+        <li>在 Elements 面板中选中的元素，同样可以交给 agent 调查</li>
+    </ul>
+
+    <h2>工作原理</h2>
+    <ol>
+        <li>Chrome M144 (Beta) 新增功能：允许 Chrome DevTools MCP server 请求远程调试连接</li>
+        <li>默认情况下，远程调试连接是禁用的，用户需要显式启用</li>
+        <li>配置 --autoConnect 选项后，MCP server 会连接到活动的 Chrome 实例</li>
+        <li>每次请求时，Chrome 会显示对话框请求用户授权</li>
+        <li>调试会话活动时，Chrome 顶部显示 "Chrome is being controlled by automated test software" 横幅</li>
+    </ol>
+
+    <h2>使用步骤</h2>
+    
+    <h3>Step 1: 启用远程调试</h3>
+    <p>在 Chrome (>=144) 中：</p>
+    <ul>
+        <li>导航到 <code>chrome://inspect/#remote-debugging</code></li>
+        <li>按照对话框 UI 允许或拒绝传入的调试连接</li>
+    </ul>
+
+    <h3>Step 2: 配置 MCP Server</h3>
+    <pre><code>{
+  "mcpServers": {
+    "chrome-devtools": {
+      "command": "npx",
+      "args": [
+        "chrome-devtools-mcp@latest",
+        "--autoConnect",
+        "--channel=beta"
+      ]
+    }
+  }
+}</code></pre>
+
+    <h3>Step 3: 测试</h3>
+    <p>打开 gemini-cli，运行：</p>
+    <pre><code>Check the performance of https://developers.chrome.com</code></pre>
+
+    <h2>意义</h2>
+    <p>这标志着 AI 辅助调试的重大进步：</p>
+    <ul>
+        <li>无需在自动化和手动控制之间选择</li>
+        <li>可以自己在 DevTools 中发现问题</li>
+        <li>然后无缝交给 coding agent 修复</li>
+    </ul>
+    <p>Google 表示这只是第一步，未来会逐步通过 Chrome DevTools MCP Server 向 coding agents 暴露更多面板数据。</p>
+</body>
+</html>

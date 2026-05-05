@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>John Earnest 访谈 - K语言设计哲学</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+        .card { background: white; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h1 { color: #1565c0; font-size: 1.5rem; margin-bottom: 16px; }
+        h2 { color: #333; font-size: 1.2rem; margin: 20px 0 12px; }
+        .meta { color: #666; font-size: 0.9rem; margin-bottom: 16px; }
+        .tag { display: inline-block; background: #e8f5e9; color: #2e7d32; padding: 4px 12px; border-radius: 16px; font-size: 0.85rem; margin-right: 8px; }
+        .rating { color: #f57c00; font-weight: bold; }
+        blockquote { border-left: 4px solid #1565c0; padding-left: 16px; margin: 16px 0; color: #555; font-style: italic; }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+        .highlight { background: #fff8e1; padding: 16px; border-radius: 8px; margin: 16px 0; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>🎯 John Earnest 访谈：K语言与数组编程哲学</h1>
+        <div class="meta">
+            <span class="tag">编程语言</span>
+            <span class="tag">K语言</span>
+            <span class="tag">APL</span>
+            <span class="rating">⭐⭐⭐⭐⭐ (5星)</span>
+        </div>
+
+        <p>John Earnest 是 K语言/Octopus语言的设计者，创造了许多"在运行平台上复杂得不可思议"的项目，如 Decker（类似 HyperCard）。</p>
+
+        <h2>核心观点</h2>
+        
+        <div class="highlight">
+            <strong>关于抽象：</strong> 在APL系列语言中，理想是"不加抽象编程"——直接用语言写程序。设计讨论常围绕什么应该是原语vs惯用语。
+        </div>
+
+        <blockquote>
+            "在小说《上帝之眼中》，工程师 caste 不会只做一把椅子，而是为一个人在特定时刻做精确需要的椅子。"
+        </blockquote>
+
+        <h2>关键洞见</h2>
+        <ul>
+            <li><strong>静态类型系统被高估：</strong> 对于复杂到无法装进一个人头脑的系统，类型有助于协调社会问题；但在小规模、快速变化时，简洁性和即时性更重要</li>
+            <li><strong>Lil语言无运行时错误：</strong> 每个合法的Lil程序都有定义行为，即使愚蠢或不符合预期</li>
+            <li><strong>高水平和低水平语言是错误二分法：</strong> Paul Graham的Blub文章假设线性 scale，但实际上至少是 lattice</li>
+            <li><strong>编程语言复杂度预算：</strong> 每个语言都有复杂度预算，要花在有益的地方</li>
+        </ul>
+
+        <h2>Decker 项目</h2>
+        <p>类似 HyperCard 的创造性开发环境：</p>
+        <ul>
+            <li>文档和应用不需要硬性分离</li>
+            <li>数据存在于 deck 中，deck 就是应用</li>
+            <li>可实现自己的撤销/重做/保存加载，或直接利用环境属性</li>
+        </ul>
+
+        <blockquote>
+            "我不建议任何人用 Lil 构建百万行代码库，但它在 50 行解决问题方面很擅长。"
+        </blockquote>
+    </div>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MemOS: LLM内存操作系统 - Hugging Face Papers</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+        .card { background: white; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h1 { color: #333; font-size: 24px; margin-bottom: 8px; }
+        h2 { color: #555; font-size: 18px; margin-top: 20px; margin-bottom: 12px; }
+        .meta { color: #888; font-size: 14px; margin-bottom: 16px; }
+        .tag { display: inline-block; background: #e3f2fd; color: #1565c0; padding: 4px 12px; border-radius: 16px; font-size: 12px; margin-right: 8px; }
+        .highlight { background: #fff3e0; padding: 2px 8px; border-radius: 4px; }
+        .stars { color: #ff9800; font-size: 18px; }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+        a { color: #1976d2; }
+        .memory-types { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 16px 0; }
+        .memory-type { background: #f5f5f5; padding: 16px; border-radius: 8px; text-align: center; }
+        .memory-icon { font-size: 24px; margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>MemOS: A Memory Operating System for AI System</h1>
+        <div class="meta">
+            <span class="tag">LLM</span>
+            <span class="tag">Memory</span>
+            <span class="tag">System</span>
+            <span class="stars">⭐⭐⭐⭐⭐</span>
+        </div>
+        <div class="meta">来源: Hugging Face Papers · arxiv.org · 2025年7月</div>
+        
+        <h2>核心问题</h2>
+        <p>大型语言模型缺乏明确的<strong>内存管理系统</strong>，阻碍了长上下文推理、持续个性化和知识一致性的发展。现有模型主要依赖静态参数和短寿命的上下文状态。</p>
+        
+        <h2>MemOS 设计</h2>
+        <p>MemOS将内存视为可管理的系统资源，统一表示、调度和演化三种内存类型：</p>
+        
+        <div class="memory-types">
+            <div class="memory-type">
+                <div class="memory-icon">📝</div>
+                <div><strong>明文内存</strong></div>
+                <div style="font-size:12px;color:#666;">Plaintext</div>
+            </div>
+            <div class="memory-type">
+                <div class="memory-icon">⚡</div>
+                <div><strong>激活内存</strong></div>
+                <div style="font-size:12px;color:#666;">Activation-based</div>
+            </div>
+            <div class="memory-type">
+                <div class="memory-icon">🔧</div>
+                <div><strong>参数内存</strong></div>
+                <div style="font-size:12px;color:#666;">Parameter-level</div>
+            </div>
+        </div>
+        
+        <h2>核心创新</h2>
+        <ul>
+            <li><strong>MemCube</strong>: 基本内存单元，包含内容+元数据（来源、版本控制）</li>
+            <li><strong>内存可组合</strong>: 跨时间迁移、融合，在不同内存类型间灵活转换</li>
+            <li><strong>桥接检索与参数学习</strong>: 连接RAG与微调两种范式</li>
+            <li><strong>状态性</strong>: 超越RAG的无状态工作方式，支持生命周期控制</li>
+        </ul>
+        
+        <h2>四大挑战解决</h2>
+        <ul>
+            <li><strong>长程依赖建模</strong>: 持久状态维护和结构化上下文保留</li>
+            <li><strong>适应知识演进</strong>: 统一版本控制、来源追踪、时间感知</li>
+            <li><strong>个性化与多角色</strong>: 跨用户、角色、任务的持久记忆</li>
+            <li><strong>跨平台迁移</strong>: 记忆在不同实例间可移植</li>
+        </ul>
+        
+        <h2>性能表现</h2>
+        <p>MemOS在所有benchmark中达到最优：</p>
+        <ul>
+            <li>PreFEval个性化响应率 (0/10 turns)</li>
+            <li>PersonaMem精确度</li>
+            <li>LongMemEval整体平均分</li>
+            <li>LoCoMo LLM judge评分</li>
+        </ul>
+        
+        <h2>链接</h2>
+        <ul>
+            <li><a href="https://arxiv.org/abs/2507.03724">论文: arxiv.org/abs/2507.03724</a></li>
+        </ul>
+    </div>
+</body>
+</html>

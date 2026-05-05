@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rethinking AEO for AI Agents - Agent Web Navigation</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.6; background: #f5f5f5; }
+        .card { background: white; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h1 { color: #1a1a1a; font-size: 24px; margin-bottom: 8px; }
+        h2 { color: #2d2d2d; font-size: 18px; margin-top: 24px; margin-bottom: 12px; }
+        .meta { color: #666; font-size: 14px; margin-bottom: 16px; }
+        .rating { display: inline-block; background: #ffd700; color: #000; padding: 4px 12px; border-radius: 16px; font-weight: bold; font-size: 14px; }
+        .source { color: #0066cc; font-weight: 500; }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+        .highlight { background: #fff3cd; padding: 12px; border-radius: 8px; margin: 16px 0; }
+        .tag { display: inline-block; background: #e3f2fd; color: #1976d2; padding: 4px 10px; border-radius: 12px; font-size: 12px; margin-right: 6px; }
+        .warning { background: #ffebee; border-left: 4px solid #f44336; padding: 12px; margin: 16px 0; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Rethinking AEO when software agents navigate the web on behalf of users</h1>
+        <div class="meta">
+            <span class="rating">⭐⭐⭐⭐⭐ 5星</span>
+            <span class="source">VentureBeat</span>
+            <span>• March 16, 2026</span>
+        </div>
+        
+        <p>当 AI Agent 代表用户与网站交互时，多年来依赖的"人类行为信号"假设正在<strong>静悄悄地被侵蚀</strong>。我们如何解读数字行为？</p>
+        
+        <div class="warning">
+            <strong>核心转变：</strong>传统分析假设动摇——点击 ≠ 人类兴趣，时间 ≠ 参与度，漏斗 ≠ 购买意图。
+        </div>
+
+        <h2>🔄 变化的假设</h2>
+        <p>二十多年来，数字业务依赖于一个简单假设：网站上的每次互动都反映人类有意识的选择。</p>
+        <ul>
+            <li><strong>Clicks</strong> → 兴趣信号</li>
+            <li><strong>Time on page</strong> → 参与度</li>
+            <li><strong>Funnel movement</strong> → 购买意图</li>
+        </ul>
+        <p>现在，这个模型正在<strong>quietly erode（静悄悄被侵蚀）</strong>。</p>
+
+        <h2>🤖 AI 生成流量的不同之处</h2>
+        <ul>
+            <li>结合 ML + 自动化浏览能力</li>
+            <li>可以解释页面布局，适应界面变化</li>
+            <li>完成多步骤任务</li>
+            <li>语言模型指导决策，上下文感知</li>
+            <li>行为看起来比早期自动化更自然</li>
+        </ul>
+
+        <h2>⚠️ 为什么越来越难区分</h2>
+        <p>传统检测依赖技术异常：移动太快、路径完全一致、缺少标准浏览器特征。</p>
+        <p><strong>AI 驱动系统改变这一切：</strong></p>
+        <ul>
+            <li>通过标准浏览器操作</li>
+            <li>暂停、滚动、非线性导航</li>
+            <li>变化的时间/交互序列</li>
+            <li>行为越来越多地融入正常用法模式</li>
+        </ul>
+
+        <h2>📊 当参与度不再是我们想的那样</h2>
+        <div class="highlight">
+            <strong>电商案例：</strong>产品浏览和"加入购物车"增加，可能是 AI agent 代表用户进行价格监控或产品比较。
+        </div>
+        
+        <p><strong>各行业模式：</strong></p>
+        <ul>
+            <li>数字出版：文章参与度飙升但广告收入不匹配</li>
+            <li>SaaS：重度功能探索但转化有限</li>
+            <li>旅行平台：搜索活动增加但无预订</li>
+        </ul>
+
+        <h2>🧠 行为上下文作为补充信号</h2>
+        <ul>
+            <li><strong>人类行为</strong>：不一致、低效率、犹豫、不可预测地探索</li>
+            <li><strong>AI Agents</strong>：即使适应性强，也表现出更结构化的内部逻辑</li>
+        </ul>
+        <p>通过观察导航流程、时间变量和交互序列，团队可以<strong>概率性推断意图</strong>，而非<strong>二元分类</strong>。</p>
+
+        <h2>🔮 未来：代理连续统一体</h2>
+        <ul>
+            <li>一端：人类直接浏览</li>
+            <li>中间：用户被 AI 工具辅助</li>
+            <li>另一端：AI agents 代表用户独立行动</li>
+        </ul>
+
+        <h2>📋 企业应该关注的</h2>
+        <ul>
+            <li>重新评估如何解读参与度指标</li>
+            <li>在分析中分离活动与意图</li>
+            <li>投资情境化和概率性测量方法</li>
+            <li>随着 AI 参与度增长保持数据质量</li>
+            <li>将信任和隐私视为设计原则</li>
+        </ul>
+
+        <div>
+            <span class="tag">#AI</span>
+            <span class="tag">#Analytics</span>
+            <span class="tag">#Agent</span>
+            <span class="tag">#WebTraffic</span>
+            <span class="tag">#AEO</span>
+        </div>
+    </div>
+</body>
+</html>

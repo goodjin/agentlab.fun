@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bigoish: Rust算法复杂度实证测试</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; }
+        h1 { color: #333; border-bottom: 2px solid #333; padding-bottom: 10px; }
+        h2 { color: #555; margin-top: 30px; }
+        code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        .tag { display: inline-block; background: #e0e0e0; padding: 2px 8px; border-radius: 3px; font-size: 12px; margin-right: 5px; }
+        .rating { color: #f5a623; }
+    </style>
+</head>
+<body>
+    <h1>Bigoish: Rust算法复杂度实证测试</h1>
+    
+    <p><span class="tag">Rust</span> <span class="tag">Testing</span> <span class="tag">Performance</span></p>
+    
+    <p class="rating">评分: ★★★★☆ (4/5)</p>
+    
+    <h2>概述</h2>
+    <p><strong>Bigoish</strong> 是一个 Rust 测试库，用于通过实验验证算法的时间复杂度是否符合预期。你是否曾实现了一个新的排序算法，想知道它是否真的是 O(n log n)？有了 bigoish，你可以编写测试来断言特定的经验计算复杂度。</p>
+    
+    <h2>核心功能</h2>
+    <ul>
+        <li><strong>实证复杂度测试</strong>: 通过实际运行测量，验证算法复杂度</li>
+        <li><strong>多模型比较</strong>: 自动与常数、线性、二次、三次、平方根、对数等多种模型对比</li>
+        <li><strong>可视化输出</strong>: 测试失败时生成图表，直观展示拟合效果</li>
+        <li><strong>无障碍支持</strong>: 支持屏幕阅读器禁用可视化</li>
+    </ul>
+    
+    <h2>示例代码</h2>
+    <pre><code>use bigoish::{N, Log, assert_best_fit, growing_inputs};
+
+fn sort(mut v: Vec<i64>) -> Vec<i64> {
+    v.sort();
+    v
+}
+
+fn make_vec(n: usize) -> Vec<i64> {
+    use fastrand;
+    std::iter::repeat_with(|| fastrand::i64(..)).take(n).collect()
+}
+
+assert_best_fit(
+    N * Log(N),  // 期望复杂度: O(n log n)
+    sort,
+    growing_inputs(10, make_vec, 25),
+);</code></pre>
+    
+    <h2>使用建议</h2>
+    <ul>
+        <li>使用足够的输入数量 (20个比4个好)</li>
+        <li>输入应跨越多个数量级</li>
+        <li>最小输入规模要足够大，避免噪声</li>
+        <li>在 release 模式下运行测试以获得准确结果</li>
+    </ul>
+    
+    <h2>技术细节</h2>
+    <ul>
+        <li><strong>测量方式</strong>: Linux上尝试使用CPU指令计数，失败则回退到CPU时间</li>
+        <li><strong>支持的模型</strong>: Constant, Log, N, N², N³, √n, n log n, log log n</li>
+        <li><strong>灵感来源</strong>: Python的bigO库，基于Goldsmith等人的论文</li>
+    </ul>
+    
+    <h2>链接</h2>
+    <ul>
+        <li><a href="https://docs.rs/bigoish/">Docs.rs 文档</a></li>
+        <li><a href="https://crates.io/crates/bigoish">Crates.io</a></li>
+    </ul>
+    
+    <hr>
+    <p><em>来源: Lobsters (performance tag) | 发现日期: 2026-03-27</em></p>
+</body>
+</html>

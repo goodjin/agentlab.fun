@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemma 4 - Google DeepMind最强开源模型</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #ffffff;
+            color: #333;
+        }
+        h1 {
+            font-size: 28px;
+            border-bottom: 3px solid #4285f4;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        h2 {
+            font-size: 22px;
+            color: #1a73e8;
+            margin-top: 30px;
+        }
+        h3 {
+            font-size: 18px;
+            color: #34a853;
+        }
+        .meta {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        .highlight {
+            background: #e8f5e9;
+            padding: 15px;
+            border-left: 4px solid #34a853;
+            margin: 15px 0;
+        }
+        .warning {
+            background: #fff3e0;
+            padding: 15px;
+            border-left: 4px solid #ff9800;
+            margin: 15px 0;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin: 10px 0;
+        }
+        .benchmark {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        code {
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "SF Mono", Monaco, "Courier New", monospace;
+        }
+        a {
+            color: #1a73e8;
+        }
+    </style>
+</head>
+<body>
+    <h1>Gemma 4 — Google DeepMind最强开源模型</h1>
+    
+    <div class="meta">
+        <span>来源: deepmind.google</span> | 
+        <span>发布时间: 2026-04-04</span> | 
+        <span>标签: AI / Open Source / LLM / Agent</span>
+    </div>
+
+    <h2>概述</h2>
+    <p>Gemma 4是Google DeepMind发布的最新开源模型系列，基于Gemini 3研究和技术构建，主打"最大化每参数的智能"（intelligence-per-parameter）。这是Gemma系列迄今为止最重要的升级，在移动设备和PC上实现了前沿级别的智能水平。</p>
+
+    <h2>核心能力</h2>
+
+    <h3>1. Agentic Workflows（代理工作流）</h3>
+    <p>构建能够规划、导航应用并代表用户完成任务的自主代理，原生支持<strong>function calling</strong>。这是Gemma 4最关键的突破点。</p>
+
+    <h3>2. 多模态推理</h3>
+    <p>强大的音频和视觉理解能力，提供丰富的多模态支持。</p>
+
+    <h3>3. 140种语言支持</h3>
+    <p>创建超越翻译的多语言体验，理解文化语境。</p>
+
+    <h3>4. 高效架构</h3>
+    <p>可在自有硬件上运行，实现高效开发和部署。</p>
+
+    <h2>性能基准测试</h2>
+    
+    <div class="benchmark">
+        <table>
+            <tr>
+                <th>基准测试</th>
+                <th>Gemma 4 31B</th>
+                <th>Gemma 4 26B</th>
+                <th>Gemma 4 2B</th>
+                <th>Gemma 3 27B</th>
+            </tr>
+            <tr>
+                <td>Arena AI (IT Thinking)</td>
+                <td>1452</td>
+                <td>1441</td>
+                <td>1365</td>
+                <td>—</td>
+            </tr>
+            <tr>
+                <td>MMMLU Multilingual</td>
+                <td>85.2%</td>
+                <td>82.6%</td>
+                <td>69.4%</td>
+                <td>67.6%</td>
+            </tr>
+            <tr>
+                <td>MMMU Pro (多模态)</td>
+                <td>76.9%</td>
+                <td>73.8%</td>
+                <td>52.6%</td>
+                <td>49.7%</td>
+            </tr>
+            <tr>
+                <td>AIME 2026 数学</td>
+                <td>89.2%</td>
+                <td>88.3%</td>
+                <td>42.5%</td>
+                <td>20.8%</td>
+            </tr>
+            <tr>
+                <td>LiveCodeBench (编程)</td>
+                <td>80.0%</td>
+                <td>77.1%</td>
+                <td>52.0%</td>
+                <td>29.1%</td>
+            </tr>
+            <tr>
+                <td>τ2-bench (Agentic Tool Use)</td>
+                <td>86.4%</td>
+                <td>85.5%</td>
+                <td>57.5%</td>
+                <td>6.6%</td>
+            </tr>
+            <tr>
+                <td>GPQA Diamond (科学知识)</td>
+                <td>84.3%</td>
+                <td>82.3%</td>
+                <td>58.6%</td>
+                <td>42.4%</td>
+            </tr>
+        </table>
+    </div>
+
+    <h2>关键洞察</h2>
+
+    <div class="highlight">
+        <h3>τ2-bench 突破性提升</h3>
+        <p>Gemma 4 31B在agentic tool use任务上达到<strong>86.4%</strong>，而Gemma 3仅为6.6%。这是质的飞跃，表明Google在构建能够实际执行多步骤任务的AI代理方面取得了重大进展。</p>
+    </div>
+
+    <div class="highlight">
+        <h3>数学和编程能力大幅提升</h3>
+        <p>AIME 2026数学基准：Gemma 4 31B达到89.2%（vs 上代20.8%）。LiveCodeBench编程：80.0%（vs 上代29.1%）。</p>
+    </div>
+
+    <div class="warning">
+        <h3>移动端优化</h3>
+        <p>Gemma 4特别强调"maximum compute and memory efficiency"，面向移动和物联网设备优化。这与苹果的On-Device AI战略形成直接竞争。</p>
+    </div>
+
+    <h2>行业意义</h2>
+    <ul>
+        <li><strong>开源LLM竞争加剧</strong>：Gemma 4的agentic capabilities将推动开源社区在自主代理领域的快速发展</li>
+        <li><strong>移动端AI战局</strong>：Google和苹果在设备端AI的竞争日趋激烈</li>
+        <li><strong>Function Calling标准化</strong>：原生function calling支持将促进AI代理的工具使用标准化</li>
+    </ul>
+
+    <h2>相关链接</h2>
+    <ul>
+        <li><a href="https://deepmind.google/models/gemma/gemma-4/" target="_blank">官方模型页面</a></li>
+        <li><a href="https://ai.google.dev/gemma/docs/core/model_card_4" target="_blank">Model Card</a></li>
+    </ul>
+
+    <hr>
+    <p style="color: #666; font-size: 12px;">
+        收录时间: 2026-04-04 | 来源: Hacker News (1741 points)
+    </p>
+</body>
+</html>

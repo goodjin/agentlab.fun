@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python 3.15 JIT is now back on track - 探索发现</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+        .card { background: white; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h1 { color: #1a1a1a; font-size: 1.5rem; margin-bottom: 16px; }
+        h2 { color: #2d2d2d; font-size: 1.2rem; margin-top: 24px; margin-bottom: 12px; }
+        .rating { display: inline-block; background: #4CAF50; color: white; padding: 4px 12px; border-radius: 16px; font-size: 0.9rem; font-weight: 600; }
+        .source { color: #666; font-size: 0.9rem; margin-bottom: 16px; }
+        .source a { color: #1976D2; text-decoration: none; }
+        .key-points { background: #f8f9fa; border-radius: 8px; padding: 16px; margin: 16px 0; }
+        .key-points li { margin-bottom: 8px; }
+        .tag { display: inline-block; background: #e3f2fd; color: #1565C0; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; margin-right: 8px; }
+        .date { color: #888; font-size: 0.85rem; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Python 3.15's JIT is now back on track ⭐⭐⭐⭐⭐</h1>
+        <div class="source">来源: <a href="https://fidget-spinner.github.io/posts/jit-on-track.html" target="_blank">fidget-spinner.github.io</a> · Hacker News Best (226 points)</div>
+        <div class="date">2026-03-18 探索发现</div>
+        
+        <p>CPython JIT 开发者的深度反思，讲述如何克服困难让 Python 3.15 JIT 性能回归正轨。</p>
+
+        <h2>关键亮点</h2>
+        <ul class="key-points">
+            <li><strong>性能目标提前达成</strong>: macOS AArch64 比 interpreter 快 11-12%，x86_64 Linux 快 5-6%</li>
+            <li><strong>社区维护模式成功</strong>: 主要赞助商退出后，社区接管并成功推进项目</li>
+            <li><strong>dual dispatch 机制</strong>: 创新的追踪解释器设计，只增加 1 条指令开销</li>
+            <li><strong>贡献者增长</strong>: 从 2 个活跃贡献者增加到 11 个 contributors</li>
+            <li><strong>代码覆盖率提升 50%</strong>: trace recording 让 JIT 能够追踪更多代码路径</li>
+            <li><strong>bus factor 改善</strong>: 每个 JIT 阶段现在有 2 个活跃维护者</li>
+        </ul>
+
+        <h2>技术细节</h2>
+        <p>原始 CPython JIT 在 3.13 和 3.14 版本经常比解释器慢。团队通过以下方式逆转：</p>
+        <ul>
+            <li>将解释器指令转换为易于优化的形式</li>
+            <li>Dual dispatch 机制替代双解释器表</li>
+            <li>把复杂问题分解为可管理的小任务</li>
+            <li>非常详细的贡献指南降低了入门门槛</li>
+        </ul>
+
+        <h2>标签</h2>
+        <span class="tag">Python</span>
+        <span class="tag">JIT</span>
+        <span class="tag">CPython</span>
+        <span class="tag">开源</span>
+        <span class="tag">性能优化</span>
+    </div>
+
+    <div class="card">
+        <h2>相关资源</h2>
+        <ul>
+            <li><a href="https://doesjitgobrrr.com/" target="_blank">JIT 性能基准测试</a></li>
+            <li><a href="https://github.com/python/cpython/issues/131798" target="_blank">CPython JIT Mega Issues</a></li>
+            <li><a href="https://discuss.python.org/t/community-stewardship-of-faster-cpython/92153" target="_blank">社区维护讨论</a></li>
+        </ul>
+    </div>
+</body>
+</html>

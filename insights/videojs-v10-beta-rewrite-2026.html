@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video.js v10 Beta: 16年历史重写，88%体积缩减</title>
+  <style>
+    :root { --bg: #0d1117; --fg: #c9d1d9; --accent: #58a6ff; --card: #161b22; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; background: var(--bg); color: var(--fg); max-width: 800px; margin: 0 auto; padding: 2rem; line-height: 1.6; }
+    h1 { color: var(--accent); font-size: 1.8rem; margin-bottom: 0.5rem; }
+    .meta { color: #8b949e; font-size: 0.9rem; margin-bottom: 1.5rem; }
+    .score { display: inline-block; background: linear-gradient(135deg, #f0883e, #d29922); color: #000; font-weight: bold; padding: 0.2rem 0.6rem; border-radius: 4px; margin-right: 0.5rem; }
+    .tag { display: inline-block; background: #21262d; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.8rem; margin-right: 0.3rem; margin-bottom: 0.3rem; }
+    .card { background: var(--card); border-radius: 8px; padding: 1.5rem; margin: 1.5rem 0; border: 1px solid #30363d; }
+    .highlight { color: #7ee787; font-weight: 600; }
+    .url { color: #58a6ff; word-break: break-all; }
+    ul { padding-left: 1.5rem; }
+    li { margin-bottom: 0.5rem; }
+    .stats-table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.85rem; }
+    .stats-table th, .stats-table td { padding: 0.5rem; text-align: left; border-bottom: 1px solid #30363d; }
+    .stats-table th { color: #8b949e; }
+  </style>
+</head>
+<body>
+  <h1>Video.js v10 Beta: Hello, World (again)</h1>
+  <div class="meta">
+    <span class="score">⭐⭐⭐⭐⭐</span>
+    <span class="tag">Open Source</span>
+    <span class="tag">JavaScript</span>
+    <span class="tag">Video</span>
+    <span class="tag">Performance</span>
+    <span class="tag">Rewrite</span>
+    <span class="tag">AI</span>
+  </div>
+  
+  <div class="card">
+    <h3>背景</h3>
+    <p>Video.js 16年前为帮助从Flash过渡到HTML5视频而构建，如今团队宣布发布v10.0.0 beta——这是与Plyr、Vidstack、Media Chrome合作的大规模重写，合计<strong>75,000+ GitHub stars</strong>和<strong>数十亿次月度视频播放</strong>。</p>
+  </div>
+
+  <div class="card">
+    <h3>核心亮点</h3>
+    <ul>
+      <li><span class="highlight">88%体积缩减</span>：默认bundle从260KB降至97KB (gzip: 75KB→25KB)</li>
+      <li><span class="highlight">新引擎SPF</span>：简单HLS场景仅12%文件体积(对比HLS.js-light的328KB降至38KB)</li>
+      <li>分离State/UI/Media组件，feature按需加载(类似Zustand slices模式)</li>
+      <li><span class="highlight">AI agent友好设计</span>：为LLM构建的player可被正确理解和修改</li>
+      <li>全新一线React、TypeScript、Tailwind支持</li>
+      <li>Sam Potts(Plyr作者，29k stars)设计全新皮肤</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Bundle大小对比</h3>
+    <table class="stats-table">
+      <tr><th>Player</th><th>minified (KB)</th><th>gzip (KB)</th></tr>
+      <tr><td>Video.js v8 (core)</td><td>260.5</td><td>75.2</td></tr>
+      <tr><td>Plyr</td><td>109.8</td><td>32.6</td></tr>
+      <tr><td><strong>Video.js v10 Video [HTML]</strong></td><td><strong>97.4</strong></td><td><strong>25.1</strong></td></tr>
+      <tr><td><strong>Video.js v10 Video [React]</strong></td><td><strong>62.0</strong></td><td><strong>18.0</strong></td></tr>
+      <tr><td><strong>Background Video + SPF [React]</strong></td><td><strong>49.2</strong></td><td><strong>15.6</strong></td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>流媒体引擎对比</h3>
+    <table class="stats-table">
+      <tr><th>Engine</th><th>minified (KB)</th><th>gzip (KB)</th></tr>
+      <tr><td>dash.js</td><td>962.1</td><td>294.2</td></tr>
+      <tr><td>Shaka</td><td>753.0</td><td>239.1</td></tr>
+      <tr><td>HLS.js</td><td>503.4</td><td>155.9</td></tr>
+      <tr><td>VHS (v8)</td><td>434.4</td><td>127.6</td></tr>
+      <tr><td><strong>SPF (v10)</strong></td><td><strong>38.5</strong></td><td><strong>12.1</strong></td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>架构创新</h3>
+    <ul>
+      <li><strong>组件化设计</strong>：State、UI、Media分离，通过API合约协作</li>
+      <li><strong>64KB大页面</strong>：替代传统4KB，减少S3请求数</li>
+      <li><strong>Seekable压缩</strong>：每页面组编码为多个zstd帧，支持范围GET</li>
+      <li><strong>Query-plan预取</strong>：通过EXPLAIN QUERY PLAN预测并预取所需页面</li>
+      <li><strong>AI友好</strong>：unstyled UI primitives，类似Radix/Base UI</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>意义</h3>
+    <p>这是Web视频播放器领域的重大里程碑——不仅代表体积的极致精简，更代表面向AI agent开发范式的重要转变。重写不仅是代码层面的现代化，更是对"AI时代如何构建web组件"的回答。</p>
+    <p class="meta">来源: <span class="url">https://videojs.org/blog/videojs-v10-beta-hello-world-again</span></p>
+  </div>
+</body>
+</html>

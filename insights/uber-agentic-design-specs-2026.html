@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Uber Built an Agentic System to Automate Design Specs in Minutes</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+        .card { background: white; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h1 { color: #1a1a1a; font-size: 24px; margin-bottom: 8px; }
+        .meta { color: #666; font-size: 14px; margin-bottom: 16px; }
+        .tag { display: inline-block; background: #e8f5e9; color: #2e7d32; padding: 4px 12px; border-radius: 16px; font-size: 12px; margin-right: 8px; }
+        .rating { color: #f59e0b; font-size: 18px; }
+        .summary { margin: 16px 0; }
+        .summary h3 { color: #333; font-size: 16px; margin-bottom: 8px; }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; color: #444; }
+        .key-insight { background: #fff3e0; border-left: 4px solid #ff9800; padding: 12px 16px; margin: 16px 0; border-radius: 0 8px 8px 0; }
+        a { color: #1976d2; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>How Uber Built an Agentic System to Automate Design Specs in Minutes</h1>
+        <div class="meta">
+            <span class="tag">AI Agent</span>
+            <span class="tag">Design Systems</span>
+            <span class="tag">Figma</span>
+            <span class="tag">MCP</span>
+            <span class="rating">★★★★★</span>
+        </div>
+        <p class="meta">Source: Uber Engineering Blog | Date: March 11, 2026</p>
+        
+        <div class="summary">
+            <h3>核心摘要</h3>
+            <p>Uber 设计系统团队使用 AI Agent + Figma Console MCP，在几分钟内自动生成过去需要数周才能完成的组件设计规范。</p>
+        </div>
+
+        <div class="key-insight">
+            <strong>🚀 关键突破：</strong>整个 Pipeline 本地运行，AI Agent 直接读取 Figma 文件，生成 6 大类规范：Anatomy、API、Properties、Color Annotation、Structure、Screen Reader
+        </div>
+
+        <h3>系统架构</h3>
+        <ul>
+            <li><strong>uSpec:</strong> 连接 Cursor Agent 到 Figma 的开源中间件</li>
+            <li><strong>Figma Console MCP:</strong> 开源 MCP 服务器，本地 WebSocket 连接</li>
+            <li><strong>Agent Skills:</strong> 每个规范类型都有专门的 Skill，包含验证规则和参考文档</li>
+        </ul>
+
+        <h3>企业级优势</h3>
+        <ul>
+            <li><strong>安全：</strong> 纯本地运行，设计数据不离开网络</li>
+            <li><strong>一致性：</strong> 模板强制结构，告别人工不一致</li>
+            <li><strong>速度：</strong> 完整屏幕阅读器规范 2 分钟生成</li>
+            <li><strong>精准：</strong> 读取真实 Token 名称，无转录错误</li>
+            <li><strong>多平台：</strong> 单次提示生成 iOS/Android/Web 无障碍规范</li>
+        </ul>
+
+        <h3>技术亮点</h3>
+        <ul>
+            <li>MLA (Multi-Head Latent Attention): O(N²) → O(N×L) 复杂度优化</li>
+            <li>Multi-hash Embedding: 百万级商户的高效嵌入</li>
+            <li>Target-aware Transformer: 用候选广告作为 Query 计算相关性</li>
+        </ul>
+
+        <h3>开源基础</h3>
+        <p>基于 Southleft 开发的 <a href="https://github.com/southleft/figma-console-mcp">Figma Console MCP</a>，连接 AI Agent 到 Figma 本地数据。</p>
+
+        <h3>原文链接</h3>
+        <p><a href="https://www.uber.com/blog/automate-design-specs/">https://www.uber.com/blog/automate-design-specs/</a></p>
+    </div>
+</body>
+</html>

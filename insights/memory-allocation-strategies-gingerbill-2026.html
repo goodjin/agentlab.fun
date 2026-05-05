@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Allocation Strategies - gingerBill</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.6; background: #f5f5f5; }
+        .card { background: white; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h1 { color: #1a1a1a; font-size: 1.8em; margin-bottom: 10px; }
+        h2 { color: #2d2d2d; font-size: 1.3em; margin-top: 20px; }
+        .meta { color: #666; font-size: 0.9em; margin-bottom: 20px; }
+        .tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+        .tag { background: #e8f4fd; color: #0066cc; padding: 4px 12px; border-radius: 16px; font-size: 0.85em; }
+        table { border-collapse: collapse; width: 100%; margin: 16px 0; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background: #f8f9fa; }
+        .rating { display: inline-block; background: #28a745; color: white; padding: 4px 12px; border-radius: 4px; font-weight: bold; }
+        a { color: #0066cc; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <span class="rating">⭐⭐⭐⭐</span>
+        <h1>Memory Allocation Strategies</h1>
+        <div class="meta">Source: gingerbill.org | Author: gingerBill | Series Started: 2019</div>
+        <div class="tags">
+            <span class="tag">Memory</span>
+            <span class="tag">C</span>
+            <span class="tag">Systems Programming</span>
+            <span class="tag">Optimization</span>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Summary</h2>
+        <p>A comprehensive series on memory allocation strategies for systems programmers. Challenges conventional wisdom about stack vs heap and provides a more nuanced understanding of virtual memory.</p>
+    </div>
+
+    <div class="card">
+        <h2>Key Insight: Beyond Stack vs Heap</h2>
+        <p>Most programmers are taught a dualistic model: stack (automatic, fast) vs heap (manual, slow). This is wrong.</p>
+        
+        <p><strong>Reality:</strong> Modern OSes virtualize memory per-process. Memory is a linear address space that can be divided however you want.</p>
+        
+        <h3>The Monistic Model</h3>
+        <ul>
+            <li>All memory is virtual and linear</li>
+            <li>Stack is just one section of that address space</li>
+            <li>You can create your own "heaps" for different purposes</li>
+            <li>Understanding this opens up optimization opportunities</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>Allocation Categories</h2>
+        <table>
+            <tr>
+                <th></th>
+                <th>Size Known</th>
+                <th>Size Unknown</th>
+            </tr>
+            <tr>
+                <th>Lifetime Known</th>
+                <td>~95% of allocations</td>
+                <td>~4% of allocations</td>
+            </tr>
+            <tr>
+                <th>Lifetime Unknown</th>
+                <td>~1% of allocations</td>
+                <td>&lt;1% of allocations</td>
+            </tr>
+        </table>
+        
+        <p>Most allocations have known size AND known lifetime! This means most allocations can be optimized heavily.</p>
+    </div>
+
+    <div class="card">
+        <h2>Topics Covered</h2>
+        <ul>
+            <li>Virtual memory fundamentals</li>
+            <li>Stack vs heap myth</li>
+            <li>Arena allocators</li>
+            <li>Pool allocators</li>
+            <li>Free-list allocators</li>
+            <li>Buddy allocator</li>
+            <li>Slab allocator</li>
+            <li>Stack allocators (linear)</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>Why This Matters</h2>
+        <p>For game engines, real-time systems, and performance-critical code, understanding memory allocation is crucial. This series provides a foundation for writing custom allocators tailored to your use case.</p>
+    </div>
+
+    <div class="card">
+        <h2>Links</h2>
+        <p><a href="https://www.gingerbill.org/series/memory-allocation-strategies/" target="_blank">Full Series →</a></p>
+    </div>
+</body>
+</html>

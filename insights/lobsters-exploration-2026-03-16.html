@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lobsters 探索发现 - 2026-03-16</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h1 { color: #333; }
+        h2 { color: #555; margin-top: 0; }
+        .tag {
+            display: inline-block;
+            background: #e8f4fd;
+            color: #1a73e8;
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            margin-right: 8px;
+        }
+        .star { color: #f59e0b; }
+        .url { color: #1a73e8; word-break: break-all; }
+        .date { color: #888; font-size: 14px; }
+        code {
+            background: #f1f3f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <h1>🧬 Lobsters 探索发现</h1>
+    <p class="date">2026-03-16 | 来源: <a href="https://lobste.rs">lobste.rs</a></p>
+    
+    <div class="card">
+        <h2>LLM Architecture Gallery ⭐⭐⭐⭐⭐</h2>
+        <span class="tag">AI</span>
+        <span class="tag">LLM</span>
+        <span class="tag">Architecture</span>
+        <p><strong>评分:</strong> <span class="star">★★★★★</span></p>
+        <p><strong>来源:</strong> <a class="url" href="https://sebastianraschka.com/llm-architecture-gallery/">sebastianraschka.com/llm-architecture-gallery/</a></p>
+        <p><strong>简介:</strong> Sebastian Raschka 维护的LLM架构比较页面，收录了各种主流大语言模型的架构细节。</p>
+        <ul>
+            <li><strong>MoE (Mixture of Experts):</strong> DeepSeek V3, Qwen3, GPT-4o, etc.</li>
+            <li><strong>MLA (Multi-Latent Attention):</strong> DeepSeek 系列</li>
+            <li><strong>Attention 机制:</strong> GQA, QK-Norm, Sliding Window, etc.</li>
+            <li><strong>更新频率:</strong> 持续更新，最新到 2026-03</li>
+        </ul>
+        <p><strong>相关概念:</strong> <code>Dense</code> <code>Sparse MoE</code> <code>Hybrid</code> <code>RoPE</code> <code>NoPE</code></p>
+    </div>
+
+    <div class="card">
+        <h2>nCPU: Neural Network CPU ⭐⭐⭐⭐⭐</h2>
+        <span class="tag">AI</span>
+        <span class="tag">Hardware</span>
+        <span class="tag">Innovation</span>
+        <p><strong>评分:</strong> <span class="star">★★★★★</span></p>
+        <p><strong>来源:</strong> <a class="url" href="https://github.com/robertcprice/nCPU">github.com/robertcprice/nCPU</a></p>
+        <p><strong>简介:</strong> 一个完全用神经网络实现的CPU，从ALU到操作系统到编译器，全部都是神经网络或GPU原生运行。</p>
+        <ul>
+            <li><strong>Neural ALU:</strong> 13个训练好的模型实现加法、减法、乘法、位运算等</li>
+            <li><strong>neurOS:</strong> 11个神经模型实现 MMU, TLB, Cache, Scheduler, Compiler</li>
+            <li><strong>GPU Compute:</strong> Rust Metal kernel, ~4M IPS</li>
+            <li><strong>UNIX OS:</strong> 完整的 fork/pipe/wait, 25命令 shell</li>
+            <li><strong>自托管编译器:</strong> 4200行 C 编译器，完全在 GPU 上运行</li>
+            <li><strong>BusyBox:</strong> 真实 Linux ELF 二进制在 GPU 上运行</li>
+        </ul>
+        <p><strong>核心理念:</strong> "The AI doesn't run on a computer. The AI is the computer."</p>
+    </div>
+
+    <div class="card">
+        <h2>其他发现</h2>
+        <ul>
+            <li><strong>Tree-style invite systems reduce AI slop</strong> - 探讨如何通过邀请系统减少AI垃圾内容</li>
+            <li><strong>Rust Project Perspectives on AI</strong> - Rust 项目对 AI 的看法总结</li>
+            <li><strong>Why I Love FreeBSD</strong> - FreeBSD 爱好者分享</li>
+            <li><strong>pgtui</strong> - Postgres TUI 客户端 (Rust)</li>
+        </ul>
+    </div>
+
+    <p><a href="/insights/index.html">← 返回首页</a></p>
+</body>
+</html>

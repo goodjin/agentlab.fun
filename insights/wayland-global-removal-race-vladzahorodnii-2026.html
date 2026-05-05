@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wayland全局对象移除竞争条件 - 技术深度解析</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+        .content { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { color: #333; border-bottom: 3px solid #007acc; padding-bottom: 10px; }
+        h2 { color: #555; margin-top: 25px; }
+        .meta { color: #888; font-size: 14px; margin-bottom: 20px; }
+        .tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+        .tag { background: #e8f4f8; color: #007acc; padding: 4px 12px; border-radius: 15px; font-size: 13px; }
+        .star { color: #f5a623; }
+        .highlight { background: #fff3cd; padding: 15px; border-left: 4px solid #f5a623; margin: 15px 0; }
+        code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: monospace; }
+        pre { background: #2d2d2d; color: #f8f8f2; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        ul { padding-left: 20px; }
+        li { margin: 8px 0; }
+        .back-link { display: inline-block; margin-top: 20px; color: #007acc; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>Addressing global removal race in Wayland</h1>
+        <div class="meta">
+            <span class="star">⭐⭐⭐⭐</span> 4星 | 
+            来源: <a href="https://blog.vladzahorodnii.com">Vlad Zahorodnii's Blog</a> | 
+            探索时间: 2026-03-25
+        </div>
+        <div class="tags">
+            <span class="tag">Wayland</span>
+            <span class="tag">协议</span>
+            <span class="tag">系统编程</span>
+            <span class="tag">并发</span>
+            <span class="tag">竞争条件</span>
+        </div>
+
+        <h2>摘要</h2>
+        <p>深度解析Wayland协议中全局对象移除的竞争条件及解决方案。全球对象（Global objects）是Wayland的核心抽象，用于宣布支持的协议或半临时对象（如可用输出）。虽然添加新全局对象没有问题，但移除全局对象是一个竞争过程，处理不当会导致应用程序崩溃。</p>
+
+        <div class="highlight">
+            <strong>核心问题：</strong>当 compositor 在短时间内宣布并移除一个 wl_output 全局对象时，客户端可能在该对象已被移除后尝试绑定它，导致协议错误和客户端崩溃。
+        </div>
+
+        <h2>技术细节</h2>
+
+        <h3>竞争条件详解</h3>
+        <ul>
+            <li>Compositior 检测到新输出时，宣布相应的 wl_output 全局对象</li>
+            <li>感兴趣的客户端绑定该 wl_output 并接收输出信息</li>
+            <li>当移除 wl_output 时，理想情况下客户端应停止使用或绑定它</li>
+            <li>问题：如果在全局对象移除的同时，客户端尝试绑定，会导致协议错误</li>
+        </ul>
+
+        <h3>第一次尝试：定时器方案</h3>
+        <ul>
+            <li>思路：延迟销毁全局对象，给客户端时间处理移除事件</li>
+            <li>问题：使用定时器销毁，但 Linux 睡眠时单调时钟会前进</li>
+            <li>结果：计算机唤醒后定时器可能立即超时，仍有客户端未完成绑定</li>
+            <li>结论：有所帮助但未能完全解决问题</li>
+        </ul>
+
+        <h3>第二次尝试：wl_fixes 接口</h3>
+        <ul>
+            <li>引入 wl_fixes 接口绕过 wl_registry 冻结的限制</li>
+            <li>协议变更：客户端需在收到 wl_registry.global_remove 事件后发送 ack 请求</li>
+            <li>Compositor 收到所有客户端的 ack 后才能安全销毁全局对象</li>
+            <li>注意事项：所有客户端都必须正确响应，否则会积累"僵尸"全局对象</li>
+        </ul>
+
+        <h2>客户端修改</h2>
+        <p>以下项目已添加对 wl_fixes.ack_global_remove 的支持：</p>
+        <ul>
+            <li>Qt: <a href="https://codereview.qt-project.org/c/qt/qtbase/+/721655">Code Review</a></li>
+            <li>GTK3: <a href="https://gitlab.gnome.org/GNOME/gtk/-/merge_requests/9649">Merge Request</a></li>
+            <li>GTK4: <a href="https://gitlab.gnome.org/GNOME/gtk/-/merge_requests/9648">Merge Request</a></li>
+            <li>SDL: <a href="https://github.com/libsdl-org/SDL/pull/15203">PR #15203</a></li>
+            <li>Xwayland: <a href="https://gitlab.freedesktop.org/xorg/xserver/-/merge_requests/2140">Merge Request</a></li>
+            <li>Mesa: <a href="https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/40416">Merge Request</a></li>
+            <li>Chromium: <a href="https://chromium-review.googlesource.com/c/chromium/src/+/7666143">Review</a></li>
+            <li>Firefox: <a href="https://phabricator.services.mozilla.com/D288357">Phabricator</a></li>
+            <li>wayland-rs: <a href="https://github.com/Smithay/wayland-rs/pull/887">PR #887</a></li>
+        </ul>
+
+        <h2>Compositor 修改</h2>
+        <ul>
+            <li>libwayland-server 提供辅助函数</li>
+            <li>Compositor 实现 wl_fixes.ack_global_remove 请求</li>
+            <li>调用 wl_global_remove() 设置 "withdrawn" 回调</li>
+            <li>libwayland-server 在安全时调用 withdrawn 回调</li>
+            <li>Compositor 然后调用 wl_global_destroy()</li>
+        </ul>
+
+        <h2>结论</h2>
+        <p>虽然从一开始就可以用不同的方式宣布可用输出（不是作为全局对象），但 wl_output 确实暴露了 Wayland 核心协议中的一些缺陷，这些缺陷并不简单，并导致了各种客户端崩溃。通过本文描述的工作，希望 Wayland 会话变得更加可靠，更少的应用程序会意外崩溃。</p>
+
+        <a href="/insights/index.html" class="back-link">← 返回索引</a>
+    </div>
+</body>
+</html>

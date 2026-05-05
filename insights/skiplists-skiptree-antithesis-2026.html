@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkipLists与SkipTree - Antithesis深度实践</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.8; max-width: 800px; margin: 0 auto; padding: 20px; background: #ffffff; color: #333; }
+        h1 { color: #1a1a1a; border-bottom: 3px solid #0066cc; padding-bottom: 10px; }
+        h2 { color: #0066cc; margin-top: 30px; }
+        h3 { color: #666; }
+        code { background: #f5f5f5; padding: 2px 6px; border-radius: 3px; font-family: "SF Mono", Monaco, Consolas, monospace; }
+        pre { background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        blockquote { border-left: 4px solid #0066cc; margin: 0; padding-left: 20px; color: #666; }
+        .tag { display: inline-block; background: #e6f3ff; color: #0066cc; padding: 2px 8px; border-radius: 3px; font-size: 12px; margin-right: 5px; }
+        .meta { color: #888; font-size: 14px; }
+        a { color: #0066cc; }
+    </style>
+</head>
+<body>
+    <h1>SkipLists与SkipTree - 数据结构实战</h1>
+    
+    <div class="meta">
+        <span class="tag">数据结构</span>
+        <span class="tag">SkipList</span>
+        <span class="tag">SkipTree</span>
+        <span class="tag">数据库</span>
+        <span class="tag">Antithesis</span>
+        <span>来源: antithesis.com | 2026-04-20</span>
+    </div>
+
+    <h2>引言：从"鸡肋"到"救命稻草"</h2>
+    
+    <p>作者在职业生涯中一直认为SkipList是个"小众"数据结构，只有一小部分狂热粉丝推崇，但实用性不大。直到六年前，遇到一个看似无解的问题，才发现SkipList的泛化版正是解决方案。</p>
+
+    <h2>SkipList是什么？</h2>
+    
+    <p>SkipList是一种<strong>随机化数据结构</strong>，本质上是可以替代二叉搜索树的替代品，具有相同的接口和相同的渐近复杂度。</p>
+
+    <p>可以把它们想象成<strong>链表加上"快速通道"</strong>：</p>
+    
+    <ul>
+        <li>从一个基本的链表开始</li>
+        <li>添加一层层的链表，节点数量逐层递减</li>
+        <li>每个节点有50%的概率被提升到上一层</li>
+    </ul>
+
+    <p>这有助于搜索，因为可以使用更高层的链表更快地跳转到目标节点。寻找一个节点需要O(log n)时间，而不是链表的O(n)。</p>
+
+    <h2>Antithesis的真实问题</h2>
+    
+    <p>Antithesis运行客户的软件多次来寻找bug。每次运行，fuzzer注入不同的faults，告知测试代码做出不同的随机决策。这些选择形成了一个分支树：每条从根到叶的路径代表fuzzer所做的一系列选择及其结果。</p>
+
+    <p><strong>问题：</strong>他们想在树上进行fold操作。例如，给定一个特定的日志消息，什么独特的事件历史导致了它？（沿着父指针从该节点向上走到根。）</p>
+
+    <p>但问题是：测试软件输出的数据量太大，只能全部存入分析数据库。当时使用Google BigQuery。分析数据库优化的是<strong>扫描大量数据</strong>来计算聚合结果，代价是<strong>点查询很慢</strong>。</p>
+
+    <p>在数据库中表示树的自然方式是使用父指针——每个节点是表中的一行，有一列parent_id指向其父节点。要回答"显示导致此日志消息的历史"，需要一次一个节点地向上遍历树。每一步都是点查询。在OLTP数据库中没问题，但在BigQuery中，基本上每个操作都会导致全表扫描。</p>
+
+    <h2>SkipTree：创新解决方案</h2>
+    
+    <p>SkipTree就像SkipList，但它是树。</p>
+    
+    <p>有一个level-0树，然后在上面有一系列树。每棵树大约有下面一层50%的节点。</p>
+    
+    <p>如果从根到叶选择任何路径，这些节点——连同它们在更高层树中的出现——形成一个SkipList。所以SkipTree实际上是一堆共享结构的SkipList，每个根到叶路径都有一个。</p>
+
+    <h3>存储结构</h3>
+    
+    <p>要存储SkipTree，为每个级别创建一个SQL表：tree0、tree1等。每个表有该树中每个节点的一行。</p>
+    
+    <p>不是有单一的parent_id列，而是有一列用于上一层的最近祖先节点（称为next_level_ancestor），另一列（称为ancestors_between）包含当前节点和next_level_ancestor之间的所有节点列表。</p>
+
+    <h3>查询优化</h3>
+    
+    <p>通过链接JOIN一起工作，可以找到一个节点的所有祖先。</p>
+    
+    <p>例如，要找到节点I的所有祖先，从table0开始。next_level_ancestor列告诉您在table1中JOIN节点C，在路上从ancestors_between列收集节点G。然后在table1中发现next_level_ancestor是节点A，路上没有其他节点要收集。节点A是树的根，所以完成了：祖先的完整列表是[G, C, A]。</p>
+
+    <p><strong>关键结果：</strong>现在可以用一个固定的非递归SQL查询找到祖先。他们只需要做大约40个JOIN。</p>
+
+    <h2>核心洞见</h2>
+    
+    <blockquote>
+        <p>"你永远不知道一个奇特的 数据结构会在什么时候节省你大量时间和金钱。"</p>
+    </blockquote>
+
+    <p>同时，虽然Andy Pavlo正确指出<strong>写得好的树总是会击败SkipList</strong>，但SkipList的伟大之处在于<strong>完全 naive 的实现也有足够的性能</strong>。这在您用SQL编写它们时非常方便。</p>
+
+    <h2>延伸：Skip Graph</h2>
+    
+    <p>后来发现SkipTree与一种名为<a href="https://en.wikipedia.org/wiki/Skip_graph">Skip Graph</a>的真实数据结构密切相关，这是一种基于SkipList的分布式数据结构。这说明：没有什么是新奇的。你有的任何疯狂想法，很可能其他疯狂的人已经做过了。</p>
+
+    <hr>
+    <p><a href="index.html">← 返回首页</a></p>
+</body>
+</html>

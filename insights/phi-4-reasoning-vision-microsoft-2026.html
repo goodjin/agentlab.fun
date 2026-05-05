@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phi-4-reasoning-vision: Compact Multimodal Reasoning - Microsoft Research</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 0 auto; padding: 40px 20px; line-height: 1.7; color: #333; }
+        h1 { color: #0078d4; border-bottom: 2px solid #0078d4; padding-bottom: 10px; }
+        h2 { color: #005a9e; margin-top: 30px; }
+        .meta { color: #666; font-size: 14px; }
+        .rating { display: inline-block; background: #ffd700; color: #000; padding: 4px 12px; border-radius: 12px; font-weight: bold; }
+        .highlight { background: #f0f7ff; padding: 15px; border-radius: 8px; border-left: 4px solid #0078d4; margin: 20px 0; }
+        .key-points { background: #f5f5f5; padding: 20px; border-radius: 8px; }
+        .key-points ul { margin: 0; padding-left: 20px; }
+        .key-points li { margin: 8px 0; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background: #0078d4; color: white; }
+        code { background: #f4f4f4; padding: 2px 6px; border-radius: 4px; }
+        .source { color: #666; font-style: italic; }
+    </style>
+</head>
+<body>
+    <p class="meta">Source: Microsoft Research Blog | Date: March 4, 2026</p>
+    <h1>Phi-4-reasoning-vision: Compact Multimodal Reasoning</h1>
+    <p><span class="rating">⭐⭐⭐⭐⭐</span> <strong>5/5</strong> — Best-in-class efficiency for multimodal reasoning</p>
+    
+    <div class="highlight">
+        <strong>🎯 Core Value:</strong> 15B parameter open-weight model that pushes the pareto-frontier of accuracy vs compute costs — competitive with models requiring 10x more compute.
+    </div>
+
+    <h2>Key Specifications</h2>
+    <ul>
+        <li><strong>Parameters:</strong> 15B (open-weight)</li>
+        <li><strong>Training Data:</strong> 200B tokens (vs 1T+ for competitors)</li>
+        <li><strong>Context Window:</strong> 128K tokens</li>
+        <li><strong>Availability:</strong> Microsoft Foundry, HuggingFace, GitHub</li>
+    </ul>
+
+    <h2>Architecture Insights</h2>
+    
+    <h3>Mid-Fusion Architecture</h3>
+    <p>Chose mid-fusion over early-fusion for practical trade-off between performance and resource requirements:</p>
+    <ul>
+        <li>Pretrained vision encoder → visual tokens → projected into LLM embedding space</li>
+        <li>Leverages components already trained on trillions of tokens</li>
+    </ul>
+
+    <h3>Vision Encoder: SigLIP-2 Naflex</h3>
+    <p>Key finding: <strong>Dynamic resolution vision encoders perform best</strong>, especially on high-resolution data.</p>
+    
+    <table>
+        <tr><th>Method</th><th>Max Tokens</th><th>MathVista</th><th>ScreenSpot</th><th>ScreenSpot-Pro</th></tr>
+        <tr><td>Dynamic resolution (3600)</td><td>3600</td><td>44.9</td><td>79.7</td><td>17.5</td></tr>
+        <tr><td>Dynamic resolution (2048)</td><td>2048</td><td>45.2</td><td>81.5</td><td>9.2</td></tr>
+        <tr><td>Multi-crop with S2</td><td>2048</td><td>43.4</td><td>79.1</td><td>10.6</td></tr>
+    </table>
+
+    <h2>Training Data Strategy</h2>
+    <div class="key-points">
+        <strong>Three data sources:</strong>
+        <ul>
+            <li><strong>Open-source datasets:</strong> Meticulously filtered and improved</li>
+            <li><strong>High-quality internal data:</strong> Domain-specific</li>
+            <li><strong>Targeted acquisitions:</strong> Curated external data</li>
+        </ul>
+    </div>
+
+    <p><strong>Key insight:</strong> Only 200B tokens needed (vs 1T+ for Qwen2.5VL, Kimi-VL, Gemma3)</p>
+
+    <h2>Performance Highlights</h2>
+    <ul>
+        <li>Competitive with much larger models on general VLM tasks</li>
+        <li>Excels at math and science reasoning</li>
+        <li>Strong computer use / GUI grounding capabilities</li>
+        <li>Runs on modest hardware</li>
+    </ul>
+
+    <h2>Why It Matters</h2>
+    <p>Phi-4-reasoning-vision proves that efficient models can match or exceed larger counterparts with careful architecture choices, rigorous data curation, and smart reasoning/non-reasoning data mixing.</p>
+
+    <p class="source">🔗 <a href="https://www.microsoft.com/en-us/research/blog/phi-4-reasoning-vision-and-the-lessons-of-training-a-multimodal-reasoning-model/">Original Article</a> | <a href="https://huggingface.co/microsoft/Phi-4-vision-reasoning-15B">HuggingFace</a></p>
+</body>
+</html>

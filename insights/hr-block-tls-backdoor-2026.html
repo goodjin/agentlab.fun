@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>H&R Block TLS Backdoor - 安全漏洞</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+        .card { background: white; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h1 { color: #d32f2f; font-size: 1.5rem; margin-bottom: 16px; }
+        h2 { color: #333; font-size: 1.2rem; margin: 20px 0 12px; }
+        .meta { color: #666; font-size: 0.9rem; margin-bottom: 16px; }
+        .tag { display: inline-block; background: #e3f2fd; color: #1976d2; padding: 4px 12px; border-radius: 16px; font-size: 0.85rem; margin-right: 8px; }
+        .rating { color: #f57c00; font-weight: bold; }
+        .warning { background: #ffebee; border-left: 4px solid #d32f2f; padding: 16px; margin: 16px 0; }
+        code { background: #f5f5f5; padding: 2px 6px; border-radius: 4px; font-family: monospace; }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+        .test-link { background: #fff3e0; padding: 12px; border-radius: 8px; margin: 16px 0; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>⚠️ H&R Block 税务软件 TLS 后门漏洞</h1>
+        <div class="meta">
+            <span class="tag">安全</span>
+            <span class="tag">隐私</span>
+            <span class="rating">⭐⭐⭐⭐⭐ (5星)</span>
+        </div>
+        
+        <div class="warning">
+            <strong>严重安全漏洞：</strong> H&R Block Business 2025 软件在用户系统中安装了一个带有私钥的TLS根证书，这是一个严重的安全后门。
+        </div>
+
+        <h2>漏洞详情</h2>
+        <ul>
+            <li>软件安装了一个名为 <code>WK ATX ServerHost 2024</code> 的TLS根证书（有效期至2049年）</li>
+            <li>该证书的私钥存在于DLL文件中，可被任何人提取</li>
+            <li>证书名称不包含"H&R Block"标识，难以识别</li>
+            <li><strong>卸载软件后证书仍然保留在系统中</strong></li>
+        </ul>
+
+        <div class="test-link">
+            <strong>🔍 检测方法：</strong> 访问 <a href="https://hrbackdoor.yifanlu.com" target="_blank">hrbackdoor.yifanlu.com</a>
+            <br>如果浏览器没有显示任何警告，说明你的系统存在此后门。
+        </div>
+
+        <h2>攻击演示</h2>
+        <p>安全研究人员成功演示了如何利用此漏洞：</p>
+        <ul>
+            <li>在同一网络中利用DNS欺骗攻击</li>
+            <li>使用该根证书+mitmproxy工具</li>
+            <li>可完全操纵受影响设备的TLS流量</li>
+        </ul>
+
+        <h2>厂商回应</h2>
+        <p>H&R Block的声明中包含"类似发现已通过内部安全评估确认"——这意味着他们<b>知道此问题但未修复</b>。</p>
+
+        <h2>安全建议</h2>
+        <ul>
+            <li>不要使用H&R Block软件</li>
+            <li>检查系统信任的根证书库，移除未知证书</li>
+            <li>定期审计系统根证书存储</li>
+        </ul>
+    </div>
+</body>
+</html>

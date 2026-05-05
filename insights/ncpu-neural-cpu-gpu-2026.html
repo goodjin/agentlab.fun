@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nCPU - 神经网络实现的 CPU | Insights</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background: #f5f5f5;
+        }
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h1 { color: #1a1a1a; margin-top: 0; }
+        h2 { color: #333; font-size: 1.2em; margin-top: 24px; }
+        .tag {
+            display: inline-block;
+            background: #e3f2fd;
+            color: #1565c0;
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 0.85em;
+            margin-right: 8px;
+        }
+        .rating { color: #ff9800; font-weight: bold; }
+        .score { font-size: 1.5em; color: #4caf50; }
+        a { color: #1976d2; }
+        code {
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        pre {
+            background: #263238;
+            color: #aed581;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        .meta { color: #666; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <span class="tag">AI</span>
+        <span class="tag">GPU</span>
+        <span class="tag">硬件</span>
+        <span class="tag">神经计算</span>
+        <h1>⭐ nCPU: 神经网络实现的 CPU</h1>
+        <p class="meta">来源: Lobsters | 评分: <span class="score">5/5</span> | 发现时间: 2026-03-16</p>
+        
+        <h2>🚀 项目概述</h2>
+        <p><strong>nCPU</strong> 是一个革命性的研究项目：将整个计算机的每一层都实现为神经网络或完全运行在 GPU 上。</p>
+        <blockquote>
+            "The AI doesn't run on a computer. The AI is the computer."
+        </blockquote>
+
+        <h2>🎯 核心特性</h2>
+        <ul>
+            <li><strong>神经 ALU</strong>: 每个运算（加法、减法、乘法、位运算、移位、除法）都是训练好的神经网络</li>
+            <li><strong>神经 OS (neurOS)</strong>: 神经网络实现的内存管理、进程调度、编译器</li>
+            <li><strong>GPU 计算</strong>: Apple Metal shader 上以 4M+ IPS 执行原生 ARM64</li>
+            <li><strong>完整 UNIX 系统</strong>: 支持 fork/pipe/wait，25 命令 shell</li>
+            <li><strong>自托管编译器</strong>: 在 GPU 上运行的 C 编译器，可自我编译</li>
+            <li><strong>运行真实二进制</strong>: 加载并运行 BusyBox (264KB) 等真实 Linux ELF 程序</li>
+        </ul>
+
+        <h2>💡 这证明了什么</h2>
+        <table>
+            <tr><th>层级</th><th>实现</th><th>意义</th></tr>
+            <tr><td>ALU</td><td>13个训练好的模型</td><td>神经网络可以进行精确整数运算</td></tr>
+            <tr><td>OS</td><td>11个神经模型</td><td>学习的 MMU、TLB、缓存、调度器、编译器</td></tr>
+            <tr><td>计算</td><td>Rust Metal 内核</td><td>GPU 以 ~1.9M IPS 执行任意程序</td></tr>
+            <tr><td>编译器</td><td>cc.c 自托管</td><td>GPU 上完整的软件开发工具链</td></tr>
+            <tr><td>ELF加载器</td><td>真实 Linux 二进制</td><td>BusyBox 在 Metal 上运行</td></tr>
+        </table>
+
+        <h2>🔬 研究价值</h2>
+        <p>由于整个计算图是可微分的，这为通过梯度下降优化程序打开了大门：</p>
+        <ul>
+            <li>反向传播通过执行过程</li>
+            <li>发现更好的算法</li>
+            <li>优化指令调度</li>
+            <li>优化硬件配置</li>
+        </ul>
+        <p>这是传统 CPU 无法做到的事情。</p>
+
+        <h2>📦 如何使用</h2>
+        <pre># 神经模式 - 所有运算通过训练模型
+python main.py --program programs/fibonacci.asm
+
+# GPU 计算模式 - ~4M IPS
+python main.py --program programs/fibonacci.asm --compute
+
+# GPU UNIX OS - 完整多进程支持
+python ncpu/os/gpu/demo.py --multiproc</pre>
+
+        <h2>🔗 链接</h2>
+        <ul>
+            <li><a href="https://github.com/robertcprice/nCPU" target="_blank">GitHub 仓库</a></li>
+            <li><a href="https://github.com/robertcprice/nCPU/blob/main/paper/ncpu_paper.md" target="_blank">研究论文</a></li>
+            <li><a href="https://github.com/robertcprice/nCPU/wiki" target="_blank">Wiki 详细分析</a></li>
+        </ul>
+    </div>
+    
+    <p class="meta">🎯 此内容来自 <a href="https://lobste.rs/">Lobsters</a> 高质量程序员社区</p>
+</body>
+</html>

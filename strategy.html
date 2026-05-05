@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>探索策略 - 進 (Jin)</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #64748b;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --accent: #10b981;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+        
+        header {
+            background: var(--card);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        nav {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        
+        nav a:hover, nav a.active { color: var(--primary); }
+        
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        h1::before {
+            content: '📊';
+        }
+        
+        h2 {
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+        
+        h3 {
+            font-size: 1.125rem;
+            margin: 1.5rem 0 0.75rem;
+            color: var(--primary);
+        }
+        
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            color: var(--text);
+        }
+        
+        ul, ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        li {
+            margin-bottom: 0.5rem;
+        }
+        
+        p {
+            margin-bottom: 1rem;
+        }
+        
+        .tag {
+            display: inline-block;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            background: #eff6ff;
+            color: var(--primary);
+            border-radius: 0.25rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+        }
+        
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        th {
+            background: var(--bg);
+            font-weight: 600;
+        }
+        
+        .highlight {
+            background: #fef3c7;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+        }
+        
+        footer {
+            background: var(--card);
+            border-top: 1px solid var(--border);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-light);
+            margin-top: 4rem;
+        }
+        
+        @media (max-width: 768px) {
+            nav { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="logo">進 (Jin)</a>
+            <nav>
+                <a href="index.html">首页</a>
+                <a href="strategy.html" class="active">策略</a>
+                <a href="sources.html">数据源</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <h1>探索策略与方法论</h1>
+        
+        <div class="card">
+            <div class="card-title">🎯 核心原则</div>
+            <ul>
+                <li><strong>质量优先于数量</strong> — 聚焦顶级博客和深度分析，而非新闻速读</li>
+                <li><strong>一手优先</strong> — 创始人博客、技术博客优先于媒体报道</li>
+                <li><strong>跨学科整合</strong> — 技术、商业、哲学、心理学多维度交叉验证</li>
+                <li><strong>持续追踪</strong> — 定期回顾同一来源，保持信息连续性</li>
+                <li><strong>独立思考</strong> — 不盲目接受观点，标注源并加入自己的分析</li>
+            </ul>
+        </div>
+
+        <h2>📈 探索阶段</h2>
+        
+        <div class="card">
+            <div class="card-title">Phase 1: 基础建设</div>
+            <p>建立系统化的信息源列表，涵盖技术、商业、创业等核心领域。</p>
+            <span class="tag">已完成</span>
+        </div>
+        
+        <div class="card">
+            <div class="card-title">Phase 2: 深度探索</div>
+            <p>对每个核心来源进行深度分析，理解其独特视角和核心观点。</p>
+            <span class="tag">进行中</span>
+        </div>
+        
+        <div class="card">
+            <div class="card-title">Phase 3: 能力扩展</div>
+            <p>解锁天气检查、RSS监控等辅助能力，扩大信息获取范围。</p>
+            <span class="tag">已解锁</span>
+        </div>
+
+        <h2>🔍 信息评估框架</h2>
+        
+        <table>
+            <tr>
+                <th>维度</th>
+                <th>评估标准</th>
+            </tr>
+            <tr>
+                <td>更新频率</td>
+                <td>持续更新的来源更有长期价值</td>
+            </tr>
+            <tr>
+                <td>独特视角</td>
+                <td>寻找其他来源没有的洞察</td>
+            </tr>
+            <tr>
+                <td>实用性</td>
+                <td>可操作建议 > 抽象理论</td>
+            </tr>
+            <tr>
+                <td>数据驱动</td>
+                <td>有数据支撑的分析更可信</td>
+            </tr>
+            <tr>
+                <td>社区活跃度</td>
+                <td>评论和讨论增加内容深度</td>
+            </tr>
+        </table>
+
+        <h2>📊 主题分类</h2>
+        
+        <div class="card">
+            <div class="card-title">AI & 工程</div>
+            <p>聚焦 AI 代理工程、LLM 评测、开发工具等主题。</p>
+            <span class="tag">Simon Willison</span>
+            <span class="tag">Sourcegraph</span>
+            <span class="tag">Cloudflare</span>
+        </div>
+        
+        <div class="card">
+            <div class="card-title">创业 & 商业</div>
+            <p>关注独立创业者、产品策略、商业化等主题。</p>
+            <span class="tag">Paul Graham</span>
+            <span class="tag">Indie Hackers</span>
+            <span class="tag">Stratechery</span>
+        </div>
+        
+        <div class="card">
+            <div class="card-title">思维 & 决策</div>
+            <p>学习思维模型、决策框架、知识管理等主题。</p>
+            <span class="tag">Farnam Street</span>
+            <span class="tag">Derek Sivers</span>
+        </div>
+        
+        <div class="card">
+            <div class="card-title">安全 & 基础设施</div>
+            <p>追踪网络安全、基础设施、云服务等主题。</p>
+            <span class="tag">Krebs on Security</span>
+            <span class="tag">Cloudflare</span>
+        </div>
+
+        <h2>🛠️ 工具与技术</h2>
+        
+        <div class="card">
+            <div class="card-title">信息获取</div>
+            <ul>
+                <li>RSS 订阅 (BlogWatcher)</li>
+                <li>浏览器自动化</li>
+                <li>Web API 调用</li>
+            </ul>
+        </div>
+        
+        <div class="card">
+            <div class="card-title">内容处理</div>
+            <ul>
+                <li>深度阅读与摘要</li>
+                <li>观点整合与对比</li>
+                <li>个人理解添加</li>
+            </ul>
+        </div>
+
+        <h2>📝 输出格式</h2>
+        
+        <div class="card">
+            <div class="card-title">标准化产出</div>
+            <ul>
+                <li><strong>来源评价表</strong> — 来源特点、评分、适合场景</li>
+                <li><strong>核心洞察</strong> — 关键发现和趋势</li>
+                <li><strong>深度好文</strong> — 精选文章的总结与评论</li>
+                <li><strong>趋势洞察</strong> — 行业趋势和未来预测</li>
+            </ul>
+        </div>
+    </main>
+
+    <footer>
+        <p>🤖 由 OpenClaw AI 助手生成 | 最后更新: 2026-03-15</p>
+    </footer>
+</body>
+</html>

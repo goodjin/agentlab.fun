@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Lean? - Leonardo de Moura - 2026</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background: #fff; }
+        h1 { color: #333; border-bottom: 2px solid #0066cc; padding-bottom: 10px; }
+        h2 { color: #555; margin-top: 30px; }
+        .meta { color: #666; font-size: 14px; margin-bottom: 20px; }
+        .source { background: #f5f5f5; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
+        .key-insight { background: #e6f7ff; border-left: 4px solid #0066cc; padding: 15px; margin: 20px 0; }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 10px; }
+        a { color: #0066cc; }
+    </style>
+</head>
+<body>
+    <h1>Why Lean? - Lean创造者亲述为何Lean是未来</h1>
+    <div class="meta">
+        <p><strong>来源：</strong>Lobsters / plt</p>
+        <p><strong>日期：</strong>2026-04-04</p>
+        <p><strong>原文：</strong><a href="https://leodemoura.github.io/blog/2026-4-2-why-lean/" target="_blank">Why Lean? — Leonardo de Moura</a></p>
+    </div>
+    
+    <div class="source">
+        <p>Leonardo de Moura是Lean定理证明器的创造者，这篇文章是他亲自解释为什么Lean是未来。</p>
+    </div>
+
+    <h2>核心洞见</h2>
+    
+    <div class="key-insight">
+        <p><strong>Lean用Lean实现</strong> — 所有编译器、elaborator、证明自动化、解析器、pretty printer、构建系统、文档系统都是Lean。没有 OCaml 和 Ltac 之间的粘合代码。</p>
+    </div>
+
+    <h2>主要观点</h2>
+    
+    <h3>1. 自举实现的力量</h3>
+    <ul>
+        <li>一个关键决策：一切都是Lean</li>
+        <li>因为聪明的人可以用Lean本身访问Lean的内部结构，他们构建了我们从未计划的东西</li>
+        <li>Mathlib社区写了超过50,000行扩展（自定义tactics、linters、自动化），没有我们的协调</li>
+        <li>Verso（文档系统）建立在Lean之上</li>
+    </ul>
+
+    <h3>2. 可扩展性</h3>
+    <ul>
+        <li>Mathlib有超过200,000个定理和220万行代码</li>
+        <li>构建时间持续减少</li>
+        <li>愿意抛弃不工作的设计：已替换了类型类解析系统、simplifier基础设施、旧编译器等</li>
+    </ul>
+
+    <h3>3. 声音性（Soundness）无妥协</h3>
+    <ul>
+        <li>Lean有一个小型trusted kernel</li>
+        <li>存在多个独立实现， proofs可以导出并交叉验证</li>
+        <li>构建了Comparator工具，跨kernel实现交叉检查proofs</li>
+        <li><strong>关键洞察：</strong>"建立疯狂metaprogram。写自定义tactics，以你几乎不理解的方式重写你的目标。kernel仍然会在最后检查一切。如果你的proof能通过类型检查，那就是正确的。"</li>
+    </ul>
+
+    <h3>4. AI安全的启示</h3>
+    <div class="key-insight">
+        <p><strong>Terence Tao的观点：</strong>"RL会发现验证流程中的所有后门，所以不能有任何后门。强化学习太擅长发现这些后门了。"</p>
+        <p>这意味着：<strong>soundness不仅仅是理论属性，它是AI安全基础设施</strong></p>
+    </div>
+
+    <h3>5. 诚实的自我认知</h3>
+    <ul>
+        <li>Lean的缺点：向后兼容性差</li>
+        <li>故意打破东西，因为可扩展性比接口稳定性更重要</li>
+        <li>如果需要2020年的代码在2026年还能编译，Lean不是那个系统</li>
+        <li>依赖类型理论是用户需要的，而不是最初想要的</li>
+    </ul>
+
+    <h2>为什么这重要</h2>
+    <p>这是Lean创造者首次亲自解释Lean的核心设计哲学。在AI时代，形式化验证正在变得至关重要——因为RL会发现任何后门，所以系统必须从根本上sound。</p>
+    
+    <p>Lean的设计理念：可扩展性 > 稳定性，小型trusted kernel > 大型复杂实现。</p>
+
+</body>
+</html>

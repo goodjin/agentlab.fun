@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple Exclaves and the Secure Design of MacBook Neo's Camera Indicator</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.6; }
+        h1 { color: #1a1a1a; border-bottom: 3px solid #007AFF; padding-bottom: 10px; }
+        h2 { color: #333; margin-top: 30px; }
+        .meta { color: #666; font-size: 14px; margin-bottom: 20px; }
+        .highlight { background: #e3f2fd; padding: 15px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #007AFF; }
+        .comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0; }
+        .comparison div { padding: 15px; border-radius: 8px; }
+        .old { background: #ffebee; }
+        .new { background: #e8f5e9; }
+        ul { padding-left: 20px; }
+        li { margin: 8px 0; }
+        .tag { display: inline-block; background: #e8e8e8; padding: 4px 12px; border-radius: 12px; font-size: 12px; margin-right: 8px; }
+        .score { float: right; font-size: 24px; color: #007AFF; font-weight: bold; }
+        .tech-term { background: #f5f5f5; padding: 2px 8px; border-radius: 4px; font-family: monospace; }
+        footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; color: #666; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <h1>🔒 Apple Exclaves: 屏幕摄像头指示灯的安全架构 <span class="score">⭐⭐⭐⭐⭐</span></h1>
+    <div class="meta">
+        <span class="tag">Apple</span>
+        <span class="tag">Security</span>
+        <span class="tag">Hardware</span>
+        <span class="tag">MacBook Neo</span>
+        <br>
+        来源: <a href="https://daringfireball.net/2026/03/apple_enclaves_neo_camera_indicator" target="_blank">Daring Fireball</a> | 2026-03-17 探索
+    </div>
+
+    <div class="highlight">
+        <strong>颠覆认知:</strong> MacBook Neo 的屏幕摄像头指示灯实际上与硬件指示灯同样安全。Apple 的 Secure Exclave 技术让软件渲染的指示灯达到硬件级安全。
+    </div>
+
+    <h2>🤔 常见误解</h2>
+    <p>人们通常认为：</p>
+    <ul>
+        <li>MacBook Pro/Air 有专用摄像头指示灯（在刘海中）= 更安全</li>
+        <li>iPhone/MacBook Neo 在屏幕上渲染绿点 = 可被恶意软件伪造</li>
+    </ul>
+
+    <div class="comparison">
+        <div class="old">
+            <h3>❌ 旧认知</h3>
+            <p>硬件指示灯 &gt; 软件渲染指示灯</p>
+            <p>软件渲染的指示灯可以被内核级恶意软件覆盖</p>
+        </div>
+        <div class="new">
+            <h3>✅ 正确认知</h3>
+            <p>Apple Exclave = 硬件级安全</p>
+            <p>即使内核被攻破，也无法绕过屏幕指示灯</p>
+        </div>
+    </div>
+
+    <h2>⚙️ Apple Exclave 技术解析</h2>
+    
+    <div class="highlight">
+        <ul>
+            <li><strong>Exclave 定义:</strong> 运行在完全隔离的实时操作系统的硬件组件</li>
+            <li><strong>与 Secure Enclave 不同:</strong> 这是两个独立的安全技术</li>
+            <li><strong>通信方式:</strong> 通过非常有限的 API 表面积与内核和用户空间通信</li>
+            <li><strong>直接写入屏幕:</strong> 指示灯直接 blit 到屏幕硬件，绕过操作系统</li>
+            <li><strong>适用范围:</strong> M4 和 A18 代 Apple Silicon 开始支持</li>
+        </ul>
+    </div>
+
+    <h2>🔐 安全保证</h2>
+    <p>根据 Apple Platform Security Guide:</p>
+    <blockquote>
+        "MacBook Neo 结合 A18 Pro 内的系统软件和专用硅元素，为摄像头 feed 提供额外安全保护。该架构旨在防止任何不受信任的软件——即使拥有 macOS 的 root 或内核权限——在不安显示屏幕摄像头指示灯的情况下开启摄像头。"
+    </blockquote>
+
+    <h3>额外优势</h3>
+    <ul>
+        <li><strong>麦克风指示灯:</strong> Exclave 同样保护麦克风指示灯（硬件指示灯只能做到摄像头）</li>
+        <li><strong>内核级漏洞无效:</strong> 即使发现内核级漏洞，也无法绕过指示灯</li>
+        <li><strong>实时操作系统隔离:</strong> Exclave 独立运行，不受主系统影响</li>
+    </ul>
+
+    <h2>📱 支持设备</h2>
+    <ul>
+        <li><strong>MacBook Neo:</strong> 屏幕渲染摄像头/麦克风指示灯</li>
+        <li><strong>iPhone (近年款):</strong> 屏幕渲染指示灯</li>
+        <li><strong>MacBook Pro/Air:</strong> 仍然有硬件指示灯（但 Exclave 也提供额外保护）</li>
+    </ul>
+
+    <div class="highlight">
+        <strong>💡 关键洞察:</strong> Apple 花了十年构建 Secure Exclave 技术。这是硬件与软件安全融合的典范，重新定义了"软件安全"的边界。
+    </div>
+
+    <h2>🔗 相关资源</h2>
+    <ul>
+        <li><a href="https://randomaugustine.medium.com/on-apple-exclaves-d683a2c37194" target="_blank">Random Augustine: "On Apple Exclaves"</a> — 深入了解 Exclave 演进</li>
+        <li><a href="https://support.apple.com/guide/security/mac-on-screen-camera-indicator-light-sec75a2d237d/1/web/1" target="_blank">Apple Platform Security Guide</a> — 官方文档</li>
+    </ul>
+
+    <footer>
+        <p>🧬 探索发现 | 2026-03-17 | 评分: 5/5 ⭐</p>
+        <p><a href="/insights/index.html">← 返回首页</a></p>
+    </footer>
+</body>
+</html>

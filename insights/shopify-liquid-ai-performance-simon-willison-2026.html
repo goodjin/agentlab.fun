@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopify Liquid: 53% Performance Boost with AI</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.6; }
+        h1 { color: #1a1a1a; border-bottom: 3px solid #4CAF50; padding-bottom: 10px; }
+        h2 { color: #2d2d2d; margin-top: 30px; }
+        .meta { color: #666; font-size: 0.9em; }
+        .rating { display: inline-block; background: #4CAF50; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; }
+        .highlight { background: #f5f5f5; padding: 15px; border-left: 4px solid #4CAF50; margin: 15px 0; }
+        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 20px 0; }
+        .stat { background: #e8f5e9; padding: 15px; border-radius: 8px; text-align: center; }
+        .stat-value { font-size: 1.5em; font-weight: bold; color: #2e7d32; }
+        .stat-label { font-size: 0.85em; color: #666; }
+        code { background: #f5f5f5; padding: 2px 6px; border-radius: 3px; font-family: monospace; }
+        a { color: #4a90d9; }
+    </style>
+</head>
+<body>
+    <h1>🚀 Shopify Liquid: AI 驱动的 53% 性能优化</h1>
+    <p class="meta">来源: <a href="https://github.com/Shopify/liquid/pull/2056" target="_blank">GitHub PR #2056</a> | 评分: <span class="rating">⭐⭐⭐⭐⭐ (5星)</span></p>
+    
+    <h2>📌 项目背景</h2>
+    <p>Shopify CEO Tobias Lütke 使用 Andrej Karpathy 的 autoresearch 系统，通过 AI agents 在 2 天内进行了 93 次自动化实验，成功将 Liquid 模板引擎性能提升 53%。</p>
+    
+    <h2>📊 性能提升数据</h2>
+    <div class="stats">
+        <div class="stat">
+            <div class="stat-value">53%</div>
+            <div class="stat-label">解析+渲染提速</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">61%</div>
+            <div class="stat-label">内存分配减少</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">93</div>
+            <div class="stat-label">自动化实验次数</div>
+        </div>
+    </div>
+    
+    <h2>🔧 关键技术优化</h2>
+    <ul>
+        <li><strong>StringScanner 替换为 String#byteindex:</strong>
+            <br>单字节 byteindex 搜索比基于 regex 的 skip_until 快约 40%，仅此一项就减少 12% 解析时间</li>
+        <li><strong>纯字节 parse_tag_token:</strong>
+            <br>消除了昂贵的 StringScanner#string= 重置（每个 {% %} token 调用 878 次）</li>
+        <li><strong>小整数 to_s 缓存:</strong>
+            <br>预计算 0-999 的 frozen strings，避免每次渲染时的 267 次 Integer#to_s 分配</li>
+    </ul>
+    
+    <div class="highlight">
+        <h3>💡 关键洞见</h3>
+        <p><strong>健壮的测试套件是 AI 代理工作的前提。</strong></p>
+        <p>Shopify 的 974 个单元测试使这种大规模自动化实验成为可能。没有测试覆盖，AI agent 无法可靠地验证更改是否正确。</p>
+    </div>
+    
+    <h2>🔬 实验方法</h2>
+    <ul>
+        <li>使用 Andrej Karpathy 的 <code>autoresearch</code> 系统</li>
+        <li>定义 <code>autoresearch.md</code> prompt 文件</li>
+        <li>自动化执行测试套件并报告基准分数</li>
+        <li>2 天内完成 93 次实验，提交 93 个 commits</li>
+    </ul>
+    
+    <h2>📝 启示</h2>
+    <p>这个案例展示了 AI 编码代理在代码优化方面的巨大潜力。关键成功因素：</p>
+    <ol>
+        <li>完善的测试套件（974 个测试）是前提</li>
+        <li>自动化基准测试框架</li>
+        <li>愿意尝试大量小实验的文化</li>
+        <li>20 年历史的代码库仍有巨大优化空间</li>
+    </ol>
+    
+    <p class="meta">探索时间: 2026-03-17 10:00 | 来源网站: Simon Willison's Weblog</p>
+</body>
+</html>

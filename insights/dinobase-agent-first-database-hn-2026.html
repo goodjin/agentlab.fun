@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dinobase: Agent-First Database - AI数据查询新范式</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --bg: #ffffff;
+            --text: #1f2937;
+            --accent: #f59e0b;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.8;
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: var(--bg);
+            color: var(--text);
+        }
+        h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+        h2 { font-size: 1.3rem; margin-top: 2rem; color: var(--primary); }
+        .meta { color: #6b7280; font-size: 0.9rem; margin-bottom: 1.5rem; }
+        .score { 
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .highlight { background: #fef3c7; padding: 0.2rem 0.4rem; border-radius: 3px; }
+        code { 
+            background: #f3f4f6; 
+            padding: 0.1rem 0.3rem; 
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        pre {
+            background: #1f2937;
+            color: #e5e7eb;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.85rem;
+        }
+        ul { padding-left: 1.5rem; }
+        li { margin: 0.5rem 0; }
+        .insight-box {
+            border-left: 4px solid var(--primary);
+            background: #f0f9ff;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dinobase: Agent-First Database — AI数据查询新范式</h1>
+    <p class="meta">
+        <span class="score">4.5★</span> 
+        &nbsp;来源: Hacker News (2026-04-07)
+        &nbsp;标签: AI/数据库/Agent架构
+    </p>
+
+    <h2>问题：Agent的工具调用模式有结构性缺陷</h2>
+    <p>当前的AI Agent建立在"per-source tool calls"上，存在三个核心问题：</p>
+    <ul>
+        <li><strong>无法跨API做JOIN</strong>：问到"哪些客户流失且有未处理工单"需要横跨3个数据源，传统agent无法可靠回答</li>
+        <li><strong>缺乏语义上下文</strong>：agent收到的是paginated JSON，没有字段的语义解释</li>
+        <li><strong>context window被填充</strong>：每个API返回的原始数据塞满有限的context</li>
+    </ul>
+
+    <div class="insight-box">
+        <strong>核心洞察：</strong>这不是模型的问题，是架构问题。Dinobase从数据库层面解决，而不是依赖更聪明的模型。
+    </div>
+
+    <h2>Dinobase解决方案</h2>
+    <p>Dinobase是专门为AI Agent设计的查询层：</p>
+    <ul>
+        <li><strong>统一Schema</strong>：每个数据源（Stripe、HubSpot、Postgres等）变成一个schema</li>
+        <li><strong>SQL跨源查询</strong>：Agent写一条SQL就能join所有数据源</li>
+        <li><strong>Write支持</strong>：通过SQL mutation写回数据，有preview/confirm流程</li>
+        <li><strong>自动语义标注</strong>：每次sync后自动运行Claude agent标注表/列含义、PII标记、关系图</li>
+    </ul>
+
+    <pre><code># 安装
+curl -fsSL https://dinobase.ai/install.sh | bash
+
+# 添加数据源
+dinobase add stripe --api-key sk_test_...
+dinobase add hubspot --api-key pat-...
+dinobase add postgres --connection-string postgresql://...
+
+# 跨源查询
+dinobase query "SELECT c.name, s.status FROM stripe.customers c 
+    JOIN hubspot.tickets t ON c.email = t.contact_email 
+    WHERE s.status = 'past_due'"</code></pre>
+
+    <h2>基准测试结果</h2>
+    <p>在11个LLM上测试75个问题（相同模型、相同数据、相同问题）：</p>
+    <table style="width:100%; border-collapse: collapse; margin: 1rem 0;">
+        <tr style="border-bottom: 1px solid #e5e7eb;">
+            <th style="text-align:left; padding: 0.5rem;">指标</th>
+            <th style="text-align:right; padding: 0.5rem;">Dinobase (SQL)</th>
+            <th style="text-align:right; padding: 0.5rem;">Per-Source MCP</th>
+        </tr>
+        <tr style="border-bottom: 1px solid #e5e7eb;">
+            <td style="padding: 0.5rem;">准确率</td>
+            <td style="text-align:right; padding: 0.5rem;"><strong>91%</strong></td>
+            <td style="text-align:right; padding: 0.5rem;">35%</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #e5e7eb;">
+            <td style="padding: 0.5rem;">平均延迟</td>
+            <td style="text-align:right; padding: 0.5rem;"><strong>34秒</strong></td>
+            <td style="text-align:right; padding: 0.5rem;">106秒</td>
+        </tr>
+        <tr>
+            <td style="padding: 0.5rem;">每个正确答案成本</td>
+            <td style="text-align:right; padding: 0.5rem;"><strong>$0.027</strong></td>
+            <td style="text-align:right; padding: 0.5rem;">$0.445</td>
+        </tr>
+    </table>
+
+    <h2>支持的数据源</h2>
+    <p>共<span class="highlight">101个数据源</span>，覆盖：</p>
+    <ul>
+        <li><strong>CRM</strong>: Salesforce, HubSpot, Pipedrive, Attio</li>
+        <li><strong>支付</strong>: Stripe, Paddle, Chargebee</li>
+        <li><strong>开发工具</strong>: GitHub, GitLab, Jira, Linear, Sentry</li>
+        <li><strong>数据库</strong>: Postgres, MySQL, Snowflake, BigQuery, MongoDB</li>
+        <li><strong>通讯</strong>: Slack, Discord, Twilio</li>
+    </ul>
+
+    <h2>架构图</h2>
+    <pre><code>Agent (Claude, GPT)
+    |
+    +--> MCP Server / CLI
+    |       |
+    +--> Query Engine (DuckDB SQL)
+    |       |
+    +--> crm.* | billing.* | analytics.* (parquet)
+            (数据源同步为本地parquet文件)</code></pre>
+
+    <div class="insight-box">
+        <strong>为什么有效：</strong>把AI Agent的"多源数据整合"问题从"模型能力问题"降级为"数据库查询问题"。SQL是成熟的、确定性强的技术，比依赖模型自己整合信息可靠得多。
+    </div>
+
+    <h2>集成框架</h2>
+    <p>支持所有主流Agent框架：CrewAI、LangChain、LlamaIndex、Pydantic AI、Vercel AI SDK、Mastra、OpenClaw</p>
+
+    <h2>意义</h2>
+    <p>Dinobase代表了一个重要趋势：<span class="highlight">为AI Agent构建专用基础设施</span>。与其期待模型自己学会跨源整合，不如在数据层提供统一查询能力。这是架构层面的创新，而非模型层面的改进。</p>
+
+    <hr style="margin-top: 2rem; border: none; border-top: 1px solid #e5e7eb;">
+    <p style="color: #6b7280; font-size: 0.85rem;">
+        收录时间: 2026-04-08 | 来源: <a href="https://github.com/DinobaseHQ/dinobase">GitHub/DinobaseHQ/dinobase</a>
+    </p>
+</body>
+</html>

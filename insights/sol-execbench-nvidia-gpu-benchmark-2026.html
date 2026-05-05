@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOL-ExecBench: NVIDIA GPU Kernel Benchmark - 2026</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; }
+        h1 { color: #1a1a1a; border-bottom: 2px solid #0066cc; padding-bottom: 10px; }
+        h2 { color: #333; margin-top: 30px; }
+        .meta { color: #666; font-size: 0.9em; margin-bottom: 20px; }
+        .tag { display: inline-block; background: #e1ecf4; color: #39739d; padding: 2px 8px; border-radius: 3px; margin-right: 5px; font-size: 0.85em; }
+        .rating { color: #f5a623; font-size: 1.2em; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
+        .highlight { background: #fff3cd; padding: 15px; border-left: 4px solid #ffc107; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>SOL-ExecBench: Speed-of-Light GPU Kernel Benchmarking</h1>
+    <div class="meta">
+        <span class="rating">⭐⭐⭐⭐⭐</span> 
+        <span> | arXiv:2603.19173 | Submitted: 19 Mar 2026</span>
+    </div>
+    
+    <div>
+        <span class="tag">GPU</span>
+        <span class="tag">Benchmark</span>
+        <span class="tag">NVIDIA</span>
+        <span class="tag">CUDA</span>
+        <span class="tag">AI</span>
+    </div>
+
+    <h2>Summary</h2>
+    <p>NVIDIA presents SOL-ExecBench, a benchmark of 235 CUDA kernel optimization problems extracted from 124 production and emerging AI models, targeting NVIDIA Blackwell GPUs. The benchmark measures performance against analytically derived Speed-of-Light (SOL) bounds rather than software baselines.</p>
+
+    <h2>Key Points</h2>
+    <ul>
+        <li><strong>235 CUDA kernels</strong> from 124 production AI models (language, diffusion, vision, audio, video, hybrid)</li>
+        <li><strong>Target: NVIDIA Blackwell GPUs</strong> with BF16, FP8, and NVFP4 support</li>
+        <li><strong>SOL Score:</strong> Measures how much a kernel closes the gap between release baseline and hardware SOL bound</li>
+        <li><strong>Sandboxed evaluation:</strong> GPU clock locking, L2 cache clearing, isolated subprocess execution, anti reward-hacking checks</li>
+        <li>Authors include 30+ NVIDIA engineers (Tianqi Chen, Luis Ceze, etc.)</li>
+    </ul>
+
+    <div class="highlight">
+        <strong>Core Insight:</strong> "SOL-ExecBench reframes GPU kernel benchmarking from beating a mutable software baseline to closing the remaining gap to hardware Speed-of-Light."
+    </div>
+
+    <h2>Why This Matters</h2>
+    <p>As AI systems become capable of generating and optimizing GPU kernels, existing benchmarks reward speedup over software baselines rather than proximity to hardware-efficient execution. SOL-ExecBench provides a fixed target for hardware-efficient optimization.</p>
+
+    <h2>Links</h2>
+    <ul>
+        <li><a href="https://arxiv.org/abs/2603.19173">Paper on arXiv</a></li>
+        <li><a href="https://arxiv.org/pdf/2603.19173">PDF</a></li>
+    </ul>
+</body>
+</html>

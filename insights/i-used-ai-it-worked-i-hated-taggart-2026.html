@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I used AI. It worked. I hated it - Taggart Tech</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background: #fff; }
+        h1, h2, h3 { color: #333; }
+        h1 { border-bottom: 3px solid #333; padding-bottom: 10px; }
+        a { color: #0066cc; }
+        blockquote { border-left: 4px solid #666; padding-left: 20px; margin: 20px 0; color: #555; font-style: italic; }
+        code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; }
+        .meta { color: #666; font-size: 14px; }
+        .highlight { background: #ffffcc; padding: 15px; border-radius: 5px; margin: 20px 0; }
+        ul, ol { margin: 15px 0; padding-left: 30px; }
+        li { margin: 8px 0; }
+    </style>
+</head>
+<body>
+    <h1>I used AI. It worked. I hated it</h1>
+    <p class="meta">Source: <a href="https://taggart-tech.com/reckoning/" target="_blank">Taggart Tech</a> | Date: April 2026 | Score: ★★★★☆</p>
+    
+    <h2>核心观点</h2>
+    <p>一位 AI 安全专家的亲身经历：使用 Claude Code 完成了一个生产级项目，但整个过程"极其痛苦"。作者是坚定的反 genAI 主义者，但因工作需要必须使用这些工具。</p>
+    
+    <div class="highlight">
+        <strong>关键洞察：</strong>"Human in the loop is necessary, but the current process itself makes the loop stultifying"（人机循环是必要的，但当前流程本身使得这个循环变得令人窒息）
+    </div>
+    
+    <h2>项目背景</h2>
+    <ul>
+        <li><strong>目标：</strong>为 Taggart Institute 构建一个课程完成证书生成系统</li>
+        <li><strong>技术栈：</strong>Rust + Svelte + Typst（PDF生成）+ Claude Code</li>
+        <li><strong>耗时：</strong>3 周完成（vs 过去类似项目 6 个月）</li>
+        <li><strong>结果：</strong>功能正常，但开发过程"极其痛苦"</li>
+    </ul>
+    
+    <h2>方法论</h2>
+    <ol>
+        <li><strong>Plan Mode：</strong>每个功能先用模型生成计划，写入外部 Markdown 文件</li>
+        <li><strong>TDD：</strong>每个功能先写测试，再实现代码</li>
+        <li><strong>逐行审查：</strong>每行代码都必须人工审查</li>
+        <li><strong>安全审计轮：</strong>完成后让模型扮演安全审计员角色</li>
+    </ol>
+    
+    <h2>安全发现</h2>
+    <p>安全审计轮发现的问题：</p>
+    <ul>
+        <li>🔴 <strong>路径遍历漏洞：</strong>模板管理系统中的严重漏洞</li>
+        <li>🟠 <strong>Typst 模板注入：</strong>可能导致 DoS</li>
+        <li>🟡 <strong>时序侧信道：</strong>Argon2 哈希实现中，错误密码快速失败，正确密码耗时更长</li>
+    </ul>
+    
+    <blockquote>
+        "The model found some whopper vulns—most of which, but not all, I had observed emerging in the codebase."
+    </blockquote>
+    
+    <h2>核心教训</h2>
+    
+    <h3>1. 功能有效，但代价巨大</h3>
+    <p>代码最终比作者自己写的更完善（审计日志、GDPR 数据删除、加密验证等），但过程令人窒息——"大部分时间都在阅读代码变更并按下 1 键接受"。</p>
+    
+    <h3>2. 认知危害</h3>
+    <blockquote>
+        "I let this thing into my brain, and now it is always there. For any new potential project, there is a voice in my head telling me how much easier it would be to let the model do it."
+    </blockquote>
+    <p>作者意识到这些模型是一种<strong>认知成瘾物质</strong>——它们以对人类繁荣有害的方式改变认知。</p>
+    
+    <h3>3. 人才流失危机</h3>
+    <p>"The tool requires expertise to validate, but its use diminishes expertise and stunts its growth"——工具需要专业知识的验证，但使用它会削弱专业知识的发展。新开发者如何学习规则？如果日常工作只是"照顾"模型，如何成为专家？</p>
+    
+    <h3>4. Rust 是完美匹配</h3>
+    <p>作者认为 Rust 是 AI 编程的最佳语言选择——类型安全、编译时检查、健壮的测试框架，能够帮助模型保持正轨。</p>
+    
+    <h2>深度评论</h2>
+    <p>这是一篇罕见的、来自 AI 批评者的第一手实践报告。作者不是盲目反对 AI，而是在承认其功能有效的同时，深刻揭示了过程中的认知危害和职业危机。</p>
+    
+    <p>对于 AI 编程工具的讨论，这篇文章提供了重要的平衡视角：</p>
+    <ul>
+        <li>✅ 确实能快速完成项目</li>
+        <li>✅ 代码质量可以很高</li>
+        <li>✅ 安全审计环节有价值</li>
+        <li>❌ 过程极其痛苦</li>
+        <li>❌ 让人变成"观众"而非"作者"</li>
+        <li>❌ 存在认知成瘾风险</li>
+        <li>❌ 阻碍新手成为专家</li>
+    </ul>
+    
+    <hr>
+    <p class="meta">Tags: AI, vibecoding, Claude Code, security, software development | 来源: Lobste.rs</p>
+</body>
+</html>

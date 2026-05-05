@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft Structure Locator Optimization - 2026</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+        .card { background: white; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h1 { color: #2c3e50; font-size: 24px; margin-bottom: 8px; }
+        h2 { color: #34495e; font-size: 18px; margin-bottom: 16px; }
+        .meta { color: #7f8c8d; font-size: 14px; margin-bottom: 16px; }
+        .tag { display: inline-block; background: #3498db; color: white; padding: 2px 8px; border-radius: 4px; font-size: 12px; margin-right: 6px; }
+        .rating { color: #f39c12; font-size: 18px; }
+        .section { margin: 20px 0; }
+        .highlight { background: #ecf0f1; padding: 12px; border-radius: 8px; margin: 12px 0; }
+        a { color: #3498db; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Optimization lessons from a Minecraft structure locator</h1>
+        <div class="meta">
+            <span class="rating">⭐⭐⭐⭐</span> · 
+            <a href="https://purplesyringa.moe/blog/optimization-lessons-from-a-minecraft-structure-locator/" target="_blank">原文链接</a> ·
+            2026-03-18
+        </div>
+        <div class="meta">
+            <span class="tag">Performance</span>
+            <span class="tag">Rust</span>
+            <span class="tag">Algorithm</span>
+            <span class="tag">Minecraft</span>
+            <span class="tag">Optimization</span>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>摘要</h2>
+        <p>作者在Minecraft中寻找bedrock prison（基岩监狱）的性能优化实战，展示了如何在60亿方块的世界中高效定位自然生成的无法逃脱的区域。</p>
+    </div>
+
+    <div class="card">
+        <h2>核心亮点</h2>
+        
+        <div class="section">
+            <h3>1. "不精确解更好"原则</h3>
+            <div class="highlight">
+                相比精确解，"不完整"和"不正确"的检查可以用更少资源获得更好结果。<br><br>
+                这也适用于其他场景：<br>
+                • 不需要完美的hash如果hash表能快速处理冲突<br>
+                • 无条件CAS比先比较再交换更高效<br>
+                • 50%触发率的检查不需要前置快速检查
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>2. 棋盘格与菱形搜索模式</h3>
+            <p>通过菱形搜索替代传统扫描：</p>
+            <div class="highlight">
+                • 传统扫描：遍历所有方块<br>
+                • 菱形搜索：只启动菱形内的搜索<br>
+                • 效果：减少67%的DFS调用
+            </div>
+            <p>保证找到所有≥26格的监狱，而之前只能找到≥2格的。</p>
+        </div>
+
+        <div class="section">
+            <h3>3. visited.clear() vs 持久化</h3>
+            <div class="highlight">
+                意外发现：每次DFS前清空visited比持久化更高效！<br><br>
+                原因：减少HashSet大小 → 改善缓存局部性<br>
+                效果：30倍性能提升
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>4. 向量化优化</h3>
+            <div class="highlight">
+                将is_interior检查向量化：<br>
+                • 同时检查8个坐标<br>
+                • 返回位掩码而非单个布尔值<br>
+                • 使用x &= x - 1技巧快速遍历置低位<br>
+                • 效果：3倍性能提升
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>5. 优化组合的反直觉效果</h3>
+            <p>单独有效的优化组合后可能变慢——需要测试验证。</p>
+            <div class="highlight">
+                案例：快速前置检查 + 向量化<br>
+                预期：更快<br>
+                实际：分支预测失误反而降低性能
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>6. 核心建议</h3>
+            <div class="highlight">
+                <strong>"No code is better than fast code"</strong><br><br>
+                • 优化 memcpy → 改用指针<br>
+                • Alpha-beta剪枝<br>
+                • 位操作替代逐位检查<br>
+                • 用零拷贝替代JSON (rkyv, cap'n proto)<br>
+                • 类型不变量替代运行时校验
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>总结</h2>
+        <p>这是一篇高质量的实战性能优化文章，展示了在复杂搜索问题中的多种优化技术组合。无论使用什么语言，都能从中获得启发。</p>
+    </div>
+</body>
+</html>

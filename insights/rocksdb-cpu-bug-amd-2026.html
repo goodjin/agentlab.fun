@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RocksDB Development Finds CPU Bug - Hardware Discovery Story</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; }
+        h1 { color: #1a1a1a; }
+        .meta { color: #666; font-size: 0.9em; margin-bottom: 20px; }
+        .tag { display: inline-block; background: #e0e0e0; padding: 2px 8px; border-radius: 4px; margin-right: 5px; font-size: 0.8em; }
+        .source { color: #0066cc; }
+        pre { background: #f4f4f4; padding: 15px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>RocksDB Development Finds a CPU Bug</h1>
+    <div class="meta">
+        <span class="tag">databases</span>
+        <span class="tag">hardware</span>
+        <span class="tag">testing</span>
+        <span class="source">Source: rocksdb.org via Lobsters</span>
+    </div>
+    
+    <p>This is the story of how a RocksDB unit test I added four years ago, a mini-stress test you might call it, revealed a novel hardware bug in a newer CPU. It was scary enough to be assigned a "high severity" CVE.</p>
+
+    <h2>Background: Unique Identifiers</h2>
+    <p>About four years ago, we added unique identifiers to SST files to give them stable identifiers across different filesystems for caching purposes. Part of the motivation here was to eliminate our dependence on the uniqueness and non-recycling of unique identifiers on files provided by the OS filesystem.</p>
+
+    <h2>High Quality Randomness</h2>
+    <p>Using large random numbers (e.g. 128 bits) for persisting random identifiers is safer and more predictable than relying on filesystem uniqueness guarantees. The team used a quasi-random approach with multiple entropy sources.</p>
+
+    <h2>Trust But Verify</h2>
+    <p>Unit tests used many threads to create thousands of unique identifiers and verified their uniqueness. For a high quality source, the probability of any duplicate 128-bit IDs among thousands is negligible.</p>
+
+    <h2>That's Weird</h2>
+    <p>The test based on std::random_device failed, once. Then it failed again about a month later. No failures for four years, then two failures in two months. Both failed test jobs had run on the same type of hardware, though in completely different data centers.</p>
+
+    <h2>Root Cause Analysis</h2>
+    <p>The RDSEED instruction on this type of processor would return 0 and "success" much more often than would randomly be expected, but only on some cores and only under "complex micro-architectural conditions reproducible under memory-load." AMD quickly acknowledged the issue and announced planned mitigation, including a CPU microcode update.</p>
+
+    <h2>Key Takeaways</h2>
+    <ul>
+        <li>Test what you depend on.</li>
+        <li>Have redundancies and/or sanity checks for what you depend on.</li>
+        <li>Even CPUs can have bugs, usually flaky individual units but occasionally a bug affecting all units.</li>
+    </ul>
+
+    <p><strong>Rating: ★★★★☆</strong> - A fascinating real-world story of hardware bug discovery through rigorous testing.</p>
+</body>
+</html>

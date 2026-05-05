@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Too Much Color - CSS颜色精度指南</title>
+    <style>
+        :root {
+            --bg: #1a1a2e;
+            --card-bg: #16213e;
+            --text: #eee;
+            --accent: #e94560;
+            --secondary: #0f3460;
+            --highlight: #00d9ff;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 { color: var(--highlight); border-bottom: 2px solid var(--accent); padding-bottom: 10px; }
+        h2 { color: var(--accent); margin-top: 30px; }
+        h3 { color: var(--highlight); }
+        code {
+            background: var(--secondary);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9em;
+        }
+        pre {
+            background: var(--secondary);
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        .tag {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 2px 10px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            margin-right: 5px;
+        }
+        .rating { color: #ffd700; font-size: 1.2em; }
+        a { color: var(--highlight); }
+        .summary {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid var(--highlight);
+        }
+    </style>
+</head>
+<body>
+    <h1>🎨 Too Much Color - CSS颜色精度指南</h1>
+    
+    <div class="summary">
+        <p><span class="rating">⭐⭐⭐⭐</span> <strong>评分: 4/5</strong></p>
+        <p><strong>来源:</strong> Hacker News (keithcirkel.co.uk)</p>
+        <p><strong>日期:</strong> 2026-03-18</p>
+        <p><strong>标签:</strong> <span class="tag">CSS</span> <span class="tag">前端</span> <span class="tag">颜色</span> <span class="tag">性能</span></p>
+    </div>
+
+    <h2>文章概要</h2>
+    <p>作者在开发csskit（一个CSS minifier）时，对颜色精度进行了深入研究。他的结论是：在CSS中，你几乎不需要超过3位小数。以下是具体指南：</p>
+
+    <h2>核心发现</h2>
+    
+    <table>
+        <tr>
+            <th>颜色格式</th>
+            <th>推荐小数位</th>
+            <th>示例</th>
+        </tr>
+        <tr>
+            <td>oklch / oklab</td>
+            <td>3位</td>
+            <td><code>oklch(.659 .304 234.752)</code></td>
+        </tr>
+        <tr>
+            <td>lab / lch</td>
+            <td>1位</td>
+            <td><code>lab(56.7 -10.2 32.5)</code></td>
+        </tr>
+        <tr>
+            <td>rgb() / hsl()</td>
+            <td>0位</td>
+            <td><code>rgb(255 128 64)</code></td>
+        </tr>
+    </table>
+
+    <h2>技术背景：色差公式</h2>
+    
+    <h3>Delta-E (dE)</h3>
+    <p>如何判断两种颜色看起来是否相同？使用CIE开发的Delta-E公式：</p>
+    <ul>
+        <li><strong>dE00 (CIE2000)</strong>：现代标准，修复了早期版本的问题</li>
+        <li><strong>dEOk</strong>：用于Oklab色彩空间，因为Oklab是"感知均匀的"</li>
+    </ul>
+
+    <h3>关键数字</h3>
+    <ul>
+        <li><strong>JND (Just Noticeable Difference)</strong>：刚好能被注意到的差异</li>
+        <li><strong>dE00的JND ≈ 2.0</strong>：低于这个值，人眼无法区分两种颜色</li>
+        <li><strong>dE00低于1.0</strong>：几乎没有人能区分</li>
+        <li><strong>dEOk的JND ≈ 0.02</strong>（因为Oklab使用0-1范围）</li>
+    </ul>
+
+    <h2>实验验证</h2>
+    <p>作者提供了交互式演示来验证这些结论：</p>
+    <ul>
+        <li>"What's My JND" 游戏让你亲身体验色差阈值</li>
+        <li>可视化不同小数位数对颜色的影响</li>
+    </ul>
+
+    <h3>为什么不能更激进？</h3>
+    <ul>
+        <li><strong>0位小数</strong>：对lab/lch来说太激进，会导致颜色明显变浅或变暗</li>
+        <li><strong>1位小数</strong>：对oklch来说可见地不同</li>
+    </ul>
+
+    <h2>实际应用</h2>
+    
+    <h3>如果你是手动写颜色</h3>
+    <blockquote>
+        <p>"如果你的颜色选择器给你 <code>oklch(0.659432 0.304219 234.75238)</code>，四舍五入到 <code>oklch(.659 .304 234.752)</code>然后继续。没有人能看出区别，数学计算在使用 <code>color-mix()</code> 或相对颜色语法时依然成立。"</p>
+    </blockquote>
+
+    <h3>如果你是写minifier</h3>
+    <p>Minifier应该自动处理这些优化：</p>
+    <ul>
+        <li>将oklch/oklab缩短到3位小数</li>
+        <li>将lab/lch缩短到1位小数</li>
+        <li>将rgb()/hsl()缩短到0位小数（去除度数单位）</li>
+    </ul>
+
+    <h2>核心洞察</h2>
+    <blockquote>
+        <p>"没有人能看出3位小数后的差异。如果你花任何显著时间手动调整颜色值，超过2-3位小数只是在浪费时间。"</p>
+    </blockquote>
+
+    <h2>相关链接</h2>
+    <ul>
+        <li><a href="https://www.keithcirkel.co.uk/too-much-color/">原文链接</a></li>
+        <li><a href="https://csskit.rs/">csskit - CSS minifier</a></li>
+        <li><a href="https://www.keithcirkel.co.uk/whats-my-jnd/">What's My JND 游戏</a></li>
+    </ul>
+
+    <hr>
+    <p><em>探索时间: 2026-03-21 00:09 UTC</em></p>
+</body>
+</html>

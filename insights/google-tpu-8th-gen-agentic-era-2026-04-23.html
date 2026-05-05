@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google TPU 8th Generation: Agentic Era — 每日洞察</title>
+    <style>
+        :root {
+            --bg: #ffffff;
+            --text: #1a1a1a;
+            --text-secondary: #666;
+            --accent: #4285f4;
+            --accent-light: #e8f0fe;
+            --border: #dadcde;
+            --code-bg: #f5f5f5;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--bg);
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 24px 16px;
+        }
+        h1 { font-size: 1.5rem; font-weight: 600; margin-bottom: 8px; }
+        h2 { font-size: 1.1rem; font-weight: 600; margin: 24px 0 12px; }
+        .meta { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 16px; }
+        .tag { 
+            display: inline-block; 
+            background: var(--accent-light); 
+            color: var(--accent);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-right: 8px;
+        }
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        ul, ol { padding-left: 20px; margin: 12px 0; }
+        li { margin: 6px 0; }
+        blockquote {
+            border-left: 3px solid var(--accent);
+            padding-left: 12px;
+            margin: 12px 0;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+        .stars { color: #f59e0b; }
+    </style>
+</head>
+<body>
+    <span class="tag">AI Infrastructure</span>
+    <h1>Google TPU 8th Generation: 为Agentic时代打造的超级计算</h1>
+    <div class="meta">📅 2026-04-23 | ★ 5/5 | 来源: Google Cloud Blog (Hacker News: 628 points)</div>
+
+    <p>Google发布了第八代Tensor Processing Units，这是十年磨一剑的里程碑。全新TPU 8t和TPU 8i代表了一次根本性的架构转变——专为AI Agent工作负载设计。</p>
+
+    <h2>双芯片策略</h2>
+    <ul>
+        <li><strong>TPU 8t</strong> — 训练 superpower，单pod达9,600 chips，121 ExaFlops计算性能，近3x前代性能提升</li>
+        <li><strong>TPU 8i</strong> — 推理引擎，80%更好的性能/美元，288GB高带宽内存+384MB on-chip SRAM</li>
+    </ul>
+
+    <h2>为什么这很重要</h2>
+    <blockquote>"In this age of AI agents, models must reason through problems, execute multi-step workflows and learn from their own actions in continuous loops."</blockquote>
+
+    <p>Google明确指出：Agentic工作负载需要全新的硬件范式。传统训练/推理二分法已不够——Agent需要：</p>
+    <ol>
+        <li><strong>多步推理</strong> — 不断循环的思考和工作流</li>
+        <li><strong>低延迟响应</strong> — 用户期望即时交互</li>
+        <li><strong>规模化一致性</strong> — 大量Agent协作时的效率</li>
+    </ol>
+
+    <h2>关键技术亮点</h2>
+    <ul>
+        <li>自定义Axion ARM CPU — 首次使用Google自研CPU</li>
+        <li>Virgo Network — 新一代超级计算网络架构</li>
+        <li>Boardfly topology — 针对推理模型通信优化</li>
+        <li>97%+ goodput — 金融级可靠性指标</li>
+    </ul>
+
+    <h2>我的观点</h2>
+    <p>这是Google对Nvidia霸主地位的有力挑战。TPU 8i的80%性价比提升和TPU 8t的3x训练提速，代表了云AI基础设施的范式转变。Agentic AI不再仅是模型问题——硬件必须为它重新设计。</p>
+
+    <p>有趣的是，Google强调"co-design"哲学：软件和硬件协同设计。这与Apple的做法异曲同工。看来AI硬件的胜负手不在单点性能，而在系统级优化。</p>
+
+    <div style="margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border);">
+        <a href="https://blog.google/innovation-and-ai/infrastructure-and-cloud/google-cloud/eighth-generation-tpu-agentic-era/">📄 阅读原文 →</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>供应链攻击：不可见 Unicode 字符</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+        .container { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { color: #1a1a1a; border-bottom: 3px solid #dc2626; padding-bottom: 10px; }
+        h2 { color: #333; margin-top: 30px; }
+        .tag { display: inline-block; background: #fee2e2; color: #dc2626; padding: 4px 12px; border-radius: 20px; font-size: 14px; margin-right: 8px; }
+        .rating { color: #f5c518; font-size: 20px; }
+        .highlight { background: #fef3c7; padding: 15px; border-radius: 8px; margin: 15px 0; }
+        .danger { background: #fee2e2; padding: 15px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #dc2626; }
+        code { background: #f4f4f4; padding: 2px 8px; border-radius: 4px; font-family: monospace; }
+        pre { background: #2d2d2d; color: #f8f8f2; padding: 15px; border-radius: 8px; overflow-x: auto; }
+        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 20px 0; }
+        .stat-box { background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%); color: white; padding: 20px; border-radius: 8px; text-align: center; }
+        .stat-box .value { font-size: 28px; font-weight: bold; }
+        .stat-box .label { font-size: 14px; opacity: 0.9; }
+        a { color: #007acc; }
+        .footer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; color: #666; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⚠️ 供应链攻击：不可见 Unicode 字符</h1>
+        
+        <div style="margin: 15px 0;">
+            <span class="tag">安全</span>
+            <span class="tag">供应链攻击</span>
+            <span class="tag">Unicode</span>
+            <span class="tag">恶意软件</span>
+            <span class="rating">⭐⭐⭐⭐⭐ 5星</span>
+        </div>
+
+        <div class="danger">
+            <strong>🔴 严重警告:</strong> 攻击者使用 Unicode Private Use Areas (PUA) 字符隐藏恶意代码，对人类和静态分析工具完全不可见
+        </div>
+
+        <h2>🎯 攻击原理</h2>
+        <p>攻击者利用 Unicode 规范中的 <strong>Private Use Areas (PUA)</strong> 范围来隐藏恶意代码：</p>
+        <ul>
+            <li><strong>0xFE00 - 0xFE0F</strong> - 变体选择符</li>
+            <li><strong>0xE0100 - 0xE01EF</strong> - 变体选择符补充</li>
+        </ul>
+
+        <p>这些字符：</p>
+        <ul>
+            <li>对人类完全不可见</li>
+            <li>静态分析工具只能看到空白</li>
+            <li>但 JavaScript 解释器可以执行它们</li>
+        </ul>
+
+        <h2>🕵️ 攻击过程</h2>
+        <div class="highlight">
+            <p>1. 攻击者在代码中插入看似空白的字符串（实际包含不可见字符）</p>
+            <p>2. 运行时，解码器提取实际字节并传递给 eval()</p>
+            <p>3. 恶意负载执行，可窃取令牌、凭据和密钥</p>
+        </div>
+
+        <h2>💻 解码器代码示例</h2>
+        <pre><code>const s = v => [...v].map(w => (
+  w = w.codePointAt(0),
+  w >= 0xFE00 && w <= 0xFE0F ? w - 0xFE00 :
+  w >= 0xE0100 && w <= 0xE01EF ? w - 0xE0100 + 16 : null
+)).filter(n => n !== null);
+
+eval(Buffer.from(s(``)).toString('utf-8'));</code></pre>
+
+        <p>注释：传递给 s() 的反引号字符串在任何查看器中看起来都是空的，但实际上充满了不可见字符，一旦解码就会产生完整的恶意负载。</p>
+
+        <h2>📊 攻击范围</h2>
+        <div class="stats">
+            <div class="stat-box">
+                <div class="value">151</div>
+                <div class="label">检测到的包</div>
+            </div>
+            <div class="stat-box">
+                <div class="value">GitHub</div>
+                <div class="label">主要目标</div>
+            </div>
+            <div class="stat-box">
+                <div class="value">npm</div>
+                <div class="label">也受影响</div>
+            </div>
+        </div>
+
+        <p>已在以下平台发现类似包：</p>
+        <ul>
+            <li>GitHub</li>
+            <li>npm</li>
+            <li>VS Code 市场</li>
+        </ul>
+
+        <h2>📜 历史背景</h2>
+        <p>这种 Unicode 技术最初在 2024 年被用于：</p>
+        <ul>
+            <li>向 AI 引擎隐藏恶意提示 (Prompt Injection)</li>
+            <li>虽然文本对人类和文本扫描器不可见，但 LLM 可以读取并遵循恶意指令</li>
+            <li>AI 引擎后来设置了防护措施，但这些防御经常被绕过</li>
+        </ul>
+
+        <h2>🛡️ 防御建议</h2>
+        <ul>
+            <li>仔细检查包及其依赖</li>
+            <li>仔细检查包名称，搜索拼写错误</li>
+            <li>如果怀疑使用了 LLM，恶意包可能看起来是合法的</li>
+            <li>特别警惕使用不可见字符编码恶意负载的包</li>
+        </ul>
+
+        <div class="footer">
+            <p>来源: <a href="https://arstechnica.com/security/2026/03/supply-chain-attack-using-invisible-code-hits-github-and-other-repositories/" target="_blank">Ars Technica</a></p>
+            <p>发现者: Aikido Security</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taming LLMs: Using Executable Oracles to Prevent Bad Code</title>
+    <meta name="description" content="John Regehr's deep analysis on using executable oracles to constrain LLM coding agents.">
+    <meta name="tags" content="AI, LLM, Testing, Software Engineering, Best Practices">
+    <meta name="rating" content="4">
+    <meta name="published" content="2026-03-26">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <article>
+        <header>
+            <h1>Taming LLMs: Using Executable Oracles to Prevent Bad Code</h1>
+            <div class="meta">
+                <span class="author">John Regehr</span>
+                <span class="date">March 26 2026</span>
+                <span class="source">john.regehr.org</span>
+                <span class="rating">⭐⭐⭐⭐</span>
+            </div>
+        </header>
+
+        <section>
+            <h2>You Can't Trust The Damn Things</h2>
+            <p>By this point, most of us who have experimented with Claude, Codex, and other LLM-based coding agents have noticed that the current generation of these can sometimes do good work, at superhuman speed, when given some kinds of highly constrained tasks. On the other hand, these same tools frequently fall over in baffling ways, emitting tasteless or nonsensical code.</p>
+            <p>When an LLM has the option of doing something poorly, we simply can't trust it to make the right choices. The solution, then, is clear: we need to take away the freedom to do the job badly.</p>
+        </section>
+
+        <section>
+            <h2>Executable Oracles</h2>
+            <p>The software tools that can help us accomplish this are <strong>executable oracles</strong>. The simplest executable oracle is a test case—but test cases, even when there are a lot of them, are weak.</p>
+            <p>Consider Claude's C Compiler: even after passing GCC's "torture test suite" and more, it still had 34 nasty miscompilation bugs that were within easy reach. But it wouldn't have had those bugs if Csmith and YARPGen had been included in the testing loop. These tools are better executable oracles because each of them implicitly encodes a vast collection of test cases.</p>
+            <p>This piece is about collapsing as many failure-producing degrees of freedom as possible. <strong>Zero degrees of freedom is aspirational, but a good aspiration.</strong></p>
+        </section>
+
+        <section>
+            <h2>Example Scenarios</h2>
+            <h3>1. Claude's C Compiler Quality</h3>
+            <p>The compiler contains a somewhat elaborate set of optimization passes, but they appear to make very little difference in the quality of its output. What if the human had included an executable oracle for code quality into its testing loop? The LLM would have been able to incorporate this feedback and do a significantly better job.</p>
+
+            <h3>2. Dataflow Transfer Functions</h3>
+            <p>Given access to command-line tools for evaluating the precision and verifying the soundness of a transfer function, Codex produced results better than anything seen in LLVM or in their own randomized synthesis results. By pinching the LLM's results between opposing executable oracles for soundness and precision, synthesis worked really well.</p>
+
+            <h3>3. JustHTML Parser</h3>
+            <p>JustHTML was tested into existence using a large test suite. The coding agent painted itself into a corner by creating a poor software architecture—a difficult degree of freedom to put an executable oracle on. The author manually walked the LLM through refactoring tasks, arriving at a suitable architecture.</p>
+        </section>
+
+        <section>
+            <h2>Where Can We Find Executable Oracles?</h2>
+            <p>Finding executable oracles for LLMs feels the same as finding test oracles: with a little effort and critical thinking, we can often find a programmatic way to pin down some degree of freedom that would otherwise be available to the LLM to screw up.</p>
+
+            <h3>Correctness Oracles</h3>
+            <ul>
+                <li>Test suites</li>
+                <li>Fuzzers and property-based testers</li>
+                <li>Runtime sanitizers</li>
+                <li>Static analyzers</li>
+                <li>Linters</li>
+                <li>Strong type systems</li>
+                <li>Formal verifiers</li>
+            </ul>
+
+            <h3>Performance Oracles</h3>
+            <ul>
+                <li>Compiler-inserted instrumentation</li>
+                <li>Runtime instrumentation</li>
+                <li>Heap profilers</li>
+                <li>Hardware performance counters</li>
+                <li>Performance regression test suites</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Which Degrees of Freedom Can't We Control?</h2>
+            <ul>
+                <li><strong>Software architecture, modularity, and maintainability:</strong> Picking an appropriate architecture is critical as software scales up, and there's no good executable oracle.</li>
+                <li><strong>Duplication and unnecessary complexity:</strong> LLMs love to write weirdly excessive defensive code.</li>
+                <li><strong>GUI polish:</strong> Creating a polished interface is doubly difficult for coding agents.</li>
+                <li><strong>Security:</strong> Fuzzers are useful, but there are plenty of defects they can't catch.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Practicalities</h2>
+            <ul>
+                <li>An ideal executable oracle would be fast, deterministic, local, sandbox-compatible, and have easy-to-interpret output.</li>
+                <li>Provide LLM with CLI tools that have queryable interfaces (tool --help should work).</li>
+                <li>LLMs are poor at dealing with long-running tools.</li>
+                <li>Provide specific advice about tool timeouts in your documentation.</li>
+                <li>The playbook should codify a linear sequence of steps.</li>
+                <li>Be clear about which requirements are hard and which are soft.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Conclusions</h2>
+            <p>Our goal should be to give an LLM coding agent <strong>zero degrees of freedom</strong>. This is aspirational at present, but it's where we should be trying to go.</p>
+            <p>Given any uncontrolled degree of freedom—some aspect of implementing a piece of software that is important for its use case—we cannot expect LLM coding agents to reliably do a good job. Strong, automated oracles are necessary forcing functions for keeping LLMs in line.</p>
+            <p>An important corollary is that since there are very important aspects of code that we can't easily measure, such as security, modularity, maintainability, and readability, code written by the current generation of LLM coding agents is generally not suitable for use cases where those things are important.</p>
+        </section>
+
+        <footer>
+            <a href="https://john.regehr.org/writing/zero_dof_programming.html">Original Article →</a>
+        </footer>
+    </article>
+</body>
+</html>

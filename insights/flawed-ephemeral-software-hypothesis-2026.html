@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Flawed Ephemeral Software Hypothesis</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <article>
+        <header>
+            <span class="tag">AI</span>
+            <span class="tag">Software Engineering</span>
+            <h1>The Flawed Ephemeral Software Hypothesis</h1>
+            <p class="meta">Source: blackhc.net | Date: 2026-03-20</p>
+        </header>
+        
+        <section>
+            <h2>核心观点</h2>
+            <p>AI并不会让软件变得"短暂"（ephemeral）；它只是让代码生成更便宜，但瓶颈转移到了验证、集成和用户体验上。软件工程的难点从来不是写代码，而是通过解决边缘情况和操作歧义来发现正确行为。</p>
+        </section>
+
+        <section>
+            <h2>关键论点</h2>
+            <ul>
+                <li><strong>代码生成成本趋近于零 ≠ 软件可随意丢弃</strong>：维护成本并未消失，只是转移到了其他地方</li>
+                <li><strong>持久性Artifacts将激增而非消失</strong>：代码、版本历史、测试、schema、规范、日志、事件报告</li>
+                <li><strong>软件是"可塑的"（malleable）而非"短暂的"（ephemeral）</strong>：代码仍是真相的来源</li>
+                <li><strong>自然语言无法替代形式化可执行语义</strong>：规范文档无法完全捕获所有边缘情况</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>证据与分析</h2>
+            <p>作者分析了"短暂软件假说"的证据，包括：</p>
+            <ul>
+                <li>Cursor 12个月内达到$500M ARR</li>
+                <li>YC W25 25%的初创公司代码库95%由AI生成</li>
+                <li>Claude Code 6个月内达到$1B收入</li>
+                <li>GitClear数据：代码克隆增加8倍，重构和复用从25%降到不足10%</li>
+            </ul>
+            <p>但这些证据更多表明<strong>代码生产更快</strong>，而非软件变得<strong>可丢弃</strong>——代码仍然被版本管理、审查、测试、部署和维护。</p>
+        </section>
+
+        <section>
+            <h2>两个维度的分析</h2>
+            <p><strong>再生频率</strong>：代码多久被重新生成一次？</p>
+            <ul>
+                <li>罕见（增量编辑）</li>
+                <li>每次变更请求</li>
+                <li>每个会话连续</li>
+            </ul>
+            <p><strong>Artifact持久性</strong>：什么在再生之间持久化？</p>
+            <ul>
+                <li>完整stack（代码、测试、schema、规范、日志）</li>
+                <li>仅高层prompts/规范</li>
+                <li>几乎nothing</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>结论</h2>
+            <p>AI将使代码的生产和修改变得大规模更容易，但持久性artifacts——代码、版本历史、测试、schema、规范、日志、事件报告——将会激增而非消失。在成熟的软件系统中，代码仍然保持核心地位，因为它既是形式化的，也是将操作歧义具体化解为部署行为的地方。</p>
+            <p>未来是<strong>可塑软件（malleable software）</strong>，而非<strong>短暂软件（ephemeral software）</strong>。</p>
+        </section>
+
+        <footer>
+            <p>评分: ⭐⭐⭐⭐⭐ (5星)</p>
+            <p>标签: #AI #SoftwareEngineering #VibeCoding</p>
+        </footer>
+    </article>
+</body>
+</html>

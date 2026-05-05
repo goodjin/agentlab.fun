@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thoughts on slowing the fuck down - 2026</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+        .container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        h1 { color: #333; border-bottom: 3px solid #9c27b0; padding-bottom: 10px; }
+        h2 { color: #555; margin-top: 30px; }
+        .meta { color: #888; font-size: 14px; margin-bottom: 20px; }
+        .tags { margin: 10px 0; }
+        .tag { background: #f3e5f5; color: #7b1fa2; padding: 4px 12px; border-radius: 16px; font-size: 12px; margin-right: 8px; display: inline-block; }
+        .rating { color: #ff9800; font-size: 24px; }
+        .highlight { background: #fff3e0; padding: 15px; border-left: 4px solid #ff9800; margin: 15px 0; }
+        .warning { background: #ffebee; padding: 15px; border-left: 4px solid #f44336; margin: 15px 0; }
+        .source { background: #e3f2fd; padding: 15px; border-left: 4px solid #2196f3; margin: 15px 0; }
+        ul { padding-left: 20px; }
+        li { margin: 8px 0; }
+        a { color: #1976d2; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Thoughts on slowing the fuck down</h1>
+        
+        <div class="meta">
+            <span class="rating">★★★★☆</span> · 2026-03-26 · Lobsters (40 votes)
+        </div>
+        
+        <div class="tags">
+            <span class="tag">Vibecoding</span>
+            <span class="tag">AI</span>
+            <span class="tag">Software Engineering</span>
+            <span class="tag">Culture</span>
+        </div>
+
+        <h2>摘要</h2>
+        <p>这是来自资深开发者(Android游戏引擎作者)的冷静反思。文章讨论了vibecoding热潮带来的问题，以及我们应该如何与AI agent协作。</p>
+
+        <div class="highlight">
+            <strong>核心观点：</strong>
+            <ul>
+                <li>我们放弃了所有纪律和自主权，陷入了成瘾状态</li>
+                <li>目标是尽可能快地产生尽可能多的代码，不顾后果</li>
+                <li>小错误在agent army下快速累积，没有瓶颈来阻止</li>
+            </ul>
+        </div>
+
+        <h2>问题分析：一切都在崩溃</h2>
+        <p>虽然这都是些坊间传闻，但软件确实变得脆弱了：</p>
+        <ul>
+            <li>98%正常运行时间成为例外，而不是例外情况</li>
+            <li>用户界面有各种奇怪的bug，QA团队应该能发现</li>
+            <li>亚马逊AI导致AWS宕车，90天代码重置</li>
+            <li>微软称30%代码由AI编写，Windows质量下降</li>
+            <li>声称100%代码由AI编写的公司产出最糟糕的垃圾</li>
+        </ul>
+
+        <h2>Agent的工作方式问题</h2>
+        
+        <h3>1. 没有学习的累积错误</h3>
+        <p>人类会学习——重复同样的错误几次后，人类会学会不再犯。Agent没有这种学习能力，至少开箱即用没有。它会继续犯同样的错误，甚至可能产生新的错误变体。</p>
+
+        <h3>2. 没有瓶颈</h3>
+        <div class="warning">
+            <strong>关键区别：</strong> 人类是瓶颈。人类不可能在几小时内写出20,000行代码。即使人类以高频率犯错，每天能引入的错误是有限的。
+        </div>
+        <p>使用编排的agent army，没有瓶颈，没有人类痛苦。小错误突然以不可持续的速度累积。你把自己从循环中移出，所以你甚至不知道所有无害的小错误已经形成了代码库的怪物。只有为时已晚时你才会感受到痛苦。</p>
+
+        <h3>3. 延迟的痛苦</h3>
+        <p>你想添加一个新功能。但架构(在这一点上 largely 是错误)不允许你的agent army以正常方式做出改变。你的用户遇到内存泄漏、UI故障、崩溃。</p>
+
+        <h2>建议的工作方式</h2>
+        <ul>
+            <li><strong>Side project可以玩</strong>：花空闲时间构建东西很有趣，大多数时候你不必关心代码质量和可维护性</li>
+            <li><strong>生产代码要谨慎</strong>：至少在目前的agent能力下，生产代码需要人工审查和监督</li>
+            <li><strong>保持瓶颈</strong>：不要完全放手，保持人为审查点</li>
+            <li><strong>观察并调整</strong>：注意agent犯的错误，在AGENTS.md中教导它</li>
+        </ul>
+
+        <h2>平衡观点</h2>
+        <p>也许有人真的能成功地将这种方法用于不是一堆垃圾的软件产品，并被真正的用户在生产环境中使用。如果那是你的话，祝你顺利。但在我同龄的圈子里，我还没有找到这种成功运行的证据。</p>
+
+        <div class="source">
+            <strong>来源：</strong> <a href="https://mariozechner.at/posts/2026-03-25-thoughts-on-slowing-the-fuck-down/" target="_blank">mariozechner.at</a> · 作者: Mario Zechner (Android游戏引擎作者)
+        </div>
+        
+        <p><a href="/insights/index.html">← 返回索引</a></p>
+    </div>
+</body>
+</html>

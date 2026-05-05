@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maximally minimal view types - Nikomatsakis (2026)</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; }
+        h1 { color: #1a1a1a; border-bottom: 3px solid #dea584; padding-bottom: 10px; }
+        h2 { color: #2d2d2d; margin-top: 30px; }
+        h3 { color: #444; }
+        .meta { color: #666; font-size: 0.9em; margin-bottom: 20px; }
+        .highlight { background: #f5f5f5; padding: 15px; border-left: 4px solid #dea584; margin: 15px 0; }
+        .quote { font-style: italic; color: #555; border-left: 3px solid #ccc; padding-left: 15px; margin: 20px 0; }
+        .stars { color: #f5a623; font-size: 1.2em; }
+        code { background: #f0f0f0; padding: 2px 6px; border-radius: 3px; font-size: 0.9em; }
+        pre { background: #f5f5f5; padding: 15px; overflow-x: auto; border-radius: 5px; }
+        a { color: #dea584; }
+        ul, ol { padding-left: 25px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <h1>Maximally minimal view types</h1>
+    <div class="meta">
+        作者: Nikomatsakis (Rust核心团队) | 日期: 2026-03-21 | 
+        <span class="stars">⭐⭐⭐⭐</span> 4星
+    </div>
+
+    <h2>摘要</h2>
+    <p>Rust语言View Types提案，解决借用检查器痛点。当前Rust在drain循环中调用self方法会报错，因为借用检查器不知道方法只访问某些字段。View Types允许显式声明方法将访问哪些字段。</p>
+
+    <h2>核心亮点</h2>
+    
+    <h3>1. 当前问题</h3>
+    <p>假设有一个<code>MessageProcessor</code>结构体，包含消息和统计信息：</p>
+    <pre><code>pub struct MessageProcessor {
+    messages: Vec&lt;String&gt;,
+    statistics: Statistics,
+}
+
+fn process_pushed_messages(&amp;mut self) {
+    for message in self.messages.drain(..) {
+        self.process_message(message); // &lt;-- ERROR: `self` is borrowed
+    }
+}
+
+fn process_message(&amp;mut self, message: String) {
+    self.statistics.message_count += 1;
+    self.statistics.total_bytes += message.len();
+}</code></pre>
+
+    <div class="highlight">
+        <p>问题在于：<code>self.messages.drain(..)</code>借用<code>self.messages</code>。当调用<code>self.process_message</code>时，编译器假设你可能修改任何字段，包括<code>self.messages</code>，因此报错。</p>
+    </div>
+
+    <h3>2. View Types解决方案</h3>
+    <p>View Types允许你声明方法只访问特定字段：</p>
+    <pre><code>fn process_message(&amp;mut self {statistics}, message: String) {
+    //                ----------------
+    //                简写: `self: &amp;mut MessageProcessor {statistics}`
+    self.statistics.message_count += 1;
+    self.statistics.total_bytes += message.len();
+}</code></pre>
+
+    <h3>3. 语法扩展</h3>
+    <p>View Types扩展了结构体类型的语法，可选择包含可访问字段列表：</p>
+    <pre><code>RustType := StructName&lt;...&gt;
+         |  StructName&lt;...&gt; { .. }         // 所有字段可访问
+         |  StructName&lt;...&gt; { (fields),* } // 指定字段可访问</code></pre>
+
+    <h3>4. 借用检查器如何工作</h3>
+    <div class="highlight">
+        <p>集成Views到借用检查器非常简单。借用检查器在看到借用表达式时，会记录"贷款"，跟踪被借用的位置、借用的方式（mut/shared）和生命周期。</p>
+        <p>对于View Types，我们记录多个贷款而不是单个贷款。例如：</p>
+        <ul>
+            <li><code>&amp;mut self</code> → 记录一个<code>mut</code>贷款</li>
+            <li><code>&amp;mut self {field1, field2}</code> → 记录两个<code>mut</code>贷款：<code>self.field1</code>和<code>self.field2</code></li>
+        </ul>
+    </div>
+
+    <h3>5. 运行时无开销</h3>
+    <p>View Types是纯静态构造，不改变编译方式。<code>process_message</code>方法仍然只接受一个指向<code>self</code>的指针。</p>
+
+    <h3>6. 实现难度</h3>
+    <div class="quote">
+        "坦率说，不难。如果我们找到一个想要承担的贡献者，我认为今年就可以发货。"
+    </div>
+
+    <h2>核心洞察</h2>
+    <div class="quote">
+        "借用的核心问题是：借用检查器不知道<code>process_message</code>方法将<em>只</em>访问<code>statistics</code>字段。"
+    </div>
+
+    <h2>相关链接</h2>
+    <ul>
+        <li><a href="https://smallcultfollowing.com/babysteps/series/view-types/">View Types系列文章</a></li>
+        <li><a href="https://smallcultfollowing.com/babysteps/blog/2021/11/05/view-types/">原始View Types提案</a></li>
+    </ul>
+
+    <hr>
+    <p><a href="https://smallcultfollowing.com/babysteps/blog/2026/03/21/view-types-max-min/">原文链接</a></p>
+</body>
+</html>

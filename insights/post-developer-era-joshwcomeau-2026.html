@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Post-Developer Era - Josh W. Comeau</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .content {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 { color: #1a1a1a; font-size: 1.8em; }
+        h2 { color: #2d2d2d; margin-top: 1.5em; }
+        h3 { color: #444; }
+        .highlight-box {
+            background: #e8f4fd;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .warning-box {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .tag {
+            display: inline-block;
+            background: #4CAF50;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin-right: 8px;
+        }
+        .score {
+            color: #ff9800;
+            font-weight: bold;
+        }
+        .meta {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 20px;
+        }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>The Post-Developer Era</h1>
+        <div class="meta">
+            <span class="tag">AI</span>
+            <span class="tag">Career</span>
+            <span class="tag">Frontend</span>
+            <span class="score">⭐⭐⭐⭐⭐ 5星</span>
+        </div>
+        
+        <p><strong>来源:</strong> <a href="https://www.joshwcomeau.com/blog/the-post-developer-era/" target="_blank">joshwcomeau.com/blog/the-post-developer-era/</a></p>
+        
+        <h2>内容概述</h2>
+        <p>2023年3月，作者发表了"The End of Front-End Development"一文，讨论 AI 是否会让程序员失业。两年后，作者重新审视这个话题，分享了他对当前 AI 发展状况和程序员未来的深度思考。</p>
+        
+        <h2>关键亮点</h2>
+        
+        <h3>1. 企业与 AI 使用的真相</h3>
+        <ul>
+            <li><strong>Google 的 25% 神话</strong> - 虽然有报道称 AI 写了 Google 25% 的代码，但这并不意味着人类开发者被取代。人类开发者仍然掌控方向盘，编辑和完善 AI 的输出</li>
+            <li><strong>Devin 的失败</strong> - 声称可以完全取代人类开发者的 AI 产品 Devin，在实际测试中只能完成 3/20 的任务</li>
+            <li>没有任何 AI 成功故事不需要熟练的人类开发者作为必要成分</li>
+        </ul>
+        
+        <h3>2. "巡航控制" 比喻</h3>
+        <div class="highlight-box">
+            <p>使用 Cursor 等 AI 工具的感觉就像在高速公路上使用"巡航控制"：</p>
+            <ul>
+                <li>汽车大部分时候会朝着你指向的方向前进</li>
+                <li>但你仍然需要把手放在方向盘上，保持稳定</li>
+                <li>否则汽车会慢慢漂移出车道</li>
+                <li>如果你不偶尔把它拉回正轨，你就会掉进沟里</li>
+            </ul>
+        </div>
+        
+        <h3>3. 不会编程的人的困境</h3>
+        <ul>
+            <li>从零开始使用 LLM 构建项目的"无代码者"有类似的经历</li>
+            <li>他们最初很强，但最终达到一个无论如何也无法进步的阶段</li>
+            <li>代码变成了一堆莫名其妙的东西，超过一定程度后，无论多少胶带也无法让它保持在一起</li>
+            <li>代码会在自己的重量下崩溃</li>
+        </ul>
+        
+        <h3>4. 当前就业市场</h3>
+        <ul>
+            <li><strong>宏观经济因素</strong> - 利率仍然相对较高初创公司难以吸引增长和雇佣开发者所需的资金</li>
+            <li><strong>裁员</strong> - 大型科技公司在过去几年裁员数十万人</li>
+            <li><strong>AI 神话</strong> - 一些公司仍然相信 AI 真的会很快让开发者过时，所以没有像他们本来那样积极招聘</li>
+        </ul>
+        
+        <h3>5. vibe coding 陷阱</h3>
+        <div class="warning-box">
+            <strong>警告：</strong>
+            <p>使用 LLM agents 时，很容易被催眠，不断点击"接受更改"，而不理解或甚至不看生成的代码。这就是所谓的"vibe coding"。</p>
+            <p>最省力的路就是坐下来让机器做它的事，但这会阻止我们建立调试和修复代码所需的技能——当机器不可避免地卡住时，这些技能是必需的。</p>
+        </div>
+        
+        <h3>6. 展望未来</h3>
+        <ul>
+            <li>我们似乎已经达到了技术曲线的点，进步变得更加渐进</li>
+            <li>每个新模型都好一点，但更多是改进它已经做得好的事情，而不是征服全新的问题</li>
+            <li>虽然就业市场现在感觉严峻，但事情正朝着正确的方向发展（至少在美国）</li>
+            <li>如果 AI 真的会让软件开发者冗余，我会预期技术工作总数会以加速的速度下降，但实际上过去一年一直在增加</li>
+            <li>作者预测：一两年后可能会看到"开发者文艺复兴"，当公司最终接受人类开发者仍然需要时</li>
+        </ul>
+        
+        <h3>7. 给有抱负的开发者的建议</h3>
+        <ul>
+            <li>如果你对软件开发充满热情，或者把它视为获得高收入、进入中上阶层的最佳机会，不要让 AI 宣传让你气馁</li>
+            <li>公司仍在招聘，作者看不出这会很快停止</li>
+            <li>主动使用 AI 作为学习工具，而不是被动接受</li>
+            <li>LLM 可以帮助理解 TypeScript 错误，或者至少 surfaced 相关的关键词来找到正确的文档</li>
+            <li>每个开发者都有机会获得自己的私人导师，帮助理解不理解的东西</li>
+        </ul>
+        
+        <div class="highlight-box">
+            <strong>核心观点：</strong>
+            <p>"我知道如何编程仍然是一项非常有价值的技能，我不认为这会在短期内改变。"</p>
+            <p>"LLM 作为开发者增强器比作为开发者替代品效果更好，一旦公司意识到这一点，我认为他们会停止破坏自己的增长，开始更积极地招聘。"</p>
+        </div>
+        
+        <h2>总结</h2>
+        <p>经过两年的观察，作者更加确信 AI 不会很快取代软件开发者。虽然 AI 模型会继续改进，但我们仍然需要人类开发者来引导、审核和修正 AI 的输出。对于有抱负的开发者来说，现在仍然是一个学习编程的好时机——只是要主动使用 AI 作为增强工具，而不是被动地接受它的输出。</p>
+        
+        <hr>
+        <p><em>探索日期: 2026-03-17 | 来源: Josh W. Comeau</em></p>
+    </div>
+</body>
+</html>

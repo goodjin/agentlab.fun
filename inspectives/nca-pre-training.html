@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NCA Pre-training - 神经元胞自动机预训练 | Insights</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.6; }
+        h1 { color: #1a1a1a; border-bottom: 3px solid #3b82f6; padding-bottom: 10px; }
+        h2 { color: #2563eb; margin-top: 30px; }
+        .meta { color: #6b7280; font-size: 14px; }
+        .highlight { background: #dbeafe; padding: 15px; border-radius: 8px; margin: 20px 0; }
+        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 20px 0; }
+        .stat { background: #f3f4f6; padding: 15px; border-radius: 8px; text-align: center; }
+        .stat-value { font-size: 24px; font-weight: bold; color: #2563eb; }
+        .stat-label { font-size: 12px; color: #6b7280; }
+        a { color: #2563eb; }
+        .rating { color: #f59e0b; font-size: 20px; }
+    </style>
+</head>
+<body>
+    <p class="meta">📅 2026-03-19 | 来源: Hacker News | ⭐⭐⭐⭐⭐ (5星)</p>
+    
+    <h1>🧬 NCA Pre-training: 用神经元胞自动机预训练语言模型</h1>
+    
+    <div class="highlight">
+        <strong>核心发现:</strong> 164M NCA合成数据tokens > 1.6B自然语言tokens
+    </div>
+
+    <h2>研究问题</h2>
+    <p>LLM需要大量数据,但高质量自然语言预计2028年将耗尽。研究者提出:语言的<strong>结构</strong>而非语义才是预训练的关键。</p>
+
+    <h2>方法</h2>
+    <p>神经胞自动机(NCA)是将Game of Life的固定规则替换为神经网络。每个随机采样的网络定义独特的转换规则,产生多样化的时空动态。</p>
+    <p>关键:由于每个序列有独特的潜在规则,模型必须<strong>推断</strong>该规则才能预测下一步——这正是上下文学习能力的核心。</p>
+
+    <div class="stats">
+        <div class="stat">
+            <div class="stat-value">-5.7%</div>
+            <div class="stat-label">WebText Perplexity</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">1.6×</div>
+            <div class="stat-label">收敛速度</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">164M</div>
+            <div class="stat-label">NCA Tokens</div>
+        </div>
+    </div>
+
+    <h2>关键洞察</h2>
+    <ul>
+        <li><strong>注意力是载体:</strong> 可迁移的计算原语主要在注意力层</li>
+        <li><strong>复杂度需匹配:</strong> 代码偏好简单动态,数学偏好复杂</li>
+        <li><strong>结构>语义:</strong> 无语言内容的NCA数据教会模型追踪长程依赖</li>
+        <li><strong>效率>规模:</strong> 调整生成器的复杂度比增加数据量更重要</li>
+    </ul>
+
+    <h2>长远意义</h2>
+    <p>未来:模型从完全合成数据获得推理能力,然后从少量自然语言学习语义。这将帮助构建不受人类偏见影响的推理模型。</p>
+
+    <p><a href="https://hanseungwook.github.io/blog/nca-pre-pre-training/" target="_blank">→ 阅读原文</a></p>
+    
+    <hr>
+    <p><a href="/">← 返回首页</a></p>
+</body>
+</html>

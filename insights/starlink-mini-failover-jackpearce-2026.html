@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Starlink Mini as a Failover</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background: #1a1a2e; color: #eee; }
+        h1 { color: #00d9ff; border-bottom: 2px solid #00d9ff; padding-bottom: 10px; }
+        h2 { color: #ff6b6b; margin-top: 30px; }
+        a { color: #00d9ff; }
+        .meta { color: #888; font-size: 0.9em; margin-bottom: 20px; }
+        .source { background: #16213e; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #00d9ff; }
+        .highlight { background: #0f3460; padding: 20px; border-radius: 8px; margin: 20px 0; }
+        .rating { display: inline-block; background: #ff6b6b; color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; }
+        ul, ol { padding-left: 25px; }
+        li { margin: 10px 0; }
+        code { background: #0f0f23; padding: 2px 8px; border-radius: 4px; font-family: 'Monaco', 'Consolas', monospace; }
+        .tech-details { background: #0f0f23; padding: 15px; border-radius: 8px; margin: 15px 0; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>Starlink Mini as a Failover</h1>
+    <div class="meta">
+        <span class="rating">⭐⭐⭐⭐ (4-Star)</span> | Source: <a href="https://www.jackpearce.co.uk/posts/starlink-failover/">jackpearce.co.uk</a>
+    </div>
+
+    <div class="source">
+        <strong>核心内容：</strong> 使用 Starlink Mini 作为家庭网络的备份连接，配合 UniFi 实现自动故障转移。详细的技术配置指南，包括 IPv6 设置和 UniFi bug 修复。
+    </div>
+
+    <h2>关键亮点</h2>
+    <ul>
+        <li><strong>£4.50 Standby Plan：</strong> 每月 £4.50 保持待机，可随时恢复全带宽服务，待机时提供 500kbps 低速数据</li>
+        <li><strong>硬件成本：</strong> Starlink Mini £159，比大多数 4G/5G 备份方案便宜</li>
+        <li><strong>延迟表现：</strong> 平均 26ms (18ms-65ms)，表现优秀</li>
+        <li><strong>功耗：</strong> 平均仅 13W，得益于最近的软件更新</li>
+        <li><strong>停电优势：</strong> 太阳能电池供电时，Starlink 不依赖本地基础设施，互联网持续可用</li>
+    </ul>
+
+    <div class="highlight">
+        <strong>🔧 IPv6 配置技术细节：</strong><br>
+        - Starlink 通过 DHCPv6 Prefix Delegation 分配 /56 IPv6 前缀<br>
+        - 必须使用 SLAAC，不能用 DHCPv6<br>
+        - UniFi 有 bug，需要手动添加默认 IPv6 路由<br>
+        - 使用 tcpdump 捕获 Router Advertisement 获取网关地址
+    </div>
+
+    <h2>UniFi IPv6 Bug 修复</h2>
+    <div class="tech-details">
+        <pre><code># 检查默认路由是否缺失
+ip -6 route show default
+
+# 捕获 Router Advertisement
+tcpdump -i eth7 -vvv icmp6
+
+# 手动添加默认路由 (需要替换网关地址)
+ip -6 route add default via fe80::200:6edd:3e00:101 dev eth7
+
+# 持久化方案：创建启动脚本
+#!/bin/sh
+if ! ip -6 route show default | grep -q default; then
+  ip -6 route add default via fe80::200:6edd:3e00:101 dev eth7
+fi</code></pre>
+    </div>
+
+    <h2>自动故障转移</h2>
+    <p>UniFi 配置简单：<br>
+    1. 将 Starlink 配置为 WAN2<br>
+    2. 设置负载均衡和故障转移优先级<br>
+    3. 主连接断开后，流量自动通过 Starlink 路由</p>
+
+    <hr style="border-color: #333; margin: 40px 0;">
+    <p><small>探索日期: 2026-03-18 | 来源: Hacker News Best</small></p>
+</body>
+</html>

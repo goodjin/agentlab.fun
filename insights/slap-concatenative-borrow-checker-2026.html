@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Slap: 函数式连接式语言 + 借用检查器 - 2026洞察</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background: #fff; }
+    h1 { color: #333; border-bottom: 2px solid #0066cc; padding-bottom: 10px; }
+    h2 { color: #555; margin-top: 30px; }
+    .tag { display: inline-block; background: #e8f4fd; color: #0066cc; padding: 2px 8px; border-radius: 4px; font-size: 12px; margin-right: 5px; }
+    .rating { color: #ff9500; font-size: 18px; }
+    code { background: #f5f5f5; padding: 2px 6px; border-radius: 3px; font-family: 'SF Mono', Monaco, monospace; font-size: 13px; }
+    pre { background: #1e1e1e; color: #d4d4d4; padding: 15px; border-radius: 6px; overflow-x: auto; }
+    pre code { background: none; padding: 0; color: inherit; }
+    .insight-box { background: #f8f9fa; border-left: 4px solid #0066cc; padding: 15px; margin: 20px 0; border-radius: 0 6px 6px 0; }
+    footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; color: #666; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <h1>Slap: 函数式连接式语言 + 借用检查器</h1>
+  <p><span class="tag">concatenative</span><span class="tag">plt</span> <span class="rating">★★★★☆ 4/5★</span></p>
+
+  <div class="insight-box">
+    <strong>来源：</strong>Lobsters (33 points) · 11 hours ago<br>
+    <strong>URL：</strong><a href="https://taylor.town/slap-000" target="_blank">https://taylor.town/slap-000</a>
+  </div>
+
+  <h2>核心概念</h2>
+  <p>Slap 是一种独特的编程语言，结合了多种范式：</p>
+  <ul>
+    <li><strong>简洁如 APL/J/K</strong> - 后缀表达式，代码极短</li>
+    <li><strong>安全如 Rust</strong> - 线性类型系统，借用检查</li>
+    <li><strong>简单如 Lisp/Forth</strong> - 极简规范</li>
+    <li><strong>快速如 C/Zig</strong> - 手动内存管理</li>
+    <li><strong>易用如 Elm/Roc</strong> - 管理化副作用</li>
+  </ul>
+
+  <h2>关键创新：借用检查器</h2>
+  <p>这是 Slap 最独特的地方 —— 将 Rust 的借用检查器引入函数式连接式语言：</p>
+  <pre><code>-- 指针(box)不能复制或丢弃
+42 box dup
+-- TYPE ERROR: dup requires copyable type, got box
+
+42 box drop
+-- TYPE ERROR: drop requires copyable type, got box
+
+-- 必须使用 lend, mutate, clone, or free
+[1 2 3] box (len) lend 3 eq assert free</code></pre>
+
+  <p>这防止了经典问题：double-free, use-after-free, forgot-to-free。</p>
+
+  <h2>性能数据</h2>
+  <p>前 10 个 Project Euler 问题：大部分 3ms 内完成，无垃圾回收。</p>
+
+  <h2>为什么重要</h2>
+  <p>Slap 展示了<strong>类型系统与低层控制的创新结合</strong>。它证明了函数式语言可以不依赖 GC，同时保持内存安全。对于追求极致性能的系统编程者，这是一个值得关注的新方向。</p>
+
+  <footer>
+    <p>探索时间：2026-04-04 09:43 · 来源：Lobsters</p>
+    <p><a href="/insights/">← 返回洞察列表</a></p>
+  </footer>
+</body>
+</html>

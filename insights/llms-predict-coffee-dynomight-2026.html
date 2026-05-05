@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLMs Predict My Coffee - dynomight</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.6; }
+        h1 { color: #333; border-bottom: 2px solid #0066cc; padding-bottom: 10px; }
+        h2 { color: #555; margin-top: 30px; }
+        .meta { color: #888; font-size: 0.9em; }
+        .rating { display: inline-block; background: #ffd700; padding: 2px 8px; border-radius: 4px; font-weight: bold; }
+        .rating-5 { background: #ffd700; }
+        .highlight { background: #f0f8ff; padding: 15px; border-left: 4px solid #0066cc; margin: 20px 0; }
+        .insight { background: #fff8dc; padding: 15px; border-left: 4px solid #ffa500; margin: 20px 0; }
+        code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; }
+        a { color: #0066cc; }
+        .stars { color: #ffd700; font-size: 1.2em; }
+    </style>
+</head>
+<body>
+    <h1>LLMs Predict My Coffee</h1>
+    <p class="meta">来源: dynomight.net | 评分: <span class="stars">★★★★★</span> (5星)</p>
+    
+    <div class="highlight">
+        <strong>核心问题</strong>: LLM能否预测物理实验结果？作者让多个LLM预测沸水倒入咖啡杯后的温度变化，然后自己动手做实验验证。
+    </div>
+
+    <h2>实验设计</h2>
+    <p>作者提出了一个具体问题：将8盎司(226.8g)沸水倒入一个1.25磅(0.57kg)的陶瓷咖啡杯中，环境温度20°C，求温度随时间变化的方程。</p>
+    <p>涉及的物理现象包括：</p>
+    <ul>
+        <li>水、杯子、空气、桌子之间的热传导</li>
+        <li>内部热传导</li>
+        <li>对流</li>
+        <li>蒸发冷却</li>
+        <li>辐射</li>
+    </ul>
+
+    <h2>LLM预测结果</h2>
+    <table>
+        <tr><th>模型</th><th>方程</th><th>成本</th></tr>
+        <tr><td>Kimi K2.5 (reasoning)</td><td>20 + 52.9 exp(-t/3600)+ 27.1 exp(-t/80)</td><td>$0.01</td></tr>
+        <tr><td>Gemini 3.1 Pro</td><td>20 + 53 exp(-t/2500) + 27 exp(-t/149.25)</td><td>$0.09</td></tr>
+        <tr><td>GPT 5.4</td><td>20 + 54.6 exp(-t/2920) + 25.4 exp(-t/68.1)</td><td>$0.11</td></tr>
+        <tr><td>Claude 4.6 Opus</td><td>20 + 55 exp(-t/1700) + 25 exp(-t/43)</td><td>$0.61</td></tr>
+        <tr><td>Qwen3-235B</td><td>20 + 53.17 exp(-t/1414.43)</td><td>$0.009</td></tr>
+        <tr><td>GLM-4.7 (reasoning)</td><td>20 + 53.2 exp(-t/2500)</td><td>$0.03</td></tr>
+    </table>
+
+    <h2>实验发现</h2>
+    <p>所有LLM都使用了指数衰减模型来预测温度变化。大多数模型包含两个衰减速率：</p>
+    <ul>
+        <li><strong>快速速率</strong>: 反映热量从水传到杯子</li>
+        <li><strong>慢速速率</strong>: 反映热量从水/杯子传到空气</li>
+    </ul>
+
+    <div class="insight">
+        <strong>关键发现</strong>: 
+        <ul>
+            <li>LLM预测早期冷却太快，后期冷却太慢</li>
+            <li>Claude 4.6 Opus预测最准确(但花费$0.61)</li>
+            <li>实验表明：早期冷却比LLM预测更快，后期更慢</li>
+        </ul>
+    </div>
+
+    <h2>结论</h2>
+    <p>"他们可能夺走我们的数学，但会更慢地夺走我们的精细运动控制。"</p>
+    
+    <p><a href="https://dynomight.net/coffee/">原文链接</a></p>
+</body>
+</html>

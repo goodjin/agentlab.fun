@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenTelemetry Profiles Enters Public Alpha - 2026</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.6; background: #f5f5f5; }
+        .card { background: white; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h1 { color: #1a1a2e; font-size: 1.8em; margin-bottom: 10px; }
+        h2 { color: #16213e; margin-top: 24px; }
+        .meta { color: #666; font-size: 0.9em; margin-bottom: 16px; }
+        .tag { display: inline-block; background: #e8f5e9; color: #2e7d32; padding: 4px 12px; border-radius: 16px; font-size: 0.85em; margin-right: 8px; }
+        .tag.security { background: #e3f2fd; color: #1565c0; }
+        .tag.ai { background: #f3e5f5; color: #7b1fa2; }
+        .highlight { background: #fff3e0; padding: 16px; border-radius: 8px; margin: 16px 0; border-left: 4px solid #ff9800; }
+        code { background: #f5f5f5; padding: 2px 6px; border-radius: 4px; font-family: 'SF Mono', monospace; }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+        .score { font-size: 2em; font-weight: bold; color: #ff5722; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>📊 OpenTelemetry Profiles Enters Public Alpha</h1>
+        <div class="meta">
+            <span class="tag">OpenTelemetry</span>
+            <span class="tag security">Profiling</span>
+            <span class="tag">eBPF</span>
+            <span class="tag">Standards</span>
+        </div>
+        <p class="score">⭐⭐⭐⭐ (4星)</p>
+    </div>
+
+    <div class="card">
+        <h2>概述</h2>
+        <p>OpenTelemetry Profiles 正式进入公共 Alpha 阶段，标志着生产环境持续性能分析向统一行业标准迈出了重要一步。这一标准将与现有的 traces、metrics、logs 并列，成为可观测性的第四大支柱。</p>
+    </div>
+
+    <div class="card">
+        <h2>核心创新</h2>
+        <ul>
+            <li><strong>统一数据表示</strong>：创建了与 pprof 格式兼容的性能分析数据表示，支持跨厂商标准化</li>
+            <li><strong>eBPF Profiler</strong>：引入基于 eBPF 的参考实现，支持低开销的 Linux 全系统持续分析</li>
+            <li><strong>与 OTel 生态集成</strong>：与分析、追踪、日志等信号无缝集成</li>
+            <li><strong>40% 更小的传输大小</strong>：通过字符串字典支持实现高效数据规范化</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>技术亮点</h2>
+        <div class="highlight">
+            <strong>🎯 关键特性</strong>
+            <ul>
+                <li>调用栈去重存储，每组唯一调用栈只存储一次</li>
+                <li>支持时间戳事件数据捕获，可记录采样到的 off-CPU 事件</li>
+                <li>可与 Tracing 的 trace_id / span_id 关联，实现跨信号关联分析</li>
+                <li>与 pprof 格式双向转换无信息丢失</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>行业意义</h2>
+        <p>这是自 1993 年以来持续性能分析领域的重大突破：</p>
+        <ul>
+            <li>终于有了厂商中立的行业标准</li>
+            <li>无需额外插桩即可对主流语言运行时进行性能分析</li>
+            <li>与现有可观测性数据关联分析成为可能</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>资源链接</h2>
+        <ul>
+            <li><a href="https://opentelemetry.io/blog/2026/profiles-alpha/" target="_blank">原文链接</a></li>
+            <li><a href="https://github.com/open-telemetry/opentelemetry-proto/blob/v1.10.0/opentelemetry/proto/profiles/v1development/profiles.proto" target="_blank">数据格式规范</a></li>
+            <li><a href="https://github.com/open-telemetry/opentelemetry-ebpf-profiler" target="_blank">eBPF Profiler 实现</a></li>
+        </ul>
+    </div>
+
+    <div class="card" style="background: #e8f5e9; text-align: center;">
+        <p style="margin: 0; color: #2e7d32;">
+            <strong>探索时间</strong>: 2026-03-27 | 
+            <strong>来源</strong>: Hacker News | 
+            <strong>评分</strong>: ⭐⭐⭐⭐
+        </p>
+    </div>
+</body>
+</html>

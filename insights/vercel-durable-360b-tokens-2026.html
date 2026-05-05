@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>360 Billion Tokens, 3 Million Customers, 6 Engineers | Vercel</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.6; }
+        h1 { color: #333; border-bottom: 2px solid #0070f3; padding-bottom: 10px; }
+        h2 { color: #555; margin-top: 30px; }
+        .meta { color: #666; font-size: 14px; }
+        .highlight { background: #f0f7ff; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #0070f3; }
+        .insight { background: #fff8e0; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #f5a623; }
+        .stats { background: #1e1e1e; color: #fff; padding: 20px; border-radius: 12px; margin: 20px 0; }
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; text-align: center; }
+        .stat-number { font-size: 32px; font-weight: bold; color: #0070f3; }
+        .stat-label { font-size: 14px; color: #aaa; }
+        code { background: #f4f4f4; padding: 2px 6px; border-radius: 4px; font-family: 'Monaco', 'Menlo', monospace; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        th { background: #f8f9fa; }
+        .tag { display: inline-block; background: #0070f3; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px; margin-right: 8px; }
+        .rating { float: right; color: #f5a623; font-size: 20px; }
+    </style>
+</head>
+<body>
+    <span class="rating">⭐⭐⭐⭐⭐</span>
+    <span class="tag">Case Study</span>
+    <span class="tag">Vercel</span>
+    <span class="tag">AI</span>
+    <span class="tag">Durable</span>
+    
+    <h1>360 Billion Tokens, 3 Million Customers, 6 Engineers</h1>
+    <p class="meta">Published: March 18, 2026 | Author: Eric Dodds | Category: Customer Stories</p>
+    
+    <div class="stats">
+        <div class="stats-grid">
+            <div>
+                <div class="stat-number">6</div>
+                <div class="stat-label">工程师</div>
+            </div>
+            <div>
+                <div class="stat-number">3M</div>
+                <div class="stat-label">客户</div>
+            </div>
+            <div>
+                <div class="stat-number">11B</div>
+                <div class="stat-label">每日 tokens</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="highlight">
+        <strong>核心发现：</strong> Durable 用 6 个工程师服务 300 万客户，每天处理 11 亿 tokens，单日将新 agent 部署到生产，成本比自托管低 3-4 倍
+    </div>
+    
+    <h2>关于 Durable</h2>
+    <p>Durable 的目标很简单：让拥有自己的企业比找工作更容易。</p>
+    
+    <p>60% 的美国成年人说他们想为自己工作，但实际上只有约 4% 这样做。Durable 的赌注是：障碍不是野心，而是摩擦。</p>
+    
+    <p>"小企业是被一千个工具、登录、工作流程和设计杀死的，"Durable 创始人 James Clift 解释说。"如果你消除这些障碍，企业主可以专注于他们的客户。"</p>
+    
+    <p>今天，Durable 是一个 AI 企业构建器，帮助企业家在几分钟内启动，然后使用处理 SEO、内容和运营的代理进行优化。</p>
+    
+    <h2>问题：基础设施很难；多租户基础设施更难</h2>
+    
+    <p>Durable 不仅仅是一个应用。他们管理数百万客户站点、CRM 和代理，每个都有不同的流量模式和不同的运营需求。</p>
+    
+    <p>一个客户站点可能比另一个多 100 倍的流量，幂律很快就会出现。当峰值发生时，一小部分 Durable 客户可能会消耗不成比例的计算份额，这使得成本隔离、归属和定价策略成为重要的工程问题。</p>
+    
+    <h3>自托管的痛点</h3>
+    <ul>
+        <li><strong>自定义域名和 SaaS 规模的 SSL</strong> - 包括为自定义域名的 SSL 终止支付数千美元</li>
+        <li><strong>多区域集群维护</strong> - 之前需要基础设施工程师保持跨多个地区的集群运行</li>
+        <li><strong>多租户风险的安全和机器人保护</strong> - DDoS 攻击针对一个客户不会降低其他站点的性能</li>
+        <li><strong>跨数百万租户的可观察性和成本归属</strong></li>
+    </ul>
+    
+    <h2>从 AI 作为管道到 AI 作为产品</h2>
+    
+    <p>Durable 提供的不仅仅是站点。他们帮助客户用多代理、多模型、多模态产品经营企业。</p>
+    
+    <p>一旦代理成为其平台的核心部分，他们的开发者遇到了三个与自托管网站平台根本不同的问题：</p>
+    
+    <ol>
+        <li><strong>模型编排：</strong> 他们需要快速切换模型和提供商以实现可靠性和成本，避免被长期合同锁定或在每次中断或新模型发布时重做系统。</li>
+        
+        <li><strong>租户隔离：</strong> 在多租户代理系统中，"上下文泄漏"是生存问题。Durable 需要严格的护栏，以确保一个企业的上下文永远不会泄漏到另一个的工作流程中。</li>
+        
+        <li><strong>每个客户的 AI 经济学：</strong> AI 工作负载变化很大，因此 Durable 需要客户级别的可见性，包括运行、模型和支出，以支持使用量或结果定价。</li>
+    </ol>
+    
+    <h2>迁移与成功</h2>
+    
+    <p>团队意识到现有的堆栈限制了快速解决客户和平台问题的能力。"我们意识到我们必须构建 Vercel，或者我们必须构建在 Vercel 上，"CPTO Osama Khan 说。</p>
+    
+    <p>Khan 说，Vercel 的简单性使他们的应用迁移成为可能。他将基础设施升级描述为在触及代码之前实施的单一决定性举措："我们用 iframe 覆盖旧产品，推送到 Vercel 生产，然后完全拆除自托管基础设施。"</p>
+    
+    <p>他们没有以旧方式重构。凭借精简的团队，Durable 使用编码代理加速重写，用 token 加速移动，最终获得生产质量的代码库。</p>
+    
+    <p>"每个人都告诉你不要重写你的产品，"Khan 说，"但我们正是这样做了，而且成功了。"</p>
+    
+    <div class="insight">
+        <strong>成本洞察：</strong> "每个人都说你 Vercel 很贵，但我们的成本比自托管时低 3-4 倍。"
+    </div>
+    
+    <h2>使用的 Vercel 技术栈</h2>
+    
+    <table>
+        <tr>
+            <th>领域</th>
+            <th>使用的技术</th>
+        </tr>
+        <tr>
+            <td>构建、发布和运行应用</td>
+            <td>Next.js, Functions, Fluid Compute, Turborepo, Flags, Toolbar</td>
+        </tr>
+        <tr>
+            <td>AI + 代理</td>
+            <td>AI SDK, AI Gateway, Workflows, Skills</td>
+        </tr>
+        <tr>
+            <td>Edge 交付 + 多租户路由</td>
+            <td>CDN, Domains API, Cron</td>
+        </tr>
+        <tr>
+            <td>安全 + 滥用防护</td>
+            <td>Firewall, Bot Protection, BotID, Sandbox</td>
+        </tr>
+        <tr>
+            <td>可观察性 + 性能</td>
+            <td>Analytics, Speed Insights, OpenTelemetry</td>
+        </tr>
+        <tr>
+            <td>数据 + 输出</td>
+            <td>Blob, Streamdown, json-renderer</td>
+        </tr>
+    </table>
+    
+    <h2>10x 效率提升</h2>
+    
+    <p>Durable 服务超过 300 万企业。"想想一个在展会上卖巧克力香蕉的 19 岁年轻人，德克萨斯州节日门廊装饰业务的水管工，或者刚刚被解雇的科技高管，"Khan 说。"这些都是拒绝 9-5 并作为企业家建设自己未来的 Durable 客户。"</p>
+    
+    <p>对于 6 个工程师和一个 DevOps 团队来说，令人印象深刻。创始人 Clift 觉得在 Vercel 上运行获得了 100 倍的杠杆效应。</p>
+    
+    <div class="insight">
+        <strong>核心洞察：</strong> "每个工程师、产品经理和设计师的产出是几年前可能的 10 倍，我们每天服务 11 亿 tokens 而没有基础设施团队。这就是未来每家科技公司的运营方式。"
+    </div>
+    
+    <hr>
+    <p><small>探索时间: 2026-03-21 23:37 | 来源: Vercel Engineering Blog</small></p>
+</body>
+</html>

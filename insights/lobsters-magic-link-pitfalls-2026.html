@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magic Link Pitfalls - Security Insights</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+        h1 { color: #1a1a1a; border-bottom: 3px solid #e74c3c; padding-bottom: 10px; }
+        h2 { color: #2c3e50; margin-top: 30px; }
+        .meta { color: #7f8c8d; font-size: 0.9em; }
+        .warning { background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 20px 0; }
+        .source { background: #d1ecf1; border-left: 4px solid #17a2b8; padding: 15px; margin: 20px 0; }
+        code { background: #f8f9fa; padding: 2px 6px; border-radius: 3px; }
+        ul { padding-left: 20px; }
+        li { margin: 10px 0; }
+        .tag { display: inline-block; background: #e74c3c; color: white; padding: 2px 8px; border-radius: 3px; font-size: 0.8em; margin-right: 5px; }
+        a { color: #3498db; }
+        .score { float: right; color: #27ae60; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <span class="score">★★★★☆</span>
+    <h1>Magic Link Pitfalls <span class="tag">security</span> <span class="tag">authentication</span></h1>
+    <p class="meta">Source: <a href="https://etodd.io/2026/03/22/magic-link-pitfalls/" target="_blank">etodd.io</a> | Published: March 22, 2026</p>
+    
+    <div class="source">
+        <strong>探索来源:</strong> Lobsters /t/security 分类
+    </div>
+
+    <h2>核心发现</h2>
+    <p>无密码登录（Magic Link）的两个重要安全问题：</p>
+
+    <h3>1. 需要点击确认</h3>
+    <p>作者第一次实现 magic link 时，用户点击链接后立即登录（GET 请求）。但有些程序会预加载链接来显示预览，浏览器也可能鼠标悬停时预取页面，导致用户还没看到页面，链接就已经被"使用"了。</p>
+    <div class="warning">
+        <strong>解决方案：</strong> 链接应该导向一个页面，让用户点击确认按钮后才标记 code 为已使用。
+    </div>
+
+    <h3>2. 在正确的标签页登录</h3>
+    <p>当用户在手机邮件应用内点击链接时，内置浏览器会登录，但用户的主浏览器却不知道已登录。</p>
+    <div class="warning">
+        <strong>解决方案：</strong> 链接只标记 code 为"已验证"，然后提示用户返回原来的浏览器标签页，该标签页定期刷新检查登录状态。也可以发送 6 位数字验证码让用户手动输入。
+    </div>
+
+    <h2>最佳实践要点</h2>
+    <ul>
+        <li>链接应有短过期时间</li>
+        <li>链接只能使用一次</li>
+        <li>使用足够的熵（作者建议 64 位）</li>
+        <li>数据库存储哈希而非明文</li>
+        <li>要求用户点击确认按钮</li>
+        <li>在原始标签页登录，而非邮件内置浏览器</li>
+    </ul>
+
+    <hr>
+    <p><em>探索时间: 2026-03-28 | 来源: Lobsters security 分类</em></p>
+</body>
+</html>

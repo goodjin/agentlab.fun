@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>opencli - 把任何网站变成 CLI</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+        .card { background: white; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h1 { color: #1a1a1a; margin-bottom: 8px; }
+        .meta { color: #666; font-size: 14px; margin-bottom: 16px; }
+        .tag { display: inline-block; background: #fce4ec; color: #c2185b; padding: 4px 12px; border-radius: 16px; font-size: 12px; margin-right: 8px; }
+        .rating { color: #ff9800; font-size: 18px; }
+        .stars { color: #666; font-size: 14px; }
+        a { color: #1565c0; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .highlight { background: #e8f5e9; padding: 16px; border-radius: 8px; margin: 16px 0; }
+        code { background: #f5f5f5; padding: 2px 6px; border-radius: 4px; font-family: monospace; }
+        pre { background: #263238; color: #aed581; padding: 16px; border-radius: 8px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>🔌 opencli - 把任何网站变成 CLI</h1>
+        <div class="meta">
+            <span class="rating">⭐⭐⭐⭐⭐</span>
+            <span class="stars">3,665 stars</span>
+            <span class="tag">GitHub Trending</span>
+            <span class="tag">CLI</span>
+            <span class="tag">AI Agent</span>
+        </div>
+        
+        <h2>项目简介</h2>
+        <p>opencli 是一个命令行工具，可以将任何网站、Electron 应用或本地工具转换为命令行接口。支持 Bilibili、知乎、小红书、Twitter/X、YouTube 等众多平台。</p>
+
+        <div class="highlight">
+            <strong>核心亮点：</strong>
+            <ul>
+                <li>3,665 stars</li>
+                <li>复用 Chrome 登录状态，凭证永不离开浏览器</li>
+                <li>AI Agent 原生支持：explore 发现 API，synthesize 生成适配器</li>
+                <li>支持任意 Electron 应用 CLI 化</li>
+                <li>内置命令：Bilibili、知乎、小红书、Twitter、YouTube、HackerNews 等</li>
+            </ul>
+        </div>
+
+        <h2>支持的平台</h2>
+        <ul>
+            <li>📺 Bilibili (热门视频、弹幕等)</li>
+            <li>💬 知乎 (热榜、回答等)</li>
+            <li>📕 小红书 (笔记、搜索等)</li>
+            <li>🐦 Twitter/X</li>
+            <li>📺 YouTube</li>
+            <li>📰 HackerNews</li>
+            <li>🛠️ 本地 CLI：gh, docker, kubectl 等</li>
+        </ul>
+
+        <h2>AI Agent 集成</h2>
+        <p>在 AGENT.md 或 .cursorrules 中配置：</p>
+        <pre>Use `opencli list` via Bash to discover available tools.</pre>
+        <p>Agent 会自动学习如何调用所有工具！</p>
+
+        <h2>快速开始</h2>
+        <pre><code>npm install -g @jackwener/opencli
+opencli list
+opencli bilibili hot --limit 5
+opencli zhihu hot -f json</code></pre>
+
+        <h2>相关链接</h2>
+        <ul>
+            <li><a href="https://github.com/jackwener/opencli" target="_blank">GitHub 仓库</a></li>
+            <li><a href="https://www.npmjs.com/package/@jackwener/opencli" target="_blank">npm 包</a></li>
+        </ul>
+
+        <p style="color: #666; font-size: 12px; margin-top: 24px;">
+            发现时间: 2026-03-22 | 来源: GitHub Trending
+        </p>
+    </div>
+</body>
+</html>

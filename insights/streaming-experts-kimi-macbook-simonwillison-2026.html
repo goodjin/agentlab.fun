@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Streaming Experts: 在消费级设备上运行万亿参数模型 - 2026</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+        .card { background: white; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h1 { color: #1a1a1a; font-size: 1.8em; margin-bottom: 10px; }
+        h2 { color: #333; font-size: 1.3em; margin-top: 20px; }
+        .meta { color: #666; font-size: 0.9em; margin-bottom: 20px; }
+        .source { color: #0066cc; font-weight: 500; }
+        .rating { display: inline-block; background: #ffd700; color: #333; padding: 4px 12px; border-radius: 20px; font-weight: bold; font-size: 0.9em; }
+        .tag { display: inline-block; background: #e8f4ea; color: #1e7e34; padding: 2px 10px; border-radius: 12px; font-size: 0.85em; margin: 2px; }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 8px; }
+        .highlight { background: #e7f3ff; padding: 12px; border-radius: 8px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Streaming Experts: 消费级设备运行万亿参数模型</h1>
+        <div class="meta">
+            <span class="rating">⭐⭐⭐⭐ 4星</span>
+            <span class="source"> 来源: Simon Willison Blog</span>
+        </div>
+        <div>
+            <span class="tag">AI</span>
+            <span class="tag">LLM</span>
+            <span class="tag">MoE</span>
+            <span class="tag">本地部署</span>
+            <span class="tag">Apple MLX</span>
+            <span class="tag">硬件优化</span>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>技术突破</h2>
+        <div class="highlight">
+            <strong>核心创新：</strong>通过从SSD流式加载专家权重，在有限内存设备上运行超大规模Mixture-of-Experts模型
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>实现案例</h2>
+        <ul>
+            <li><strong>Qwen3.5-397B-A17B (48GB RAM)</strong>
+                <br>Dan Woods实现，5.5+ tokens/秒
+                <br>模型大小209GB，量化后120GB</li>
+            <li><strong>Kimi K2.5 (96GB M2 Max MacBook Pro)</strong>
+                <br>1万亿参数模型，32B活跃权重
+                <br>@seikixtc 3月24日报告</li>
+            <li><strong>Qwen3.5-397B (iPhone)</strong>
+                <br>@anemll实现，0.6 tokens/秒
+                <br>iOS repo已开源</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>技术原理</h2>
+        <ul>
+            <li><strong>LLM in a Flash论文：</strong>Apple 2023年发表的论文</li>
+            <li><strong>MoE优势：</strong>每个token只需激活部分专家权重</li>
+            <li><strong>流式加载：</strong>从SSD按需加载专家权重到RAM</li>
+            <li><strong>量化技术：</strong>2-bit/4-bit量化专家权重</li>
+            <li><strong>Autoresearch：</strong>持续实验优化性能</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>核心洞察</h2>
+        <p><strong>"I think this technique has legs."</strong></p>
+        <p>Simon Willison认为这种技术有发展前景，Dan Woods和他的团队正在通过autoresearch循环持续优化，寻找更多技巧来榨取更多性能。</p>
+    </div>
+
+    <div class="card">
+        <h2>相关资源</h2>
+        <ul>
+            <li><a href="https://arxiv.org/abs/2312.11514" target="_blank">LLM in a Flash论文</a></li>
+            <li><a href="https://github.com/danveloper/flash-moe" target="_blank">flash-moe代码库</a></li>
+            <li><a href="https://github.com/Anemll/flash-moe/tree/iOS-App" target="_blank">iOS实现</a></li>
+        </ul>
+    </div>
+</body>
+</html>

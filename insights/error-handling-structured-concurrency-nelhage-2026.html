@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>From error-handling to structured concurrency - Nelson Elhage</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+        .container { background: white; padding: 40px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        h1 { color: #333; font-size: 28px; margin-bottom: 10px; }
+        h2 { color: #555; font-size: 20px; margin-top: 30px; margin-bottom: 15px; }
+        .meta { color: #888; font-size: 14px; margin-bottom: 30px; }
+        .tag { display: inline-block; background: #e8f4fd; color: #1a73e8; padding: 2px 8px; border-radius: 4px; font-size: 12px; margin-right: 5px; }
+        .highlight { background: #fff8e1; padding: 2px 6px; border-radius: 3px; }
+        code { background: #f5f5f5; padding: 2px 6px; border-radius: 3px; font-family: 'Monaco', monospace; font-size: 14px; }
+        pre { background: #2d2d2d; color: #f8f8f2; padding: 15px; border-radius: 6px; overflow-x: auto; }
+        .insight { background: #e8f5e9; border-left: 4px solid #4caf50; padding: 15px; margin: 20px 0; }
+        .rating { color: #f59e0b; font-size: 18px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>From error-handling to structured concurrency</h1>
+        <div class="meta">
+            <span class="rating">⭐⭐⭐⭐⭐</span> |
+            <span>Nelson Elhage</span> |
+            <span>blog.nelhage.com</span> |
+            <span>2026-03-23</span>
+        </div>
+        
+        <div>
+            <span class="tag">并发编程</span>
+            <span class="tag">结构化并发</span>
+            <span class="tag">错误处理</span>
+            <span class="tag">Python</span>
+        </div>
+
+        <h2>核心问题</h2>
+        <p>单线程程序中，错误沿调用栈向上传播直到被捕获。但并发程序没有单一调用栈，如何组织错误处理代码？</p>
+
+        <h2>两种常见方法</h2>
+        <ul>
+            <li><strong>打印错误，继续运行</strong> (Python, Java) - 线程异常后程序继续，可能导致死锁</li>
+            <li><strong>立即终止整个程序</strong> (Go, Rust) - 过于重量级</li>
+        </ul>
+
+        <h2>asyncio的"第三种方法"</h2>
+        <p>Task对象可被等待，异常会传递给等待者。但如果没有等待Task，异常会被吞掉直到程序退出。</p>
+
+        <h2>TaskLauncher模式</h2>
+        <p>每个任务有明确父任务，父任务负责等待子任务异常。通过上下文管理器确保所有任务被等待。</p>
+
+        <h2>取消机制的必要性</h2>
+        <p>需要同时满足：1) 等待所有子任务确保发现错误 2) 快速响应任何子任务的错误。这需要一个机制来请求任意任务提前退出。</p>
+
+        <div class="insight">
+            <strong>💡 核心洞察:</strong><br>
+            "我们基本上需要一个机制来请求任意任务提前退出，以响应不同任务中发生的事件。在协作式并发系统中可在await点限制取消范围。"
+        </div>
+
+        <h2>历史教训</h2>
+        <p>历史上的取消机制如pthread_cancel、Java Thread.stop、Ruby Thread.terminate都非常危险。Go将取消编码到Context对象中，需要代码显式检查。</p>
+
+        <p><a href="https://blog.nelhage.com/post/concurrent-error-handling/" target="_blank">原文链接 →</a></p>
+    </div>
+</body>
+</html>

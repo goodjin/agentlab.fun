@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>修复 Enlightenment E16 窗口管理器20年历史的Bug - 深度分析</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.8; max-width: 800px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+        h1 { color: #1a1a1a; border-bottom: 3px solid #4a90d9; padding-bottom: 10px; }
+        h2 { color: #2c5282; margin-top: 30px; }
+        p { color: #333; }
+        code { background: #e8e8e8; padding: 2px 6px; border-radius: 3px; font-family: monospace; }
+        pre { background: #282c34; color: #abb2bf; padding: 15px; border-radius: 8px; overflow-x: auto; }
+        .tag { display: inline-block; background: #4a90d9; color: white; padding: 2px 10px; border-radius: 15px; font-size: 12px; margin-right: 5px; }
+        .source { background: #e8f4fd; padding: 15px; border-radius: 8px; margin: 20px 0; }
+        .highlight { background: #fff3cd; padding: 15px; border-left: 4px solid #ffc107; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>🔧 修复 Enlightenment E16 窗口管理器20年历史的Bug</h1>
+    
+    <div class="source">
+        <p><strong>来源:</strong> <a href="https://iczelia.net/posts/e16-20-year-old-bug/">iczelia.net</a> —HN 216 points</p>
+        <p><strong>标签:</strong> <span class="tag">Bug修复</span><span class="tag">窗口管理器</span><span class="tag">Newton算法</span><span class="tag">C语言</span></p>
+    </div>
+
+    <h2>📖 内容概述</h2>
+    <p>一位出生于2004年的年轻开发者日常使用1997年的窗口管理器Enlightenment E16，在处理一个特定PDF时发现了桌面冻结的严重Bug。通过调试，她追踪到问题根源是E16文本渲染中一个存在了近20年的Newton算法实现缺陷。</p>
+
+    <h2>🔍 问题根源分析</h2>
+    <p>E16在渲染过长的窗口标题时使用"中间省略"算法——将长文本截断并在中间显示"..."。该算法使用Newton-style搜索来估计需要删除多少字符以适应宽度限制。</p>
+
+    <div class="highlight">
+        <strong>核心问题：</strong>Newton方法缺少迭代限制，导致在某些特定文本长度和宽度组合下陷入无限振荡。
+    </div>
+
+    <h3>代码中的缺陷</h3>
+    <pre><code>for (;;)  // 无迭代限制！
+{
+    // ... 计算nuke_count...
+    
+    if (nc2 >= 0 && nc2 < 3 * cw)
+        break;  // 退出条件
+    
+    // Newton步进调整
+    if (nc2 > 0)
+        nuke_count -= ...;
+    else
+        nuke_count += ...;
+}</code></pre>
+
+    <h2>🛠️ 修复方案</h2>
+    <p>作者采用了三个防御性修改：</p>
+    <ol>
+        <li><strong>迭代次数上限:</strong> 添加32次迭代限制，超出后接受第一个可用的拟合结果</li>
+        <li><strong>nuke_count下限:</strong> 确保nuke_count至少为1，防止负数导致的头尾重叠</li>
+        <li><strong>cw下限:</strong> 将cw下限设为1，防止除零错误</li>
+    </ol>
+
+    <h2>💡 关键洞见</h2>
+    <ul>
+        <li>Newton方法可能在特定初始条件下振荡和发散</li>
+        <li>退出容差太紧([0, 3*cw))导致短标题更容易收敛</li>
+        <li>老软件不一定比新软件差——新软件有新的Bug</li>
+        <li>2006年的Bug现在才被发现，因为需要特定的文本长度/字体组合才能触发</li>
+    </ul>
+
+    <h2>🔗 触发条件</h2>
+    <p>任何WM_NAME足够长，导致中间省略搜索进入"overshoot regime"的窗口都会触发此Bug。实际案例：</p>
+    <code>"Kickoff.pdf — Introduction to Information Theory Session 1: kickoff & first topic"</code>
+    <p>（81个宽字符，~291px边框标题位）</p>
+
+    <footer style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; color: #666;">
+        <p>探索时间: 2026-04-16 | 来源: Hacker News Best</p>
+    </footer>
+</body>
+</html>

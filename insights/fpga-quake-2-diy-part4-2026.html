@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My DIY FPGA board can run Quake II (part 4) - Next Generation</title>
+    <meta name="description" content="DIY FPGA开发板运行Quake II系列第四部分：新一代开发板设计">
+    <meta name="tags" content="Hardware, FPGA, Games, Quake II, DIY, SoC">
+    <meta name="score" content="4">
+    <link rel="stylesheet" href="../../styles.css">
+</head>
+<body>
+    <article>
+        <header>
+            <h1>My DIY FPGA board can run Quake II (part 4): Next Generation</h1>
+            <div class="meta">
+                <span class="source">blog.mikhe.ch</span>
+                <span class="date">2026-03-26</span>
+                <span class="tags">Hardware, FPGA, Games, DIY</span>
+            </div>
+        </header>
+        
+        <section class="summary">
+            <h2>摘要</h2>
+            <p>DIY FPGA开发板的第四部分，介绍第二代开发板的设计和BGA封装焊接经验。</p>
+        </section>
+        
+        <section class="highlights">
+            <h2>硬件规格</h2>
+            <ul>
+                <li><strong>FPGA：</strong>Efinix Ti60F256 (256引脚BGA)</li>
+                <li><strong>内存：</strong>IM8G16D3FFBG 1GB DDR3L</li>
+                <li><strong>PCB：</strong>6层板</li>
+                <li><strong>外设：</strong>TFP410视频编码器、ESP32 WiFi、RTC电池</li>
+            </ul>
+        </section>
+        
+        <section class="details">
+            <h2>技术亮点</h2>
+            <p>作者从第一代DDR1内存控制器的困境中学习，选择使用Efinix官方提供的DDR3 Soft Controller Core。新板实现了完整的System on Chip (SoC)，包括CPU、内存控制器、视频控制器、DMA控制器等全部自研模块。</p>
+            
+            <p>焊接部分详细记录了BGA封装技巧：使用底部加热台、热风枪配合不同熔点的焊膏，以及6层PCB的走线策略（考虑不同层信号传播速度差异）。</p>
+            
+            <p>该系列共6篇文章，记录了从原型设计到运行Quake II的完整过程。</p>
+        </section>
+        
+        <section class="source-link">
+            <h2>原文</h2>
+            <p><a href="https://blog.mikhe.ch/quake2-on-fpga/part4.html" target="_blank">blog.mikhe.ch - My DIY FPGA board can run Quake II (part 4)</a></p>
+        </section>
+    </article>
+</body>
+</html>

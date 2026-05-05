@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自主协议证明：Claude 4小时完成Raft形式化验证</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.8; max-width: 800px; margin: 0 auto; padding: 20px; background: #fff; }
+        h1 { color: #1a1a1a; border-bottom: 3px solid #059669; padding-bottom: 10px; }
+        h2 { color: #333; margin-top: 30px; }
+        .meta { color: #666; font-size: 14px; }
+        .tag { display: inline-block; background: #d1fae5; color: #065f46; padding: 2px 8px; border-radius: 4px; margin-right: 5px; font-size: 12px; }
+        blockquote { border-left: 4px solid #059669; margin: 20px 0; padding-left: 20px; color: #555; background: #ecfdf5; padding: 15px; }
+        ul { line-height: 2; }
+        code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; }
+        .insight-box { background: #ecfdf5; border: 2px solid #34d399; padding: 15px; margin: 20px 0; border-radius: 8px; }
+        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
+        th, td { border: 1px solid #e5e7eb; padding: 10px; text-align: left; }
+        th { background: #f9fafb; }
+    </style>
+</head>
+<body>
+    <h1>自主协议证明：Claude 4小时完成Raft形式化验证</h1>
+    <p class="meta">来源: Hacker News | 评分: ★★★★☆ | 日期: 2026-04-04</p>
+    
+    <div style="margin: 15px 0;">
+        <span class="tag">AI</span>
+        <span class="tag">Formal Methods</span>
+        <span class="tag">Distributed Systems</span>
+        <span class="tag">TLA+</span>
+    </div>
+
+    <h2>突破性进展</h2>
+    <p>形式化验证分布式协议（如Raft）通常需要<strong>数周至数月</strong>的高水平硕士/博士工作。现在，Claude Code在4小时内完成了12个顶级定理的归纳不变式证明，无需人类干预。</p>
+
+    <blockquote>
+        "过去，人类完成这项工作通常需要数周至数月。这是一个繁琐且耗时的任务，需要高水平的硕士或博士学生。这是人类难以承担的工作，可能成为巨大的时间消耗。"
+    </blockquote>
+
+    <h2>任务详情</h2>
+    <ul>
+        <li><strong>协议</strong>：Raft（分布式共识协议）</li>
+        <li><strong>目标</strong>：证明12个顶级定理的归纳不变式</li>
+        <li><strong>输入</strong>：候选归纳不变式 + skeleton TLAPS proof + 基本指令</li>
+        <li><strong>结果</strong>：4小时完成全部12个定理证明</li>
+    </ul>
+
+    <h2>证明文件增长</h2>
+    <ul>
+        <li><strong>起始</strong>：296行（未证明的skeleton文件）</li>
+        <li><strong>完成</strong>：1720行（完整的机器检查证明）</li>
+        <li><strong>增长</strong>：约5.8倍</li>
+    </ul>
+
+    <h2>性能数据</h2>
+    <table>
+        <tr><th>定理</th><th>不变式</th><th>Obligations</th><th>SMT</th><th>Zenon</th><th>TLAPM</th><th>Claude时间</th></tr>
+        <tr><td>L_1</td><td>H_OnePrimaryPerTerm</td><td>139/139</td><td>47</td><td>2</td><td>90</td><td>~8 min</td></tr>
+        <tr><td>L_2</td><td>H_PrimaryHasOwnEntries</td><td>182/182</td><td>63</td><td>0</td><td>119</td><td>~10 min</td></tr>
+        <tr><td>L_3</td><td>H_LogMatching</td><td>21/21</td><td>7</td><td>0</td><td>14</td><td>~4 min</td></tr>
+        <tr><td>L_4</td><td>H_PrimaryTermGTELogTerm</td><td>95/95</td><td>37</td><td>0</td><td>58</td><td>~15 min</td></tr>
+    </table>
+
+    <div class="insight-box">
+        <h3>🎯 关键洞察</h3>
+        <ul>
+            <li>每个定理约30-40分钟思考时间</li>
+            <li>几乎零人类干预</li>
+            <li>最初跳过了一个义务，但在简单督促后立即解决</li>
+            <li>总运行时间：4小时</li>
+        </ul>
+    </div>
+
+    <h2>为什么重要</h2>
+    <p>这代表<strong>形式化方法的民主化</strong>：</p>
+    <ul>
+        <li><strong>过去</strong>：需要数月专业工作 + 高度专业化人才</li>
+        <li><strong>现在</strong>：数小时 + 几乎无人类干预</li>
+        <li><strong>意义</strong>：形式化验证从"不可行"变为"日常"</li>
+    </ul>
+
+    <h2>技术栈</h2>
+    <ul>
+        <li><strong>TLA+</strong>：形式化规范语言</li>
+        <li><strong>TLAPS</strong>：TLA+证明系统</li>
+        <li><strong>SMT/Zenon</strong>：自动定理证明后端</li>
+        <li><strong>Claude Code</strong>：AI代理</li>
+    </ul>
+
+    <h2>未来影响</h2>
+    <p>随着AI证明能力的提升，<strong>分布式系统、关键基础设施、加密协议</strong>的形式化验证将变得更加普及。这可能是软件安全领域的game-changer。</p>
+</body>
+</html>

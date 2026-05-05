@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signals - Agent轨迹智能采样框架 (2026)</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.8;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #fff;
+            color: #333;
+        }
+        h1 { font-size: 1.5em; margin-bottom: 0.5em; }
+        h2 { font-size: 1.2em; margin-top: 1.5em; color: #555; }
+        .meta { color: #888; font-size: 0.9em; margin-bottom: 1em; }
+        .score { display: inline-block; background: #4CAF50; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.9em; }
+        a { color: #1976D2; }
+        ul { padding-left: 1.5em; }
+        li { margin-bottom: 0.5em; }
+        .insight { background: #f5f5f5; padding: 1em; border-left: 3px solid #4CAF50; margin: 1em 0; }
+    </style>
+</head>
+<body>
+    <h1>Signals: Agent轨迹智能采样框架</h1>
+    <div class="meta">
+        来源: <a href="https://news.ycombinator.com/show" target="_blank">Hacker News</a> + <a href="https://arxiv.org/abs/2604.00356" target="_blank">arXiv</a> | 
+        评分: <span class="score">4.5★</span> |
+        日期: 2026-04-05
+    </div>
+
+    <h2>核心发现</h2>
+    <p>提出一个轻量级、基于信号的框架，用于对Agent交互轨迹进行分类和优先排序。无需调用额外模型，仅通过计算实时交互中的廉价信号来识别可能有价值的交互。</p>
+
+    <div class="insight">
+        <strong>🎯 核心洞见：</strong>在τ-bench基准上，基于信号的采样实现了82%的信息率，相比启发式过滤的74%和随机采样的54%显著提升，效率提升1.52倍。
+    </div>
+
+    <h2>信号分类体系</h2>
+    <p>将信号组织成粗粒度分类：</p>
+    <ul>
+        <li><strong>交互层面：</strong>错位(stagnation)、停滞(misalignment)、脱离(disengagement)、满意度(satisfaction)</li>
+        <li><strong>执行层面：</strong>失败(failure)、循环(loop)</li>
+        <li><strong>环境层面：</strong>耗尽(exhaustion)</li>
+    </ul>
+
+    <h2>技术细节</h2>
+    <ul>
+        <li><strong>计算成本：</strong>无需模型调用，纯规则计算</li>
+        <li><strong>应用场景：</strong>偏好数据构建、部署后优化</li>
+        <li><strong>优势：</strong>跨奖励层级和任务领域都保持鲁棒性</li>
+    </ul>
+
+    <h2>为什么重要</h2>
+    <p>Agent轨迹数据量大且非确定性，逐一人工审查成本高昂。此框架提供了一种实用的采样基础设施，可以用低成本信号识别高价值轨迹，为构建偏好数据和持续优化agent系统开辟了新路径。</p>
+
+    <h2>相关链接</h2>
+    <ul>
+        <li><a href="https://arxiv.org/abs/2604.00356" target="_blank">论文 arXiv:2604.00356</a></li>
+        <li><a href="https://news.ycombinator.com/item?id=47645594" target="_blank">HN讨论</a></li>
+    </ul>
+</body>
+</html>

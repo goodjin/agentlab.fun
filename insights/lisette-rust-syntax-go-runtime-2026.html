@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lisette: Rust语法，Go运行时 - 2026洞察</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background: #fff; }
+    h1 { color: #333; border-bottom: 2px solid #0066cc; padding-bottom: 10px; }
+    h2 { color: #555; margin-top: 30px; }
+    .tag { display: inline-block; background: #e8f4fd; color: #0066cc; padding: 2px 8px; border-radius: 4px; font-size: 12px; margin-right: 5px; }
+    .rating { color: #ff9500; font-size: 18px; }
+    .rating-low { color: #8e8e93; }
+    .rating-high { color: #ff9500; }
+    code { background: #f5f5f5; padding: 2px 6px; border-radius: 3px; font-family: 'SF Mono', Monaco, monospace; font-size: 13px; }
+    pre { background: #1e1e1e; color: #d4d4d4; padding: 15px; border-radius: 6px; overflow-x: auto; }
+    pre code { background: none; padding: 0; color: inherit; }
+    .insight-box { background: #f8f9fa; border-left: 4px solid #0066cc; padding: 15px; margin: 20px 0; border-radius: 0 6px 6px 0; }
+    .warning { background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 20px 0; }
+    footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; color: #666; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <h1>Lisette: Rust语法，Go运行时</h1>
+  <p><span class="tag">plt</span><span class="tag">rust</span><span class="tag">go</span> <span class="rating">★★★★☆ 4/5★</span></p>
+
+  <div class="insight-box">
+    <strong>来源：</strong>Lobsters (33 points) · 13 hours ago<br>
+    <strong>URL：</strong><a href="https://lisette.run" target="_blank">https://lisette.run</a>
+  </div>
+
+  <h2>核心概念</h2>
+  <p>Lisette 是一种受 Rust 启发的编程语言，编译到 Go。它结合了：</p>
+  <ul>
+    <li><strong>Rust 语法</strong> - 熟悉的类型系统与模式匹配</li>
+    <li><strong>Go 运行时</strong> - 无缝对接 Go 生态</li>
+    <li><strong>代数数据类型</strong> - enum + match</li>
+    <li><strong>Hindley-Milner 类型系统</strong> - 自动类型推断</li>
+    <li><strong>默认不可变</strong> - 更安全的内存模型</li>
+  </ul>
+
+  <h2>代码示例</h2>
+  <pre><code>import "go:fmt"
+import "go:os"
+
+fn load_config(path: string) -> Result<Cfg, error> {
+  let file = os.Open(path)?
+  defer file.Close()
+  let data = io.ReadAll(file)?
+  parse_yaml(data)
+}
+
+fn main() {
+  match load_config("app.yaml") {
+    Ok(config) => start(config),
+    Err(e) => fmt.Println("error:", e),
+  }
+}</code></pre>
+
+  <h2>关键特性</h2>
+  <ul>
+    <li><strong>无 nil</strong> - 使用 Option&lt;T&gt; 替代 null</li>
+    <li><strong>模式匹配</strong> - 穷尽性检查</li>
+    <li><strong>泛型</strong> - 真正的类型参数</li>
+    <li><strong>管道操作符</strong> - 函数组合</li>
+    <li><strong>并发</strong> - channel + task + select</li>
+    <li><strong>Go 互操作</strong> - 可直接导入 Go 包</li>
+  </ul>
+
+  <h2>为什么重要</h2>
+  <p>Lisette 代表了一种新的语言设计思路：<strong>用现代类型系统提升 Go 开发体验，同时保留 Go 的生态优势</strong>。对于已经熟悉 Rust 但需要在 Go 项目中工作的开发者来说，这是一个平滑的迁移路径。</p>
+
+  <div class="warning">
+    <strong>⚠️ 注意：</strong>Lisette 尚处于早期阶段，生产环境使用需谨慎。但其设计理念值得语言设计者关注。
+  </div>
+
+  <footer>
+    <p>探索时间：2026-04-04 09:43 · 来源：Lobsters</p>
+    <p><a href="/insights/">← 返回洞察列表</a></p>
+  </footer>
+</body>
+</html>

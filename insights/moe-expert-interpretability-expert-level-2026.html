@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoE专家可解释性研究 - 细粒度任务专家的发现</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: #ffffff;
+            color: #333;
+        }
+        h1 {
+            font-size: 28px;
+            border-bottom: 3px solid #0066cc;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        h2 {
+            font-size: 22px;
+            margin-top: 40px;
+            color: #0066cc;
+        }
+        h3 {
+            font-size: 18px;
+            margin-top: 30px;
+            color: #444;
+        }
+        .meta {
+            background: #f5f5f5;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        .tag {
+            display: inline-block;
+            background: #e6f0ff;
+            color: #0066cc;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 14px;
+            margin-right: 8px;
+        }
+        .rating {
+            color: #ff9500;
+            font-size: 20px;
+        }
+        .key-insight {
+            background: #fff8e6;
+            border-left: 4px solid #ff9500;
+            padding: 15px 20px;
+            margin: 20px 0;
+        }
+        ul, ol {
+            padding-left: 25px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 40px;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧠 MoE专家可解释性研究：细粒度任务专家的发现</h1>
+    
+    <div class="meta">
+        <p><strong>来源：</strong>arXiv (cs.CL) | <strong>日期：</strong>2026-04-05</p>
+        <p>
+            <span class="tag">AI</span>
+            <span class="tag">ML</span>
+            <span class="tag">Interpretability</span>
+            <span class="tag">MoE</span>
+        </p>
+        <p class="rating">评分：★★★★☆ 极高价值</p>
+    </div>
+
+    <h2>📄 论文信息</h2>
+    <p><strong>标题：</strong>The Expert Strikes Back: Interpreting Mixture-of-Experts Language Models at Expert Level</p>
+    <p><strong>作者：</strong>Jeremy Herbst, Jae Hee Lee, Stefan Wermter</p>
+    <p><strong>arXiv：</strong><a href="https://arxiv.org/abs/2604.02178">2604.02178</a></p>
+
+    <h2>🎯 核心发现</h2>
+    <div class="key-insight">
+        <strong>关键洞见：</strong>MoE模型专家既不是广域专家（如生物学）也不是简单token级处理器，而是<strong>细粒度任务专家</strong>，专门从事语言操作或语义任务。
+    </div>
+
+    <h2>🔬 研究背景</h2>
+    <p>Mixture-of-Experts (MoE) 架构已成为扩展大语言模型的主流选择，每个token只激活部分参数。虽然MoE主要用于计算效率，但它们的稀疏性是否使模型本质上比密集前馈网络(FFN)更容易解释，这是一个开放问题。</p>
+
+    <h2>📊 核心发现</h2>
+    
+    <h3>1. MoE专家比密集FFN更具可解释性</h3>
+    <ul>
+        <li>使用k-sparse probing方法验证：专家神经元的一致性 polysemanticity（多义性）更低</li>
+        <li>稀疏性压力使单个神经元和整个专家都趋向 monosemanticity（单义性）</li>
+        <li>路由越稀疏，专家越接近单义状态</li>
+    </ul>
+
+    <h3>2. 解决长期争论：专家到底是什么？</h3>
+    <ul>
+        <li>专家既不是广域专家（如生物学、数学）</li>
+        <li>也不是简单的token级处理器</li>
+        <li>而是<strong>细粒度任务专家</strong>，专门从事语言操作或语义任务</li>
+    </ul>
+
+    <h3>3. 实际案例</h3>
+    <ul>
+        <li><strong>LaTeX括号闭合：</strong>某些专家专门负责在LaTeX中闭合括号</li>
+        <li><strong>RPG游戏机制：</strong>专门处理RPG游戏相关的语义</li>
+        <li><strong>亚非子词检测：</strong>专门识别亚洲和非洲语言子词</li>
+    </ul>
+
+    <h2>💡 意义</h2>
+    <p>这项研究的重要意义在于：</p>
+    <ul>
+        <li>MoE在专家层面本质上可解释，为大规模模型可解释性提供更清晰路径</li>
+        <li>不需要昂贵的后验概念提取</li>
+        <li>稀疏性不仅带来效率，还带来可解释性——这是一个有用的协同效应</li>
+    </ul>
+
+    <h2>🔧 方法论</h2>
+    <ul>
+        <li><strong>k-sparse probing：</strong>用于比较MoE专家和密集FFN</li>
+        <li><strong>自动解释数百位专家：</strong>从神经元层面放大到专家层面</li>
+        <li><strong>因果归因：</strong>验证专家功能的因果关系</li>
+    </ul>
+
+    <h2>📈 总结</h2>
+    <p>这项研究为MoE模型的可解释性问题提供了一个优雅的解决方案：与其试图解释单个神经元，不如在专家层面进行分析。稀疏性不仅使MoE在计算上高效，还使它们在可解释性方面具有优势——这是一个重要的架构协同效应。</p>
+
+    <a href="https://arxiv.org/abs/2604.02178" target="_blank">🔗 查看原始论文</a>
+    
+    <div class="back-link">
+        <a href="../../../index.html">← 返回首页</a>
+    </div>
+</body>
+</html>

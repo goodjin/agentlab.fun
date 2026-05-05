@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unity C++ Coroutines 实战 - AI & Tech Insights</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+        .card { background: white; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h1 { color: #333; margin-bottom: 10px; }
+        .meta { color: #666; font-size: 14px; margin-bottom: 20px; }
+        .star { color: #f5c518; font-size: 20px; }
+        .tag { display: inline-block; background: #e8f4ff; color: #007AFF; padding: 4px 10px; border-radius: 12px; font-size: 12px; margin: 2px; }
+        .highlight { background: #fff3cd; padding: 2px 6px; border-radius: 4px; }
+        a { color: #007AFF; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        code { background: #f4f4f4; padding: 2px 6px; border-radius: 4px; font-family: 'SF Mono', Monaco, monospace; font-size: 13px; }
+        pre { background: #1e1e1e; color: #d4d4d4; padding: 16px; border-radius: 8px; overflow-x: auto; }
+        pre code { background: none; padding: 0; color: inherit; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>🎮 Unity C++ Coroutines 实战：终于理解协程的价值</h1>
+        <div><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span> <span style="color:#666;font-size:14px;">4星</span></div>
+        <div class="meta">来源: <a href="https://mropert.github.io/2026/03/20/unity_cpp_coroutines/" target="_blank">mropert.github.io</a> | 作者: Mathieu Ropert | 发布日期: 2026-03-20</div>
+        
+        <p>作者在研究 Unity 如何使用协程后，终于理解了 C++ 协程的实际价值。本文探讨了协程在游戏开发中的具体应用场景，以及如何用 C++23 实现类似 Unity 风格的协程运行器。</p>
+
+        <h2>🎯 核心洞察</h2>
+        
+        <h3>为什么协程？</h3>
+        <p>作者之前看过很多关于协程的演讲，但在异步 IO 之外找不到实际用例。直到研究了 Unity 中协程的使用方式——用于生成特效和其他临时行为。</p>
+
+        <h3>协程 vs 状态机</h3>
+        <p>将序列化的游戏效果写成状态机会变得非常丑陋：</p>
+        <pre><code>class TimeWarp
+{
+  enum class State { Jump, StepRight, HandsOnHips, DoAgain };
+  State _state = State::Jump;
+  int _i = 0;
+  Transform* _transform;
+  
+  bool operator()() {
+    switch (_state) {
+      case State::Jump:
+        _transform->position.x -= 1.f;
+        _state = State::StepRight;
+        break;
+      // ... 更多状态和转换
+    }
+    return false;
+  }
+}</code></pre>
+        
+        <p>用协程实现则简洁得多：</p>
+        <pre><code>std::generator&lt;std::monostate&gt; TimeWarp(GameObject& obj)
+{
+  // Jump to the left
+  obj.transform.position.x -= 1.f;
+  co_yield {};
+  
+  // Step to the right
+  for (int i = 0; i < 4; ++i) {
+    obj.transform.position.x += 0.2f;
+    co_yield {};
+  }
+  // ... 更多效果
+}</code></pre>
+
+        <h3>C++23 的实现</h3>
+        <p>使用 <code>std::generator</code> 可以轻松实现 Unity 风格的协程。这和 Unity 多年前的做法是相同的"hack"，原因也一样——因为使用 <code>co_yield</code> 比 <code>co_await</code> 容易得多。</p>
+        
+        <h3>为什么 co_yield 比 co_await 容易？</h3>
+        <ul>
+            <li><strong>co_yield</strong>: 暂停并返回给调用者，决定何时恢复的权力在调用者手中</li>
+            <li><strong>co_await</strong>: 需要回答很多问题——我们等待什么？如何通知就绪？用什么执行队列？</li>
+        </ul>
+
+        <h3>Unity 风格的协程运行器</h3>
+        <p>作者用不到一小时实现了一个简单的协程管理器：</p>
+        <pre><code>class effects_manager
+{
+public:
+  void add(std::generator&lt;std::monostate&gt; effect) { ... }
+  void run() { 
+    // 逐帧执行协程，移除完成的
+  }
+};</code></pre>
+
+        <h2>💡 关键要点</h2>
+        <ul>
+            <li>协程最适合的场景：<strong>包装有状态的操作序列</strong></li>
+            <li>将难以阅读的状态机<strong>变成简单的函数</strong></li>
+            <li>C++26 的 <code>execution</code> 规范可能会改善 <code>co_await</code> 的使用体验</li>
+            <li>如果你的项目已经使用 boost::asio，已经有了协程支持</li>
+        </ul>
+
+        <h2>🏷️ 标签</h2>
+        <div>
+            <span class="tag">C++</span>
+            <span class="tag">Coroutines</span>
+            <span class="tag">Game Development</span>
+            <span class="tag">Unity</span>
+            <span class="tag">State Machine</span>
+            <span class="tag">C++23</span>
+        </div>
+    </div>
+</body>
+</html>

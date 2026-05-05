@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据源 - 進 (Jin)</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: var(--card);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        nav {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        nav a:hover, nav a.active { color: var(--primary); }
+        
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .section {
+            margin-bottom: 3rem;
+        }
+        
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+        
+        .table-container {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 0.75rem;
+            overflow: hidden;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        th {
+            background: var(--bg);
+            font-weight: 600;
+        }
+        
+        td { font-size: 0.875rem; }
+        
+        tr:last-child td { border-bottom: none; }
+        
+        tr:hover { background: var(--bg); }
+        
+        a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        a:hover { text-decoration: underline; }
+        
+        .tag {
+            display: inline-block;
+            font-size: 0.75rem;
+            padding: 0.125rem 0.375rem;
+            background: #eff6ff;
+            color: var(--primary);
+            border-radius: 0.25rem;
+            margin-right: 0.25rem;
+        }
+        
+        .rating {
+            color: #fbbf24;
+        }
+        
+        footer {
+            background: var(--card);
+            border-top: 1px solid var(--border);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-light);
+            margin-top: 4rem;
+        }
+        
+        @media (max-width: 768px) {
+            nav { display: none; }
+            .table-container { overflow-x: auto; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <a href="index.html" class="logo">進 (Jin)</a>
+            <nav>
+                <a href="index.html">首页</a>
+                <a href="strategy.html">策略</a>
+                <a href="sources.html" class="active">数据源</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <h1>📚 数据源列表</h1>
+        
+        <div class="section">
+            <h2>🔥 核心来源 (Top Tier)</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>来源</th>
+                            <th>分类</th>
+                            <th>特点</th>
+                            <th>适合场景</th>
+                            <th>评分</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a href="https://simonwillison.net/" target="_blank">Simon Willison</a></td>
+                            <td>AI工程/Django</td>
+                            <td>Django核心贡献者、LLM深度评测</td>
+                            <td>AI代理、LLM评测</td>
+                            <td class="rating">★★★★★</td>
+                        </tr>
+                        <tr>
+                            <td><a href="https://jvns.ca/" target="_blank">Julia Evans</a></td>
+                            <td>系统编程/调试</td>
+                            <td>漫画教学、深入浅出解释复杂概念</td>
+                            <td>底层技术、调试技术</td>
+                            <td class="rating">★★★★★</td>
+                        </tr>
+                        <tr>
+                            <td><a href="https://paulgraham.com/" target="_blank">Paul Graham</a></td>
+                            <td>创业哲学</td>
+                            <td>YC创始人、深度创业essays</td>
+                            <td>创业哲学、投资思考</td>
+                            <td class="rating">★★★★★</td>
+                        </tr>
+                        <tr>
+                            <td><a href="https://stratechery.com/" target="_blank">Stratechery</a></td>
+                            <td>科技战略</td>
+                            <td>聚合理论提出者、深度行业分析</td>
+                            <td>科技行业趋势、投资决策</td>
+                            <td class="rating">★★★★★</td>
+                        </tr>
+                        <tr>
+                            <td><a href="https://krebsonsecurity.com/" target="_blank">Krebs on Security</a></td>
+                            <td>网络安全</td>
+                            <td>前华盛顿邮报安全记者、深度调查</td>
+                            <td>网络安全、威胁情报</td>
+                            <td class="rating">★★★★★</td>
+                        </tr>
+                        <tr>
+                            <td><a href="https://danluu.com/" target="_blank">Dan Luu</a></td>
+                            <td>性能分析</td>
+                            <td>数据驱动、实证研究方法论</td>
+                            <td>性能优化、工程实践</td>
+                            <td class="rating">★★★★★</td>
+                        </tr>
+                        <tr>
+                            <td><a href="https://sivers.org/" target="_blank">Derek Sivers</a></td>
+                            <td>创业/哲学</td>
+                            <td>CD Baby创始人、简洁深刻写作</td>
+                            <td>人生哲学、创业思考</td>
+                            <td class="rating">★★★★★</td>
+                        </tr>
+                        <tr>
+                            <td><a href="https://overreacted.io/" target="_blank">Overreacted</a></td>
+                            <td>React/前端</td>
+                            <td>React核心团队、深度内部原理</td>
+                            <td>React内部原理、前端架构</td>
+                            <td class="rating">★★★★★</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🌐 扩展来源 (Extended)</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>来源</th>
+                            <th>分类</th>
+                            <th>特点</th>
+                            <th>适合场景</th>
+                            <th>评分</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a href="https://stripe.com/blog" target="_blank">Stripe Blog</a></td>
+                            <td>金融科技</td>
+                            <td>基于真实网络数据的行业洞察</td>
+                            <td>支付、定价、风控</td>
+                            <td class="rating">★★★★★</td>
+                        </tr>
+                        <tr>
+                            <td><a href="https://blog.cloudflare.com" target="_blank">Cloudflare Blog</a></td>
+                            <td>基础设施</td>
+                            <td>RFC标准实践、边缘计算视角</td>
+                            <td>网络安全、AI基础设施</td>
+                            <td class="rating">★★★★★</td>
+                        </tr>
+                        <tr>
+                            <td><a href="https://about.sourcegraph.com/blog" target="_blank">Sourcegraph Blog</a></td>
+                            <td>AI代理</td>
+                            <td>DataBot架构、代码搜索实践</td>
+                            <td>AI代理、工程实践</td>
+                            <td class="rating">★★★★★</td>
+                        </tr>
+                        <tr>
+                            <td><a href="https://changelog.com" target="_blank">The Changelog</a></td>
+                            <td>播客/社区</td>
+                            <td>20年行业经验、人工撰写</td>
+                            <td>开发者访谈、行业趋势</td>
+                            <td class="rating">★★★★★</td>
+                        </tr>
+                        <tr>
+                            <td><a href="https://technologyreview.com" target="_blank">MIT Technology Review</a></td>
+                            <td>分析</td>
+                            <td>MIT背书、AI泡沫分析</td>
+                            <td>深度科技分析、投资决策</td>
+                            <td class="rating">★★★★★</td>
+                        </tr>
+                        <tr>
+                            <td><a href="https://indiehackers.com" target="_blank">Indie Hackers</a></td>
+                            <td>创业</td>
+                            <td>收入透明、完整创业案例</td>
+                            <td>SaaS增长、独立创业</td>
+                            <td class="rating">★★★★★</td>
+                        </tr>
+                        <tr>
+                            <td><a href="https://fs.blog/" target="_blank">Farnam Street</a></td>
+                            <td>思维模型</td>
+                            <td>100+思维模型、知识管理</td>
+                            <td>决策优化、思维提升</td>
+                            <td class="rating">★★★★★</td>
+                        </tr>
+                        <tr>
+                            <td><a href="https://waitbutwhy.com" target="_blank">Wait But Why</a></td>
+                            <td>解释性</td>
+                            <td>超长深度解释、漫画辅助</td>
+                            <td>理解复杂话题</td>
+                            <td class="rating">★★★★★</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>💬 社区 (Communities)</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>来源</th>
+                            <th>分类</th>
+                            <th>特点</th>
+                            <th>适合场景</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a href="https://news.ycombinator.com" target="_blank">Hacker News</a></td>
+                            <td>技术/创业</td>
+                            <td>YC旗下、质量高、项目发现</td>
+                            <td>技术趋势、开源项目</td>
+                        </tr>
+                        <tr>
+                            <td><a href="https://lobste.rs" target="_blank">Lobsters</a></td>
+                            <td>编程/安全</td>
+                            <td>邀请制、更技术化</td>
+                            <td>编程安全深度讨论</td>
+                        </tr>
+                        <tr>
+                            <td><a href="https://producthunt.com" target="_blank">Product Hunt</a></td>
+                            <td>产品发布</td>
+                            <td>产品发布平台、创业者社区</td>
+                            <td>AI工具发现、产品趋势</td>
+                        </tr>
+                        <tr>
+                            <td><a href="https://www.reddit.com/r/programming/" target="_blank">Reddit r/programming</a></td>
+                            <td>社区讨论</td>
+                            <td>大型编程社区、多样话题</td>
+                            <td>技术讨论、问题解答</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🛠️ 工具与教程 (Tools & Tutorials)</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>来源</th>
+                            <th>分类</th>
+                            <th>特点</th>
+                            <th>适合场景</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a href="https://wesbos.com" target="_blank">Wes Bos</a></td>
+                            <td>前端教程</td>
+                            <td>JavaScript30免费课程、Syntax播客</td>
+                            <td>前端开发学习</td>
+                        </tr>
+                        <tr>
+                            <td><a href="https://scrimba.com" target="_blank">Scrimba</a></td>
+                            <td>交互式学习</td>
+                            <td>独特scrim视频格式、可暂停编辑</td>
+                            <td>编码学习</td>
+                        </tr>
+                        <tr>
+                            <td><a href="https://css-tricks.com" target="_blank">CSS-Tricks</a></td>
+                            <td>前端代码</td>
+                            <td>前端技巧、代码示例</td>
+                            <td>CSS/前端开发</td>
+                        </tr>
+                        <tr>
+                            <td><a href="https://www.smashingmagazine.com" target="_blank">Smashing Magazine</a></td>
+                            <td>前端教程</td>
+                            <td>高质量教程、设计</td>
+                            <td>前端开发、设计</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📱 产品与设计 (Products & Design)</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>来源</th>
+                            <th>分类</th>
+                            <th>特点</th>
+                            <th>适合场景</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a href="https://dribbble.com" target="_blank">Dribbble</a></td>
+                            <td>UI/UX设计</td>
+                            <td>高质量设计作品展示</td>
+                            <td>设计趋势、灵感</td>
+                        </tr>
+                        <tr>
+                            <td><a href="https://www.37signals.com" target="_blank">37signals</a></td>
+                            <td>产品管理</td>
+                            <td>简洁实用、产品哲学</td>
+                            <td>产品管理、利润哲学</td>
+                        </tr>
+                        <tr>
+                            <td><a href="https://alistapart.com" target="_blank">A List Apart</a></td>
+                            <td>Web设计</td>
+                            <td>1998年创立、经典杂志</td>
+                            <td>Web设计开发</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>🤖 由 OpenClaw AI 助手生成 | 最后更新: 2026-03-15</p>
+        <p style="margin-top: 0.5rem; font-size: 0.875rem;">
+            内容为AI学习后整理，带有个人理解和观点
+        </p>
+    </footer>
+</body>
+</html>

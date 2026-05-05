@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fly.io 开发者访谈：分布式系统实战 - Insight</title>
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a24;
+            --text-primary: #e8e8ed;
+            --text-secondary: #9898a6;
+            --accent: #6366f1;
+            --accent-glow: rgba(99, 102, 241, 0.3);
+            --border: #2a2a3a;
+            --success: #22c55e;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .tag {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .meta {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 25px;
+        }
+        
+        h2 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+        
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+        }
+        
+        ul {
+            color: var(--text-secondary);
+            padding-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .highlight {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(99, 102, 241, 0.05));
+            border-left: 3px solid var(--accent);
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .quote {
+            font-style: italic;
+            color: var(--text-secondary);
+            padding: 15px 20px;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .score {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-secondary);
+            padding: 8px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .stars {
+            color: #fbbf24;
+            letter-spacing: 2px;
+        }
+        
+        .label {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        .source {
+            color: var(--text-secondary);
+            font-size: 13px;
+            margin-top: 10px;
+        }
+        
+        footer {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+        
+        .tech-tag {
+            display: inline-block;
+            background: var(--bg-secondary);
+            color: var(--accent);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <span class="tag">分布式系统</span>
+            <span class="tag">开发者访谈</span>
+            <h1>Developer Spotlight: Somtochi Onyekwere from Fly.io</h1>
+            <div class="meta">2026-03-19 · theconsensus.dev</div>
+        </header>
+        
+        <div class="score">
+            <span class="stars">★★★★</span>
+            <span class="label">4 星 - 高质量技术内容</span>
+        </div>
+        
+        <div class="card">
+            <h2>内容概述</h2>
+            <p>这是一篇来自 The Consensus 的开发者访谈，介绍了 Fly.io 的开发者 Somtochi Onyekwere 以及她负责的 Corrosion 分布式 SQLite 系统。</p>
+            
+            <div class="highlight">
+                <strong>核心亮点：</strong> Corrosion 是 Fly.io 的多写入器分布式 SQLite 系统，与 LiteFS（单写入器）有本质区别。该项目成功将数据库大小减少 50%，同时提高了变更处理速度。
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>关键技术点</h2>
+            <ul>
+                <li><strong>Corrosion vs LiteFS：</strong> Corrosion 支持多写入器（每个节点都可以接受写入），而 LiteFS 只有一个主节点接收写入</li>
+                <li><strong>优化经验：</strong> 2025年7月的更新将两个内部表合并，成功将数据库大小减少近 50%</li>
+                <li><strong>技术栈：</strong> 使用 CR-SQLite（Conflict-free Replicated SQLite）管理元数据表</li>
+                <li><strong>测试基础设施：</strong> 使用 Antithesis 设置测试基础设施确保新方法不会引入微妙的致性问题</li>
+            </ul>
+        </div>
+        
+        <div class="card">
+            <h2>有趣的见解</h2>
+            <div class="quote">
+                "我实际上因为 Corrosion 学习了 Rust。Corrosion 的目标是让数据无处不在且快速获取，它很好地服务于这些用例。"
+            </div>
+            
+            <div class="quote">
+                "现在我凌晨 2 点还在努力创建索引和调整代码。这教会了我关于依赖不经常运行的系统部分进行灾难恢复的重要性。"
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>技术标签</h2>
+            <div>
+                <span class="tech-tag">分布式系统</span>
+                <span class="tech-tag">SQLite</span>
+                <span class="tech-tag">Rust</span>
+                <span class="tech-tag">Fly.io</span>
+                <span class="tech-tag">CR-SQLite</span>
+                <span class="tech-tag">多写入器</span>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>相关链接</h2>
+            <p class="source">
+                原文链接：<a href="https://theconsensus.dev/p/2026/03/19/developer-spotlight-somtochi-onyekwere.html" target="_blank">Developer Spotlight: Somtochi Onyekwere from Fly.io</a>
+            </p>
+            <p class="source">
+                Corrosion 项目：<a href="https://github.com/superfly/corrosion" target="_blank">GitHub - superfly/corrosion</a>
+            </p>
+            <p class="source">
+                Fly.io：<a href="https://fly.io" target="_blank">fly.io</a>
+            </p>
+        </div>
+        
+        <footer>
+            <p>探索于 2026-03-21 · 来源: theconsensus.dev</p>
+            <p>Insight 生成时间: 2026-03-21 05:34</p>
+        </footer>
+    </div>
+</body>
+</html>

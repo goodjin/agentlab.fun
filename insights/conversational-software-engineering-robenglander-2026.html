@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversational Software Engineering: Compiling Intent - Rob Englander</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #1a1a1a;
+            border-bottom: 3px solid #007acc;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #2d2d2d;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #3d3d3d;
+        }
+        code {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Monaco', 'Menlo', monospace;
+        }
+        .highlight {
+            background: #fff3cd;
+            padding: 15px;
+            border-left: 4px solid #ffc107;
+            margin: 20px 0;
+        }
+        .key-points {
+            background: #e7f3ff;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .key-points ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .key-points li {
+            margin: 10px 0;
+        }
+        .rating {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .meta {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        blockquote {
+            border-left: 4px solid #007acc;
+            margin: 20px 0;
+            padding: 10px 20px;
+            background: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <span class="rating">⭐⭐⭐⭐⭐ 5星</span>
+        <h1>Conversational Software Engineering: Compiling Intent</h1>
+        <p class="meta">来源: robenglander.com | 作者: Rob Englander | 2026-03-17</p>
+        
+        <div class="key-points">
+            <h3>🔑 核心要点</h3>
+            <ul>
+                <li><strong>对话不是产物，是输入</strong> - 对话必须被翻译成可验证、可测试、可维护的持久产物</li>
+                <li><strong>演进路径</strong> - Conversation → Structure → Determinism</li>
+                <li><strong>Stochastic Backsliding</strong> - 概率性编译带来的退化问题的解决方案</li>
+                <li><strong>The Gate</strong> - 验证状态决定自动化是否进行</li>
+            </ul>
+        </div>
+
+        <h2>核心思想</h2>
+        <p>作者提出了 Conversational Software Engineering (CSE) 方法论：对话成为界面，底层系统被确定性验证。工程师通过对话表达意图，系统将其编译成可验证的产物。</p>
+
+        <blockquote>
+            <p>对话是控制表面。工程系统通过对话运作——通过对话探索行为、编写和修改规格、调查验证失败、请求生成、请求解释。</p>
+        </blockquote>
+
+        <h2>关键概念</h2>
+        
+        <h3>1. Conversation → Structure → Determinism</h3>
+        <p>意图通过对话表达；结构通过受限表示、合约和显式断言消除歧义；确定性是那些结构化产物被机械检查的地方。</p>
+
+        <h3>2. Authored Spec vs.Compiled Spec</h3>
+        <ul>
+            <li><strong>Authored Spec</strong> - 人类可读、结构化、意图的规范表达</li>
+            <li><strong>Compiled Spec</strong> - 规范化、规范化、可机器验证的形式</li>
+        </ul>
+
+        <h3>3. Stochastic Backsliding</h3>
+        <p>编译步骤是概率性的。同一个输入不能保证同一个输出——也不能保证更好的输出。解决方案是单元级编译和保留：每个编译单元独立评估，如果新生成的单元更差，则拒绝并保留先前版本。</p>
+
+        <h3>4. The Gate</h3>
+        <p>下游系统问一个关键问题：规格的验证状态是什么？状态决定自动化是否进行。</p>
+        <ul>
+            <li>unvalidated - 未验证</li>
+            <li>pass - 通过</li>
+            <li>warning - 警告</li>
+            <li>error - 错误</li>
+            <li>stale - 已过期（工件自上次验证后已更改）</li>
+        </ul>
+
+        <h3>5. Full Spec Surface Validation</h3>
+        <p>超越单单元检查，验证在整个规格表面运行：</p>
+        <ul>
+            <li>规格之间的依赖关系</li>
+            <li>引用解析</li>
+            <li>行为、测试和指令的图结构</li>
+            <li>循环依赖检测</li>
+            <li>标识符一致性</li>
+            <li>覆盖度（每个行为至少有一个验收测试）</li>
+            <li>跨规格一致性</li>
+        </ul>
+
+        <h2>为什么重要</h2>
+        <p>这篇文章提出了一个系统性的方法论来解决 AI 编码助手带来的问题。不是简单地让 AI 写代码，而是建立了一个完整的工程流程：</p>
+        <ol>
+            <li>对话作为控制表面</li>
+            <li>结构化规格作为持久产物</li>
+            <li>确定性验证作为把关</li>
+            <li>验证状态作为自动化的门禁</li>
+        </ol>
+
+        <h2>评价</h2>
+        <p>这是关于 AI 时代软件工程方法论的深度思考。对于正在探索如何有效使用 AI 进行软件开发的团队来说，这篇文章提供了重要的见解。</p>
+    </div>
+</body>
+</html>

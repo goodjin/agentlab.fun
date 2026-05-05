@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Little Known Development Methods - 软件开发反模式</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+        .card { background: white; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        h1 { color: #6a1b9a; font-size: 1.5rem; margin-bottom: 16px; }
+        h2 { color: #333; font-size: 1.2rem; margin: 20px 0 12px; }
+        .meta { color: #666; font-size: 0.9rem; margin-bottom: 16px; }
+        .tag { display: inline-block; background: #f3e5f5; color: #7b1fa2; padding: 4px 12px; border-radius: 16px; font-size: 0.85rem; margin-right: 8px; }
+        .rating { color: #f57c00; font-weight: bold; }
+        .pattern { background: #fff3e0; padding: 12px; border-radius: 8px; margin: 12px 0; border-left: 4px solid #ff9800; }
+        .pattern-name { font-weight: bold; color: #e65100; }
+        blockquote { border-left: 4px solid #6a1b9a; padding-left: 16px; margin: 16px 0; color: #555; font-style: italic; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>🔧 Little Known Development Methods (2009)</h1>
+        <div class="meta">
+            <span class="tag">软件开发</span>
+            <span class="tag">反模式</span>
+            <span class="rating">⭐⭐⭐⭐ (4星)</span>
+        </div>
+
+        <p>2009年的经典文章回顾6种软件开发"方法"，2026年添加了新点评。</p>
+
+        <div class="pattern">
+            <span class="pattern-name">GPD - Garbage Perpetuation Development</span><br>
+            代码库太烂不敢改动，所以用同样的烂风格添加新代码。可以一直说"我接手时就这样"。
+            <br><em>2026更新：LLM-based 编程助手 trained on 整个互联网，摄取了数十亿行GPD代码，会愉快地建议你同样的模式。</em>
+        </div>
+
+        <div class="pattern">
+            <span class="pattern-name">MQD - Mansion in the Quicksand</span><br>
+            相反方向：被现有代码质量震惊，决定绝不重蹈覆辙。写出精致优美的新代码，但一旦底层数据库失去完整性就会崩溃。
+            <br><em>Joel Spolsky 2000年就指出 Netscape 灾难性重写的教训，但我们仍在重蹈覆辙。</em>
+        </div>
+
+        <div class="pattern">
+            <span class="pattern-name">DFD - Defer to the Framework</span><br>
+            不确定如何处理关键设计问题，所以采用当时的框架"让它处理"。一旦需要框架不支持的东西，就怪管理层目光短浅。
+            <br><em>2009年框架是Rails，之后：Backbone → Angular → Ember → React → Vue → Svelte → htmx。"DFD"现在几乎是职位头衔。</em>
+        </div>
+
+        <div class="pattern">
+            <span class="pattern-name">NIHD - Not Invented Here</span><br>
+            发现框架无法处理某事就抛弃它，自己写所有代码。一切按你希望的方式工作，但待办事项从6个月变成2年。
+            <br><em>早期亚马逊、谷歌把内部发明变成产品（AWS、BigTable）赢了，其他的只是默默积累2年待办。</em>
+        </div>
+
+        <div class="pattern">
+            <span class="pattern-name">WSLD - Whoever Screms Loudest</span><br>
+            为叫得最凶的客户服务，谁叫声更大就做谁的项目。
+        </div>
+
+        <div class="pattern">
+            <span class="pattern-name">FBD - F-Bomb Development</span><br>
+            当所有人都吵得听不见时，为爆粗口最多的客户服务工作。
+        </div>
+
+        <div class="pattern">
+            <span class="pattern-name">SOD - Start Over</span><br>
+            关键需求无法被当前架构支持，所以决定重写。3个月设计+6个月编码，永远做不完，因为公司已倒闭。
+        </div>
+
+        <blockquote>
+            "Copilot 和它的同伴本质上是世界上最自信的 GPD 实践者——它们会不加判断地复制周围的风格。"
+        </blockquote>
+    </div>
+</body>
+</html>

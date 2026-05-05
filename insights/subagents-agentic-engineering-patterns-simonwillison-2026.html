@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subagents - Agentic Engineering Patterns</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+        article { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        h1 { color: #1a1a1a; border-bottom: 3px solid #6b46c1; padding-bottom: 10px; }
+        h2 { color: #6b46c1; margin-top: 30px; }
+        .meta { color: #666; font-size: 14px; margin-bottom: 20px; }
+        .source { background: #f3e8ff; padding: 15px; border-radius: 4px; margin: 20px 0; }
+        .source a { color: #6b46c1; font-weight: bold; }
+        blockquote { border-left: 4px solid #6b46c1; padding-left: 20px; color: #555; font-style: italic; }
+        .rating { display: inline-block; background: #ffd700; color: #333; padding: 5px 12px; border-radius: 20px; font-weight: bold; margin-bottom: 20px; }
+        code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; }
+        .example { background: #fafafa; border: 1px solid #ddd; padding: 15px; border-radius: 4px; margin: 15px 0; }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <article>
+        <span class="rating">⭐⭐⭐⭐⭐ 5星</span>
+        <h1>Subagents - Agentic Engineering Patterns</h1>
+        <div class="meta">来源: Simon Willison's Guides | 2026-03-17</div>
+        
+        <div class="source">
+            原文链接: <a href="https://simonwillison.net/guides/agentic-engineering-patterns/subagents/" target="_blank">https://simonwillison.net/guides/agentic-engineering-patterns/subagents/</a>
+        </div>
+
+        <h2>为什么需要 Subagents</h2>
+        <p>LLM 受限于上下文窗口限制 (通常最多 100 万 tokens，但最佳质量在 20 万以下)。</p>
+        <p>Subagents 提供了一种简单有效的方式来处理更大任务，而不消耗父代理的宝贵上下文。</p>
+
+        <h2>Subagent 工作原理</h2>
+        <p>当编码代理使用 subagent 时，它有效地将自身的全新副本派出去实现指定目标，使用从新提示开始的全新上下文窗口。</p>
+
+        <div class="example">
+            <strong>Claude Code 的 Explore subagent 示例：</strong>
+            <p>任何时候你针对现有仓库启动新任务，Claude Code 首先需要探索仓库以弄清楚其整体形状并找到完成该任务所需的相关信息。</p>
+            <p>它通过构建提示并派出一个 subagent 来执行探索并返回其发现的描述。</p>
+        </div>
+
+        <h2>Parallel Subagents</h2>
+        <p>Subagents 还可以通过让父代理同时运行多个 subagent 来提供显著的性能提升，可能还可以使用更快、更便宜的模型（如 Claude Haiku）来加速这些任务。</p>
+        <blockquote>
+            "Use subagents to find and update all of the templates that are affected by this change."
+        </blockquote>
+
+        <h2>Specialist Subagents</h2>
+        <p>一些编码代理允许 subagent 进行进一步自定义，通常采用自定义 system prompt 或自定义工具的形式：</p>
+        <ul>
+            <li><strong>Code reviewer agent</strong> - 审查代码并识别 bug、功能差距或设计弱点</li>
+            <li><strong>Test runner agent</strong> - 运行测试，特别适合大型冗长的测试套件</li>
+            <li><strong>Debugger agent</strong> - 专门调试问题，隔离复现步骤并确定 bug 根本原因</li>
+        </ul>
+
+        <h2>官方文档</h2>
+        <ul>
+            <li><a href="https://developers.openai.com/codex/subagents/" target="_blank">OpenAI Codex subagents</a></li>
+            <li><a href="https://code.claude.com/docs/en/sub-agents" target="_blank">Claude subagents</a></li>
+            <li><a href="https://geminicli.com/docs/core/subagents/" target="_blank">Gemini CLI subagents</a></li>
+            <li><a href="https://docs.mistral.ai/mistral-vibe/agents-skills#agent-selection" target="_blank">Mistral Vibe subagents</a></li>
+            <li><a href="https://opencode.ai/docs/agents/" target="_blank">OpenCode agents</a></li>
+            <li><a href="https://code.visualstudio.com/docs/copilot/agents/subagents" target="_blank">VS Code Subagents</a></li>
+            <li><a href="https://cursor.com/docs/subagents" target="_blank">Cursor Subagents</a></li>
+        </ul>
+
+        <h2>核心价值</h2>
+        <p>Subagents 的主要价值在于保留宝贵的根上下文并管理 token 密集型操作。你的根编码代理完全能够自行调试或审查输出，前提是它有足够的 tokens。</p>
+    </article>
+</body>
+</html>

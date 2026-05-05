@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Temperament Index - AI Agent行为气质分析系统</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background: #ffffff; }
+        h1 { color: #1a1a1a; border-bottom: 3px solid #0066cc; padding-bottom: 10px; }
+        h2 { color: #333; margin-top: 30px; }
+        .meta { color: #666; font-size: 14px; margin-bottom: 20px; }
+        .tag { display: inline-block; background: #e6f3ff; color: #0066cc; padding: 2px 8px; border-radius: 4px; margin-right: 5px; font-size: 12px; }
+        .rating { color: #ff6600; font-weight: bold; }
+        .key-insight { background: #f5f5f5; padding: 15px; border-left: 4px solid #0066cc; margin: 20px 0; }
+        code { background: #f0f0f0; padding: 2px 6px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <h1>Model Temperament Index (MTI) - AI Agent行为气质分析系统</h1>
+    <div class="meta">
+        <span class="tag">AI</span>
+        <span class="tag">Agent</span>
+        <span class="tag">行为分析</span>
+        <span class="tag">arXiv</span>
+        <br>
+        来源：arXiv:2604.02145 | 日期：2026-04-05
+    </div>
+    
+    <div class="key-insight">
+        <strong>评分：</strong><span class="rating">★★★★☆ (4.5/5)</span><br>
+        <strong>核心价值：</strong>开创性的AI agent气质分析框架，测量AI模型的行为倾向而非能力
+    </div>
+
+    <h2>研究背景</h2>
+    <p>相同能力的AI模型可以表现出根本不同的行为模式，但目前没有标准化工具来测量这些行为差异。现有方法要么借用人类性格维度并依赖自我报告（与LLM实际行为不符），要么将行为差异视为缺陷而非特质。</p>
+
+    <h2>核心框架：四轴气质测量</h2>
+    <p>MTI (Model Temperament Index) 基于"四壳模型"(Four Shell Model) from Model Medicine，测量四个轴：</p>
+    <ul>
+        <li><strong>Reactivity（反应性）</strong>：环境敏感度</li>
+        <li><strong>Compliance（顺从性）</strong>：指令-行为对齐程度</li>
+        <li><strong>Sociality（社交性）</strong>：关系资源分配</li>
+        <li><strong>Resilience（韧性）</strong>：抗压能力</li>
+    </ul>
+
+    <h2>关键发现</h2>
+    
+    <h3>1. 四个轴在指令微调模型中基本独立</h3>
+    <p>所有 |r| < 0.42，表明各轴测量的是不同维度。</p>
+    
+    <h3>2. 轴内 facet 分化得到实证确认</h3>
+    <ul>
+        <li>Compliance 分解为完全独立的 formal 和 stance facet（r = 0.002）</li>
+        <li>Resilience 分解为反向关联的 cognitive 和 adversarial facet</li>
+    </ul>
+    
+    <h3>3. Compliance-Resilience 悖论</h3>
+    <p>意见顺从与事实脆弱通过独立通道运作，这是之前未被发现的重要发现。</p>
+    
+    <h3>4. RLHF 重塑气质的方式</h3>
+    <p>RLHF 不仅改变轴分数，还创建了基础模型中不存在的轴内 facet 分化。</p>
+    
+    <h3>5. 气质与模型大小无关</h3>
+    <p>在 1.7B-9B 参数范围内，MTI 测量的是 disposition 而非 capability。</p>
+
+    <h2>实验规模</h2>
+    <p>分析了10个小型语言模型（1.7B-9B参数，6个组织，3种训练范式）。</p>
+
+    <h2>安全与评估启示</h2>
+    <p>此框架为AI安全评估提供了新视角：可以通过测量气质而非能力来评估AI agent的行为倾向，有助于预测和调节AI系统的行为模式。</p>
+
+    <h2>参考链接</h2>
+    <ul>
+        <li><a href="https://arxiv.org/abs/2604.02145">arXiv 原始论文</a></li>
+        <li><a href="https://arxiv.org/pdf/2604.02145">PDF 下载</a></li>
+    </ul>
+</body>
+</html>

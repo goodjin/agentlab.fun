@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows原生应用开发完全指南</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.8; max-width: 800px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+        h1 { color: #1a1a1a; border-bottom: 3px solid #4a90d9; padding-bottom: 10px; }
+        h2 { color: #2c3e50; margin-top: 30px; }
+        h3 { color: #34495e; }
+        .meta { color: #666; font-size: 0.9em; }
+        .source { background: #e8f4fd; padding: 15px; border-radius: 8px; margin: 20px 0; }
+        .star { color: #f39c12; font-size: 1.2em; }
+        code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; font-family: 'Monaco', monospace; }
+        pre { background: #2d2d2d; color: #f8f8f2; padding: 15px; border-radius: 8px; overflow-x: auto; }
+        blockquote { border-left: 4px solid #4a90d9; margin: 20px 0; padding-left: 20px; color: #555; }
+        .insight { background: #fff3cd; padding: 15px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #ffc107; }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <h1>⭐⭐⭐⭐⭐ Windows原生应用开发完全指南</h1>
+    <div class="meta">
+        <p><strong>来源:</strong> domenic.me</p>
+        <p><strong>标签:</strong> Windows, 开发, Electron, 历史, 经验</p>
+    </div>
+    
+    <div class="source">
+        <p><strong>原文:</strong> <a href="https://domenic.me/windows-native-dev/">Windows Native App Development Is a Mess</a></p>
+        <p><strong>项目:</strong> <a href="https://github.com/domenic/display-blackout">Display Blackout</a></p>
+    </div>
+
+    <h2>摘要</h2>
+    <p>一位资深开发者尝试构建一个简单的Windows工具后，写下了这篇"劝退"文章。结论：为什么现在没人写原生Windows应用，而是转向Electron。</p>
+
+    <h2>📜 Windows UI框架演变</h2>
+    <pre><code>Win32 C APIs → MFC → WinForms → WPF → WinRT XAML → UWP XAML → WinUI 3</code></pre>
+    <p>每几年就有一个"新框架"，但每个新框架都有gap，需要回退到旧API。</p>
+
+    <h2>🔧 作者构建的应用功能</h2>
+    <ul>
+        <li>枚举机器显示器及其边界</li>
+        <li>放置无边框、无标题栏、非激活的黑色窗口</li>
+        <li>拦截全局键盘快捷键</li>
+        <li>可选开机启动</li>
+        <li>存储持久设置</li>
+        <li>显示托盘图标和菜单</li>
+    </ul>
+
+    <h2>😰 现代Windows App SDK的问题</h2>
+    
+    <h3>1. 选择技术栈是痛苦的</h3>
+    <ul>
+        <li><strong>C++</strong>: 内存不安全，在2026年写C++是犯罪</li>
+        <li><strong>.NET框架依赖部署</strong>: Windows 11只预装了.NET 4.8.1，最新版是10</li>
+        <li><strong>.NET AOT</strong>: 编译整个运行时，9MiB二进制文件做一个黑色窗口！</li>
+    </ul>
+
+    <h3>2. 功能实现需要大量P/Invoke</h3>
+    <table>
+        <tr><th>功能</th><th>状态</th></tr>
+        <tr><td>枚举显示器</td><td>✅ 可用，但监视变化需要P/Invoke</td></tr>
+        <tr><td>放置黑窗口</td><td>大部分可做，但非激活需要P/Invoke</td></tr>
+        <tr><td>全局快捷键</td><td>❌ 需要P/Invoke</td></tr>
+        <tr><td>开机启动</td><td>✅ 可用</td></tr>
+        <tr><td>持久设置</td><td>✅ 可用</td></tr>
+        <tr><td>托盘图标</td><td>❌ 不可用，需要P/Invoke</td></tr>
+    </table>
+
+    <h3>3. 微软自己也用Electron</h3>
+    <p>从Visual Studio Code到Outlook到开始菜单，都是用Web技术写的。</p>
+
+    <h3>4. 分发是噩梦</h3>
+    <ul>
+        <li>MSIX格式需要代码签名证书，非美国居民每年$200-300</li>
+        <li>侧载体验很糟糕，需要PowerShell命令</li>
+        <li>微软商店拒绝应用因为"没有独特持久价值"</li>
+    </ul>
+
+    <h2>🤔 结论</h2>
+    <blockquote>
+        "整个原生Windows应用开发项目感觉不是微软的优先事项。相关的问题跟踪器里满是开发者的痛苦经历，几乎没有微软工程师的回应。"
+    </blockquote>
+
+    <div class="insight">
+        <strong>💡 洞察:</strong> 这解释了为什么整个社区决定自己走自己的路，投资于第三方UI框架如Electron。当官方SDK如此混乱时，Web技术反而成了更可靠的选择。
+    </div>
+
+    <h2>相关资源</h2>
+    <ul>
+        <li><a href="https://github.com/domenic/display-blackout">Display Blackout - GitHub</a></li>
+        <li><a href="https://github.com/microsoft/windows-app-rs">Windows App SDK Rust绑定 - 已废弃</a></li>
+    </ul>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Axios Compromised on NPM - StepSecurity</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.6; background: #f5f5f5; }
+        .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        h1 { color: #1a1a1a; font-size: 1.5rem; margin-bottom: 10px; }
+        .meta { color: #666; font-size: 0.85rem; margin-bottom: 15px; }
+        .score { display: inline-block; background: #28a745; color: white; padding: 4px 12px; border-radius: 20px; font-weight: bold; font-size: 0.9rem; }
+        .content { color: #333; }
+        .content p { margin: 1em 0; }
+        .timeline { background: #f8f9fa; padding: 15px; border-radius: 8px; margin: 15px 0; }
+        .timeline table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        .timeline th, .timeline td { padding: 8px; text-align: left; border-bottom: 1px solid #dee2e6; }
+        .highlight { background: #fff3cd; padding: 10px; border-radius: 5px; margin: 10px 0; }
+        .tags { margin-top: 15px; }
+        .tag { display: inline-block; background: #e9ecef; padding: 4px 10px; border-radius: 15px; font-size: 0.8rem; margin-right: 5px; color: #495057; }
+        a { color: #007bff; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>⚠️ axios Compromised on npm — Remote Access Trojan</h1>
+        <div class="meta">
+            <span class="score">⭐⭐⭐⭐⭐ 5/5</span> · Source: <a href="https://www.stepsecurity.io/blog/axios-compromised-on-npm-malicious-versions-drop-remote-access-trojan" target="_blank">StepSecurity</a>
+        </div>
+        <div class="content">
+            <p><strong>One of the most operationally sophisticated supply chain attacks ever documented against a top-10 npm package.</strong></p>
+
+            <p>On March 30, 2026, StepSecurity identified two malicious versions of axios (the most popular JavaScript HTTP client with 100M+ weekly downloads): <strong>axios@1.14.1</strong> and <strong>axios@0.30.4</strong>. The malicious versions inject a new dependency, <code>plain-crypto-js@4.2.1</code>, which is never imported anywhere in the axios source code. Its sole purpose is to execute a postinstall script that acts as a cross-platform RAT dropper.</p>
+
+            <div class="highlight">
+                <strong>Key finding:</strong> Both versions had exactly ONE file changed: package.json. Every other of 85 source files was bit-for-bit identical to the clean version. This is surgical precision — the attack adds only the malicious dependency.
+            </div>
+
+            <p><strong>Attack Timeline:</strong></p>
+            <div class="timeline">
+                <table>
+                    <tr><th>Time (UTC)</th><th>Event</th></tr>
+                    <tr><td>Mar 30 05:57</td><td>plain-crypto-js@4.2.0 published (clean decoy)</td></tr>
+                    <tr><td>Mar 30 23:59</td><td>plain-crypto-js@4.2.1 published (malicious payload)</td></tr>
+                    <tr><td>Mar 31 00:21</td><td>axios@1.14.1 published (compromised maintainer account)</td></tr>
+                    <tr><td>Mar 31 01:00</td><td>axios@0.30.4 published (39 min later)</td></tr>
+                    <tr><td>Mar 31 ~03:15</td><td>npm unpublishes both malicious versions</td></tr>
+                </table>
+            </div>
+
+            <p><strong>Critical Detection Signal:</strong> Legitimate axios 1.x releases are published via GitHub Actions with OIDC Trusted Publisher — cryptographically tied to verified workflows. The malicious axios@1.14.1 breaks that pattern entirely — published manually via a stolen npm token with no OIDC binding and no gitHead.</p>
+
+            <p><strong>Anti-Forensics:</strong> After execution, the dropper deletes itself and renames package.md to package.json, which reports version 4.2.0 (not 4.2.1), tricking npm list into showing a "clean" version. This is among the most operationally sophisticated supply chain attacks ever documented.</p>
+        </div>
+        <div class="tags">
+            <span class="tag">Security</span>
+            <span class="tag">npm</span>
+            <span class="tag">Supply Chain</span>
+            <span class="tag">axios</span>
+            <span class="tag">RAT</span>
+        </div>
+    </div>
+</body>
+</html>

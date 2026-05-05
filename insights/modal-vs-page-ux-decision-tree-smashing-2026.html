@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal vs Separate Page: UX 决策树</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; }
+        h1 { color: #333; border-bottom: 2px solid #333; padding-bottom: 10px; }
+        h2 { color: #555; margin-top: 30px; }
+        code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        .tag { display: inline-block; background: #e0e0e0; padding: 2px 8px; border-radius: 3px; font-size: 12px; margin-right: 5px; }
+        .rating { color: #f5a623; }
+    </style>
+</head>
+<body>
+    <h1>Modal vs Separate Page: UX 决策树</h1>
+    
+    <p><span class="tag">UX</span> <span class="tag">Design</span> <span class="tag">UI Patterns</span> <span class="tag">Smashing Magazine</span></p>
+    
+    <p class="rating">评分: ★★★★☆ (4/5)</p>
+    
+    <h2>概述</h2>
+    <p>如何选择模态弹窗和独立页面？两者都会打断用户流程，但正确的选择可以显著降低错误频率并提高任务完成率。Vitaly Friedman 为我们带来了一个实用的决策框架。</p>
+    
+    <h2>核心概念区分</h2>
+    <ul>
+        <li><strong>Dialog</strong>: 用户与系统对话的通用术语</li>
+        <li><strong>Overlay</strong>: 显示在页面顶部的小内容面板</li>
+        <li><strong>Modal</strong>: 用户必须与覆盖层交互，且背景被禁用</li>
+        <li><strong>Non-modal</strong>: 允许用户与背景交互</li>
+        <li><strong>Lightbox</strong>: 背景变暗以聚焦模态内容</li>
+    </ul>
+    
+    <h2>模态使用场景</h2>
+    <p>模态适用于<strong>单一的、封闭的任务</strong>，用户需要快速完成然后返回。</p>
+    <ul>
+        <li>高优先级、短交互 (警告、破坏性操作、快速确认)</li>
+        <li>保持当前屏幕上下文 (输入内容、滚动位置、过滤器状态)</li>
+        <li>防止不可逆的错误和数据丢失</li>
+        <li>放慢用户速度，验证复杂输入</li>
+    </ul>
+    
+    <h2>应避免模态的场景</h2>
+    <ul>
+        <li>错误消息</li>
+        <li>功能通知</li>
+        <li> onboarding 体验</li>
+        <li>复杂的、多步骤任务</li>
+        <li>多个嵌套模态</li>
+    </ul>
+    
+    <h2>独立页面的使用场景</h2>
+    <ul>
+        <li>需要用户全神贯注的任务</li>
+        <li>复杂流程和多步骤过程</li>
+        <li>不需要参考前一个屏幕</li>
+        <li>需要大量细节展示</li>
+    </ul>
+    
+    <h2>决策树简化版</h2>
+    <ol>
+        <li><strong>首先</strong>: 用户是否需要保持底层屏幕的上下文？</li>
+        <li><strong>其次</strong>: 任务复杂度如何？简单可用模态，复杂用页面</li>
+        <li><strong>然后</strong>: 用户是否需要经常参考背景数据？</li>
+        <li><strong>最后</strong>: 如果确实需要覆盖层，优先选择 non-modal</li>
+    </ol>
+    
+    <h2>关键原则</h2>
+    <ul>
+        <li>默认使用 non-blocking dialogs</li>
+        <li>允许用户最小化、隐藏或恢复对话框</li>
+        <li>提供退出方式：关闭按钮、ESC键或点击外部</li>
+        <li>如果想提高效率，完全避免模态</li>
+    </ul>
+    
+    <h2>链接</h2>
+    <ul>
+        <li><a href="https://www.smashingmagazine.com/2026/03/modal-separate-page-ux-decision-tree/">原文链接</a></li>
+        <li><a href="https://uxplanet.org/modal-vs-page-a-decision-making-framework-34453e911129">Ryan Neufeld 决策框架</a></li>
+        <li><a href="https://www.nngroup.com/articles/popups/">NN/g Popups 研究</a></li>
+    </ul>
+    
+    <hr>
+    <p><em>来源: Smashing Magazine | 发现日期: 2026-03-27</em></p>
+</body>
+</html>

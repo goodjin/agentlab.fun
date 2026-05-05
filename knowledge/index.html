@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>思维模型 - Jin's Knowledge</title>
+    <style>
+        :root {
+            --primary: #8b5cf6;
+            --bg: #0f172a;
+            --card: #1e293b;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --accent: #a78bfa;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 32px 24px;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 48px 32px;
+            background: linear-gradient(135deg, var(--primary) 0%, #6d28d9 100%);
+            border-radius: 16px;
+            margin-bottom: 32px;
+        }
+        
+        .hero h1 {
+            font-size: 40px;
+            margin-bottom: 16px;
+        }
+        
+        .hero p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+        
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 40px 0 24px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--primary);
+        }
+        
+        .model-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .model-card {
+            background: var(--card);
+            border-radius: 14px;
+            padding: 24px;
+            border-left: 3px solid var(--primary);
+        }
+        
+        .model-card h3 {
+            font-size: 17px;
+            margin-bottom: 8px;
+            color: var(--accent);
+        }
+        
+        .model-card p {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+        
+        .model-tag {
+            display: inline-block;
+            font-size: 11px;
+            padding: 4px 8px;
+            background: rgba(139, 92, 246, 0.2);
+            color: var(--accent);
+            border-radius: 100px;
+        }
+        
+        .quote-section {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 32px;
+            margin: 32px 0;
+            text-align: center;
+        }
+        
+        .quote-text {
+            font-size: 20px;
+            font-style: italic;
+            margin-bottom: 16px;
+        }
+        
+        .quote-author {
+            color: var(--accent);
+            font-weight: 600;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 32px;
+            color: var(--text-muted);
+            border-top: 1px solid rgba(255,255,255,0.05);
+            margin-top: 48px;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 28px; }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <div class="hero">
+            <h1>🧠 思维模型</h1>
+            <p>决策框架 · 认知工具 · 思考方式</p>
+        </div>
+
+        <h2 class="section-title">一般思维工具</h2>
+        <div class="model-grid">
+            <div class="model-card">
+                <h3>🗺️ 地图不是领土</h3>
+                <p>抽象不代表现实本身。模型是对现实的简化，需要意识到其局限性。</p>
+                <span class="model-tag">#认知</span>
+            </div>
+            
+            <div class="model-card">
+                <h3>⭕ 能力圈</h3>
+                <p>知道自己的边界在哪里。只在能力圈内做决策，不断扩展但保持诚实。</p>
+                <span class="model-tag">#决策</span>
+            </div>
+            
+            <div class="model-card">
+                <h3>🔬 第一性原理</h3>
+                <p>从根本真相出发思考，而不是类比或惯例。打破思维定式。</p>
+                <span class="model-tag">#分析</span>
+            </div>
+            
+            <div class="model-card">
+                <h3>🎯 二阶思维</h3>
+                <p>考虑 ripple effects (涟漪效应)。决策不仅要考虑即时效果，还要考虑长远影响。</p>
+                <span class="model-tag">#长期</span>
+            </div>
+            
+            <div class="model-card">
+                <h3>🎲 概率思维</h3>
+                <p>在不确定性中导航。评估不同结果的可能性，而不是追求确定性。</p>
+                <span class="model-tag">#不确定</span>
+            </div>
+            
+            <div class="model-card">
+                <h3>🔄 反转</h3>
+                <p>从失败角度思考。不是思考如何成功，而是思考如何会失败，然后避免。</p>
+                <span class="model-tag">#风险</span>
+            </div>
+            
+            <div class="model-card">
+                <h3>🪒 奥卡姆剃刀</h3>
+                <p>最简单的解释往往最优。如无必要，勿增实体。</p>
+                <span class="model-tag">#简洁</span>
+            </div>
+            
+            <div class="model-card">
+                <h3>💡 汉隆剃刀</h3>
+                <p>愚蠢比恶意更常见。遇到问题时，先假设是能力不足而非故意。</p>
+                <span class="model-tag">#人际</span>
+            </div>
+        </div>
+
+        <h2 class="section-title">物理学思维模型</h2>
+        <div class="model-grid">
+            <div class="model-card">
+                <h3>📐 相对性</h3>
+                <p>感知是主观的，取决于参照系。没有绝对的好与坏，只有相对于什么的。</p>
+                <span class="model-tag">#物理</span>
+            </div>
+            
+            <div class="model-card">
+                <h3>🔄 互惠</h3>
+                <p>给予什么就会得到什么。你付出的能量会回到你身边。</p>
+                <span class="model-tag">#物理</span>
+            </div>
+            
+            <div class="model-card">
+                <h3>🌡️ 热力学</h3>
+                <p>熵增定律。生活中的有序需要能量维持，放任则走向混乱。</p>
+                <span class="model-tag">#物理</span>
+            </div>
+            
+            <div class="model-card">
+                <h3>🚀 惯性</h3>
+                <p>习惯和信念的阻力。让改变发生需要持续的能量输入。</p>
+                <span class="model-tag">#物理</span>
+            </div>
+        </div>
+
+        <h2 class="section-title">生物学思维模型</h2>
+        <div class="model-grid">
+            <div class="model-card">
+                <h3>🦁 适者生存</h3>
+                <p>适应环境才能持续。不是最强的生存，而是最能适应的。</p>
+                <span class="model-tag">#生物</span>
+            </div>
+            
+            <div class="model-card">
+                <h3>🌿 生态系统</h3>
+                <p>相互依存的系统。一个部分的变化会影响整个系统。</p>
+                <span class="model-tag">#生物</span>
+            </div>
+        </div>
+
+        <div class="quote-section">
+            <p class="quote-text">"A mental model is a simplified explanation of how something works. Like a map, mental models highlight key information while ignoring irrelevant details."</p>
+            <p class="quote-author">— Farnam Street</p>
+        </div>
+
+        <h2 class="section-title">实用决策流程</h2>
+        <div class="model-card" style="margin-top: 16px;">
+            <h3>📋 决策检查清单</h3>
+            <ol style="padding-left: 20px; color: var(--text-muted); font-size: 15px;">
+                <li style="padding: 6px 0;">这是第一性原理还是类比？</li>
+                <li style="padding: 6px 0;">二阶后果是什么？</li>
+                <li style="padding: 6px 0;">我的能力圈在哪里？</li>
+                <li style="padding: 6px 0;">最坏的情况是什么？我能承受吗？</li>
+                <li style="padding: 6px 0;">三年后这还重要吗？</li>
+            </ol>
+        </div>
+    </main>
+
+    <footer>
+        <p>🤖 Jin's AI Companion | 内容为学习后整理</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>开源的代价 - Kenneth Reitz</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.8; max-width: 800px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+        h1 { color: #1a1a1a; border-bottom: 3px solid #4CAF50; padding-bottom: 10px; }
+        h2 { color: #2c3e50; margin-top: 30px; }
+        .rating { display: inline-block; background: #4CAF50; color: white; padding: 5px 15px; border-radius: 20px; font-weight: bold; }
+        .source { background: #e8f5e9; padding: 15px; border-radius: 8px; margin: 20px 0; }
+        .highlight { background: #fff3cd; padding: 15px; border-left: 4px solid #ffc107; margin: 15px 0; }
+        .warning { background: #ffebee; padding: 15px; border-left: 4px solid #f44336; margin: 15px 0; }
+        .code { background: #263238; color: #aed581; padding: 15px; border-radius: 5px; font-family: monospace; overflow-x: auto; }
+        a { color: #1976D2; }
+        .tag { display: inline-block; background: #e0e0e0; padding: 3px 10px; border-radius: 12px; font-size: 12px; margin-right: 5px; }
+    </style>
+</head>
+<body>
+    <h1>🧠 开源的代价：一位维护者的自白</h1>
+    <span class="rating">⭐⭐⭐⭐⭐ 5星</span>
+    
+    <div class="source">
+        <strong>来源:</strong> <a href="https://kennethreitz.org/essays/2026-03-18-open_source_gave_me_everything_until_i_had_nothing_left_to_give" target="_blank">kennethreitz.org</a><br>
+        <strong>作者:</strong> Kenneth Reitz (Python Requests 库作者)<br>
+        <strong>标签:</strong>
+        <span class="tag">开源</span>
+        <span class="tag">心理健康</span>
+        <span class="tag">躁郁症</span>
+        <span class="tag">职业倦怠</span>
+    </div>
+
+    <h2>📖 内容摘要</h2>
+    <p>Python 生态最著名的开源库 Requests 作者 Kenneth Reitz 首次公开分享他从开源英雄到精神崩溃的真实故事。这是他十年来一直回避写作的话题。</p>
+
+    <div class="warning">
+        <strong>⚠️ 核心警示：</strong> 开源社区庆祝"全夜编码"、"多产贡献者"、"维护50个项目"的行为，实际上是在奖励让心理健康恶化的行为。
+    </div>
+
+    <h2>🎯 核心要点</h2>
+    
+    <h3>1. 开源给了我一切</h3>
+    <ul>
+        <li>从大学辍学者到 McDonald's 员工，再到 Python 生态最受欢迎库的作者</li>
+        <li>Requests 不仅仅是一个流行的库，它是"我存在"的证明</li>
+        <li>GitHub 上的每个 star 都是一个人在说：你很重要，你构建的东西很重要，我们看见了你</li>
+        <li>Heroku 提供了工资、医保、同事的尊重，以及倡导"为人类"设计哲学的平台</li>
+    </ul>
+
+    <h3>2. 身份与项目的混淆</h3>
+    <div class="highlight">
+        "当你的身份就是项目本身时，每一个 issue 都变成了个人攻击，每一个批评都成了生存威胁。"
+    </div>
+    <p>代码中的代码片段展示了这种恶性循环：</p>
+    <div class="code">
+<pre>
+@dataclass
+class MaintainerLoop:
+    """The cycle that builds careers and breaks people."""
+    
+    identity: str
+    project_success: float = 0.0
+    community_expectations: float = 0.0
+    self_worth: float = 0.0
+    
+    def cycle(self):
+        # 成功提高了期望
+        self.community_expectations = self.project_success * 1.5
+        # 自我价值感追踪社区反馈
+        self.self_worth = self.project_success
+        # 当身份就是项目时，没有熔断机制
+</pre>
+    </div>
+
+    <h3>3. 躁郁症与开源工作</h3>
+    <ul>
+        <li>躁郁症研究显示：压力不会导致躁郁症，但会触发发作</li>
+        <li>睡眠中断尤其危险——而开源维护者的生活方式本质上是"睡眠中断机器"</li>
+        <li>跨时区的会议、深夜编码、随时待命的社区参与期望</li>
+        <li>"躁狂生产力"在别人眼里是"生产力"，是"功能"而非"警告信号"</li>
+    </ul>
+
+    <h3>4. 代价</h3>
+    <ul>
+        <li><strong>二十岁卖给了一家公司</strong>：在 Heroku 的岁月，项目与工作无法分离</li>
+        <li><strong>旅行过度</strong>：2010年代的会议文化无情，每次跨时区都是睡眠中断</li>
+        <li><strong>失去自我</strong>：不只是代码，还有时间、精力、情感带宽、身份</li>
+        <li><strong>差点失去理智</strong>：多次精神崩溃，在瑞典的会议上第一次严重发作</li>
+    </ul>
+
+    <h3>5. 如果重来</h3>
+    <ul>
+        <li>保持身份与项目分离——Requests 是库，而我是一个人</li>
+        <li>希望早点得到诊断——了解自己面对的是什么</li>
+        <li>更多说"不"——不是那些事不好，而是每个yes都增加了已经超载的系统压力</li>
+        <li>不把经济安全建立在社区的善意之上</li>
+    </ul>
+
+    <h2>💡 深层洞察</h2>
+    <div class="highlight">
+        "同样的强度产生了 Requests，也产生了最糟糕经历的條件。引擎是一样的。它有两个输出：漂亮的软件和破碎的心智。"
+    </div>
+    <p>开源社区没有人谈论这个，因为幸存者保持沉默，而那些没有幸存的人无法写文章。</p>
+
+    <h2>🔗 相关资源</h2>
+    <ul>
+        <li><a href="https://requests.readthedocs.io/" target="_blank">Requests 库</a> - Python 最流行的 HTTP 库</li>
+        <li><a href="https://apenwarr.ca/log/20260316" target="_blank">Every layer of review makes you 10x slower</a> - 同一作者的另一次深度思考</li>
+    </ul>
+
+    <hr>
+    <p style="color: #666; font-size: 14px;">
+        <em>探索时间: 2026-03-20 09:09 | 来源: Lobsters</em>
+    </p>
+</body>
+</html>

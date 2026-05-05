@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLMs Can Be Absolutely Exhausting</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; }
+        h1 { color: #1a1a1a; border-bottom: 2px solid #9b59b6; padding-bottom: 10px; }
+        h2 { color: #2d2d2d; margin-top: 30px; }
+        .meta { color: #666; font-size: 0.9em; margin-bottom: 20px; }
+        .highlight { background: #f5f0fa; padding: 15px; border-left: 4px solid #9b59b6; margin: 20px 0; }
+        .rating { display: inline-block; background: #9b59b6; color: white; padding: 5px 12px; border-radius: 20px; font-weight: bold; }
+        a { color: #0066cc; }
+        footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; color: #666; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+    <h1>😩 LLMs Can Be Absolutely Exhausting</h1>
+    <div class="meta">
+        <span class="rating">⭐⭐⭐⭐ 4星</span> | 来源: tomjohnell.com | 探索日期: 2026-03-17
+    </div>
+
+    <h2>核心问题</h2>
+    <p>作者在连续 4-5 小时与 Claude 或 Codex 合作后，感到筋疲力尽。问题往往不是模型本身，而是：</p>
+
+    <div class="highlight">
+        <strong>两大核心问题：</strong>
+        <ol>
+            <li><strong>疲劳时提示质量下降</strong> - 精神疲劳时写出更差的提示</li>
+            <li><strong>反馈循环太慢</strong> - 解析大文件等任务导致漫长的等待</li>
+        </ol>
+    </div>
+
+    <h2>疲劳时的典型错误</h2>
+    <ul>
+        <li>提交提示后意识到遗漏了关键上下文</li>
+        <li>打断 LLM 进行" steering"</li>
+        <li>上下文接近上限导致 LLM"变笨"</li>
+    </ul>
+
+    <h2>解决方案</h2>
+    <ol>
+        <li><strong>识别信号</strong> - 如果写提示不再享受，就需要休息</li>
+        <li><strong>元认知</strong> - 是否因为没有真正思考清楚而希望 AI 填补空白？</li>
+        <li><strong>TDD 方法</strong> - 将反馈循环速度作为问题来解决</li>
+        <li><strong>快速反馈循环</strong> - 用明确的成功标准让 AI 创建可快速迭代的测试</li>
+    </ol>
+
+    <h2>关键洞见</h2>
+    <blockquote>
+        <p>"当你对写不出完美的提示感到不乐趣时，那就是需要放弃的信号。如果我不享受写提示的过程，而且对结果没有 95% 的信心，那就需要休息或者重新思考问题。"</p>
+    </blockquote>
+
+    <h2>总结</h2>
+    <p>当感到与 LLM 合作疲劳时，可能实际上是"技能问题"。需要识别何时进入" doom-loop psychosis"，并学会：</p>
+    <ul>
+        <li>什么时候该休息</li>
+        <li>什么时候该重新思考问题</li>
+        <li>如何让反馈循环更快、消耗更少上下文</li>
+    </ul>
+
+    <footer>
+        <p>🏷️ 标签: LLM, AI, 生产力的, 开发者体验</p>
+        <p>📅 最后更新: 2026-03-17</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python 3.15 JIT 重大突破 - Ken Jin</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; line-height: 1.6; }
+        h1 { color: #306998; }
+        h2 { color: #FFD43B; background: #306998; padding: 10px; border-radius: 5px; }
+        .meta { color: #666; font-size: 0.9em; }
+        .highlight { background: #f0f0f0; padding: 15px; border-left: 4px solid #306998; margin: 15px 0; }
+        a { color: #306998; }
+        .rating { color: #f39c12; font-size: 1.2em; }
+        code { background: #f4f4f4; padding: 2px 6px; border-radius: 3px; }
+        pre { background: #f4f4f4; padding: 15px; overflow-x: auto; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <p class="meta">📅 2026-03-20 | 🔗 <a href="https://fidget-spinner.github.io/posts/jit-on-track.html">原文链接</a></p>
+    <h1>🐍 Python 3.15 JIT 重大突破</h1>
+    <p class="rating">⭐⭐⭐⭐⭐ 5星</p>
+    
+    <h2>核心发现</h2>
+    <p>Python 3.15 的 JIT 编译器终于回归正轨！在失去主要赞助商后，社区接管并实现了显著的性能提升：</p>
+    
+    <ul>
+        <li><strong>macOS AArch64:</strong> 比解释器快 11-12%</li>
+        <li><strong>x86_64 Linux:</strong> 比解释器快 5-6%</li>
+    </ul>
+    
+    <div class="highlight">
+        <strong>关键突破：</strong>Trace Recording 技术让 JIT 代码覆盖率提升了 50%，这意味着所有未来的优化效果都大幅增强。
+    </div>
+    
+    <h2>技术亮点</h2>
+    
+    <h3>1. Dual Dispatch 设计</h3>
+    <p>Ken Jin 误打误撞发现了这个天才设计：使用单一指令 + 两个表，而不是为每个指令创建追踪版本。这避免了解释器体积翻倍导致的巨大代码膨胀问题。</p>
+    
+    <h3>2. Reference Count Elimination</h3>
+    <p>消除每个 Python 指令后的引用计数分支。这是一个关键优化，因为每个指令都有一个这样的分支，累积起来开销巨大。</p>
+    
+    <h3>3. 社区力量</h3>
+    <p>失去赞助后，团队转向社区维护：</p>
+    <ul>
+        <li>11 位贡献者参与了优化工作</li>
+        <li>将复杂问题拆分为可管理的小任务</li>
+        <li>提供详细的可操作指令吸引新贡献者</li>
+    </ul>
+    
+    <h2>未来计划</h2>
+    <ul>
+        <li><strong>Python 3.15:</strong> 完善 free-threading 支持</li>
+        <li><strong>Python 3.16:</strong> 目标 10% 性能提升</li>
+    </ul>
+    
+    <h2>评价</h2>
+    <p>这是一个令人振奋的故事——在失去资金支持后，社区不仅维持了项目，还实现了超越原定目标的表现。Ken Jin 将成功归因于"运气"：正确的时间、地点、人和决策。但实质上，这是开放源码社区协作的胜利。</p>
+    
+    <hr>
+    <p><a href="/insights/index.html">← 返回索引</a></p>
+</body>
+</html>

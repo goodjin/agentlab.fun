@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rails on the BEAM：Ruby on ErlangVM架构分析 - 2026</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: #ffffff;
+            color: #333;
+        }
+        h1 {
+            font-size: 28px;
+            border-bottom: 3px solid #e91e63;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        h2 {
+            font-size: 22px;
+            margin-top: 40px;
+            color: #2c3e50;
+        }
+        h3 {
+            font-size: 18px;
+            margin-top: 30px;
+            color: #34495e;
+        }
+        .meta {
+            color: #7f8c8d;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+        .tag {
+            display: inline-block;
+            background: #e91e63;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-right: 8px;
+        }
+        .score {
+            color: #e91e63;
+            font-weight: bold;
+        }
+        ul, ol {
+            padding-left: 24px;
+        }
+        li {
+            margin-bottom: 12px;
+        }
+        code {
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 14px;
+        }
+        pre {
+            background: #f5f5f5;
+            padding: 16px;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        blockquote {
+            border-left: 4px solid #e91e63;
+            margin: 20px 0;
+            padding: 10px 20px;
+            background: #fafafa;
+        }
+    </style>
+</head>
+<body>
+    <h1>Rails on the BEAM：在Erlang虚拟机上运行Ruby架构分析</h1>
+    
+    <div class="meta">
+        <span class="tag">编程架构</span>
+        <span class="tag">Ruby</span>
+        <span class="tag">Elixir</span>
+        <span class="tag">BEAM</span>
+        <span class="score">评分: 4.5/5★</span>
+    </div>
+
+    <h2>核心发现</h2>
+    
+    <p>Juntos项目实现了在Erlang VM (BEAM) 上运行Ruby on Rails应用，无需修改任何代码。这是一个突破性的架构创新，为Rails→Phoenix迁移提供了增量路径。</p>
+
+    <h2>技术细节</h2>
+
+    <h3>QuickBEAM运行时</h3>
+    <ul>
+        <li><strong>QuickBEAM</strong>：在Erlang VM中嵌入QuickJS运行时（JavaScript引擎）</li>
+        <li>轻量级运行时：5MB vs Node.js的45MB</li>
+        <li><strong>子毫秒级启动</strong></li>
+        <li>借助OTP实现电信级容错</li>
+    </ul>
+
+    <h3>架构分层</h3>
+    <ol>
+        <li><strong>Browser</strong>: Turbo, Stimulus, Action Cable客户端</li>
+        <li><strong>Bandit</strong>: Elixir HTTP服务器</li>
+        <li><strong>QuickBEAM</strong>: JavaScript运行时池</li>
+        <li><strong>Elixir</strong>: :pg分布式pub/sub、SQLite NIF、OTP监督</li>
+    </ol>
+
+    <h3>对比Node.js</h3>
+    
+    <table>
+        <tr><th>特性</th><th>Node.js</th><th>BEAM</th></tr>
+        <tr><td>崩溃恢复</td><td>进程重启</td><td>OTP监督自动重启</td></tr>
+        <tr><td>分布式pub/sub</td><td>需Redis</td><td>:pg原生支持</td></tr>
+        <tr><td>并行</td><td>单线程+cluster</td><td>OS线程池</td></tr>
+        <tr><td>热升级</td><td>需pm2</td><td>OTP releases原生</td></tr>
+    </table>
+
+    <h2>创新价值</h2>
+
+    <ul>
+        <li><strong>零代码修改</strong>：同一Ruby代码可运行在Browser/Node.js/BEAM三种环境</li>
+        <li><strong>增量迁移</strong>：从Rails逐步迁移到Phoenix，无需重写</li>
+        <li><strong>容错增强</strong>：一个运行时崩溃不影响其他连接</li>
+        <li><strong>分布式原生</strong>：添加节点自动扩展pub/sub</li>
+    </ul>
+
+    <h2>为什么重要</h2>
+
+    <blockquote>
+        <p>这是目前唯一的Rails→Phoenix增量迁移路径。传统方式意味着从头开始。Juntos on BEAM第一天就能运行，并根据需要逐步迁移。</p>
+    </blockquote>
+
+    <h2>相关资源</h2>
+    
+    <ul>
+        <li><a href="https://intertwingly.net/blog/2026/04/02/Rails-on-the-BEAM.html">原文: Rails on the BEAM</a></li>
+        <li><a href="https://github.com/ruby2js/ruby2js">Source: github.com/ruby2js/ruby2js</a></li>
+        <li><a href="https://www.ruby2js.com/docs/juntos/">Documentation</a></li>
+    </ul>
+
+    <div class="meta" style="margin-top: 60px;">
+        来源: Lobsters | 标签: elixir, javascript, ruby | 发布日期: 2026-04-02
+    </div>
+</body>
+</html>

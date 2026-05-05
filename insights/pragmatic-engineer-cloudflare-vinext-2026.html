@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cloudflare用AI一周重写Next.js - Pragmatic Engineer</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0d1117; color: #e6edf3; line-height: 1.7; padding: 2rem; max-width: 900px; margin: 0 auto; }
+.back { color: #58a6ff; text-decoration: none; font-size: 0.9rem; margin-bottom: 1.5rem; display: inline-block; }
+.back:hover { text-decoration: underline; }
+.tag { display: inline-block; background: #1f6feb22; color: #58a6ff; padding: 2px 10px; border-radius: 12px; font-size: 0.75rem; margin-right: 6px; margin-bottom: 1rem; }
+h1 { font-size: 1.8rem; color: #f0f6fc; margin-bottom: 0.5rem; line-height: 1.4; }
+.meta { color: #8b949e; font-size: 0.85rem; margin-bottom: 1.5rem; }
+blockquote { border-left: 3px solid #f78166; padding: 0.5rem 1rem; margin: 1rem 0; background: #161b22; border-radius: 0 6px 6px 0; color: #c9d1d9; font-style: italic; }
+h2 { font-size: 1.2rem; color: #f0f6fc; margin: 1.8rem 0 0.8rem; border-bottom: 1px solid #21262d; padding-bottom: 0.4rem; }
+p { margin-bottom: 1rem; color: #c9d1d9; }
+.highlight { background: #1f6feb15; border: 1px solid #1f6feb40; border-radius: 6px; padding: 1rem; margin: 1.2rem 0; }
+.key-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 1.2rem 0; }
+.stat { background: #161b22; border-radius: 8px; padding: 1rem; text-align: center; }
+.stat .num { font-size: 1.5rem; font-weight: bold; color: #f78166; }
+.stat .label { font-size: 0.75rem; color: #8b949e; margin-top: 0.3rem; }
+ul { padding-left: 1.5rem; margin-bottom: 1rem; color: #c9d1d9; }
+li { margin-bottom: 0.4rem; }
+.source { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #21262d; font-size: 0.85rem; color: #8b949e; }
+.source a { color: #58a6ff; }
+</style>
+</head>
+<body>
+<a href="/insights/index.html" class="back">← 返回首页</a>
+<span class="tag">AI</span><span class="tag">开源</span><span class="tag">基础设施</span>
+<h1>Cloudflare用AI一周重写Next.js：开源护城河被颠覆？</h1>
+<div class="meta">来源：The Pragmatic Engineer (Gergely Orosz) · 2026-03-30 · ⭐ 4.5/5</div>
+
+<div class="key-stats">
+<div class="stat"><div class="num">1周</div><div class="label">完成时间</div></div>
+<div class="stat"><div class="num">$1,100</div><div class="label">Token成本</div></div>
+<div class="stat"><div class="num">1人</div><div class="label">工程师</div></div>
+</div>
+
+<h2>事件概述</h2>
+<p>Cloudflare宣布用AI重写了Next.js核心框架：将Turbopack构建工具替换为Vite，产出"vinext"。原本需要数年工程量的工作，一个工程师用一周、$1,100 token成本完成。</p>
+
+<div class="highlight">
+<b>核心数据：</b><br>
+• Next.js核心约194,000行代码 → vinext仅67,000行（更精简，无历史包袱）<br>
+• 构建速度提升<strong>4倍</strong>，客户端包体积减少<strong>57%</strong><br>
+• 当前支持94%的Next.js API
+</div>
+
+<h2>技术背景：Next.js的"护城河"</h2>
+<p>Next.js是最大众化的React全栈框架，约一半React开发者使用它。但其构建输出是专有格式（优化给Vercel），其他托管商必须依赖不稳定的未公开API。</p>
+<p>Vercel的策略很聪明：开源Next.js + 优化Vercel运行专有构建产物 = 让开发者默认选择Vercel。这是商业开源的经典护城河。</p>
+
+<h2>AI正在颠覆什么</h2>
+<ul>
+<li><strong>重写成本下降~100倍</strong>：原本需要数年，现在一周搞定</li>
+<li><strong>维护成本同样下降</strong>：一个人兼职维护成为可能</li>
+<li><strong>开源护城河被侵蚀</strong>：商业开源的核心价值（长期维护）不再稀缺</li>
+</ul>
+
+<blockquote>
+"Cloudflare证明了重写现有软件的成本已经下降到~100倍，token成本对工程时间而言可以忽略不计。"
+</blockquote>
+
+<h2>Vercel反击：质量问题的批评</h2>
+<p>Vercel CEO Guillermo Rauch很快指出vinext的安全问题，并将此与"vibe coding"联系起来——讽刺Cloudflare用$1,100快速构建了一个实验性产品却宣称"已有客户在生产环境运行"。</p>
+<p>实际上"生产环境运行"指的是一个beta站点（CIO.gov），流量几乎为零。</p>
+
+<h2>深层意义：对商业开源的冲击</h2>
+<p>这篇文章的核心洞察不是技术，而是商业：</p>
+<ul>
+<li>Cloudflare不care长期维护——他们的AI工具可以随时重写</li>
+<li>Vercel的护城河（维护者角色）不再具有排他性</li>
+<li>"broken window"问题：用户对未修复bug的容忍度在下降——一旦SaaS体验下降，用户会立刻用AI重建</li>
+</ul>
+
+<h2>文章价值</h2>
+<p>★★★★★ — Gergely Orosz一如既往地提供了深度行业分析，不仅讲述事件本身，还挖掘了背后的商业逻辑和技术影响。对理解AI如何重塑软件工程行业有重要参考价值。</p>
+
+<div class="source">来源：<a href="https://blog.pragmaticengineer.com/the-pulse-cloudflare-rewrites-next-js-as-ai-rewrites-commercial-open-source/" target="_blank">The Pragmatic Engineer</a> · 作者：Gergely Orosz (前Uber, Microsoft, Skype工程师)</div>
+</body>
+</html>

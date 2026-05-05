@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculate "1/(40rods/hogshead) → L/100km" from your Zsh prompt</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.6; max-width: 800px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+        .content { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        h1 { color: #333; border-bottom: 3px solid #0066cc; padding-bottom: 10px; }
+        h2 { color: #0066cc; margin-top: 30px; }
+        h3 { color: #666; }
+        code { background: #f0f0f0; padding: 2px 6px; border-radius: 3px; font-family: "SF Mono", Monaco, monospace; }
+        pre { background: #1e1e1e; color: #d4d4d4; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        .tag { display: inline-block; background: #e0e0e0; padding: 3px 8px; border-radius: 3px; font-size: 12px; margin: 2px; }
+        .rating { display: inline-block; background: #4CAF50; color: white; padding: 5px 12px; border-radius: 20px; font-weight: bold; }
+        .meta { color: #666; font-size: 14px; margin-bottom: 20px; }
+        ul { margin: 15px 0; }
+        li { margin: 8px 0; }
+        .highlight { background: #fff3cd; padding: 15px; border-left: 4px solid #ffc107; margin: 15px 0; }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <span class="rating">⭐⭐⭐⭐ (4星)</span>
+        <h1>Calculate "1/(40rods/hogshead) → L/100km" from your Zsh prompt</h1>
+        <div class="meta">
+            来源: <a href="https://vincent.bernat.ch/en/blog/2026-zsh-calculator">Vincent Bernat</a> | 分类: <span class="tag">programming</span><span class="tag">zsh</span><span class="tag">productivity</span><span class="tag">tools</span>
+        </div>
+
+        <h2>核心亮点</h2>
+        <ul>
+            <li><strong>巧妙设计</strong>: 将Zsh的=别名改造为计算器，支持Numbat、Qalculate或zcalc作为后端</li>
+            <li><strong>自动引用</strong>: 通过ZLE (Zsh Line Editor) hook自动对特殊字符(*, |, >等)进行转义，解决glob展开问题</li>
+            <li><strong>单位转换</strong>: 支持丰富的单位转换，如货币、流量、时间、日期时区等</li>
+            <li><strong>历史记录</strong>: 巧妙保存原始未转义命令到历史，解决重复执行时的双重转义问题</li>
+            <li><strong>实用示例</strong>: 包含多个真实用例，如网络速度计算、药物剂量转换</li>
+        </ul>
+
+        <h2>关键实现</h2>
+        <h3>别名配置</h3>
+        <pre><code>if (( $+commands[numbat] )); then
+  aliases[=]='numbat -e'
+elif (( $+commands[qalc] )); then
+  aliases[=]='qalc'
+else
+  autoload -Uz zcalc
+  aliases[=]='zcalc -f -e'
+fi</code></pre>
+
+        <h3>自动转义Hook</h3>
+        <pre><code>_vbe_calc_accept() {
+  case $BUFFER in
+    "="*)
+      BUFFER="= ${(q-)${${BUFFER#=}# }}"
+  esac
+  zle .accept-line
+}
+zle -N accept-line _vbe_calc_accept</code></pre>
+
+        <h3>实用示例</h3>
+        <ul>
+            <li><code>= '5 * 3'</code> → 15</li>
+            <li><code>= '17 USD -> EUR'</code> → 14.7122 €</li>
+            <li><code>= '180*500mg -> g'</code> → 90 g</li>
+            <li><code>= '5 gigabytes / (2 minutes + 17 seconds) -> megabits/s'</code> → 291.971 Mbit/s</li>
+            <li><code>= 'now() -> tz("Asia/Tokyo")'</code> → 2026-03-22 22:00:03 JST</li>
+            <li><code>= '1 / (40 rods / hogshead) -> L / 100km'</code> → 118548 × 0.01 l/km</li>
+        </ul>
+
+        <h2>技术价值</h2>
+        <div class="highlight">
+            这是一个优雅的Shell增强方案，展示了对Zsh高级功能的深入理解(ZLE hook、aliases关联数组、parameter expansion flags)。对于想要个性化定制终端体验的开发者，这篇文章提供了很好的范例。
+        </div>
+
+        <hr>
+        <p><small>探索时间: 2026-03-27 | 来源: Lobsters</small></p>
+    </div>
+</body>
+</html>
