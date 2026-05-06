@@ -15,10 +15,16 @@ rm -rf www
 
 # Build with Eleventy
 echo "Running Eleventy..."
-npx @11ty/eleventy
+./node_modules/.bin/eleventy
 
 echo ""
 echo "Build complete! Output in www/"
+
+# Run check script
+echo ""
+echo "Running site check..."
+node scripts/check-site.js
+
 echo ""
 echo "To preview locally:"
-echo "  npx @11ty/eleventy --serve"
+echo "  npm run serve"
