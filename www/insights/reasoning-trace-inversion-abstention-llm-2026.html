@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reasoning Trace Inversion - LLM拒绝回答能力 | AI洞察</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>推理追踪反转：让LLM知道"何时不回答"</h1>
+    <div class="subtitle">arXiv: 2604.02230 | 2026-04-02 | AI/LLM/Reasoning</div>
+    
+    <div class="meta">
+        <span class="tag">LLM</span>
+        <span class="tag">Abstention</span>
+        <span class="tag">Reasoning</span>
+        <span class="tag">Self-Awareness</span>
+        <span class="tag">Safety</span>
+        <br><br>
+        <strong>质量评分:</strong> <span class="score">4.5★</span>
+    </div>
+
+    <h2>核心发现</h2>
+    <p>推理模型（reasoning models）在复杂任务上表现惊艳，但它们有一个致命弱点：<strong>不知道何时应该拒绝回答</strong>。这篇论文提出了 <strong>Trace Inversion</strong> 方法，通过分析推理轨迹来检测模型是否在"答非所问"。</p>
+
+    <h2>问题背景</h2>
+    <ul>
+        <li>推理模型因其强大的链式思考能力而备受关注</li>
+        <li>然而，研究表明推理模型的拒绝回答（abstention）能力反而<strong>更差</strong></li>
+        <li>关键洞察：幻觉导致的拒绝失败，本质上是模型在"回答错误的问题"，而不是"错误地回答问题"</li>
+    </ul>
+
+    <h2>Query Misalignment Framework</h2>
+    <p>核心思想：将幻觉和错误拒绝重新定义为"查询错位"问题。</p>
+    <ul>
+        <li><strong>问题本质：</strong> 模型产生的回答与用户原始意图之间存在偏差</li>
+        <li><strong>解决思路：</strong> 不直接判断答案对错，而是判断模型是否理解了原始问题</li>
+    </ul>
+
+    <h2>Trace Inversion 方法</h2>
+    <p>一种全新的最先进拒绝回答方法，包含三步：</p>
+    <ol>
+        <li><strong>生成推理轨迹：</strong> 获取模型的完整推理过程</li>
+        <li><strong>反向重建查询：</strong> 仅根据推理轨迹，反推最可能是哪个问题导致这样的回答</li>
+        <li><strong>查询对齐评估：</strong> 比较原始问题与重建问题的一致性。低相似度 = 答非所问 = 应触发拒绝</li>
+    </ol>
+
+    <h2>关键结果</h2>
+    <ul>
+        <li><strong>36个设置中33个胜出</strong>（91.7%胜率）</li>
+        <li>在4个前沿LLM上验证</li>
+        <li>跨越9个拒绝回答QA数据集</li>
+        <li>显著超越现有基线方法</li>
+    </ul>
+
+    <h2>重要洞察</h2>
+    <ul>
+        <li>推理模型的"自信"来自其强大的推理能力，但这反而导致它们更难以识别自己的错误</li>
+        <li>Trace Inversion 的精妙之处：不需要外部判断标准，而是让模型自己的推理过程成为"测谎仪"</li>
+        <li>这一方法为LLM安全部署提供了新的思路：不仅评估答案对错，更要评估模型是否真正理解了问题</li>
+    </ul>
+
+    <h2>相关链接</h2>
+    <ul>
+        <li><a href="https://arxiv.org/abs/2604.02230" target="_blank">arXiv 论文</a></li>
+    </ul>
+
+    <p style="margin-top: 40px; font-size: 12px; color: #999;">
+        发现时间: 2026-04-05 | 来源: arXiv cs.AI
+    </p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Decade of Slug - GPU Font Rendering Algorithm</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <h1>A Decade of Slug: GPU Font Rendering Algorithm</h1>
+        <div class="meta">
+            <span class="rating">⭐⭐⭐⭐⭐ 5/5</span>
+            <span class="tag">Graphics</span>
+            <span class="tag">GPU</span>
+            <span class="tag">Font Rendering</span>
+            <span class="tag">Open Source</span>
+        </div>
+        <p class="source">Source: <a href="https://terathon.com/blog/decade-slug.html" target="_blank">terathon.com</a> by Eric Lengyel | March 17, 2026</p>
+        
+        <h2>What is Slug?</h2>
+        <p>Slug is a groundbreaking algorithm for rendering fonts directly from Bézier curves on the GPU without texture maps. Developed in Fall 2016, it celebrates its 10th anniversary in 2026.</p>
+        
+        <div class="highlight">
+            <strong>Major News:</strong> The patent has been dedicated to the public domain, and reference implementations are now available under MIT license on GitHub!
+        </div>
+        
+        <h2>Key Highlights</h2>
+        <ul>
+            <li><strong>Licensed by:</strong> Activision, Blizzard, id Software, 2K Games, Ubisoft, Warner Brothers, Insomniac, Zenimax, Adobe, and many more</li>
+            <li><strong>Used in:</strong> Video games, scientific visualization, CAD, video editing, medical equipment, planetariums</li>
+            <li><strong>Core Innovation:</strong> Direct rendering from Bézier curves - no precomputed textures needed</li>
+            <li><strong>Robustness:</strong> Zero artifacts (dropped pixels, sparkles, or streaks) through precise winding number calculations</li>
+        </ul>
+        
+        <h2>Dynamic Dilation - The Major Update</h2>
+        <p>The biggest improvement since 2017 is "dynamic dilation" - automatically calculating the optimal bounding polygon expansion for each glyph based on the model-view-projection matrix and viewport dimensions.</p>
+        
+        <p>Before: Users had to manually specify a constant dilation distance, which was either too small (causing aliasing) or too large (wasting performance).</p>
+        
+        <p>After: The algorithm automatically calculates the perfect dilation distance in the vertex shader for every render, ensuring optimal quality and performance at any scale.</p>
+        
+        <h2>Patent Announcement</h2>
+        <p>Effective March 17, 2026, Eric Lengyel has permanently dedicated the Slug patent (US10373352B1) to the public domain. Anyone can freely implement the Slug algorithm without a license.</p>
+        
+        <h2>Resources</h2>
+        <ul>
+            <li><a href="https://github.com/EricLengyel/Slug" target="_blank">GitHub: Reference Shaders (MIT License)</a></li>
+            <li><a href="https://jcgt.org/published/0006/02/02/" target="_blank">JCGT Paper (2017)</a></li>
+            <li><a href="https://sluglibrary.com/" target="_blank">Slug Library</a></li>
+        </ul>
+        
+        <h2>Why This Matters</h2>
+        <p>This is a significant contribution to the graphics programming community. The algorithm enables high-quality, anti-aliased text rendering at any scale and angle, with mathematical guarantees of robustness. The patent dedication ensures this technology will benefit everyone.</p>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

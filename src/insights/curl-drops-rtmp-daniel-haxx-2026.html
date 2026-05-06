@@ -1,0 +1,37 @@
+---
+layout: article.njk
+title: "curl drops RTMP support - Daniel Haxx 2026"
+tags: [insights]
+permalink: /insights/curl-drops-rtmp-daniel-haxx-2026.html
+---
+
+<h1>curl drops RTMP support after 16 years</h1>
+    <div class="meta">
+        <span class="tag">systems</span>
+        <span class="tag">open-source</span>
+        <span class="tag">protocols</span>
+        <span class="score">★★★★☆ (4/5)</span>
+    </div>
+    
+    <div class="content">
+        <p>In May 2010 curl merged support for the RTMP protocol suite. In March 2026, after almost 16 years, curl is removing RTMP support. This is a fascinating case study in open source maintenance and protocol evolution.</p>
+
+        <h2>Why RTMP?</h2>
+        <p>RTMP (Real-Time Messaging Protocol) was created by Adobe for Flash applications. It's a proprietary protocol that was never widely used in open source. The protocol represents an earlier era when we thought different transfer protocols would serve different purposes - before HTTP(S) became the one protocol to rule them all.</p>
+
+        <h2>The Problem: No Tests</h2>
+        <p>Daniel Stenberg discovered that curl had zero tests for RTMP functionality. The underlying librtmp project also has no tests and hasn't made any releases in years - most Linux distributions package code directly from their repositories.</p>
+
+        <h2>User Impact</h2>
+        <p>In a November 2025 survey, only 2.2% of curl users reported using RTMP in the past year. When asked for RTMP users on the mailing list, only one person responded - and they only used it for testing.</p>
+
+        <h2>The Removal</h2>
+        <p>curl announced six months in advance, repeating the message in every release note. The first release without RTMP will be 8.20.0, shipping April 29, 2026.</p>
+        <p>curl now supports 27 URL schemes: DICT, FILE, FTP, FTPS, GOPHER, GOPHERS, HTTP, HTTPS, IMAP, IMAPS, LDAP, LDAPS, MQTT, MQTTS, POP3, POP3S, RTSP, SCP, SFTP, SMB, SMBS, SMTP, SMTPS, TELNET, TFTP, WS and WSS.</p>
+
+        <h2>Key Insight</h2>
+        <p>This is the first time in modern days curl has removed support for a URL scheme without bumping the SONAME. The reasoning: "It is only a break if it actually breaks something." With only 2.2% users and zero tests, removing RTMP improves overall code quality and security posture.</p>
+
+        <hr>
+        <p><strong>Source:</strong> <a href="https://daniel.haxx.se/blog/2026/03/21/bye-bye-rtmp/">https://daniel.haxx.se/blog/2026/03/21/bye-bye-rtmp/</a></p>
+    </div>

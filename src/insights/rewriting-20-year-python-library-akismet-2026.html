@@ -1,0 +1,54 @@
+---
+layout: article.njk
+title: "Rewriting a 20-year-old Python library - b-list.org"
+tags: [insights]
+permalink: /insights/rewriting-20-year-python-library-akismet-2026.html
+---
+
+<div class="container">
+        <h1>Rewriting a 20-year-old Python library</h1>
+        <div class="meta">
+            <span class="rating">⭐⭐⭐⭐⭐</span> |
+            <span>ubernostrum</span> |
+            <span>b-list.org</span> |
+            <span>2026-03-23</span>
+        </div>
+        
+        <div>
+            <span class="tag">Python</span>
+            <span class="tag">API设计</span>
+            <span class="tag">软件工程</span>
+            <span class="tag">开源</span>
+        </div>
+
+        <h2>背景</h2>
+        <p>akismet库始于2005年，由Michael Foord创建，用于Python的Akismet反垃圾API客户端。作者于2015年接管维护，2024年开始重写。</p>
+
+        <h2>重写动机</h2>
+        <ul>
+            <li><strong>支持"blatant"spam特性</strong> - Akismet API返回"blatant"时可直接丢弃内容，但原客户端只返回bool无法暴露此信息</li>
+            <li><strong>异步Python支持</strong> - 异步生态已成熟，需要支持async/non-blocking HTTP请求</li>
+        </ul>
+
+        <h2>类vs函数的取舍</h2>
+        <p>尝试纯函数API后发现：如果一堆函数都需要接受共同的数据参数，说明它们真正需要的是一个类来内部持有这些共享状态。凭证验证需要共享状态，使类成为必然选择。</p>
+
+        <h2>双类设计</h2>
+        <p>SyncClient和AsyncClient分离：避免自动验证时的同步/异步冲突。用户不想在初始化时阻塞就使用异步验证。</p>
+
+        <div class="insight">
+            <strong>💡 核心洞察:</strong><br>
+            "花时间思考甚至写样本文档通常能发现这类问题。很多人觉得扔掉文档比扔掉代码容易，但从发现设计问题的角度，文档价值极高。"
+        </div>
+
+        <h2>异步初始化方案</h2>
+        <ul>
+            <li><strong>validated_client()</strong> - 工厂方法，AsyncClient版本可真正async</li>
+            <li><strong>上下文管理器协议</strong> - async with可为AsyncClient执行异步验证</li>
+        </ul>
+
+        <h2>设计建议</h2>
+        <p>学习Lynn Root的"The Design of Everyday APIs"，了解如何让API更容易使用。</p>
+
+        <p><a href="https://www.b-list.org/weblog/2026/mar/23/20-year-library/" target="_blank">原文链接 →</a></p>
+    </div>

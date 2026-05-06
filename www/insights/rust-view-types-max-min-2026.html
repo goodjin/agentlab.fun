@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rust视图类型：最小化提案</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>Rust视图类型：最小化提案</h1>
+    <div class="meta">
+        <span class="tag">Rust</span>
+        <span class="tag">编程语言</span>
+        <span class="tag">类型系统</span>
+        <span class="score"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></span>
+    </div>
+    
+    <h2>问题</h2>
+    <p>在Rust中，常见的一个挫折是：当你想在循环中drain一个vector并同时调用一个mut方法时，borrow checker会报错。</p>
+
+    <pre><code>pub fn process_pushed_messages(&mut self) {
+    for message in self.messages.drain(..) {
+        // self.messages 被mut borrow
+        self.process_message(message); // 错误：self被borrow
+    }
+}</code></pre>
+
+    <h2>解决方案：视图类型</h2>
+    <p>视图类型扩展了struct类型，允许指定方法能访问哪些字段：</p>
+    
+    <div class="highlight">
+        <code>MessageProcessor { statistics }</code> 表示"一个MessageProcessor结构，只能访问statistics字段"
+    </div>
+
+    <h2>语法</h2>
+    <p>在方法签名中指定字段集：</p>
+    <pre><code>// 修改前
+fn process_message(&mut self, message: String) {
+    self.statistics.message_count += 1;
+    // ...
+}
+
+// 修改后
+fn process_message(&mut self {statistics}, message: String) {
+    // self {statistics} 表示只访问statistics字段
+    self.statistics.message_count += 1;
+    // ...
+}</code></pre>
+
+    <h2>工作原理</h2>
+    <ul>
+        <li><strong>编译器自动ref</strong> - 方法调用时，编译器自动生成视图borrow</li>
+        <li><strong>borrow checker理解</strong> - &mut self {statistics} 产生两个独立的loan：self.statistics</li>
+        <li><strong>运行时无开销</strong> - 视图类型是纯静态检查，运行时就是普通指针</li>
+    </ul>
+
+    <h2>详细示例</h2>
+    <pre><code>// 原始代码
+pub fn process_pushed_messages(&mut self) {
+    for message in self.messages.drain(..) {
+        // self.messages.drain(..) -> mut-borrows self.messages
+        self.process_message(message); 
+        // self.process_message -> mut-borrows all of self
+        // 冲突！
+    }
+}
+
+// 添加视图类型后
+fn process_message(&mut self {statistics}, message: String) {
+    self.statistics.message_count += 1;
+    // 只访问 self.statistics
+}
+
+// 现在 process_pushed_messages 可以工作：
+// self.messages.drain(..) -> mut-borrows self.messages
+// self.process_message -> mut-borrows self.statistics
+// 不冲突！</code></pre>
+
+    <h2>关键约束</h2>
+    <ul>
+        <li><strong>尊重隐私</strong> - 只能指定可见的字段（私有方法最有用）</li>
+        <li><strong>公开字段有限制</strong> - MVP主要面向私有方法</li>
+        <li><strong>显式指定</strong> - 目前需要显式写字段，未来可推断</li>
+    </ul>
+
+    <h2>FAQ</h2>
+    <dl>
+        <dt>实现难度？</dt>
+        <dd>不大，今年可以完成MVP</dd>
+        
+        <dt>性能影响？</dt>
+        <dd>零运行时开销，纯静态分析</dd>
+        
+        <dt>可以推断吗？</dt>
+        <dd>未来可以结合row polymorphism实现自动推断</dd>
+    </dl>
+
+    <h2>为什么重要</h2>
+    <p>这个提案解决了Rust最常见的挫折之一——过于保守的borrow checker。虽然有变通方法，但都很麻烦。视图类型提供了一种优雅的解决方案。</p>
+    
+    <hr>
+    <p><small>来源: <a href="https://smallcultfollowing.com/babysteps/blog/2026/03/21/view-types-max-min/">smallcultfollowing.com</a> | 探索日期: 2026-03-23</small></p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

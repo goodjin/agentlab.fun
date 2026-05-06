@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slap: 函数式连接式语言 + 借用检查器 - 2026洞察</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>Slap: 函数式连接式语言 + 借用检查器</h1>
+  <p><span class="tag">concatenative</span><span class="tag">plt</span> <span class="rating">★★★★☆ 4/5★</span></p>
+
+  <div class="insight-box">
+    <strong>来源：</strong>Lobsters (33 points) · 11 hours ago<br>
+    <strong>URL：</strong><a href="https://taylor.town/slap-000" target="_blank">https://taylor.town/slap-000</a>
+  </div>
+
+  <h2>核心概念</h2>
+  <p>Slap 是一种独特的编程语言，结合了多种范式：</p>
+  <ul>
+    <li><strong>简洁如 APL/J/K</strong> - 后缀表达式，代码极短</li>
+    <li><strong>安全如 Rust</strong> - 线性类型系统，借用检查</li>
+    <li><strong>简单如 Lisp/Forth</strong> - 极简规范</li>
+    <li><strong>快速如 C/Zig</strong> - 手动内存管理</li>
+    <li><strong>易用如 Elm/Roc</strong> - 管理化副作用</li>
+  </ul>
+
+  <h2>关键创新：借用检查器</h2>
+  <p>这是 Slap 最独特的地方 —— 将 Rust 的借用检查器引入函数式连接式语言：</p>
+  <pre><code>-- 指针(box)不能复制或丢弃
+42 box dup
+-- TYPE ERROR: dup requires copyable type, got box
+
+42 box drop
+-- TYPE ERROR: drop requires copyable type, got box
+
+-- 必须使用 lend, mutate, clone, or free
+[1 2 3] box (len) lend 3 eq assert free</code></pre>
+
+  <p>这防止了经典问题：double-free, use-after-free, forgot-to-free。</p>
+
+  <h2>性能数据</h2>
+  <p>前 10 个 Project Euler 问题：大部分 3ms 内完成，无垃圾回收。</p>
+
+  <h2>为什么重要</h2>
+  <p>Slap 展示了<strong>类型系统与低层控制的创新结合</strong>。它证明了函数式语言可以不依赖 GC，同时保持内存安全。对于追求极致性能的系统编程者，这是一个值得关注的新方向。</p>
+
+  
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

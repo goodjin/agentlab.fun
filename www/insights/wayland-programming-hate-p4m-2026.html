@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I Hate: Programming Wayland Applications - 2026</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <span class="rating rating-4">⭐⭐⭐⭐ 4 stars</span>
+        <h1>I Hate: Programming Wayland Applications</h1>
+        <div class="meta">
+            <a href="https://www.p4m.dev/posts/29/index.html" target="_blank">p4m.dev</a> · 2026-03-22
+        </div>
+        
+        <h2>Summary</h2>
+        <p>A passionate developer's rant about the challenges of programming native Wayland applications. The author contrasts the simplicity of libraries like raylib with the nightmare of Wayland development.</p>
+        
+        <h2>Key Problems</h2>
+        <ul>
+            <li><strong>Callback Hell:</strong> Everything uses callbacks - no main event loop like X11 or Win32</li>
+            <li><strong>1300+ Lines for Window:</strong> Simple OpenGL window requires massive boilerplate</li>
+            <li><strong>Object-Oriented Protocol:</strong> Control flow is unpredictable due to callback-based architecture</li>
+            <li><strong>Fragmentation:</strong> Different compositors support different protocol extensions</li>
+            <li><strong>No Documentation:</strong> Official docs don't mention wayland-scanner; XML files scattered</li>
+        </ul>
+        
+        <h2>Core Insight</h2>
+        <blockquote>"Wayland does not care for the simple use-case at all. Getting any example application to work is so incredibly ridiculous... I have no idea why they didn't stick to 'main event loop' instead."</blockquote>
+        
+        <h2>Quote</h2>
+        <blockquote>"This is sheer insanity. There are so many obstacles you have to get over in order to produce just a blank window."</blockquote>
+        
+        <div class="tags">
+            <span class="tag">Linux</span>
+            <span class="tag">Wayland</span>
+            <span class="tag">Graphics</span>
+            <span class="tag">X11</span>
+        </div>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anthropic Claude: 1M Context Now GA</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <h1>📜 Claude 100万上下文正式可用</h1>
+        <div class="meta">来源: claude.com/blog/1m-context-ga | 评分: ⭐⭐⭐⭐ (4星) | 日期: 2026-03-13</div>
+        <div>
+            <span class="tag">Anthropic</span>
+            <span class="tag">Claude</span>
+            <span class="tag">LLM</span>
+            <span class="tag">Pricing</span>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>重大消息</h2>
+        <div class="highlight">
+            <strong>Opus 4.6 和 Sonnet 4.6 的 100万上下文现在普遍可用！</strong>
+        </div>
+
+        <h2>定价策略</h2>
+        <p><strong>关键区别：Anthropic 不收取长上下文溢价！</strong></p>
+        
+        <table>
+            <tr>
+                <th>模型</th>
+                <th>上下文窗口</th>
+                <th>超长上下文收费？</th>
+            </tr>
+            <tr>
+                <td>Claude Opus/Sonnet 4.6</td>
+                <td>1M tokens</td>
+                <td>❌ 无</td>
+            </tr>
+            <tr>
+                <td>Gemini 3.1 Pro</td>
+                <td>200K tokens</td>
+                <td>✅ 有</td>
+            </tr>
+            <tr>
+                <td>GPT-5.4</td>
+                <td>272K tokens</td>
+                <td>✅ 有</td>
+            </tr>
+        </table>
+
+        <h2>为什么重要？</h2>
+        <ul>
+            <li><strong>标准定价</strong>: 1M 窗口内统一价格，无需担心成本暴增</li>
+            <li><strong>vs OpenAI/Gemini</strong>: 对手仍对超长上下文收取溢价</li>
+            <li><strong>应用场景</strong>: 大型代码库分析、长文档处理、多文件理解</li>
+        </ul>
+
+        <h2>实际意义</h2>
+        <div class="source">
+            <p>这意味着你可以：</p>
+            <ul>
+                <li>上传整个代码仓库给 Claude 分析</li>
+                <li>处理整本书或长篇报告</li>
+                <li>一次对话中引用多个大型文档</li>
+                <li>无需担心 token 超过阈值后费用飙升</li>
+            </ul>
+        </div>
+
+        <h2>相关资源</h2>
+        <ul>
+            <li><a href="https://claude.com/blog/1m-context-ga">官方博客</a></li>
+            <li><a href="https://www.llm-prices.com/#sel=gemini-3-1-pro-preview-200k%2Cgpt-5.4-272k%2Cgemini-3-1-pro-preview%2Cgpt-5.4">LLM 价格对比</a></li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>📊 探索评分</h2>
+        <p class="rating">⭐⭐⭐⭐ (4星)</p>
+        <p><strong>理由</strong>: LLM 定价趋势的重要信号。Anthropic 率先取消长上下文溢价，这对行业竞争格局有重要影响。</p>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

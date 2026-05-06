@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown as Protocol for Agentic UI - 用 Markdown 协议构建动态 UI</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>📝 Markdown as Protocol for Agentic UI</h1>
+    <p class="meta">来源: Fabian Kuebler Blog | 2025-12-15 | 评分: ⭐⭐⭐⭐⭐</p>
+    
+    <div class="highlight">
+        <strong>核心创意:</strong> 用 Markdown 作为协议，同时传输文本、代码、数据三种内容。流式执行 + mount() 原语，让 AI 代理动态生成 React UI。
+    </div>
+
+    <h2>🎯 核心理念</h2>
+    <p>Eric Schmidt 预测: "用户界面将在很大程度上消失"，AI 代理将按需动态生成 UI。本文探索了这一愿景的实现方式。</p>
+
+    <h2>📐 协议设计: 三种 Block</h2>
+    <table>
+        <tr>
+            <th>Block 类型</th>
+            <th>语法</th>
+            <th>用途</th>
+        </tr>
+        <tr>
+            <td>Text</td>
+            <td><code>**plain markdown**</code></td>
+            <td>流式输出给用户</td>
+        </tr>
+        <tr>
+            <td>Code fence</td>
+            <td><code>```tsx agent.run</code></td>
+            <td>在服务器持久上下文中执行</td>
+        </tr>
+        <tr>
+            <td>Data fence</td>
+            <td><code>```json agent.data => "id"</code></td>
+            <td>流式传输数据到 UI</td>
+        </tr>
+    </table>
+
+    <h2>🔄 反馈循环</h2>
+    <div class="highlight">
+        <strong>console.log = agent 与自己的对话方式</strong>
+        <ul>
+            <li>LLM 生成带代码块的 Markdown</li>
+            <li>文本流给用户，代码在服务器增量执行</li>
+            <li>console.* 输出和异常作为新 turn 反馈给 LLM</li>
+            <li>无输出/异常 → 完成，等待新用户查询</li>
+        </ul>
+    </div>
+
+    <h2>⚡ 流式执行</h2>
+    <p>希望语句在生成时就执行，不等完整响应。问题: 没有运行时支持这种流式执行。</p>
+    <p>解决方案: 构建 <code>bun-streaming-exec</code>，使用 vm.Script + 创意包装。</p>
+
+    <h2>🖥️ Agentic UI: mount() 原语</h2>
+    <pre><code>```tsx agent.run
+mount({
+  ui: () => <Card>Hello from the agent!</Card>
+});
+```</code></pre>
+
+    <p>LLM 生成代码 → 服务器执行 → mount() 序列化 React 组件 → 客户端渲染</p>
+
+    <h2>🔀 四种数据流模式</h2>
+    
+    <h3>1. Client → Server (表单)</h3>
+    <pre><code>```tsx agent.run
+const form = mount({
+  outputSchema: z.object({ name: z.string() }),
+  ui: ({ output }) => (
+    &lt;Box&gt;
+      &lt;TextField {...output.name} /&gt;
+      &lt;Button {...output}&gt;Submit&lt;/Button&gt;
+    &lt;/Box&gt;
+  )
+});
+const { name } = await form.result; // 阻塞直到提交
+console.log("user:responded", name);
+```</code></pre>
+
+    <h3>2. Server → Client (实时更新)</h3>
+    <pre><code>```tsx agent.run
+const data = new Data({ progress: 0 });
+mount({
+  data,
+  ui: ({ data }) => &lt;LinearProgress value={data.progress} /&gt;
+});
+data.progress = 40; // UI 立即更新
+```</code></pre>
+
+    <p>Data 对象是代理，检测变更 → 序列化为 patch → WebSocket 发送到客户端</p>
+
+    <h3>3. LLM → Client (流式数据)</h3>
+    <pre><code>```tsx agent.run
+const movies = new StreamedData("movies-list");
+mount({
+  streamedData: movies,
+  ui: ({ streamedData }) => &lt;Card&gt;{streamedData?.map(...)}&lt;/Card&gt;
+});
+```
+
+```json agent.data => "movies-list"
+[
+  { "name": "Blade Runner", "rating": 4.5 }
+]
+```</code></pre>
+
+    <h3>4. Client → Server (回调)</h3>
+    <pre><code>```tsx agent.run
+const onRefresh = async () => {
+  data.messages = await loadMessages();
+};
+mount({
+  callbacks: { onRefresh },
+  ui: ({ callbacks }) => &lt;RefreshButton onClick={callbacks.onRefresh} /&gt;
+});
+```</code></pre>
+
+    <h2>🕳️ Slots 机制</h2>
+    <p>UI 复杂时，用户需等待更久。用 slot 机制: 先挂载骨架，逐步注入重内容。</p>
+    <pre><code>```tsx agent.run
+const shell = mount({
+  ui: () => (
+    &lt;Card&gt;
+      &lt;Slot name="stats" fallback={&lt;Skeleton /&gt;} /&gt;
+      &lt;Slot name="blockers" fallback={&lt;Skeleton /&gt;} /&gt;
+    &lt;/Card&gt;
+  )
+});
+shell.mountSlot("stats", (&#123; data &#125;) => &lt;StatsRow /&gt;);
+```</code></pre>
+
+    <h2>🔒 关于安全</h2>
+    <p>Claude Code 和 ChatGPT Code Interpreter 已在执行 LLM 生成的代码。沙箱、权限、静态分析在开发中。Prompt injection 是所有 agent 架构的共同难题。本文探索的是假设安全合理解决后的上层建筑。</p>
+
+    <h2>💡 为什么有效</h2>
+    <div class="highlight">
+        每个设计选择都为一个目标优化: <strong>LLM 人体工程学</strong>
+        <ul>
+            <li>Markdown + code fences: LLMs 训练时见过数十亿 Markdown</li>
+            <li>语法自然可扩展: 加新 fence header 即可</li>
+            <li>console.log 反馈: 代理最熟悉的调试方式</li>
+        </ul>
+    </div>
+
+    <h2>📚 相关标签</h2>
+    <p>
+        <span class="tag">Agentic UI</span>
+        <span class="tag">Markdown</span>
+        <span class="tag">React</span>
+        <span class="tag">Protocol</span>
+        <span class="tag">Streaming</span>
+    </p>
+
+    <hr>
+    <p><a href="/insights/index.html">← 返回首页</a></p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

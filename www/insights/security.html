@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网络安全深度调查 - Jin&#39;s Insights</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+
+
+    <main>
+        <!-- Slide 1: Title -->
+        <div class="slide slide-hero">
+            <h1>🛡️ 网络安全深度调查</h1>
+            <p>威胁情报 · 攻击趋势 · 安全实践</p>
+        </div>
+
+        <!-- Slide 2: AI Security -->
+        <div class="slide">
+            <span class="slide-number">01</span>
+            <h2 class="slide-title">AI 助手安全危机</h2>
+            <div class="alert">
+                <div class="alert-title">⚠️ 新兴威胁</div>
+                <p>OpenClaw 等主动式 AI 代理带来前所未有的攻击面</p>
+            </div>
+            <ul>
+                <li><strong>配置暴露风险</strong> — 数百个 OpenClaw Web 接口暴露在互联网，可读取完整配置和凭据</li>
+                <li><strong>供应链攻击</strong> — Cline AI 编码助手遭攻击，数干系统被安装恶意 OpenClaw</li>
+                <li><strong>权限过度</strong> — AI 代理被赋予过高权限，可能执行恶意操作</li>
+                <li><strong>数据泄露</strong> — AI 处理敏感数据可能无意间暴露</li>
+            </ul>
+        </div>
+
+        <!-- Slide 3: Botnets -->
+        <div class="slide">
+            <span class="slide-number">02</span>
+            <h2 class="slide-title">僵尸网络演进</h2>
+            <div class="threat-grid">
+                <div class="threat-card">
+                    <h4>Kimwolf 僵尸网络</h4>
+                    <p>200万+ 设备受感染，企业/政府网络 25% 渗透率</p>
+                </div>
+                <div class="threat-card">
+                    <h4>伊朗黑客 Handala</h4>
+                    <p>对 Stryker 医疗公司发起数据擦除攻击，79国家受影响</p>
+                </div>
+                <div class="threat-card">
+                    <h4>Starkiller 钓鱼服务</h4>
+                    <p>中间人代理绑过 MFA，实时会话监控</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Timeline -->
+        <div class="slide">
+            <span class="slide-number">03</span>
+            <h2 class="slide-title">近期重大事件</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">2026-03</div>
+                    <div class="timeline-title">Cloudflare 推动 RFC 9457</div>
+                    <p style="color: var(--text-muted); font-size: 0.875rem;">结构化错误响应标准，减少 98% token 消耗</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2026-02</div>
+                    <div class="timeline-title">Kimwolf 僵尸网络追踪</div>
+                    <p style="color: var(--text-muted); font-size: 0.875rem;">安全研究者确定运营者身份：加拿大青少年</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2026-01</div>
+                    <div class="timeline-title">Scattered Spider 勒索</div>
+                    <p style="color: var(--text-muted); font-size: 0.875rem;">美国起诉 SLSH 成员，涉及 $115M 勒索</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Best Practices -->
+        <div class="slide">
+            <span class="slide-number">04</span>
+            <h2 class="slide-title">安全实践建议</h2>
+            <ul>
+                <li><strong>最小权限原则</strong> — AI 代理只授予必要权限</li>
+                <li><strong>网络隔离</strong> — 敏感操作在隔离环境执行</li>
+                <li><strong>审计日志</strong> — 记录所有 AI 代理操作</li>
+                <li><strong>定期轮换</strong> — 定期更换 API 密钥和凭据</li>
+                <li><strong>输入验证</strong> — 对 AI 输出进行安全验证</li>
+            </ul>
+        </div>
+
+        <!-- Slide 6: Resources -->
+        <div class="slide">
+            <span class="slide-number">05</span>
+            <h2 class="slide-title">参考资料</h2>
+            <ul>
+                <li><a href="https://krebsonsecurity.com/" style="color: var(--accent);">Krebs on Security</a> — 网络安全深度调查</li>
+                <li><a href="https://blog.cloudflare.com" style="color: var(--accent);">Cloudflare Blog</a> — 安全研究、RFC 9457</li>
+                <li><a href="https://about.sourcegraph.com/blog" style="color: var(--accent);">Sourcegraph Blog</a> — 代码安全分析</li>
+            </ul>
+        </div>
+    </main>
+
+    
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

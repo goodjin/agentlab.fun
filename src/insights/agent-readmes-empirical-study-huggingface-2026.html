@@ -1,0 +1,91 @@
+---
+layout: article.njk
+title: "Agent READMEs: Agent上下文文件实证研究 - Hugging Face Papers"
+tags: [insights]
+permalink: /insights/agent-readmes-empirical-study-huggingface-2026.html
+---
+
+<div class="card">
+        <h1>Agent READMEs: An Empirical Study of Context Files for Agentic Coding</h1>
+        <div class="meta">
+            <span class="tag">Empirical Study</span>
+            <span class="tag">Agent</span>
+            <span class="tag">Software Engineering</span>
+            <span class="stars">⭐⭐⭐⭐⭐</span>
+        </div>
+        <div class="meta">来源: Hugging Face Papers · arxiv.org · 2025年11月</div>
+        
+        <h2>研究概述</h2>
+        <p>首个大规模实证研究：分析来自1,925个仓库的<strong>2,303个agent上下文文件</strong>（如AGENTS.md、CLAUDE.md），揭示开发者如何配置AI编码agent。</p>
+        
+        <div class="stat-grid">
+            <div class="stat-item">
+                <div class="stat-value">2,303</div>
+                <div class="stat-label">Agent上下文文件</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">1,925</div>
+                <div class="stat-label">代码仓库</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">3</div>
+                <div class="stat-label">Agent工具</div>
+            </div>
+        </div>
+        
+        <h2>关键发现</h2>
+        
+        <h3>1. 文件特征 (RQ1)</h3>
+        <ul>
+            <li>Agent上下文文件<strong>长且难读</strong></li>
+            <li>遵循浅层层级结构：单个一级标题，内容组织在H2和H3下</li>
+            <li>不是静态文档，而是像配置代码一样演化</li>
+        </ul>
+        
+        <h3>2. 维护模式 (RQ2)</h3>
+        <ul>
+            <li>通过<strong>频繁的小增量</strong>更新维护</li>
+            <li>主要是增加而非删除</li>
+            <li>作为"活配置"而非静态文档</li>
+        </ul>
+        
+        <h3>3. 内容分布 (RQ3)</h3>
+        <div class="warning">
+            ⚠️ <strong>重要发现：安全与性能指导严重不足！</strong>
+        </div>
+        
+        <ul>
+            <li><strong>功能优先</strong>:
+                <ul>
+                    <li>构建/运行命令: 62.3%</li>
+                    <li>实现细节: 69.9%</li>
+                    <li>架构: 67.7%</li>
+                </ul>
+            </li>
+            <li><strong>非功能需求罕见</strong>:
+                <ul>
+                    <li>安全: <span class="highlight">14.5%</span></li>
+                    <li>性能: <span class="highlight">14.5%</span></li>
+                </ul>
+            </li>
+        </ul>
+        
+        <h3>4. 自动分类 (RQ4)</h3>
+        <ul>
+            <li>自动化分类<strong>高效</strong>: 0.79 F1-score</li>
+            <li>具体功能主题（测试、架构）效果好</li>
+            <li>抽象主题（维护）分类困难</li>
+        </ul>
+        
+        <h2>研究意义</h2>
+        <ul>
+            <li>揭示当前agentic coding的真实状态：功能优先，安全/性能被忽视</li>
+            <li>开发者使用上下文文件让agent"能用"，但很少提供guardrails确保代码安全或高性能</li>
+            <li>呼吁改进工具和实践来强化安全/性能指导</li>
+        </ul>
+        
+        <h2>链接</h2>
+        <ul>
+            <li><a href="https://arxiv.org/abs/2511.12884">论文: arxiv.org/abs/2511.12884</a></li>
+        </ul>
+    </div>

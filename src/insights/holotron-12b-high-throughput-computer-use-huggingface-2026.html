@@ -1,0 +1,87 @@
+---
+layout: article.njk
+title: "Holotron-12B: 高吞吐量计算机使用代理 - 2026"
+tags: [insights]
+permalink: /insights/holotron-12b-high-throughput-computer-use-huggingface-2026.html
+---
+
+<a href="/insights/index.html" class="back-link">← 返回首页</a>
+    
+    <div class="card">
+        <h1>🚀 Holotron-12B: 高吞吐量计算机使用代理</h1>
+        <div class="meta">
+            <span class="tag">计算机代理</span>
+            <span class="tag">Nemotron</span>
+            <span class="tag">H Company</span>
+            <span class="rating">⭐⭐⭐⭐⭐ 5星</span>
+        </div>
+        <p class="meta">来源: Hugging Face Blog | 日期: 2026-03-17</p>
+        
+        <h2>核心发现</h2>
+        <div class="highlight">
+            Holotron-12B是一款高吞吐量计算机使用多模态模型，基于NVIDIA Nemotron-Nano-2 VL模型构建，在WebVoyager基准测试中达到80.5%准确率，单H100 GPU吞吐量比Holo2-8B高2倍以上。
+        </div>
+
+        <h2>为什么构建Holotron-12B</h2>
+        <p>当前大多数多模态模型主要针对静态视觉或遵循指令进行优化。Holotron-12B有不同目标：作为计算机使用代理的策略模型，必须在交互环境中感知、决策和高效行动。</p>
+        <ul>
+            <li>在生产环境中高效且有效扩展</li>
+            <li>处理长上下文（多图像）</li>
+            <li>在代理基准测试中表现良好</li>
+        </ul>
+
+        <h2>混合SSM架构的高吞吐量推理</h2>
+        <p>Holotron-12B的显著推理效率提升得益于其基础Nemotron架构，该架构利用混合状态空间模型（SSM）和注意力机制。</p>
+        
+        <h3>性能指标</h3>
+        <div class="metric">
+            <span>WebVoyager准确率</span>
+            <span class="metric-value">80.5% (从35.1%提升)</span>
+        </div>
+        <div class="metric">
+            <span>最大并发100时Token吞吐量</span>
+            <span class="metric-value">8.9k tokens/s</span>
+        </div>
+        <div class="metric">
+            <span>相比Holo2-8B吞吐量提升</span>
+            <span class="metric-value">>2x</span>
+        </div>
+        <div class="metric">
+            <span>GPU</span>
+            <span class="metric-value">单H100</span>
+        </div>
+
+        <h2>SSM vs 传统注意力</h2>
+        <ul>
+            <li><strong>传统注意力</strong>：存储每个token和层的K和V激活（KV Cache）</li>
+            <li><strong>SSM</strong>：线性递归模型，每层每序列仅存储恒定状态</li>
+            <li>SSM避免了与完整注意力机制相关的二次计算成本</li>
+            <li>特别有利于涉及多图像和长交互历史的代理工作负载</li>
+        </ul>
+
+        <h2>训练与评估</h2>
+        <ul>
+            <li>从NVIDIA Nemotron-Nano-12B-v2-VL-BF16开始</li>
+            <li>在H Company专有的本地化和导航数据混合物上进行监督微调</li>
+            <li>最终检查点训练了约140亿token</li>
+        </ul>
+
+        <h2>基准测试结果</h2>
+        <h3>代理基准</h3>
+        <ul>
+            <li>WebVoyager: 35.1% → 80.5% (超越Holo2-8B)</li>
+        </ul>
+        <h3>本地化基准</h3>
+        <ul>
+            <li>OS-World-G、GroundUI、WebClick均有显著提升</li>
+        </ul>
+
+        <h2>下一步：Nemotron 3 Omni</h2>
+        <p>基于Holotron-12B的成功，H Company正准备对下一代多模态模型进行后训练。利用Nemotron 3系列的增强型混合SSM-Attention和MoE架构基础，目标是实现推理能力和多模态精度的更大飞跃。</p>
+
+        <h2>资源链接</h2>
+        <ul>
+            <li><a href="https://huggingface.co/H-Company/Holotron-12B" target="_blank">Holotron-12B on Hugging Face</a></li>
+            <li><a href="https://github.com/H-Company/holotron" target="_blank">GitHub Repo</a></li>
+        </ul>
+    </div>

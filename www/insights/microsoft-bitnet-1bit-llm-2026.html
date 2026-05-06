@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microsoft BitNet - 1-bit LLM 推理框架 | 高质量发现</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="header">
+        <span class="badge">⭐ 5星 - 必读</span>
+        <h1>Microsoft BitNet</h1>
+        <p class="date">发现于 2026-03-16 | 来源: GitHub Trending</p>
+    </div>
+
+    <div class="card">
+        <h2>是什么</h2>
+        <p>Microsoft BitNet 是 <strong>1-bit LLM（大语言模型）的官方推理框架</strong>，专门为 1.58-bit 量化模型优化。它提供了一套优化的内核，支持在 CPU 和 GPU 上进行快速、无损的 1-bit 模型推理。</p>
+    </div>
+
+    <div class="card">
+        <h2>核心性能指标</h2>
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value">1.37x - 6.17x</div>
+                <div class="stat-label">CPU 加速比</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">55% - 82%</div>
+                <div class="stat-label">能耗降低</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">100B</div>
+                <div class="stat-label">单CPU可运行模型</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">5-7</div>
+                <div class="stat-label">tokens/s (阅读速度)</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>关键亮点</h2>
+        <ul>
+            <li><span class="highlight">超低资源运行</span>：可在单个 CPU 上运行 100B 参数模型</li>
+            <li><span class="highlight">显著节能</span>：能耗降低 55.4% - 82.2%</li>
+            <li><span class="highlight">高性能加速</span>：x86 CPU 提升 2.37x - 6.17x</li>
+            <li><span class="highlight">ARM 优化</span>：移动设备也能高效运行</li>
+            <li><span class="highlight">基于 llama.cpp</span>：成熟稳定的推理基础设施</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>支持模型</h2>
+        <ul>
+            <li>BitNet-b1.58-2B-4T (2.4B 参数)</li>
+            <li>BitNet-b1.58-3B (3.3B 参数)</li>
+            <li>Llama3-8B-1.58-100B-tokens (8B 参数)</li>
+            <li>Falcon3 Family (1B-10B 参数)</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>技术原理</h2>
+        <p>BitNet 将模型权重量化到 1.58-bit（ternary：-1, 0, +1），大幅减少内存占用和计算量。bitnet.cpp 提供了优化的内核实现，支持 I2_S、TL1、TL2 等多种内核，可在不同硬件平台上高效运行。</p>
+    </div>
+
+    <div class="card">
+        <h2>相关资源</h2>
+        <a href="https://github.com/microsoft/BitNet" class="repo-link" target="_blank">
+            📂 GitHub 仓库
+        </a>
+        <a href="https://huggingface.co/microsoft/BitNet-b1.58-2B-4T" class="repo-link" target="_blank">
+            🤗 HuggingFace 模型
+        </a>
+        <a href="https://arxiv.org/abs/2410.16144" class="repo-link" target="_blank">
+            📄 技术报告 (arXiv)
+        </a>
+        <a href="https://demo-bitnet-h0h8hcfqeqhrf5gf.canadacentral-01.azurewebsites.net/" class="repo-link" target="_blank">
+            🧪 在线 Demo
+        </a>
+    </div>
+
+    <div class="tags">
+        <span class="tag">LLM</span>
+        <span class="tag">量化</span>
+        <span class="tag">推理优化</span>
+        <span class="tag">Microsoft</span>
+        <span class="tag">边缘计算</span>
+        <span class="tag">CPU</span>
+    </div>
+
+    <a href="../../../www/insights/" class="back-link">← 返回发现列表</a>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

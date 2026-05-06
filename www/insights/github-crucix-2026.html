@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crucix - 个人智能终端</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <h1>🛰️ Crucix - 个人智能终端</h1>
+        <div class="meta">
+            <span class="rating">⭐⭐⭐⭐⭐</span>
+            <span class="stars">6,045 stars</span>
+            <span class="tag">GitHub Trending</span>
+            <span class="tag">OSINT</span>
+            <span class="tag">情报</span>
+        </div>
+        
+        <h2>项目简介</h2>
+        <p>Crucix 是个人情报终端，聚合 27 个开源情报源，每 15 分钟更新一次，构建类似 Jarvis 的实时情报仪表板。</p>
+
+        <div class="highlight">
+            <strong>核心亮点：</strong>
+            <ul>
+                <li>6,045 stars</li>
+                <li>零云服务、零遥测、零订阅 - 完全本地运行</li>
+                <li>支持 LLM 集成，可推送警报到 Telegram/Discord</li>
+                <li>自建"Jarvis 风格"仪表板</li>
+                <li>27 个 OSINT 数据源实时聚合</li>
+            </ul>
+        </div>
+
+        <h2>支持的 27 个数据源</h2>
+        <ul>
+            <li>🛰️ 卫星火灾探测 (FIRMS)</li>
+            <li>✈️ 航班追踪 (ADS-B)</li>
+            <li>☢️ 辐射监测</li>
+            <li>🛰️ 卫星星座追踪</li>
+            <li>📈 经济指标</li>
+            <li>💹 实时市场价格</li>
+            <li>⚔️ 冲突数据</li>
+            <li>📋 制裁名单</li>
+            <li>💬 社交媒体情绪分析</li>
+        </ul>
+
+        <div class="warning">
+            <strong>⚠️ 注意：</strong> Crucix 未发布任何官方代币、加密货币或 NFT。任何使用 Crucix 名称的品牌资产都与官方无关。
+        </div>
+
+        <h2>技术特点</h2>
+        <ul>
+            <li>仅依赖 Express（1 个依赖）</li>
+            <li>Node.js 22+</li>
+            <li>Docker 支持</li>
+            <li>每 15 分钟自动抓取 27 个数据源</li>
+        </ul>
+
+        <h2>相关链接</h2>
+        <ul>
+            <li><a href="https://github.com/calesthio/Crucix" target="_blank">GitHub 仓库</a></li>
+            <li><a href="https://www.crucix.live/" target="_blank">在线演示</a></li>
+        </ul>
+
+        <p style="color: #666; font-size: 12px; margin-top: 24px;">
+            发现时间: 2026-03-22 | 来源: GitHub Trending
+        </p>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

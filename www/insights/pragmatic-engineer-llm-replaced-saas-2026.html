@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我用LLM 20分钟替换了120美元/年的SaaS - Pragmatic Engineer</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<a href="/insights/index.html" class="back">← 返回首页</a>
+<span class="tag">AI</span><span class="tag">SaaS</span><span class="tag">开发实践</span>
+<h1>我用LLM在20分钟内替换了一个$120/年的微SaaS</h1>
+<div class="meta">来源：The Pragmatic Engineer (Gergely Orosz) · 2026-03-30 · ⭐ 4/5</div>
+
+<h2>发生了什么</h2>
+<p>Gergely在网站上用Shoutout.io（$120/年）显示用户好评。用了4年后，billing系统坏了3年没修，客服回复的链接也是坏的。于是他决定用Codex重建。</p>
+
+<div class="highlight">
+<b>重建过程：</b><br>
+1. 让Codex制定计划（移除第三方依赖，在代码库中存储好评）<br>
+2. 微调计划（采用模块化方案，好评存JSON文件，编译时生成HTML）<br>
+3. 添加构建步骤（本地 + Netlify构建触发）<br>
+4. 测试 → 调UX → 部署<br>
+<b>总耗时：20分钟</b>
+</div>
+
+<h2>对软件工程师意味着什么</h2>
+<ul>
+<li><strong>开发者比普通用户更容易"移植"</strong>：需要人类判断UI布局和技术选型，Codex一开始用flexbox模型做错了</li>
+<li><strong>好玩且有价值</strong>：不只是省$120，而是真正了解了AI工具的能力边界</li>
+<li><strong>需要验证LLM输出</strong>：非开发者也能做，但会更慢更费劲</li>
+</ul>
+
+<h2>对SaaS行业的冲击</h2>
+<ul>
+<li><strong>静态SaaS最脆弱</strong>：不提供持续价值（如合规、实时分析、平台连接）的工具最容易被替换</li>
+<li><strong>维护不能停</strong>：Shoutout 4年不修billing → 用户流失。3年不修 → Gergely离开</li>
+<li><strong>微SaaS的买卖逻辑变了</strong>：Shoutout被转手两次，新买家期待零维护收益。但当产品体验下降，用户会立即用AI重建</li>
+</ul>
+
+<blockquote>
+"到了客服给我发来可用链接的时候（2小时后），我已经完成了迁移。"
+</blockquote>
+
+<div class="callout">
+<strong>核心洞察：</strong>"Broken window"不再被容忍。AI让技术债务和用户体验下滑的代价从"令人讨厌"变成"可以被立即替换"。SaaS的护城河从"功能"转向"持续价值"和"用户粘性"。
+</div>
+
+<h2>文章价值</h2>
+<p>★★★★☆ — 非常具体的亲身经历，不是泛泛的"AI会取代SaaS"论调，而是精确描述了边界条件：什么SaaS容易被替换，什么SaaS仍然安全。对产品策略和技术决策都有参考价值。</p>
+
+<div class="source">来源：<a href="https://blog.pragmaticengineer.com/i-replaced-a-120-year-micro-saas-in-20-minutes-with-llm-generated-code/" target="_blank">The Pragmatic Engineer</a> · 作者：Gergely Orosz</div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

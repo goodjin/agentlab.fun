@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Large-scale online deanonymization with LLMs - 2026</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <h1>Large-scale online deanonymization with LLMs</h1>
+        <div class="meta">
+            <span class="tag">Privacy</span>
+            <span class="tag">AI</span>
+            <span class="tag">Security</span>
+            <span class="star">⭐⭐⭐⭐</span>
+        </div>
+        
+        <div class="summary">
+            <strong>摘要</strong><br>
+            首次展示大型语言模型可被用于规模化在线去匿名化。只需给定匿名在线档案和对话，LLM即可高精度重新识别用户，匹配原本需要专业调查员数小时的工作。
+        </div>
+
+        <div class="highlight">
+            <h3>核心亮点</h3>
+            <ul>
+                <li><strong>跨平台匹配能力</strong>：可将Hacker News用户与LinkedIn资料关联，或匹配Reddit不同社区的同一用户</li>
+                <li><strong>惊人的准确率</strong>：LLM方法达68%召回率@90%精确率，传统方法接近0%</li>
+                <li><strong>三种实验设置</strong>：HN→LinkedIn跨平台、Reddit电影社区用户匹配、同一用户时间分割匹配</li>
+                <li><strong>隐私威胁</strong>：在线匿名用户不再安全，威胁模型需要重新考虑</li>
+            </ul>
+        </div>
+
+        <h3>技术细节</h3>
+        <p>与传统去匿名化方法（如Netflix奖数据集）需要结构化数据不同，该方法直接在任意平台的原始用户内容上工作。攻击流程包括：</p>
+        <ol>
+            <li>提取身份相关特征</li>
+            <li>通过语义嵌入搜索候选匹配</li>
+            <li>对顶级候选进行推理验证，减少误报</li>
+        </ol>
+
+        <h3>安全影响</h3>
+        <p>这项研究表明，LLM已经打破了在线匿名性的实际保护。未来隐私威胁模型需要考虑：</p>
+        <ul>
+            <li>匿名账户可能被轻松识别</li>
+            <li>跨平台追踪变得更容易</li>
+            <li>用户隐私保护需要新的技术手段</li>
+        </ul>
+
+        <p style="margin-top: 24px; color: #666; font-size: 14px;">
+            来源: <a href="https://arxiv.org/abs/2602.16800">arXiv 2602.16800</a> | 
+            分类: cs.CR, cs.AI, cs.LG
+        </p>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

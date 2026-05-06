@@ -1,0 +1,109 @@
+---
+layout: article.njk
+title: "Soft Forks: Agent Skills 创建专业化 AI - O'Reilly Radar"
+tags: [insights]
+permalink: /insights/soft-forks-agent-skills-oreilly-2026.html
+---
+
+<div class="container">
+        <h1>Soft Forks: How Agent Skills Create Specialized AI Without Training</h1>
+        <div class="meta">
+            <span class="rating">⭐⭐⭐⭐⭐ 5星</span>
+            <span> 来源: O'Reilly Radar</span>
+        </div>
+        <div class="source">
+            <strong>来源:</strong> <a href="https://www.oreilly.com/radar/soft-forks-how-agent-skills-create-specialized-ai-without-training/" target="_blank">O'Reilly Radar</a><br>
+            <strong>作者:</strong> Han Lee<br>
+            <strong>日期:</strong> 2026年3月9日
+        </div>
+        
+        <h2>核心概念</h2>
+        <p>Agent Skills 是一种在运行时通过上下文注入来修改 agent 行为的方式，而不需要改变模型权重或重构 AI 系统。这与预/后训练不同，后者决定模型的通用行为和专业能力。</p>
+        
+        <h2>架构类比</h2>
+        <ul>
+            <li><strong>模型 = CPU</strong> - 提供原始智能和计算能力</li>
+            <li><strong>Agent Harness = 操作系统</strong> - 管理资源、处理权限、协调进程</li>
+            <li><strong>Skills = 应用程序</strong> - 在操作系统之上运行，专门化系统执行特定任务</li>
+        </ul>
+        
+        <h2>Skills 的三大机制</h2>
+        
+        <h3>1. Skill Package 格式</h3>
+        <ul>
+            <li>至少包含 SKILL.md 文件，带有 frontmatter 元数据</li>
+            <li>frontmatter 声明：name, description, allowed-tools, versions</li>
+            <li>还可以包含：参考文档、模板、资源、配置、可执行脚本</li>
+            <li>使用 Git 跟踪变更、版本控制、审计追踪</li>
+        </ul>
+        
+        <h3>2. 渐进式披露 (Progressive Disclosure)</h3>
+        <ul>
+            <li>会话开始时只加载 frontmatter - 尊重 token 经济</li>
+            <li>只有当 agent 确定相关性并决定调用时，才加载完整内容</li>
+            <li>类似操作系统管理内存：应用启动时才加载到 RAM</li>
+            <li>可以同时使用数十个 skills 而不压垮上下文窗口</li>
+        </ul>
+        
+        <h3>3. 执行上下文修改</h3>
+        <ul>
+            <li>当 agent 调用 skill 时，权限系统变为 skill 定义的范围</li>
+            <li>skill 可以使用与父会话不同的模型和工具集</li>
+            <li>执行完成后恢复</li>
+            <li>这确保行为修改在边界内操作</li>
+        </ul>
+        
+        <h2>SkillsBench 基准测试发现</h2>
+        
+        <div class="stat">
+            <strong>技能平均提升性能 13.2 个百分点</strong><br>
+            但 85 个任务中有 24 个变差了
+        </div>
+        
+        <h3>关键发现</h3>
+        <ul>
+            <li><strong>制造业任务</strong>：+32 分</li>
+            <li><strong>软件工程任务</strong>：-5 分</li>
+            <li><strong>聚合数字掩盖了差异</strong>：需要按领域评估</li>
+        </ul>
+        
+        <h3>技能大小的影响</h3>
+        <div class="highlight">
+            <strong>紧凑技能优于全面技能近 4 倍！</strong><br>
+            - 专注技能 +18.9 分<br>
+            - 全面技能 +5.7 分<br>
+            - 每任务 2-3 个技能最优，4+ 个开始收益递减
+        </div>
+        
+        <h3>模型无法可靠地自我生成有效技能</h3>
+        <p>SkillsBench 测试了"自带技能"条件 - agent 在尝试任务之前被提示生成自己的程序性知识。性能保持在基线。</p>
+        <div class="quote">
+            有效技能需要人类策划的领域专业知识，模型无法可靠地为自己生成。AI 可以帮助打包和格式化，但见解必须来自实际拥有专业知识的人。人类标记的见解是构建有效技能的瓶颈，而不是打包或部署。
+        </div>
+        
+        <h3>技能可以部分替代模型规模</h3>
+        <div class="stat">
+            <strong>Claude Haiku（小模型）+ 好的技能 = 25.2% 通过率</strong><br>
+            <strong>Claude Opus（旗舰模型）+ 无技能 = 23.6% 通过率</strong><br>
+            <br>
+            打包的专业知识可以弥补模型智能的不足！
+        </div>
+        
+        <h2>开放问题</h2>
+        <ul>
+            <li>当多个技能冲突时会发生什么？</li>
+            <li>组织如何管理技能组合？</li>
+            <li>编码专业知识多长时间会过时？</li>
+            <li>如何审计技能中的偏见？</li>
+        </ul>
+        
+        <h2>结论</h2>
+        <p>微调模型不再是专业化的唯一途径。技能以一小部分成本实现精确的专业化。</p>
+        <div class="quote">
+            大型机让位于客户端服务器。 monolith 让位于微服务。专业微调模型现在让位于由专业技能增强的 agent。模型提供智能，agent harness 提供运行时，技能提供专业化，评估告诉我们是否一切正常工作。
+        </div>
+        
+        <p style="margin-top: 30px; color: #666; font-size: 12px;">
+            探索时间: 2026-03-17 | 来源: O'Reilly Radar
+        </p>
+    </div>

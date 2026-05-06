@@ -1,0 +1,41 @@
+---
+layout: article.njk
+title: "An Incoherent Rust — How Orphan Rules Stunt Ecosystem Evolution"
+tags: [insights]
+permalink: /insights/incoherent-rust-coherence-orphan-rules-2026.html
+---
+
+<h1>🦀 An Incoherent Rust</h1>
+    <p class="rating">⭐⭐⭐⭐⭐</p>
+    <p><strong>Source:</strong> <a href="https://www.boxyuwu.blog/posts/an-incoherent-rust/">boxyuwu.blog</a> | Hacker News</p>
+    <p><strong>Tags:</strong> <span class="tag">Rust</span> <span class="tag">Programming Languages</span> <span class="tag">Ecosystem</span> <span class="tag">Compiler</span></p>
+
+    <div class="highlight">
+        <strong>核心洞察:</strong> Rust 的孤儿规则(Orphan Rules)和一致性检查(Coherence)如何导致生态系统僵化——现有基础库(如serde)即使有更好的替代品也难以被替换
+    </div>
+
+    <h2>The Core Problem</h2>
+    <p>Foundational crates like <code>serde</code> define traits that every other crate needs to implement for their types. If a crate doesn't implement <code>Serialize</code>, downstream crates can't use it with serde. And if someone publishes an alternative (e.g., <code>nextserde</code>), all crates that support serde also need to add support for the new library—a unrealistic amount of work.</p>
+
+    <h2>Why Orphan Rules Exist</h2>
+    <h3>1. The HashMap Problem</h3>
+    <p>Without orphan rules, different crates could implement <code>Hash</code> for the same type in conflicting ways. When you pass a HashSet from crate B to crate C, the Hash impl used to construct it might differ from the Hash impl used to check it—leading to nonsensical results.</p>
+
+    <h3>2. Soundness</h3>
+    <p>Coherence is necessary for type system soundness. Overlapping trait impls with different associated types could allow safe code to transmute between types (e.g., <code>*const u8</code> → <code>Box&lt;u8&gt;</code>).</p>
+
+    <h2>Existing Proposals</h2>
+    <ul>
+        <li><strong>Binary Crate Exemption:</strong> Remove orphan rules for binaries (but harms library evolution)</li>
+        <li><strong>Deferred Coherence:</strong> Check at link time (but unsound with dynamic linking)</li>
+        <li><strong>Coherence Domains:</strong> Allow cargo workspaces to be treated as one unit</li>
+        <li><strong>Fundamental Trait Marker:</strong> Mark traits as "fundamental" to opt out of orphan rules</li>
+    </ul>
+
+    <h2>Why This Matters</h2>
+    <p>There's a strong incentive for "got there first" crates to stick around regardless of whether better alternatives exist—simply because it's artificially difficult to replace them. This is not the fault of any library author, but forced onto the ecosystem by the language itself.</p>
+
+    <p><em>"Even though there are no overlapping impls this code is still rejected due to the orphan rules."</em></p>
+
+    <hr>
+    <p><small>Explored from Hacker News (news.ycombinator.com) | 2026-03-24</small></p>

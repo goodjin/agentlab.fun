@@ -1,0 +1,74 @@
+---
+layout: article.njk
+title: "Hegel - Universal Property-Based Testing Protocol | 探索发现"
+tags: [insights]
+permalink: /insights/hegel-property-based-testing-2026.html
+---
+
+<div class="header">
+        <h1>Hegel - Universal Property-Based Testing Protocol</h1>
+        <p>基于Hypothesis的通用属性测试协议和库家族</p>
+        <span class="score">⭐⭐⭐⭐ (4星)</span>
+    </div>
+    
+    <div class="content">
+        <div class="section">
+            <h2>探索来源</h2>
+            <p><strong>来源:</strong> Lobsters社区</p>
+            <p><strong>原文链接:</strong> <a href="https://hegel.dev">Hegel Official Site</a></p>
+        </div>
+        
+        <div class="section">
+            <h2>核心亮点</h2>
+            <ul>
+                <li><strong>协议设计:</strong> 服务端/客户端架构，服务端处理数据生成和shrink</li>
+                <li><strong>语言无关:</strong> 协议设计不依赖特定编程语言</li>
+                <li><strong>传输层:</strong> 当前使用Unix sockets，可扩展</li>
+                <li><strong>基于Hypothesis:</strong> 建立在成熟的属性测试库之上</li>
+                <li><strong>解决重复实现:</strong> 不再需要为每种语言重复实现PBT核心</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>工作原理</h2>
+            <div class="highlight">
+                <p>服务器实现属性测试的核心功能：数据生成、shrink等。客户端实现用户面向的语法和生成器，通过协议向服务器请求生成数据。</p>
+            </div>
+            <p>示例 (hegel-rust):</p>
+            <pre><code>use hegel::{TestCase}
+use hegel::generators::{integers}
+
+#[hegel::test(test_cases = 200)]
+fn test_a(tc: TestCase) {
+    let n: i32 = tc.draw(integers().min_value(100))
+}</code></pre>
+            <p>执行流程：</p>
+            <ol>
+                <li>首次运行测试时，客户端spawn服务器子进程并握手</li>
+                <li>客户端告诉服务器有新测试和设置 (test_cases=200)</li>
+                <li>当tc.draw被调用时，客户端发送generator schema给服务器</li>
+                <li>服务器生成匹配的值并返回</li>
+                <li>测试失败时，服务器执行shrink并返回最小失败用例</li>
+            </ol>
+        </div>
+        
+        <div class="section">
+            <h2>分类标签</h2>
+            <div class="tags">
+                <span class="tag">测试</span>
+                <span class="tag">PBT</span>
+                <span class="tag">协议</span>
+                <span class="tag">工具</span>
+                <span class="tag">Hegel</span>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>相关资源</h2>
+            <ul>
+                <li><a href="https://hegel.dev/intro/getting-started">Getting Started</a></li>
+                <li><a href="https://hegel.dev/explanation/how-hegel-works">How Hegel Works</a></li>
+                <li><a href="https://github.com/hegeldev/hegel-rust">hegel-rust</a></li>
+            </ul>
+        </div>
+    </div>

@@ -1,0 +1,55 @@
+---
+layout: article.njk
+title: "量子计算时间线：密码学工程师的视角 - Filippo Valsorda"
+tags: [insights]
+permalink: /insights/quantum-computing-timeline-cryptography-filippo-2026.html
+---
+
+<h1>量子计算时间线：密码学工程师的视角</h1>
+    <div class="meta">
+        <p>来源: <a href="https://words.filippo.io/crqc-timeline/" target="_blank">words.filippo.io</a> | 作者: Filippo Valsorda (Cloudflare) | 日期: 2026-04-06 | 评分: ★★★★☆ exceptional</p>
+    </div>
+
+    <div class="summary">
+        <strong>核心观点:</strong> 密码学专家对量子计算威胁的时间线判断发生了重大转变。2029年可能成为关键截止日期，比之前预测的2035年大幅提前。Google和Oratomic的最新研究表明，破解256位椭圆曲线密码的时间大幅缩短，可能在几分钟内完成。
+    </div>
+
+    <h2>关键发现</h2>
+
+    <div class="key-point">
+        <strong>⚠️ 2029年截止日期</strong><br>
+        Google的Heather Adkins和Sophie Schmieg明确表示"量子前沿可能比看起来更近"，2029年是他们的截止日期——距今仅33个月。
+    </div>
+
+    <div class="key-point">
+        <strong>🔓 椭圆曲线密码破解突破</strong><br>
+        Google论文大幅降低了破解256位椭圆曲线(如NIST P-256和secp256k1)所需的逻辑量子比特和门数估计，在快速时钟架构(如超导量子比特)上可能在几分钟内完成攻击。
+    </div>
+
+    <div class="key-point">
+        <strong>🔬 Oratomic论文发现</strong><br>
+        另一篇论文显示，使用非局部连接(如中性原子提供的更好的纠错)，256位椭圆曲线可能只需要10,000个物理量子比特就能破解。即使一个月破解一个密钥也是灾难性的。
+    </div>
+
+    <h2>技术细节</h2>
+    <ul>
+        <li><strong>密钥交换:</strong> 向ML-KEM的迁移进展顺利，但任何非PQ密钥交换现在应被视为潜在主动攻击</li>
+        <li><strong>签名:</strong> 应该直接使用纯ML-DSA-44，混合签名方案只会减缓部署</li>
+        <li><strong>对称加密:</strong> 不需要做任何事情，128位密钥仍然足够(Grover算法无法并行化)</li>
+        <li><strong>TEE硬件:</strong> Intel SGX、AMD SEV-SNP等全部受波及，所有密钥都不是PQ，可能无法依赖</li>
+    </ul>
+
+    <div class="warning">
+        <strong>紧迫性:</strong> 这不是"可能不好或可能无关紧要"的问题。赌注不是"你100%确定CRQC会在2030年存在?"，而是"你100%确定CRQC不会在2030年存在?"作为密码学工程师，我们的职责是缓解可信威胁，而不是质疑专家的判断。
+    </div>
+
+    <h2>对行业的意义</h2>
+    <ul>
+        <li>Go标准库中一半的密码学包可能突然变得不安全</li>
+        <li>SHA-1到SHA-256的迁移与这次相比微不足道</li>
+        <li>File encryption尤其脆弱，需要开始警告非PQ recipient类型</li>
+        <li>atproto等使用加密身份的系统需要尽快开始迁移</li>
+    </ul>
+
+    <h2>作者背景</h2>
+    <p>Filippo Valsorda是Cloudflare的密码学工程师，Go标准库密码学包的主要维护者之一。这篇文章代表了他个人专业判断的转变，基于最近的硬件和算法进展。</p>

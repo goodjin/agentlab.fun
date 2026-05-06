@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple Exclaves: MacBook Neo Camera Security - Insights</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <span class="source">Daring Fireball</span> <span class="rating">★★★★★</span>
+        <h1>Apple Exclaves and the Secure Design of the MacBook Neo's On-Screen Camera Indicator</h1>
+        <div class="meta">By John Gruber | March 16, 2026</div>
+        
+        <h2>核心发现</h2>
+        <ul>
+            <li>MacBook Neo 的屏幕摄像头指示灯运行在<strong>安全 Exclave</strong>（独立 enclave）系统中，几乎和硬件指示灯一样安全</li>
+            <li>即使内核级别（kernel-level）的漏洞<strong>也无法</strong>在摄像头开启时不显示指示灯</li>
+            <li>Exclave 运行在完全隔离的实时操作系统上，通过非常有限的 API 与内核和用户空间通信</li>
+            <li>这和 Secure Enclave 是<strong>不同的东西</strong></li>
+        </ul>
+
+        <div class="key-point">
+            <strong>关键洞见：</strong>Exclave 技术是 Apple 十年努力的成果，从 M4 和 A18 芯片代开始才真正启用。它直接将指示灯"blit"到屏幕硬件，即使有 root 或内核权限的恶意软件也无法伪造。
+        </div>
+
+        <h2>技术细节</h2>
+        <ul>
+            <li><strong>Exclave vs Enclave：</strong>Exclave 是独立的实时操作系统，Secure Enclave 是不同的安全组件</li>
+            <li><strong>blit 术语：</strong>块传输（block transfer），直接从内存复制到显示硬件</li>
+            <li><strong>适用设备：</strong>MacBook Neo、所有配备屏幕指示灯的 iPhone</li>
+            <li><strong>麦克风指示灯：</strong>同样的安全设计也适用于麦克风指示灯</li>
+        </ul>
+
+        <h2>相关链接</h2>
+        <ul>
+            <li><a href="https://daringfireball.net/2026/03/apple_enclaves_neo_camera_indicator">原文链接</a></li>
+            <li><a href="https://randomaugustine.medium.com/on-apple-exclaves-d683a2c37194">Random Augustine: On Apple Exclaves</a></li>
+            <li><a href="https://support.apple.com/guide/security/mac-on-screen-camera-indicator-light-sec75a2d237d/1/web/1">Apple Platform Security Guide</a></li>
+        </ul>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java 26 新特性详解 - AI &amp; Tech Insights</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <h1>☕ Java 26 新特性详解 - JEP 全面更新</h1>
+        <div><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span> <span style="color:#666;font-size:14px;">4星</span></div>
+        <div class="meta">来源: <a href="https://hanno.codes/2026/03/17/java-26-is-here/" target="_blank">hanno.codes</a> | 发布日期: 2026-03-17</div>
+        
+        <p>Java 26 带来了多项重要更新！相比之前的版本，这次的功能集稍小，但这只意味着一件事：该版本的重点是为即将发布的重大功能提供坚实基础！作者希望 Project Valhalla 的第一批 JEP 能在今年晚些时候宣布。</p>
+
+        <h2>📋 JEP 概览</h2>
+        
+        <table class="jep-table">
+            <tr><th>JEP</th><th>标题</th><th>状态</th><th>项目</th><th>类型</th></tr>
+            <tr><td>500</td><td>Prepare to Make Final Mean Final</td><td></td><td>Core Libs</td><td>Deprecation</td></tr>
+            <tr><td>504</td><td>Remove the Applet API</td><td></td><td>Client Libs</td><td>Deprecation</td></tr>
+            <tr><td>516</td><td>Ahead-of-Time Object Caching with Any GC</td><td><span class="highlight">新功能</span></td><td>HotSpot</td><td>性能</td></tr>
+            <tr><td>517</td><td>HTTP/3 for the HTTP Client API</td><td><span class="highlight">新功能</span></td><td>Core Libs</td><td>扩展</td></tr>
+            <tr><td>522</td><td>G1 GC: Improve Throughput by Reducing Synchronization</td><td><span class="highlight">新功能</td><td>HotSpot</td><td>性能</td></tr>
+            <tr><td>524</td><td>PEM Encodings of Cryptographic Objects</td><td>第二预览</td><td>Security Libs</td><td>安全</td></tr>
+            <tr><td>525</td><td>Structured Concurrency</td><td>第六预览</td><td>Loom</td><td>并发</td></tr>
+            <tr><td>526</td><td>Lazy Constants</td><td>第二预览</td><td>Core Libs</td><td>新API</td></tr>
+            <tr><td>529</td><td>Vector API</td><td>第十一孵化</td><td>Panama</td><td>新API</td></tr>
+            <tr><td>530</td><td>Primitive Types in Patterns, instanceof, and switch</td><td>第四预览</td><td>Amber</td><td>语言</td></tr>
+        </table>
+
+        <h2>🚀 核心新特性</h2>
+        
+        <h3>JEP 516:  Ahead-of-Time Object Caching 支持任意 GC</h3>
+        <p>之前 ahead-of-time 缓存使用 GC 特定格式，导致与 ZGC 等其他垃圾收集器不兼容。JEP 516 通过将内存地址替换为逻辑索引来解决这个问题，使缓存成为 GC 无关格式。</p>
+        <ul>
+            <li>支持 ZGC 和任何其他垃圾收集器</li>
+            <li>使用流式加载将逻辑索引转换回内存地址</li>
+            <li>自动选择格式：训练时使用 ZGC 或堆 >32GB 则使用新格式</li>
+        </ul>
+
+        <h3>JEP 517: HTTP/3 支持</h3>
+        <p>HTTP Client API 正式支持 HTTP/3 协议，提供更低的延迟和更好的可靠性。</p>
+
+        <h3>JEP 522: G1 GC 同步优化</h3>
+        <p>G1 GC 自 Java 9 以来一直是默认垃圾收集器。JEP 522 通过减少应用程序线程和 GC 线程之间的同步来提高吞吐量和延迟。</p>
+
+        <h3>JEP 525: 结构化并发（第六预览）</h3>
+        <p>Project Loom 的核心特性，允许以更直观的方式管理并发任务。</p>
+
+        <h3>JEP 529: Vector API（第十一孵化）</h3>
+        <p>Project Panama 的一部分，提供向量计算能力，为 Project Valhalla 做准备。</p>
+
+        <h3>JEP 530: 原始类型匹配（第四预览）</h3>
+        <p>Project Amber 允许在 instanceof、switch 和 pattern matching 中使用原始类型。</p>
+
+        <h2>💡 核心洞察</h2>
+        <blockquote>
+            <p>"Java 26 为 Project Valhalla（值类型）做准备，许多更改是为第一个 Valhalla 特性做准备。"</p>
+            <p>— hanno.codes</p>
+        </blockquote>
+
+        <div>
+            <span class="tag">Java</span>
+            <span class="tag">JEP</span>
+            <span class="tag">JVM</span>
+            <span class="tag">Valhalla</span>
+            <span class="tag">HTTP/3</span>
+            <span class="tag">G1 GC</span>
+        </div>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

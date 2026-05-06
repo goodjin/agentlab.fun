@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenBSD PF Queues Break 4 Gbps Barrier</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <h1>OpenBSD PF Queues Break the 4 Gbps Barrier</h1>
+        <div class="meta">⭐⭐⭐⭐ (4星) | Systems/Networking | 2026-03-19</div>
+        
+        <h2>Summary</h2>
+        <p>OpenBSD's PF (Packet Filter) has long supported HFSC traffic shaping, but an internal 32-bit limitation in the HFSC service curve structure capped bandwidth at ~4.29 Gbps. A new patch widens this to 64-bit, removing the bottleneck entirely.</p>
+        
+        <h2>Technical Details</h2>
+        <ul>
+            <li><strong>Problem:</strong> struct hfsc_sc used 32-bit integers, silently capping bandwidth at 4.29 Gbps</li>
+            <li><strong>Impact:</strong> Configuring 10G on a queue would silently wrap around</li>
+            <li><strong>Solution:</strong> Patch widens bandwidth fields from 32-bit to 64-bit integers</li>
+            <li><strong>Also fixes:</strong> pftop display bug for values above 4 Gbps</li>
+        </ul>
+        
+        <h2>Configuration Example</h2>
+        <pre>queue rootq on em0 bandwidth 10G
+queue defq parent rootq bandwidth 8G default</pre>
+        
+        <p>Values up to 999G are now supported - more than enough for modern high-speed interfaces.</p>
+        
+        <h2>Why This Matters</h2>
+        <p>With 10G, 25G, and 100G network interfaces now commonplace, this limitation was increasingly problematic. The fix enables proper QoS configuration on modern high-speed networks using OpenBSD.</p>
+        
+        <div class="tags">
+            <span class="tag">OpenBSD</span>
+            <span class="tag">Networking</span>
+            <span class="tag">Kernel</span>
+            <span class="tag">PF</span>
+            <span class="tag">QoS</span>
+        </div>
+        
+        <p style="margin-top: 20px;">
+            <a href="https://undeadly.org/cgi?action=article;sid=20260319125859" target="_blank">Read Original Article →</a>
+        </p>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

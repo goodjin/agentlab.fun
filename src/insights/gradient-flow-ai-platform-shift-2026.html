@@ -1,0 +1,193 @@
+---
+layout: article.njk
+title: "The Honeymoon Phase Won't Last - Gradient Flow"
+tags: [insights]
+permalink: /insights/gradient-flow-ai-platform-shift-2026.html
+---
+
+<div class="card">
+        <h1>The Honeymoon Phase Won't Last: Preparing for AI's Platform Shift</h1>
+        <p class="meta">来源: Gradient Flow | 日期: 2026-03-04 | 评分: <span class="rating">⭐⭐⭐⭐⭐</span></p>
+        
+        <div class="source">
+            <strong>原文链接:</strong> <a href="https://gradientflow.com/the-honeymoon-phase-wont-last-preparing-for-ais-platform-shift/">gradientflow.com/the-honeymoon-phase-wont-last-preparing-for-ais-platform-shift/</a>
+        </div>
+
+        <h2>核心观点</h2>
+        <p>AI 仍处于蜜月期，平台超预期交付以建立采用率。互联网历史告诉我们之后通常会发生什么。现在是锁定用户到特定模型、特定应用、特定工作流的疯狂时期。作者建议：使用开放工具，保持灵活性，在任何平台对你好的时候不要依赖它。</p>
+
+        <div class="warning">
+            <strong>⚠️ 警告信号：</strong>本文描述了 AI 领域可能重蹈互联网平台覆辙的早期信号。
+        </div>
+
+        <h2>1. 设计可退出（While It's Still Cheap）</h2>
+        
+        <h3>警告信号：核心能力收窄</h3>
+        <ul>
+            <li>更少的技术细节</li>
+            <li>更少的部署选项</li>
+            <li>更少检查或控制行为的方式</li>
+        </ul>
+
+        <h3>蜜月期 vs 现实</h3>
+        <ul>
+            <li>开始：自由实验</li>
+            <li>6个月后：无法本地运行、无法审计变更、无法 fork 模型、无法做出自己的延迟和成本权衡</li>
+            </ul>
+
+        <h3>政策波动</h3>
+        <p>服务条款和可接受使用政策可能快速变化，执行可能不一致：</p>
+        <ul>
+            <li>不是传统软件的干净错误</li>
+            <li>是静默拒绝、答案质量下降、工作流周一能用周四就坏了</li>
+            <li>模型从冗长变为简洁，破坏解析逻辑</li>
+        </ul>
+
+        <h3>地缘政治风险</h3>
+        <ul>
+            <li>提供商可能决定无法服务某些地区或行业</li>
+            <li>突然之间你的产品为这些客户停止工作</li>
+            <li>合法用例可能落入让提供商紧张的领域</li>
+        </ul>
+
+        <h3>实用建议</h3>
+        <ul>
+            <li>将多提供商支持视为保险费，而非锦上添花</li>
+            <li>至少保持一个可行的后备路径</li>
+            <li>避免让特定于供应商的功能成为产品的支柱</li>
+            <li>假设切换成本以月计</li>
+        </ul>
+
+        <h2>2. 把护城河放在你这边</h2>
+
+        <h3>警告信号：数据不对称</h3>
+        <ul>
+            <li>许多提供商使用消费者聊天数据进行模型训练</li>
+            <li>企业/API 数据通常排除在训练之外</li>
+            <li>团队仍在消费者聊天界面做真实工作</li>
+            <li>你的专有领域知识可能最终帮助你的竞争对手</li>
+        </ul>
+
+        <h3>隐私问题</h3>
+        <ul>
+            <li>上下文窗口通常包含敏感信息</li>
+            <li>当你将代码或客户详情粘贴到 AI 助手时，数据保留在提供商的日志中</li>
+            <li>对于开发者使用 IDE 集成：助手可能看到你打开的每个文件</li>
+        </ul>
+
+        <h3>实用建议</h3>
+        <p class="quote">"Treat AI input like you're sending it to an external service you don't control, because you are."</p>
+        <ul>
+            <li>在代码中构建 guardrails，而不仅仅是政策文档</li>
+            <li>扫描出站 prompts 中的 secrets</li>
+            <li>将上下文限制在最低限度</li>
+            <li>对于高敏感工作负载：正确架构可能包括在您自己的环境中运行开放模型</li>
+        </ul>
+
+        <h2>3. 像你会切换一样构建（Because You Will）</h2>
+
+        <h3>警告信号：假设切换容易</h3>
+        <ul>
+            <li>一个模型上干净的 prompts 在另一个模型上失效</li>
+            <li>工具调用格式不同</li>
+            <li>一个系统中可靠的输出在另一个系统中变得不稳定</li>
+            <li>团队假设可以稍后更换提供商，然后发现"稍后"意味着重写 prompts</li>
+        </ul>
+
+        <h3>Embedding 和微调加剧问题</h3>
+        <ul>
+            <li>围绕一个嵌入模型构建检索 → 移动意味着重新嵌入整个知识库</li>
+            <li>在提供商平台上微调 → 得到只在那里工作的 artifact</li>
+        </ul>
+
+        <h3>实用建议</h3>
+        <ul>
+            <li>将产品做什么与当前使用哪个模型分开</li>
+            <li>将 prompts、工具定义、路由逻辑放在你控制的一层后面</li>
+            <li>在你自己的数据库中存储对话状态，而非提供商的记忆功能</li>
+            <li>将可移植性视为与可观测性或备份相同的持续纪律</li>
+        </ul>
+
+        <h2>4. 将 Token 成本视为产品风险</h2>
+
+        <h3>警告信号：Token 定价波动</h3>
+        <ul>
+            <li>prompt 变更、更长的上下文窗口、重试循环可能意外 spike 账单</li>
+            <li>添加"解释你的推理"使成本翻倍</li>
+            <li>配置错误的思维链 prompt 可能使请求贵 50 倍</li>
+        </ul>
+
+        <h3>长期定价风险</h3>
+        <ul>
+            <li>Twitter API：从免费开放到受限昂贵</li>
+            <li>Google Maps：强制计费和需要新密钥</li>
+            <li>Amazon 市场费用：从低于 20% 攀升到超过 50%</li>
+            <li>今天的 AI API 价格可能低于推理真实成本，有补贴</li>
+        </ul>
+
+        <h3>等级差异</h3>
+        <ul>
+            <li>提供商有强烈动机让便宜等级随着时间变得更差</li>
+            <li>同时为优质客户保持质量</li>
+            <li>经济逻辑简单：推理昂贵，利润最大化方式是让低等级 barely 可用</li>
+        </ul>
+
+        <h3>实用建议</h3>
+        <p class="quote">"Assume that whatever tier you're on today will become worse unless you're paying enterprise rates."</p>
+        <ul>
+            <li>从一开始就需要实时监控、速率限制、断路器</li>
+            <li>持续监控模型质量，而不仅仅是发布时</li>
+        </ul>
+
+        <h2>5. 不要让便利成为笼子</h2>
+
+        <h3>警告信号：依赖模型内部知识</h3>
+        <ul>
+            <li>等待提供商解决幻觉或复杂推理是一个陷阱</li>
+            <li>这保证了供应商锁定</li>
+        </ul>
+
+        <h3>案例：RealAI</h3>
+        <ul>
+            <li>超越简单文档检索</li>
+            <li>将数百万不同数据点融合成标准化、可查询的结构化数据</li>
+            <li>理解基础模型仍然与可靠数学作斗争</li>
+            <li>因此将 AI 直接连接到专用金融计算器</li>
+        </ul>
+
+        <h3>实用建议</h3>
+        <ul>
+            <li>将实际智能移入你自己的数据管道和专用外部工具</li>
+            <li>大幅减少对任何单一提供商的依赖</li>
+            <li>你的竞争优势成为你的专有数据融合和业务逻辑</li>
+            <li>这允许你在更好的选项出现时切换底层语言模型</li>
+        </ul>
+
+        <h2>开放工具案例：OpenCode + OpenRouter</h2>
+        <p>作者推荐的开放替代方案：</p>
+        <ul>
+            <li>OpenCode：开放代码环境</li>
+            <li>OpenRouter：统一 API 访问多个模型提供商</li>
+            <li>组合优势：无需重写一切就能尝试不同模型</li>
+        </ul>
+
+        <h2>结论</h2>
+        <ul>
+            <li>AI 市场仍在形成中</li>
+            <li>互联网历史建议我们关注激励导向</li>
+            <li>我们目睹了一小撮公司通过收购走向 dominance</li>
+            <li>如果我们想要不同结果：</li>
+            <ul>
+                <li>需要早期对可移植性施压</li>
+                <li>透明度、用户控制、真正的反垄断执法</li>
+                <li>在默认值固化之前</li>
+            </ul>
+        </ul>
+
+        <div class="quote">
+            <strong>最终建议：</strong>作者仍然依赖来自 Anthropic、Google 和 OpenAI 的专有模型。真正的性能差距仍然存在。但差距正在快速缩小。应该积极探索将更多工作负载卸载到你可以定制和增强的更小开放权重模型。
+        </div>
+
+        <hr>
+        <p><small>🧬 探索于 2026-03-17 | 来源: Gradient Flow</small></p>
+    </div>

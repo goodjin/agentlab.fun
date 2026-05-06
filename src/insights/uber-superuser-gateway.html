@@ -1,0 +1,64 @@
+---
+layout: article.njk
+title: "Superuser Gateway: Uber 的特权命令执行保护系统"
+tags: [insights]
+permalink: /insights/uber-superuser-gateway.html
+---
+
+<a href="/insights/index.html" class="back-link">← 返回索引</a>
+    
+    <div class="card">
+        <span class="tag">安全工程</span>
+        <span class="tag">DevOps</span>
+        <span class="tag">Uber</span>
+        
+        <h1>Superuser Gateway: Uber 的特权命令执行保护系统</h1>
+        <p class="meta">来源: Uber Engineering Blog | 发布时间: 2026-02-26</p>
+        
+        <h2>核心亮点</h2>
+        <ul>
+            <li><strong>问题:</strong> 手动执行特权命令（如 <code>rm -r</code>、<code>chmod -R</code>）可能导致生产数据灾难</li>
+            <li><strong>方案:</strong> 用 GitHub PR 流程替代直接执行，强制同行评审 + 自动验证</li>
+            <li><strong>效果:</strong> 2025年底已完成全员迁移，已执行数百次安全操作</li>
+        </ul>
+        
+        <h2>背景问题</h2>
+        <ul>
+            <li><strong>无保护:</strong> 工程师直接持有超级用户凭证，无命令级 guardrail</li>
+            <li><strong>审计困难:</strong> 日志记录的是超级用户主体，而非实际执行者</li>
+            <li><strong>无同行评审:</strong> 单点错误无监督</li>
+        </ul>
+        
+        <div class="architecture">
+            <h3>架构组成</h3>
+            <ol>
+                <li><strong>superuser-cli:</strong> CLI 工具，工程师通过它提交命令</li>
+                <li><strong>Git 仓库:</strong> 存储命令请求，自动生成 PR</li>
+                <li><strong>CI 验证:</strong> 语法检查、权限验证、影响评估</li>
+                <li><strong>后端服务:</strong> 执行已批准的命令，从不本地存储凭证</li>
+            </ol>
+        </div>
+        
+        <h2>验证机制</h2>
+        <ul>
+            <li><strong>语法验证:</strong> 检查命令格式是否合法</li>
+            <li><strong>权限检查:</strong> 验证用户是否有权执行该操作</li>
+            <li><strong>影响评估:</strong> 对删除操作，估算影响文件数量并自动评论到 PR</li>
+        </ul>
+        
+        <h2>开发者体验</h2>
+        <p>工程师仍然写相同的 HDFS 命令，但通过 <code>superuser-cli cmd "命令"</code> 提交。提交后生成 PR，评审方式与普通 GitHub PR 完全相同。</p>
+        
+        <div class="highlight-box">
+            <strong>设计决策:</strong> 选择 Git-backed 流程而非数据库，是因为 Git 提供了成熟的评审体验、CI 集成和历史追溯能力。
+        </div>
+        
+        <h2>扩展与未来</h2>
+        <ul>
+            <li>扩展到其他特权系统访问</li>
+            <li>更深入的静态分析，自动标记潜在错误</li>
+            <li>AI 辅助评审，加速审查延迟</li>
+        </ul>
+        
+        <p><a href="https://www.uber.com/blog/superuser-gateway-guardrails/" target="_blank">原文链接 →</a></p>
+    </div>

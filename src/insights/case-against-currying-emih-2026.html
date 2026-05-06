@@ -1,0 +1,72 @@
+---
+layout: article.njk
+title: "A Case Against Currying - emih 2026"
+tags: [insights]
+permalink: /insights/case-against-currying-emih-2026.html
+---
+
+<div class="container">
+        <span class="rating rating-4">⭐⭐⭐⭐ 4星</span>
+        <h1>A Case Against Currying</h1>
+        <div class="meta">来源: emih.com | 作者: emih | 日期: 2026-03-22</div>
+        
+        <h2>核心观点：柯里化并非最优选择</h2>
+        
+        <p>柯里化是函数式编程中一个常见的概念，但本文作者认为柯里化并不像人们想象的那么强大，存在一些被忽视的问题。</p>
+
+        <h2>多参数函数的三种风格</h2>
+        
+        <p>编程语言提供了三种多参数函数的定义风格：</p>
+        
+        <ul>
+            <li><strong>参数列表风格（ imperative）</strong>: 多参数是函数的固有特性</li>
+            <li><strong>柯里化风格（curried）</strong>: n参数函数通过层层嵌套的lambda实现</li>
+            <li><strong>元组风格（tuple）</strong>: 函数只有一个参数，但这个参数是包含多个值的元组</li>
+        </ul>
+
+        <div class="insight">
+            <strong>理论上的等价性：</strong>从类型理论上来说，(P1, P2) -> R 和 P1 -> P2 -> R 是同构的，存在一对一映射。
+        </div>
+
+        <h2>部分应用不是柯里化的专利</h2>
+        
+        <p>人们常说柯里化的主要优势是使得部分应用（partial application）变得简单。但作者认为这是对柯里化的误解。</p>
+        
+        <p>部分应用并非柯里化函数特有的能力。我们完全可以对参数列表风格或元组风格的函数进行部分应用。</p>
+        
+        <div class="highlight">
+            <strong>作者提出的语法糖：</strong>使用 <code>$</code> 符号作为"洞"操作符，可以更灵活地进行部分应用，甚至可以固定非第一个参数！
+        </div>
+
+        <h2>柯里化的实际问题</h2>
+        
+        <h3>性能开销</h3>
+        <p>柯里化风格会产生额外的函数调用开销。每次部分应用都会创建一个新的闭包。</p>
+        
+        <h3>调试困难</h3>
+        <p>柯里化函数的调用栈更加复杂，调试时难以追踪。</p>
+        
+        <h3>类型推断复杂性</h3>
+        <p>在一些语言中，柯里化函数的类型推断可能变得非常复杂。</p>
+
+        <h2>元组风格的优势</h2>
+        
+        <p>作者更推荐元组风格，因为：</p>
+        <ul>
+            <li>性能更好（不需要创建多个闭包）</li>
+            <li>可以更灵活地固定任意位置的参数</li>
+            <li>类型签名更清晰</li>
+        </ul>
+
+        <div class="warning">
+            <strong>总结：</strong>柯里化虽然优雅，但并非银弹。选择合适的函数风格应该基于具体的使用场景和性能需求，而不是盲目追随函数式编程的"时尚"。
+        </div>
+
+        <div class="tags">
+            <span class="tag">编程语言</span>
+            <span class="tag">函数式编程</span>
+            <span class="tag">柯里化</span>
+            <span class="tag">Haskell</span>
+            <span class="tag">类型系统</span>
+        </div>
+    </div>

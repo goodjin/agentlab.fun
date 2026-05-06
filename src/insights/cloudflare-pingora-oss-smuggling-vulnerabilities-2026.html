@@ -1,0 +1,90 @@
+---
+layout: article.njk
+title: "Cloudflare Pingora 开源请求走私漏洞修复"
+tags: [insights]
+permalink: /insights/cloudflare-pingora-oss-smuggling-vulnerabilities-2026.html
+---
+
+<div class="container">
+        <h1>🔒 Pingora 开源请求走私漏洞修复</h1>
+        <div class="meta">
+            <span class="tag">Security</span>
+            <span class="tag">Pingora</span>
+            <span class="tag">Vulnerability</span>
+            <span class="tag">Open Source</span>
+        </div>
+        <div class="meta">来源: blog.cloudflare.com | 2026-03-09 | ⭐⭐⭐⭐⭐ (5星)</div>
+
+        <div class="cve">CVE-2026-2833, CVE-2026-2835, CVE-2026-2836</div>
+        
+        <div class="safe">
+            <strong>Cloudflare CDN 未受影响！</strong> 我们的调查发现，这些漏洞无法在 Cloudflare 网络上被利用。Cloudflare 客户无需采取任何行动。
+        </div>
+
+        <h2>漏洞概述</h2>
+        <p>2025年12月，Cloudflare 收到关于 Pingora 开源框架中 HTTP/1.x 请求走私漏洞的报告。当 Pingora 作为入口代理部署时，会受到影响。</p>
+
+        <div class="highlight">
+            <strong>影响范围：</strong>
+            <ul>
+                <li>绕过 Pingora 代理层安全控制</li>
+                <li>与后端进行 HTTP 请求/响应解同步，实现跨用户劫持攻击（会话或凭证窃取）</li>
+                <li>毒化 Pingora 代理层缓存</li>
+            </ul>
+        </div>
+
+        <h2>已发布修复</h2>
+        <p>已发布 <a href="https://github.com/cloudflare/pingora/releases/tag/0.8.0">Pingora 0.8.0</a> 包含修复和加固。强烈建议 Pingora 框架用户尽快升级。</p>
+
+        <h2>漏洞详情</h2>
+
+        <h3>1. 无 101 握手的提前升级</h3>
+        <p>第一个报告显示，带有 <code>Upgrade</code> 头值的请求会导致 Pingora 在后端接受升级之前立即传递后续字节。攻击者可以在同一连接上管道化第二个 HTTP 请求：</p>
+        
+        <pre>GET / HTTP/1.1
+Host: example.com
+Upgrade: foo
+
+
+GET /admin HTTP/1.1
+Host: example.com</pre>
+
+        <p>这完全不符合 RFC 9110 预期的 HTTP/1.1 Upgrade 流程。后续字节只有在接受到 <code>101 Switching Protocols</code> 头时才应被解释为升级流。</p>
+
+        <h4>攻击后果</h4>
+        <ul>
+            <li>Pingora 部署收到非 101 响应时仍可将第二个部分 HTTP 请求转发到上游</li>
+            <li>绕过任何 Pingora 用户定义的 ACL 处理或 WAF 逻辑</li>
+            <li>毒化到上游的连接，使后续用户的请求不当接收 /admin 响应</li>
+        </ul>
+
+        <h4>修复</h4>
+        <p>已修补 Pingora，仅在上游响应 <code>101 Switching Protocols</code> 后才切换对后续字节的解释。</p>
+
+        <h3>2. HTTP/1.0、close-delimiting 和 Transfer-Encoding</h3>
+        <p>报告者还演示了一个更经典的"CL.TE"解同步类型攻击：</p>
+        
+        <pre>GET / HTTP/1.0
+Host: example.com
+Connection: keep-alive
+Transfer-Encoding: identity, chunked
+Content-Length: 29
+
+0
+
+GET /admin HTTP/1.1
+X:</pre>
+
+        <h2>为什么 Cloudflare 未受影响</h2>
+        <ol>
+            <li>入口 CDN 代理没有此不当行为</li>
+            <li>我们的内部 Pingora 服务的客户端不尝试管道化 HTTP/1 请求</li>
+            <li>Pingora 服务在这些 <code>Upgrade</code> 请求上通过注入 <code>Connection: close</code> 头禁用 keep-alive</li>
+        </ol>
+
+        <h2>技术背景</h2>
+        <p>按设计，Pingora 框架确实允许边缘情况 HTTP 请求或响应，因为我们需要为使用传统 HTTP 堆栈的客户接受这种流量。但这种宽松是有限度的，以避免让 Cloudflare 本身暴露于漏洞。</p>
+
+        <hr>
+        <p><a href="/insights/index.html">← 返回首页</a></p>
+    </div>

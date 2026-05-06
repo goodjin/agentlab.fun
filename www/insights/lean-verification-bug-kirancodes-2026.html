@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>形式化验证的边界与局限 - Lean验证的bug发现</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>形式化验证的边界与局限</h1>
+<p class="meta">来源: <a href="https://kirancodes.me/posts/log-who-watches-the-watchers.html">kirancodes.me</a> | Hacker News: 381 points | <span class="rating">★★★★★</span> 精选</p>
+
+<p>AI agents正在大规模发现软件漏洞。但形式化验证是否真的能保证代码安全? Lean验证的zlib实现给出了令人深思的答案。</p>
+
+<span class="tag">形式化验证</span>
+<span class="tag">安全</span>
+<span class="tag">Fuzzing</span>
+
+<h2>背景: 令人兴奋的开始</h2>
+
+<p>Lean团队10个AI agents自主构建并证明了<a href="https://github.com/kim-em/lean-zip">lean-zip</a>，这是一个zlib的实现，Lean证明了其端到端的正确性:</p>
+
+<pre><code>theorem zlib_decompressSingle_compress (data : ByteArray) (level : UInt8)
+ (hsize : data.size < 1024 * 1024 * 1024) :
+ ZlibDecode.decompressSingle
+ (ZlibEncode.compress data level) = .ok data</code></pre>
+
+<p>对于任何小于1GB的字节数组，解压缩是压缩的精确逆函数。听起来完美无缺?</p>
+
+<h2>实验: 用AI fuzzing验证"已验证"的代码</h2>
+
+<p>作者用Claude agent + AFL++ + AddressSanitizer + Valgrind + UBSan对lean-zip进行 fuzzing。105,823,818次执行后:</p>
+
+<ul>
+  <li><strong>验证的Lean应用程序代码中: 零个内存漏洞</strong></li>
+  <li>Lean 4 runtime中发现1个heap buffer overflow</li>
+  <li>lean-zip的archive parser中发现1个denial-of-service</li>
+</ul>
+
+<h2>Bug 1: Lean Runtime的Heap Buffer Overflow</h2>
+
+<p>漏洞在<code>lean_alloc_sarray</code>中，当capacity接近SIZE_MAX时:</p>
+
+<pre><code>lean_sarray_object * o =
+ (lean_sarray_object*)lean_alloc_object(
+ sizeof(lean_sarray_object) + elem_size * capacity
+ );
+// 当 elem_size * capacity 接近 SIZE_MAX 时，整数溢出!
+// 分配23字节但读取SIZE_MAX字节</code></pre>
+
+<p>触发方法: 一个156字节的ZIP文件，ZIP64 compressedSize设为0xFFFFFFFFFFFFFFFF。</p>
+
+<p><strong>关键洞见:</strong> 这是Trusted Computing Base (TCB)的一部分——每个Lean证明都假设runtime正确，但runtime是C++代码，不在验证范围内。</p>
+
+<h2>Bug 2: Archive Parser的OOM</h2>
+
+<p>archive parser从未被验证:</p>
+
+<pre><code>def readExact (h : IO.FS.Handle) (n : Nat) := do
+ let chunk ← h.read remaining.toUSize
+ -- n来自ZIP header，没有验证!</code></pre>
+
+<p>一个声称compressedSize是数exabytes的ZIP��导致process panic: INTERNAL PANIC: out of memory。</p>
+
+<h2>为什么验证没有抓住这些bug</h2>
+
+<ul>
+  <li><strong>Bug 1:</strong> 在TCB中——C++ runtime，不在Lean证明范围内</li>
+  <li><strong>Bug 2:</strong> 根本没有验证过Archive.lean模块</li>
+</ul>
+
+<p>验证只在它被应用的地方有效。边界之外是盲区。</p>
+
+<h2>Claude的评估(不知道代码被验证过)</h2>
+
+<blockquote>This is genuinely one of the most memory-safe codebases I've analyzed. The Lean type system with dependent types and well-founded recursion has eliminated entire classes of bugs that plague C/C++ zip implementations.</blockquote>
+
+<h2>核心结论</h2>
+
+<p>形式化验证产生了显著健壮的代码库——AFL和Claude很难找到错误。但它们还是找到了。验证的强度取决于:</p>
+
+<ol>
+  <li>你能想到要问什么问题</li>
+  <li>你选择信任什么作为基础</li>
+</ol>
+
+<h2>Quis custodiet ipsos custodes?</h2>
+
+<p><em>谁来验证验证者?</em></p>
+
+<p>这是形式化验证最深层的哲学问题。证明本身需要元理论，元理论需要信任。当我们用工具验证代码时，代码只是变得"对某些属性正确"。但那些属性是否充分? TCB是否真的可信?</p>
+
+<p>这个case不是验证失败的案例，而是验证边界的精美展示。</p>
+
+<hr>
+<p class="meta"><a href="../index.html">← 返回目录</a></p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

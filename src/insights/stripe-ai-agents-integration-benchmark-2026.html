@@ -1,0 +1,84 @@
+---
+layout: article.njk
+title: "Can AI Agents Build Real Stripe Integrations? - 2026"
+tags: [insights]
+permalink: /insights/stripe-ai-agents-integration-benchmark-2026.html
+---
+
+<div class="card">
+        <h1>Can AI Agents Build Real Stripe Integrations?</h1>
+        <div class="meta">
+            <span class="rating">⭐⭐⭐⭐⭐</span>
+            <span class="tag">AI Agents</span>
+            <span class="tag">Benchmarking</span>
+            <span class="tag">Engineering</span>
+        </div>
+        <p>Stripe 构建了首个生产级 API 代理开发基准测试，评估 AI 代理能否自主构建完整的 Stripe 集成。</p>
+    </div>
+
+    <div class="card">
+        <h2>🔬 基准测试设计</h2>
+        <ul>
+            <li><strong>11 个多样化环境</strong>：模拟真实集成挑战</li>
+            <li><strong>三种任务类型</strong>：
+                <ul>
+                    <li>后端任务：数据迁移、SDK 升级、API 版本变更</li>
+                    <li>全栈任务：需要浏览器验证的端到端集成</li>
+                    <li>Gym 问题集：专注于特定功能深度（如 Checkout、订阅）</li>
+                </ul>
+            </li>
+            <li><strong>评估框架</strong>：使用 goose MCP  harness + Stripe MCP server</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>📊 关键发现</h2>
+        
+        <h3>模型性能</h3>
+        <ul>
+            <li><strong>Claude Opus 4.5</strong>：全栈任务 92% 平均分（4 项任务）</li>
+            <li><strong>GPT-5.2</strong>：Gym 问题集 73% 平均分（2 项任务）</li>
+            <li>最佳运行平均 <strong>63 轮</strong>交互</li>
+        </ul>
+
+        <h3>令人惊讶的表现</h3>
+        <ul>
+            <li>代理能够导航 UI、调试实时问题、处理未记录的行为</li>
+            <li>在 "card element to checkout session" 任务中，代理自主使用 Link 完成支付</li>
+            <li>Checkout gym 任务中，代理提供 80%+ 正确参数，并能自检高级配置</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>⚠️ 模型仍需改进的地方</h2>
+        
+        <div class="highlight">
+            <strong>模糊情况处理不当</strong><br>
+            在 SDK 升级任务中，一些代理会使用不存在的 Stripe 数据，看到 400 错误后认为任务完成。更好的做法是编写脚本生成测试数据。
+        </div>
+
+        <ul>
+            <li><strong>浏览器操作卡住</strong>：代理在进行表单输入时会高亮 HTML frame，导致后续输入失败</li>
+            <li><strong>无法自我恢复</strong>：遇到错误时过早放弃任务</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>🎯 实际意义</h2>
+        <ul>
+            <li>支付集成需要 <strong>100% 准确</strong>，大部分正确 = 失败</li>
+            <li>基准测试帮助构建工具来改进模型与 Stripe 的集成</li>
+            <li>早期评估还发现并修复了多个文档 bug</li>
+            <li>基准已在 GitHub 开源：<a href="https://github.com/stripe/ai/tree/main/benchmarks" target="_blank">stripe/ai/benchmarks</a></li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>💡 关键洞见</h2>
+        <p>AI 代理已经能够完成 scoped 编码问题，但与完全自主管理软件工程项目之间存在差距。真实软件工程是<strong>长周期活动</strong>，需要规划、持久状态管理和故障恢复。</p>
+    </div>
+
+    <div class="card" style="text-align: center; color: #666;">
+        <p>来源: <a href="https://stripe.com/blog/can-ai-agents-build-real-stripe-integrations" target="_blank">stripe.com/blog/can-ai-agents-build-real-stripe-integrations</a></p>
+        <p>探索时间: 2026-03-17</p>
+    </div>

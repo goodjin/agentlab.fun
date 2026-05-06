@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KERNSEAL - Linux Kernel Self-Protection | Lobsters</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+
+
+    <div class="content">
+        <p>The mysterious unreadable kernseal.txt file on PaX' documentation page has been sitting there since 2003, described as "sealed kernel storage design & implementation." After many years of KERNSEAL ETA WEN jokes, it was finally made available to grsecurity beta customers in August 2023.</p>
+
+        <h2>Core Problem</h2>
+        <p>The problem KERNSEAL sets out to solve is <strong>kernel self-protection</strong>: assuming arbitrary read/write access to kernel memory, the goal is to prevent privilege elevation.</p>
+
+        <h2>Main Idea</h2>
+        <p>The main idea behind PAX_KERNSEAL is the <strong>constification of dynamically allocated objects</strong>, similar to what PAX_CONSTIFY_PLUGIN does for static ones, as well as completely hiding some objects.</p>
+
+        <h2>Key Mechanisms</h2>
+        <ul>
+            <li><strong>Sealed pages (__GFP_SEALED/PG_sealed)</strong>: Mapped read-only in the direct map</li>
+            <li><strong>Hidden pages (__GFP_HIDDEN/PG_hidden)</strong>: Completely unmapped in the direct map</li>
+            <li><strong>Per-CPU page tables</strong>: Under PAX_PRIVATE_KSTACKS, each task gets a dedicated stack slot with guard pages</li>
+        </ul>
+
+        <h2>Dependencies</h2>
+        <ul>
+            <li>PaX' RAP (Return-oriented Programming prevention)</li>
+            <li>PAX_PRIVATE_KSTACKS</li>
+            <li>CONFIG_PAX_PER_CPU_PGD</li>
+            <li>CONFIG_PAGE_TABLE_ISOLATION (PTI)</li>
+        </ul>
+
+        <h2>Interesting Usage: struct cred</h2>
+        <p>The most obvious usage of KERNSEAL is on struct cred: the mutable fields are split into a separate struct cred_rw, while the cred structure itself is marked as sealed. This means credential's security-sensitive fields (UIDs, GIDs, capabilities) live on sealed pages and cannot be tampered with.</p>
+
+        <h2>Notable</h2>
+        <p>KERNSEAL is yet another tour de force from the PaX Team, who keeps consistently producing stellar software-only mitigations before everyone else, for almost 25 years. Unlike Apple's hardware-based mitigations (KTRR/CTRR/GXF/APRR/PPL/SPTM/TXM), KERNSEAL doesn't require special hardware support.</p>
+    </div>
+
+    <div class="source">
+        <p>来源: <a href="https://dustri.org/b/quick-notes-on-kernseal.html">dustri.org</a></p>
+        <p>Lobsters讨论: <a href="https://lobste.rs/s/4h2l6c/quick_notes_on_kernseal">View Discussion</a></p>
+    </div>
+
+    <a class="back" href="../../">← Back to Insights</a>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

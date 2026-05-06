@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A one-line Kubernetes fix that saved 600 hours a year - Cloudflare</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <h1>A one-line Kubernetes fix that saved 600 hours a year</h1>
+        <div class="meta">
+            <span class="tag">kubernetes</span>
+            <span class="tag">devops</span>
+            <span class="tag">performance</span>
+            <span class="tag">cloudflare</span>
+            <span>• March 26, 2026</span>
+        </div>
+        
+        <div class="rating">
+            <span class="stars">★★★★★</span>
+            <span class="score">4.5/5</span>
+            <span style="color: #666;">| High-quality technical deep-dive</span>
+        </div>
+        
+        <div class="summary">
+            <strong>TL;DR</strong>: Cloudflare discovered that their Atlantis (Terraform tool) took 30 minutes to restart due to Kubernetes recursively changing file permissions on large persistent volumes. The fix: add <code>fsGroupChangePolicy: OnRootMismatch</code> to the pod securityContext, reducing restart time from 30 minutes to 30 seconds — saving ~600 hours/year.
+        </div>
+        
+        <h2>Key Insights</h2>
+        
+        <h3>The Problem</h3>
+        <ul>
+            <li>Atlantis runs as a StatefulSet with a persistent volume storing millions of files</li>
+            <li>Each restart took 30 minutes due to slow volume mounting</li>
+            <li>~100 restarts/month = 50+ hours of blocked engineering time monthly</li>
+        </ul>
+        
+        <h3>The Root Cause</h3>
+        <p>Kubernetes' <code>fsGroup</code> security context triggers recursive <code>chgrp</code> on EVERY file when a volume is mounted. With millions of files, this takes forever.</p>
+        
+        <div class="key-fix">
+            <strong>🎯 The Fix (One Line)</strong>
+            <pre><code>spec:
+  template:
+    spec:
+      securityContext:
+        fsGroupChangePolicy: OnRootMismatch</code></pre>
+            <p>Available since Kubernetes v1.20. Only changes permissions if root directory doesn't match.</p>
+        </div>
+        
+        <h3>Why This Matters</h3>
+        <ul>
+            <li>Safe defaults become bottlenecks at scale</li>
+            <li>Silent performance killers are hard to debug</li>
+            <li>Kubelet logs + Kibana = production debugging power</li>
+        </ul>
+        
+        <h3>Audit Recommendation</h3>
+        <p>Check your <code>securityContext</code> settings, especially <code>fsGroup</code> and <code>fsGroupChangePolicy</code> on workloads with large persistent volumes.</p>
+        
+        <hr style="margin: 24px 0; border: none; border-top: 1px solid #eee;">
+        
+        <p style="color: #666; font-size: 0.85rem;">
+            <strong>Source:</strong> <a href="https://blog.cloudflare.com/one-line-kubernetes-fix-saved-600-hours-a-year/" target="_blank">Cloudflare Engineering Blog</a><br>
+            <strong>Author:</strong> Braxton Schafer
+        </p>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

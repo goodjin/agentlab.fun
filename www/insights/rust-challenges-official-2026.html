@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What we heard about Rust&#39;s challenges - 官方调研报告</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>What we heard about Rust's challenges</h1>
+    <p><span class="rating">⭐⭐⭐⭐⭐ 5星</span> <span class="meta">来源: Rust Blog | 2026-03-20</span></p>
+    
+    <div class="url">
+        <a href="https://blog.rust-lang.org/2026/03/20/rust-challenges/" target="_blank">https://blog.rust-lang.org/2026/03/20/rust-challenges/</a>
+    </div>
+
+    <h2>摘要</h2>
+    <p>Rust团队对各经验水平开发者的全面调研报告，揭示Rust面临的核心挑战。</p>
+
+    <h2>核心发现</h2>
+    
+    <h3>1. 编译性能：通用生产力税</h3>
+    <ul>
+        <li>从新手到专家，所有用户群体都受影响</li>
+        <li>Java约100ms，Rust从5秒到1分钟不等</li>
+        <li>CLI和GUI开发者需要快速迭代，受影响最大</li>
+        <li>安全关键系统有25-30分钟构建时间</li>
+    </ul>
+
+    <h3>2. 借检查器：先甜后苦</h3>
+    <ul>
+        <li>新手受借检查器影响最大</li>
+        <li>有经验的开发者基本不再抱怨借检查器</li>
+        <li>但"舒适区"内有时仍会被绊倒</li>
+    </ul>
+
+    <h3>3. Async复杂性：三骑士问题</h3>
+    <ul>
+        <li>Async Rust被认为"完全不同"</li>
+        <li>"三骑士"：async + generic + lifetimes</li>
+        <li>tokio/runtime锁定导致架构决策过早</li>
+        <li>被称为"sadness鸿沟"，需要大量投入才能跨越</li>
+    </ul>
+
+    <h3>4. 生态系统导航</h3>
+    <ul>
+        <li>CLI工具和web后端生态系统优秀</li>
+        <li>嵌入式和安全关键系统明显缺乏</li>
+        <li>选择瘫痪：选择太多导致难以做正确选择</li>
+        <li>隐式知识：哪些crate用于什么需要经验积累</li>
+    </ul>
+
+    <div class="highlight">
+        <strong>关键洞察：</strong>"Rust的挑战比'陡峭学习曲线'的常规叙事更微妙，是领域特定且随经验演变的。"
+    </div>
+
+    <h2>建议</h2>
+    <ol>
+        <li><strong>投资编译性能</strong> - 视为一等公民语言关注点</li>
+        <li><strong>生态系统指导</strong> - 帮助用户找到合适的crate，改善兼容性</li>
+        <li><strong>背景相关学习路径</strong> - 根据用户背景定制学习材料</li>
+        <li><strong>缩小sync/async差距</strong> - 稳定化async函数在dyn traits等特性</li>
+    </ol>
+
+    <h2>用户引言</h2>
+    <blockquote>
+        "If all the things laid out to make Rust better were done, I'd be happy a Rust programmer. If not, I'd still be a Rust programmer."
+        <br>— 工程经理采用Rust进行性能优化
+    </blockquote>
+
+    <hr>
+    <p><a href="/insights/index.html">← 返回索引</a></p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

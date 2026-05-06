@@ -1,0 +1,62 @@
+---
+layout: article.njk
+title: "Abject - Self-Aware Object Runtime / Ask Protocol"
+tags: [insights]
+permalink: /insights/abject-self-aware-objects-ask-protocol-mempko-2026.html
+---
+
+<span class="score">★★★★☆</span>
+    <h1>Abject: Self-Aware Object Runtime + Ask Protocol</h1>
+    <p class="meta">Source: <a href="https://blog.mempko.com/an-abject-horror/">blog.mempko.com</a> | Tags: <span class="tag">ai</span><span class="tag">compsci</span><span class="tag">programming</span> | Date: 2026-04-02</p>
+
+    <div class="insight">
+        <strong>Core Insight:</strong> Abject proposes a paradigm shift from "AI Agents" to "self-aware objects" that can describe themselves via natural language using the Ask Protocol.
+    </div>
+
+    <h2>The Problem with AI Agents</h2>
+    <p>The author argues that AI Agents are the wrong abstraction:</p>
+    <ul>
+        <li>They don't scale - designed to interact with people, not with other machines</li>
+        <li>Agent frameworks are hierarchical</li>
+        <li>MCP and A2A are "band-aids" - plumbing between things that shouldn't need plumbing</li>
+    </ul>
+
+    <h2>The Answer: Objects (55 Years Old)</h2>
+    <p>The insight draws from Alan Kay's original vision of Object Oriented Programming, inspired by biology:</p>
+    <ul>
+        <li>Cells in our body coordinate by sending chemical messages</li>
+        <li>Internet has 30+ billion devices communicating - proof objects scale</li>
+        <li>Objects talking to objects runs the world</li>
+    </ul>
+
+    <h2>The Ask Protocol</h2>
+    <p>Every object in the system implements a mandatory <code>ask</code> message handler:</p>
+    <ul>
+        <li>Callers send natural-language questions</li>
+        <li>Abject consults an LLM with the question, context, and even object code</li>
+        <li>Objects can describe themselves without documentation, schemas, or APIs</li>
+    </ul>
+
+    <h2>What Makes It "Horrible"</h2>
+    <div class="insight">
+        <strong>Now it gets scary:</strong> The system ships with a P2P layer. You can create a public workspace and expose Abjects to peers. Self-aware objects finding each other and talking to each other without human intervention.
+    </div>
+
+    <h2>Key Technical Details</h2>
+    <ul>
+        <li>Everything in the system is an Abject (UI, networking, P2P, agents)</li>
+        <li>No need for special protocols between agents and software</li>
+        <li>Objects can self-heal their communication</li>
+        <li>Alpha stage, open source</li>
+    </ul>
+
+    <h2>Why This Matters</h2>
+    <p>This is a provocative but thought-provoking paradigm:</p>
+    <ul>
+        <li>Challenges the current "Agent" orthodoxy in AI</li>
+        <li>Brings back OOP principles with AI-native communication</li>
+        <li>Raises interesting questions about autonomous distributed systems</li>
+        <li>Worth watching as an alternative to the agent framework explosion</li>
+    </ul>
+
+    <p><a href="https://abject.world/">→ Visit abject.world</a></p>

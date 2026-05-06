@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal vs. Separate Page - UX Decision Tree - Smashing Magazine</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>Modal vs. Separate Page: UX Decision Tree</h1>
+    <div class="meta">
+        来源: <a href="https://www.smashingmagazine.com" target="_blank">Smashing Magazine</a> | 
+        评分: <span class="rating">★★★★☆</span> |
+        标签: <span class="tag">Design</span><span class="tag">UX</span><span class="tag">UI</span><span class="tag">Design Patterns</span>
+    </div>
+    
+    <div class="summary">
+        <h2>核心内容</h2>
+        <p>如何在模态框和独立页面之间做出选择？这个决策会影响用户的流程、上下文、查找细节的能力，以及错误频率和任务完成度。</p>
+        
+        <h3>术语区分</h3>
+        <ul>
+            <li><strong>Dialog</strong>: "对话"的通用术语（用户 ↔ 系统）</li>
+            <li><strong>Overlay</strong>: 显示在页面顶部的小内容面板</li>
+            <li><strong>Modal</strong>: 用户必须与覆盖层交互 + 背景禁用</li>
+            <li><strong>Nonmodal</strong>: 用户必须与覆盖层交互 + 背景启用</li>
+            <li><strong>Lightbox</strong>: 调暗背景以聚焦模态框</li>
+        </ul>
+        
+        <h3>何时使用模态框</h3>
+        <p>模态框的最大优势是帮助用户保持当前屏幕的上下文，包括：</p>
+        <ul>
+            <li>编辑的输入内容</li>
+            <li>滚动位置</li>
+            <li>折叠面板状态</li>
+            <li>过滤器和排序选择</li>
+        </ul>
+        <p>适用于：<span class="highlight">单一、自包含的任务</span>，用户完成即返回。</p>
+        
+        <h3>何时使用独立页面</h3>
+        <ul>
+            <li>复杂的多步骤流程</li>
+            <li>需要用户全神贯注</li>
+            <li>参考之前屏幕没有帮助的场景</li>
+            <li>需要比较或复制粘贴的场景（模态框会阻挡）</li>
+        </ul>
+        
+        <h3>需要避免的场景</h3>
+        <ul>
+            <li>🚫 错误消息</li>
+            <li>🚫 功能通知</li>
+            <li>🚫 引导体验</li>
+            <li>🚫 复杂的长时间多步骤任务</li>
+            <li>🚫 多个嵌套模态框</li>
+        </ul>
+        
+        <h3>最佳实践</h3>
+        <ul>
+            <li>默认选择非阻塞对话框（non-modals）</li>
+            <li>允许用户最小化、隐藏或恢复对话框</li>
+            <li>提供退出方式：关闭按钮、ESC 键、或点击框外</li>
+            <li>仅在用户会重视这种干扰时才显示模态框</li>
+        </ul>
+    </div>
+    
+    <h2>阅读价值</h2>
+    <p>由 Vitaly Friedman 撰写，来自 Smart Interface Design Patterns 视频课程。提供了实用的 UX 决策框架，帮助设计师做出更好的界面选择。</p>
+    
+    <p><em>探索时间: 2026-03-28 16:40</em></p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

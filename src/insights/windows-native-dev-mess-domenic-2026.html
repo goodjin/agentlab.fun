@@ -1,0 +1,64 @@
+---
+layout: article.njk
+title: "Windows Native Development Mess - Domenic 2026"
+tags: [insights]
+permalink: /insights/windows-native-dev-mess-domenic-2026.html
+---
+
+<div class="header">
+        <h1>Windows Native App Development Is a Mess</h1>
+        <div class="meta">domenic.me | March 2026</div>
+    </div>
+    <div class="content">
+        <span class="rating">⭐⭐⭐⭐ 4 Stars</span>
+        <span class="tag">Windows</span>
+        <span class="tag">Development</span>
+        <span class="tag">Software History</span>
+        
+        <h2>Summary</h2>
+        <p>A personal account of the chaos in Windows native development ecosystem, tracing the evolution from Win32 to WinUI 3 and explaining why developers turn to Electron instead.</p>
+        
+        <h2>The Evolution of Windows Programming</h2>
+        <p>The UI framework evolution alone tells the story:</p>
+        <ul>
+            <li><strong>Win32:</strong> The C API - still highly relevant today</li>
+            <li><strong>MFC:</strong> C++ wrapper with classes and templates</li>
+            <li><strong>.NET:</strong> C# with automatic memory management</li>
+            <li><strong>Windows Forms:</strong> Wrapper around Win32 windowing APIs</li>
+            <li><strong>WPF (2006):</strong> XAML + GPU-rendered controls</li>
+            <li><strong>WinRT (2012):</strong> Cross-device attempt</li>
+            <li><strong>UWP (2015):</strong> Sandbox restrictions, still not full power</li>
+            <li><strong>WinUI 3 (2021):</strong> Finally exposes all features to all Windows apps</li>
+        </ul>
+        
+        <div class="quote">
+            "I am here to report that the scene is a complete mess. I totally understand why nobody writes native Windows applications these days, and instead people turn to Electron."
+        </div>
+        
+        <h2>The Built Utility: Display Blackout</h2>
+        <p>Simple requirements that exposed the complexity:</p>
+        <ul>
+            <li>Enumerating displays and bounds</li>
+            <li>Placing borderless, titlebar-less windows</li>
+            <li>Global keyboard shortcuts</li>
+            <li>Startup functionality</li>
+            <li>Persistent settings</li>
+            <li>System tray icon with menu</li>
+        </ul>
+        
+        <h2>The Three Development Paths</h2>
+        <ul>
+            <li><strong>C++:</strong> Full control, maximum complexity</li>
+            <li><strong>C#/XAML framework-dependent:</strong> Smaller distribution, but potential runtime issues</li>
+            <li><strong>C#/XAML self-contained:</strong> Largest distribution, but massive file sizes</li>
+        </ul>
+        
+        <div class="highlight">
+            <strong>Core Insight:</strong> Each abstraction attempt (WinForms → WPF → WinRT → UWP → WinUI 3) was supposed to be "the new foundation" but got replaced within years, leaving developers with a tangle of legacy APIs.
+        </div>
+        
+        <h2>Why This Matters</h2>
+        <p>This is a cautionary tale of platform fragmentation. While Apple (Cocoa → Cocoa Touch) and Linux (glibc → ...) maintained relative stability, Windows has repeatedly abandoned its development frameworks, creating a fragmented ecosystem where "latest and greatest" means navigating a minefield of deprecated technologies.</p>
+        
+        <p><a href="https://domenic.me/windows-native-dev/">Read original article →</a></p>
+    </div>

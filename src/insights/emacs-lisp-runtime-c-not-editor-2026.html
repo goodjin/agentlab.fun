@@ -1,0 +1,79 @@
+---
+layout: article.njk
+title: "Emacs Internal #01: Lisp Runtime in C - 2026 Insights"
+tags: [insights]
+permalink: /insights/emacs-lisp-runtime-c-not-editor-2026.html
+---
+
+<h1>🎯 Emacs Internal #01: Lisp Runtime in C, Not an Editor</h1>
+    
+    <div class="meta">
+        <span class="rating rating-5">⭐⭐⭐⭐⭐ (5星)</span>
+        <span style="margin-left: 15px;">来源: Lobsters / thecloudlet.github.io</span>
+        <span style="margin-left: 15px;">分类: Systems Programming / Programming Languages</span>
+    </div>
+
+    <h2>📝 摘要</h2>
+    <p>深度解析 Emacs 的本质——它不是一个普通的文本编辑器，而是一个嵌入在 C 中的 Lisp 运行时。作者通过阅读 Emacs 源代码，发现了设计哲学、系统软件权衡，以及至今仍不过时的代码。</p>
+
+    <h2>🔑 核心亮点</h2>
+    
+    <h3>1. 历史演进：为什么 Emacs 嵌入 Lisp 解释器？</h3>
+    <ul>
+        <li><strong>1970年代</strong>：MIT AI Lab 使用 TECO 文本编辑器，用户需要输入密码般的字符串来编辑文本</li>
+        <li><strong>Richard Stallman 和 Guy Steele</strong>：决定"如果宏足够复杂，为何不直接给它一门真正的图灵完备编程语言？"</li>
+        <li><strong>Emacs 诞生</strong>：Editor MACroS，宏让编辑器可编程</li>
+        <li><strong>Lisp 选择原因</strong>：语法简单、宏强大、解释器小而灵活，便于实时定制</li>
+    </ul>
+
+    <h3>2. Greenspun's Tenth Rule</h3>
+    <div class="highlight">
+        <code>Any sufficiently complicated C or Fortran program contains an ad hoc, informally-specified, bug-ridden, slow implementation of half of Common Lisp.</code>
+    </div>
+    <p>任何复杂的 C 程序最终都会包含一个半 Lisp 的实现。Emacs 在 40 年前就预见了这个"诅咒"。</p>
+
+    <h3>3. 现代编辑器的 VM 模式</h3>
+    <table style="width:100%; border-collapse: collapse; margin: 20px 0;">
+        <tr style="background: #3498db; color: white;">
+            <th style="padding: 10px;">编辑器</th>
+            <th style="padding: 10px;">架构</th>
+            <th style="padding: 10px;">并发模型</th>
+        </tr>
+        <tr style="background: #ecf0f1;">
+            <td style="padding: 10px;">Emacs</td>
+            <td style="padding: 10px;">C 核心 + Elisp 解释器</td>
+            <td style="padding: 10px;">单线程主循环</td>
+        </tr>
+        <tr style="background: #ecf0f1;">
+            <td style="padding: 10px;">Neovim</td>
+            <td style="padding: 10px;">C + LuaJIT + RPC</td>
+            <td style="padding: 10px;">事件循环 + 异步 Jobs</td>
+        </tr>
+        <tr style="background: #ecf0f1;">
+            <td style="padding: 10px;">VSCode</td>
+            <td style="padding: 10px;">Electron + V8</td>
+            <td style="padding: 10px;">多进程 + JIT</td>
+        </tr>
+    </table>
+
+    <h3>4. Greenspun's Tenth Rule 受害者</h3>
+    <ul>
+        <li><strong>Bash 脚本</strong></li>
+        <li><strong>LaTeX</strong></li>
+        <li><strong>CMake</strong></li>
+        <li><strong>eBPF</strong> - Linux 内核中的虚拟机</li>
+        <li><strong>Tcl</strong> - EDA 行业</li>
+        <li><strong>LLVM TableGen</strong></li>
+    </ul>
+
+    <div class="insight">
+        <h3>💡 核心洞察</h3>
+        <p><strong>"Emacs 是一个可编程的操作系统，核心是 Lisp 虚拟机"</strong></p>
+        <p>从语言设计角度看，所有现代编辑器的核心都是虚拟机。Emacs 在 40 年前就选择了这条道路，而 Neovim 和 VSCode 只是走了类似的道路。</p>
+    </div>
+
+    <h2>🔗 原文链接</h2>
+    <p><a href="https://thecloudlet.github.io/technical/project/emacs-01/" target="_blank">Emacs Internal #01: is a Lisp Runtime in C, Not an Editor</a></p>
+
+    <h2>📅 发现日期</h2>
+    <p>2026-03-21</p>

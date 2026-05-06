@@ -1,0 +1,196 @@
+---
+layout: article.njk
+title: "CSS Anchor Positioning 完整指南 - 2026"
+tags: [insights]
+permalink: /insights/css-anchor-positioning-guide-css-tricks-2026.html
+---
+
+<div class="card">
+        <h1>CSS Anchor Positioning 完整指南</h1>
+        <div class="meta">
+            <span class="tag css">CSS</span>
+            <span class="tag guide">指南</span>
+            <span>⭐⭐⭐⭐⭐ 5星</span>
+            <span> · </span>
+            <span>来源: CSS-Tricks</span>
+            <span> · </span>
+            <span>2026-03-17</span>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>📌 什么是 Anchor Positioning?</h2>
+        <p>CSS Anchor Positioning 是 CSS 的全新定位方式，让你能够将一个元素相对于另一个元素（锚点）进行定位，无需使用 JavaScript 来处理溢出问题。</p>
+        
+        <div class="highlight">
+            <strong>🚀 浏览器支持:</strong> 2024年6月 Chrome 125 发布，仅一年后就获得广泛支持。相比之下，CSS Variables 从2012年到2016年才获得广泛支持。
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>⚡ 快速示例</h2>
+        
+        <h3>1. 定义锚点元素</h3>
+        <pre><code>.anchor {
+    anchor-name: --my-anchor;
+}</code></pre>
+        
+        <h3>2. 将目标元素锚定到锚点</h3>
+        <pre><code>.target {
+    position: absolute;
+    position-anchor: --my-anchor;
+}</code></pre>
+        
+        <h3>3. 设置位置</h3>
+        <pre><code>.target {
+    position-area: top right;
+}</code></pre>
+    </div>
+
+    <div class="card">
+        <h2>🧩 核心概念</h2>
+        
+        <h3>Anchor (锚点)</h3>
+        <p>用作定位参考的元素。通过 <code>anchor-name</code> 属性定义。</p>
+        
+        <h3>Target (目标)</h3>
+        <p>相对于锚点定位的元素。必须是绝对定位元素。</p>
+        
+        <h3>Containing Block (包含块)</h3>
+        <p>包含元素的盒子。对于绝对定位元素，包含块是最近的具有非 static 定位的祖先。</p>
+        
+        <h3>IMCB (Inset-Modified Containing Block)</h3>
+        <p>绝对定位元素的 inset 属性会缩小其包含块，形成的新盒子称为 IMCB。<code>position-area</code> 和 <code>position-try-order</code> 等属性依赖于这个概念。</p>
+    </div>
+
+    <div class="card">
+        <h2>📐 position-area 属性</h2>
+        <p>在锚点周围创建一个 3×3 的虚拟网格，让你将目标放置在网格的一个或多个区域中。</p>
+        
+        <h3>物理值</h3>
+        <pre><code>.target {
+    position-area: top right;    /* 右上方 */
+    position-area: bottom left;  /* 左下方 */
+    position-area: center;       /* 居中 */
+}</code></pre>
+        
+        <h3>逻辑值 (依赖书写模式)</h3>
+        <pre><code>.target {
+    position-area: start end;    /* 逻辑定位 */
+    position-area: self-start self-end;
+}</code></pre>
+        
+        <h3>跨区域定位</h3>
+        <pre><code>.target {
+    position-area: span-top left;    /* 跨越顶部 */
+    position-area: bottom span-all;  /* 跨越整行 */
+}</code></pre>
+    </div>
+
+    <div class="card">
+        <h2>🔄 备用位置 (Fallback Positions)</h2>
+        <p>当目标元素溢出时，可以自动切换到备用位置。</p>
+        
+        <h3>position-try-fallbacks</h3>
+        <pre><code>.target {
+    position-try-fallbacks:
+        --my-custom-position,
+        flip-inline,
+        bottom left;
+}</code></pre>
+        
+        <h3>flip 关键字</h3>
+        <ul>
+            <li><code>flip-block</code>: 在块轴上翻转</li>
+            <li><code>flip-inline</code>: 在行内轴上翻转</li>
+            <li><code>flip-start</code>: 对角翻转</li>
+        </ul>
+        
+        <h3>position-try-order</h3>
+        <pre><code>.target {
+    position-try-order: most-width;  /* 选择空间最大的位置 */
+}</code></pre>
+    </div>
+
+    <div class="card">
+        <h2>🎯 @position-try 规则</h3>
+        <p>定义自定义位置备用方案，可以在切换位置时同时调整元素大小。</p>
+        
+        <pre><code>@position-try --my-custom-position {
+    position-area: top left;
+    width: 50px;
+}
+
+.target {
+    position: absolute;
+    position-area: top right;
+    position-try: most-width, --my-custom-position, bottom left;
+    width: 100px;
+}</code></pre>
+        
+        <p>当目标从右上角切换到备用位置时，宽度会从 100px 自动调整为 50px。</p>
+    </div>
+
+    <div class="card">
+        <h2>🔗 anchor() 函数</h2>
+        <p>用于更精细控制位置和大小的函数。</p>
+        
+        <pre><code>.target {
+    top: anchor(--my-anchor bottom);
+    left: anchor(--my-anchor end, 50%);
+}</code></pre>
+        
+        <h3>参数</h3>
+        <ul>
+            <li><code>&lt;anchor-element&gt;</code>: 锚点名称</li>
+            <li><code>&lt;anchor-side&gt;</code>: 锚点的哪一边 (top, bottom, start, end, center 等)</li>
+            <li><code>&lt;length-percentage&gt;</code>: 可选的位置偏移</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>👁️ position-visibility 属性</h2>
+        <p>控制锚点或目标元素可见性的条件。</p>
+        
+        <pre><code>.target {
+    position-visibility: always;           /* 始终显示 */
+    position-visibility: anchors-visible;   /* 锚点不可见时隐藏 */
+    position-visibility: no-overflow;      /* 溢出时隐藏 */
+}</code></pre>
+    </div>
+
+    <div class="card">
+        <h2>♿ 无障碍性</h2>
+        <p>Anchor Positioning 本身不处理焦点管理或 ARIA 属性。这些需要手动实现或使用 Popover API。</p>
+    </div>
+
+    <div class="card">
+        <h2>📊 实用场景</h2>
+        <ul>
+            <li><strong>Tooltips (提示框)</strong>: 悬停时显示的信息</li>
+            <li><strong>Dropdowns (下拉菜单)</strong>: 点击展开的菜单</li>
+            <li><strong>Popovers (弹出层)</strong>: 更复杂的交互组件</li>
+            <li><strong>Select Menus (选择菜单)</strong>: 自定义选择控件</li>
+            <li><strong>Context Menus (右键菜单)</strong>: 右键点击显示的菜单</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>🔮 总结</h2>
+        <p>CSS Anchor Positioning 是 Web 平台的重要进步，它：</p>
+        <ul>
+            <li>✅ 减少了 JavaScript 依赖</li>
+            <li>✅ 原生支持溢出处理</li>
+            <li>✅ 提供了灵活的备用位置机制</li>
+            <li>✅ 正在获得广泛的浏览器支持</li>
+        </ul>
+        
+        <div class="highlight">
+            <strong>💡 提示:</strong> 对于更复杂的弹出层交互，建议使用 <a href="popover-vs-dialog-api-css-tricks-2026.html">Popover API</a>，它内置了无障碍支持。
+        </div>
+    </div>
+
+    <div class="card" style="text-align: center; color: var(--text-light);">
+        <p>原文: <a href="https://css-tricks.com/css-anchor-positioning-guide/" target="_blank">CSS Anchor Positioning Guide</a> @ CSS-Tricks</p>
+        <p>⭐⭐⭐⭐⭐ 探索于 2026-03-17</p>
+    </div>

@@ -1,0 +1,82 @@
+---
+layout: article.njk
+title: "Lessons from Pyre that Shaped Pyrefly"
+tags: [insights]
+permalink: /insights/lessons-from-pyre-pyrefly-2026.html
+---
+
+<h1>Lessons from Pyre that Shaped Pyrefly</h1>
+    <div class="meta">
+        <span>Source: pyrefly.org</span> • 
+        <span>Date: 2026-03-24</span> • 
+        <span>Rating: ⭐⭐⭐⭐⭐</span>
+    </div>
+    <div class="tags">
+        <span class="tag">Python</span>
+        <span class="tag">Type Checking</span>
+        <span class="tag">Rust</span>
+        <span class="tag">OCaml</span>
+        <span class="tag">Language Server</span>
+    </div>
+
+    <h2>Overview</h2>
+    <p>Pyrefly is Facebook's next-generation Python type checker and language server, successor to Pyre. This article shares key lessons from Pyre's development that influenced Pyrefly's design.</p>
+
+    <div class="highlight">
+        <strong>Key Insight:</strong> Pyrefly addresses Pyre's fundamental architectural limitations by building a system flexible enough to handle both throughput-oriented workloads (CLI type checking) and latency-sensitive workloads (IDE/language server).
+    </div>
+
+    <h2>Key Lessons</h2>
+
+    <h3>1. Language-Server-First Architecture</h3>
+    <p>Pyre was originally designed as a CLI tool prioritizing throughput (parallel CPU usage). Adapting it for IDE use caused problems:</p>
+    <ul>
+        <li>Excessive machine resource consumption</li>
+        <li>Editor interface freezes during computations</li>
+        <li>High latency unacceptable for interactive use</li>
+    </ul>
+    <p><strong>Solution:</strong> Pyrefly built for flexibility from the start, plus uses Ruff parser for better error recovery during parsing.</p>
+
+    <h3>2. OCaml vs Rust: Ecosystem as a Ceiling</h3>
+    <p>Pyre was implemented in OCaml. While it bootstrapped quickly, limitations emerged:</p>
+    <ul>
+        <li>IPC model forced data into string-to-string hashtables</li>
+        <li>Heavy serialization/deserialization overhead</li>
+        <li>OCaml struggled with Windows support historically</li>
+    </ul>
+    <p><strong>Solution:</strong> Rust treats Windows, macOS, and Linux as true equals. Cross-platform reliability is foundational. Also enabled faster community growth.</p>
+
+    <h3>3. Irreversible AST Lowering</h3>
+    <p>Pyre used AST transformation passes to accelerate development (e.g., lowering Union[X,Y] to X | Y). However, this caused problems:</p>
+    <pre><code># Original code
+from foo import x
+def test():
+    y = x
+    x = "bar"
+    z = x
+
+# Transformed (lost critical info)
+from foo import x
+def test():
+    y = foo.x  # lost: test() never references module foo!
+    _local_test_x = "bar"
+    z = _local_test_x</code></pre>
+    <p><strong>Solution:</strong> Pyrefly minimizes AST fabrication/transformation to preserve source location info for language server features.</p>
+
+    <h3>4. Attribute Narrowing: Soundness vs Usability</h3>
+    <p>Pyre's strict security focus led to strict type narrowing rules:</p>
+    <pre><code"># Pyre complained even after isinstance check
+class C:
+    x: int | str = ...
+
+def narrowing_test(c: C) -> int:
+    if isinstance(c.x, int):
+        some_other_function(c)
+        return c.x  # Pyre: might still be str!</code></pre>
+    <p>Users had to manually assign to local variables. <strong>Solution:</strong> Pyrefly allows this narrowing, prioritizing usability over strict soundness.</p>
+
+    <h2>Significance</h2>
+    <p>This article provides rare insight into how major tech companies evolve their developer tools. The lessons about language server architecture, ecosystem limitations, and usability tradeoffs are applicable beyond Python type checking.</p>
+
+    <hr>
+    <p><a href="https://pyrefly.org/blog/lessons-from-pyre/">Original Article</a></p>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>如果你以为写代码速度是问题——你有更大的问题</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>如果你以为写代码速度是问题——你 有更大的问题</h1>
+    
+    <div class="meta">
+        <p><strong>来源：</strong>Lobsters + Debugging Leadership</p>
+        <p><strong>原文：</strong><a href="https://debuggingleadership.com/blog/if-you-thought-the-speed-of-writing-code-was-your-problem-you-have-bigger-problems" target="_blank">If you thought the speed of writing code was your problem - you have bigger problems</a></p>
+        <p><strong>作者：</strong>Andrew Murphy</p>
+        <p><strong>日期：</strong>2026-04-05</p>
+        <p><strong>标签：</strong>#Engineering #AI #Leadership #Management #Velocity</p>
+    </div>
+
+    <div class="source">
+        <strong>核心发现：</strong>一篇深刻剖析AI时代工程管理问题的文章。作者用Goldratt的"约束理论"(Theory of Constraints)解释为什么单纯增加代码产出会让情况变得更糟。必读！
+    </div>
+
+    <h2>典型场景：VP的兴奋</h2>
+    
+    <p>周二早上。你的VP工程副总裁站在幻灯片前，兴奋得像2017年刚发现加密货币的人。他刚参加完一个大会或厂商晚宴，三杯黑皮诺加一个demo，现在他有消息了：</p>
+    
+    <blockquote>
+        "我们要给每个团队部署AI编码助手。早期的数字显示代码产出增加了40%。这将改变我们的效率！"
+    </blockquote>
+    
+    <p>房间里的反应很有意思：一半人点头，另一半突然对笔记本电脑产生浓厚兴趣。你的staff工程师脸上写着那个表情——他在计算是说点什么还是更新LinkedIn。</p>
+
+    <h2>Goldratt会说点什么</h2>
+    
+    <p>1984年，Eli Goldratt写了《The Goal》，一本关于制造业的小说，却对软件行业出奇地适用。这也是你读过的最有用的一本商业书（虽然是小说）。</p>
+    
+    <p>核心概念是<strong>约束理论</strong>：</p>
+    
+    <div class="insight">
+        <strong>每个系统恰好有一个约束。一个瓶颈。整个系统的吞吐量取决于那个瓶颈的吞吐量。其他什么都不重要，直到你修复那个瓶颈。</strong>
+    </div>
+    
+    <p>这是大多数人都懂的部分。下面是他们不懂的、应该让他们害怕的部分：</p>
+    
+    <div class="insight">
+        <strong>当你优化的不是瓶颈的步骤时，你不会得到更快的系统。你会得到一个更破碎的系统。</strong>
+    </div>
+
+    <h2>恐怖秀：當你"3x代码产出"时实际发生了什么</h2>
+    
+    <p>你的开发者产出PR的速度比以往任何时候都快。好极了。精彩极了。拿彩带。现在这些PR进入审查队列，而你的审查者没有增加三倍。没有人增加三倍的审查者。</p>
+    
+    <p>所以PR堆积。一天。两天。一周。作者已经context-switch到下一个AI辅助的功能，等到审查意见来临时，他几乎不记得第一个是做什么的了。</p>
+    
+    <p>"你能解释这个函数是做什么的吗？"他们问道，盯着八天前写的代码——在开发者记忆里，那大概是侏罗纪时期。</p>
+    
+    <ul>
+        <li>审查开始被 rubber-stamp（匆匆批准）——因为要审查的实在太多了</li>
+        <li>CI需要45分钟，在 flaky test 上失败，重跑，第二次通过</li>
+        <li>部署pipeline需要某人的手动批准（他在开关于会议的会议）</li>
+        <li>功能在staging待三天，因为没有人紧迫地拥有"把它部署到生产"的步骤</li>
+    </ul>
+    
+    <p>同时，开发者已经又发出了两个PR。队列增长。WIP暴涨。每个人都有六件事在同时进行，却没有任何一件事真正完成。Cycle time（真正衡量你向用户交付价值的速度）变得更糟。</p>
+
+    <div class="insight">
+        <strong>你产出了更多代码，却交付了更少软件。你的情况变得可衡量地、更糟地更差了，而你有一个显示"生产力提升40%"的仪表板。</strong>
+    </div>
+
+    <p>你建了一座工厂，擅长生产堆积在地板上腐烂的库存。有人会因此被晋升。</p>
+
+    <h2>还有一个更让人失眠的点</h2>
+    
+    <p>很多这些AI生成的代码？没有人完全理解它。写它的人并没有真的写它。他们prompt了它，浏览了一下，可能运行了一次。当它在生产中出问题（凌晨2点，在内衣里调试生产的故障），值班的人没写它，prompt它的人也无法解释它。</p>
+    
+    <div class="insight">
+        <strong>更多代码，更少理解。这不是生产力提升。这是一颗带有更漂亮仪表板的时间炸弹。</strong>
+    </div>
+
+    <h2>那真正的瓶颈在哪里？</h2>
+    
+    <p>如果写代码不是问题（几乎从来不是），那应该看哪里？走价值流。跟随一个功能从"有人有想法"到"用户从中获得价值"。我保证瓶颈会跳出来向你招手——它可能还会对你竖中指，因为你一直忽视它。</p>
+
+    <h3>1. 你不知道要构建什么</h3>
+    <p>这是没有人想谈的，因为很尴尬。你的PM已经两个月没有和真实用户聊过了。你的需求是一张Jira ticket，三句话加一个Figma链接——设计是某个从未用过产品的人批准的。</p>
+    
+    <p>你的工程师每天做五十个关于行为、边缘情况和错误处理的小决定——没有人指定，因为没有人想过它们。</p>
+    
+    <p>他们在猜。</p>
+    
+    <p>我曾看到一个团队花六周构建一个功能，基础是销售在Slack上转发的一条消息，重述了一个潜在客户在电话里可能说过的话。六周。潜在客户甚至没买。那个功能被11个人使用，其中9个是内部QA。</p>
+    
+    <p>这不是交付问题。这是"我们他妈的到底在做什么"的问题。</p>
+
+    <div class="solution">
+        <strong>在这种环境下加快代码产出 = 加快你构建错误东西的速度。你自动化了猜测。你会更快地构建错误的功能，交付它，看着它失败，然后做retro——有人说"我们需要多和用户聊聊"，大家都严肃地点头，然后什么都不变。</strong>
+    </div>
+
+    <h3>2. 代码之后的一切都是".done"的一半</h3>
+    <p>在代码之后：审查、CI、staging、手动批准、部署文档、监控、on-call轮换、调试 production 问题的能力——所有这些都没有被三倍加速。它们是瓶颈。</p>
+
+    <h3>3. 没有人理解你构建的系统</h3>
+    <p>当AI写代码而人不理解时：</p>
+    <ul>
+        <li>on-call的人无法调试它</li>
+        <li>新人无法维护它</li>
+        <li>事故响应变慢</li>
+    </ul>
+
+    <h2>那该怎么办？</h2>
+    
+    <div class="solution">
+        <h3>1. 先修复瓶颈，不是代码速度</h3>
+        <p>如果你不知道要构建什么——先修复那个。如果你有堆积如山的PR——先修复那个。不要优化不是瓶颈的东西。</p>
+    </div>
+
+    <div class="solution">
+        <h3>2. 测量正确的指标</h3>
+        <p>代码产出 != 交付的价值。测量cycle time、交付频率、恢复时间（MTTR）。这些才是真正衡量软件交付速度的指标。</p>
+    </div>
+
+    <div class="solution">
+        <h3>3. 把AI当作"autocomplete on steroids"，不是"junior developer"</h3>
+        <p>AI可以帮助你更快地完成你 already know how to do 的事情。但它不能帮你知道你应该做什么。</p>
+    </div>
+
+    <div class="solution">
+        <h3>4. 投资于理解，不是产出</h3>
+        <p>当你的代码库有AI生成的部分，确保：</p>
+        <ul>
+            <li>有自动化的scaffolding检查质量</li>
+            <li>有文档解释架构决策</li>
+            <li>有人真的能维护它</li>
+        </ul>
+    </div>
+
+    <h2>结论</h2>
+    
+    <p>AI coding assistant是一个强大的工具——但就像所有强大的工具一样，用在错误的地方会很危险。</p>
+    
+    <p>如果你认为你的问题是"写代码不够快"——你可能有一个更大的问题：你不知道你在构建什么，或者你的交付流程有瓶颈。</p>
+    
+    <p>先修复那些。</p>
+
+    <hr>
+    <p><em>评分：★★★★★ 必读 - 罕见的深度分析</em></p>
+    <p><em>更新日期：2026-04-06</em></p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

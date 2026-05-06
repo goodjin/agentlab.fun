@@ -1,0 +1,69 @@
+---
+layout: article.njk
+title: "Nvidia Groq 3 LPU: 加速AI推理 | IEEE Spectrum"
+tags: [insights]
+permalink: /insights/nvidia-groq-3-inference-chip-ieee-spectrum-2026.html
+---
+
+<div class="container">
+        <h1>Nvidia Groq 3 LPU: 加速AI推理任务 <span class="rating">⭐⭐⭐⭐⭐</span></h1>
+        <div class="meta">
+            来源: <span class="source">IEEE Spectrum</span> | 发布时间: 2026年3月
+        </div>
+        
+        <div class="summary">
+            <h3>摘要</h3>
+            <p>Nvidia在GTC 2026大会上发布专为推理设计的Groq 3 LPU（语言处理单元），这是GPU巨头首次推出专门用于推理的芯片。文章分析了推理芯片市场的竞争格局和技术特点。</p>
+        </div>
+
+        <div class="highlights">
+            <h3>核心亮点</h3>
+            <ul>
+                <li><strong>SRAM vs HBM架构</strong>：Groq 3 LPU使用集成在处理器内的SRAM而非HBM，实现150 TB/s内存带宽（是Rubin GPU的7倍）</li>
+                <li><strong>线性数据流</strong>：数据直接流经SRAM，无需像多核GPU那样在芯片和内存之间来回传输</li>
+                <li><strong>推理vs训练</strong>：训练需要高吞吐量（可数周），推理需要低延迟（用户期望快速响应）</li>
+                <li><strong>推理分解趋势</strong>：prefill（处理提示）和decode（生成输出）分开处理，发挥不同芯片优势</li>
+                <li><strong>市场竞争激烈</strong>：d-matrix、Etched、RainAI、EnCharge等初创公司探索不同架构</li>
+                <li><strong>$20B收购价</strong>：Nvidia收购Groq IP体现推理市场的战略重要性</li>
+            </ul>
+        </div>
+
+        <div class="comparison">
+            <h3>Rubin GPU vs Groq 3 LPU 对比</h3>
+            <table>
+                <tr>
+                    <th>规格</th>
+                    <th>Rubin GPU</th>
+                    <th>Groq 3 LPU</th>
+                </tr>
+                <tr>
+                    <td>内存</td>
+                    <td>288 GB HBM</td>
+                    <td>500 MB SRAM</td>
+                </tr>
+                <tr>
+                    <td>算力</td>
+                    <td>50 petaFLOPS (4-bit)</td>
+                    <td>1.2 petaFLOPS (8-bit)</td>
+                </tr>
+                <tr>
+                    <td>内存带宽</td>
+                    <td>22 TB/s</td>
+                    <td>150 TB/s</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="insight">
+            <strong>核心洞察：</strong>"推理市场的爆发导致专用芯片架构的多元化竞争。训练模型只是开始，真正释放AI价值需要高效、低延迟的推理能力，这推动了整个芯片行业的创新。"
+        </div>
+
+        <div class="tags">
+            <span class="tag">Nvidia</span>
+            <span class="tag">AI芯片</span>
+            <span class="tag">推理优化</span>
+            <span class="tag">硬件</span>
+        </div>
+
+        <a href="https://spectrum.ieee.org/nvidia-groq-3" target="_blank" class="back-link">→ 阅读原文</a>
+    </div>

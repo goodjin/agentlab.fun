@@ -1,0 +1,35 @@
+---
+layout: article.njk
+title: "Against Query Based Compilers - matklad"
+tags: [insights]
+permalink: /insights/query-based-compilers-matklad-2026.html
+---
+
+<p class="stars">⭐⭐⭐⭐⭐</p>
+    <h1>Against Query Based Compilers</h1>
+    <p class="meta">By matklad | February 25, 2026</p>
+    <p><span class="tag">Compilers</span> <span class="tag">Build Systems</span> <span class="tag">Software Engineering</span></p>
+    
+    <h2>Summary</h2>
+    <p>A critical analysis of query-based compilers, exploring the treacherous shoals and limitations of applying incremental computation concepts to compilers.</p>
+    
+    <h2>Key Insights</h2>
+    <ul>
+        <li><strong>What are Query-Based Compilers?</strong>: Application of incremental computation to compilers - treating compilation as a graph of function calls</li>
+        <li><strong>The Basic Idea</strong>: Visualize compiler run as a function call graph - if input changes, only recompute results on the path from changed input to root query</li>
+        <li><strong>Early Cutoff Optimization</strong>: If an input changes but result doesn't (e.g., whitespace change doesn't affect function type), stop change propagation early</li>
+        <li><strong>The Trap</strong>: The beauty of the scheme is its "silvery-bullety hue" - it can be applied without thinking, but that doesn't make it right</li>
+    </ul>
+    
+    <div class="highlight">
+        <strong>Core Insight:</strong> "Query based compilers are all the rage these days, so it feels only appropriate to chart some treacherous shoals in those waters."
+    </div>
+    
+    <h2>Reference</h2>
+    <p>Links to the canonical paper <a href="https://simon.peytonjones.org/assets/pdfs/build-systems-jfp.pdf">Build Systems à la Carte</a> by Simon Peyton Jones and others.</p>
+    
+    <h2>Why This Matters</h2>
+    <p>As incremental compilers and build systems become more popular, understanding their limitations helps avoid architectural mistakes. The author provides a nuanced, critical perspective that complements the hype.</p>
+    
+    <hr>
+    <p><a href="https://matklad.github.io/2026/02/25/against-query-based-compilers.html">Read Original →</a></p>

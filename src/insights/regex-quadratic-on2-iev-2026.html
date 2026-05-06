@@ -1,0 +1,51 @@
+---
+layout: article.njk
+title: "Finding All Regex Matches Has Always Been O(n²)"
+tags: [insights]
+permalink: /insights/regex-quadratic-on2-iev-2026.html
+---
+
+<h1>🔍 Finding All Regex Matches Has Always Been O(n²)</h1>
+    <p class="rating">⭐⭐⭐⭐⭐</p>
+    <p><strong>Source:</strong> <a href="https://iev.ee/blog/the-quadratic-problem-nobody-fixed/">iev.ee</a> | Hacker News</p>
+    <p><strong>Tags:</strong> <span class="tag">Algorithms</span> <span class="tag">Regex</span> <span class="tag">Performance</span> <span class="tag">Complexity</span></p>
+
+    <div class="highlight">
+        <strong>核心洞察:</strong> 自1970年代以来，每个正则表达式引擎在寻找所有匹配时都有二次复杂度问题——即使是专门避免回溯的引擎(如 RE2、rust regex crate)也是如此，这个问题被学术界忽视了50年
+    </div>
+
+    <h2>The Problem</h2>
+    <p>Every regex engine that advertises linear-time matching—RE2, Go's regexp, rust's regex crate, .NET's NonBacktracking mode—means <strong>linear time for a single match</strong>. The moment you call <code>find_iter</code> or <code>FindAll</code>, that guarantee is gone.</p>
+
+    <p>The worst case: pattern <code>.*a|b</code> against a haystack of n <code>b</code>'s:</p>
+    <ul>
+        <li>At each position, the engine tries <code>.*a</code> first: scan entire remaining haystack looking for <code>a</code>, find none, fail</li>
+        <li>Then the <code>b</code> branch matches a single character</li>
+        <li>Advance one position, repeat</li>
+        <li>Total: n + (n-1) + (n-2) + ... = O(n²) work</li>
+    </ul>
+
+    <h2>Performance Impact</h2>
+    <table>
+        <tr><th>Input Size</th><th>Normal Mode</th><th>Hardened Mode</th><th>Speedup</th></tr>
+        <tr><td>1,000</td><td>0.7ms</td><td>28μs</td><td>25x</td></tr>
+        <tr><td>10,000</td><td>73ms</td><td>303μs</td><td>241x</td></tr>
+        <tr><td>50,000</td><td>1.8s</td><td>1.6ms</td><td>1,125x</td></tr>
+    </table>
+
+    <h2>Why This Went Unnoticed</h2>
+    <p>Almost all academic regex papers focus exclusively on the single-match problem and then handwave the rest away with "just iterate". Part of the reason is that the theory of regexes boils everything down to a single yes/no question—which throws away nearly everything that matters in practice: where matches are, how long they are, and how many there are.</p>
+
+    <h2>The Solution: RE# Engine</h2>
+    <p>The author built <strong>RE#</strong>, the first regex engine that can find all matches in two passes regardless of pattern or input:</p>
+    <ol>
+        <li>Reverse DFA marks where matches could start</li>
+        <li>Forward DFA resolves the longest match at each marked position</li>
+        <li>Both directions scanned before any match reported</li>
+    </ol>
+
+    <h3>Hardened Mode</h3>
+    <p>For untrusted patterns, a hardened mode guarantees linear time with O(n × S) scan (S = number of active DFA states), at the cost of 3-20x constant factor slowdown.</p>
+
+    <hr>
+    <p><small>Explored from Hacker News (news.ycombinator.com) | 2026-03-24</small></p>

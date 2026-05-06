@@ -1,0 +1,120 @@
+---
+layout: article.njk
+title: "Anthropic 隐藏的 Vercel 竞争对手 \"Antspace\""
+tags: [insights]
+permalink: /insights/antspace-anthropic-vercel-competitor-2026.html
+---
+
+<article>
+    <h1>🤖 Anthropic 隐藏的 Vercel 竞争对手 "Antspace"</h1>
+    
+    <p class="meta">来源: <a href="https://aprilnea.me/en/blog/reverse-engineering-claude-code-antspace">aprilnea.me</a> | 评分: <span class="rating">⭐⭐⭐⭐⭐</span></p>
+    
+    <p>通过逆向工程 Claude Code 内部环境，发现 Anthropic 正在开发一个完全未公开的 PaaS 平台 "Antspace"，这是其对抗 Vercel 的秘密武器。</p>
+
+    <h2>🏗️ 架构概览</h2>
+    
+    <p>Claude Code Web 运行在 Firecracker MicroVM 中：</p>
+    <ul>
+        <li><strong>4 vCPUs</strong> (Intel Xeon Cascade Lake @ 2.80GHz)</li>
+        <li><strong>16GB RAM</strong></li>
+        <li><strong>252GB disk</strong></li>
+        <li><strong>Linux 6.18.5</strong></li>
+    </ul>
+
+    <p>PID 1 是自定义二进制文件，作为 init 和 WebSocket API 网关：</p>
+    <pre><code>PID 1: /process_api --firecracker-init --addr 0.0.0.0:2024 ...
+ └─ PID 517: /usr/local/bin/environment-manager task-run
+ └─ PID 532: claude (the CLI itself)</code></pre>
+
+    <h2>🔍 关键发现</h2>
+
+    <h3>1. Antspace - 隐藏的部署平台</h3>
+    <p>通过分析 27MB 未剥离的 Go 二进制文件，发现了完整的部署协议：</p>
+    
+    <table>
+        <tr>
+            <th>特性</th>
+            <th>Vercel</th>
+            <th>Antspace</th>
+        </tr>
+        <tr>
+            <td>文件上传</td>
+            <td>SHA 去重，按文件</td>
+            <td>单 tar.gz 压缩包</td>
+        </tr>
+        <tr>
+            <td>构建方式</td>
+            <td>远程构建</td>
+            <td>本地 npm run build 后上传</td>
+        </tr>
+        <tr>
+            <td>状态查询</td>
+            <td>轮询</td>
+            <td>流式 NDJSON</td>
+        </tr>
+        <tr>
+            <td>认证</td>
+            <td>API token + Team ID</td>
+            <tdBearer token + 动态控制平面 URL</td>
+        </tr>
+        <tr>
+            <td>公开 API</td>
+            <td>有文档</td>
+            <td>完全内部</td>
+        </tr>
+    </table>
+
+    <h3>2. Baku - Web 应用构建器</h3>
+    <p>"Baku" 是 claude.ai 上构建 Web 应用的内部代号：</p>
+    <ul>
+        <li><strong>技术栈:</strong> Vite + React + TypeScript</li>
+        <li><strong>自动数据库:</strong> Supabase MCP 工具自动配置</li>
+        <li><strong>默认部署目标:</strong> Antspace（而非 Vercel）</li>
+    </ul>
+
+    <p>自动提供的 6 个 MCP 工具：</p>
+    <ul>
+        <li><code>provision_database</code> - 按需创建 Supabase 项目</li>
+        <li><code>execute_query</code> - 运行 SQL 查询</li>
+        <li><code>apply_migration</code> - 版本化 schema 迁移</li>
+        <li><code>list_migrations</code> - 列出已应用的迁移</li>
+        <li><code>generate_types</code> - 从 DB schema 生成 TypeScript 类型</li>
+        <li><code>deploy_function</code> - 部署 Supabase Edge Functions</li>
+    </ul>
+
+    <h3>3. BYOC - Bring Your Own Cloud</h3>
+    <p>企业客户可以在自己的基础设施中运行 environment-runner：</p>
+    <ul>
+        <li><strong>默认模式:</strong> resume-cached（最快重启，复用状态）</li>
+        <li><strong>子类型:</strong> antspace 和 baku</li>
+        <li><strong>K8s 集成:</strong> podmonitor 包实现租约管理</li>
+    </ul>
+
+    <div class="highlight">
+        <strong>🎯 战略意义:</strong>
+        <p>从想法到生产应用的完整流程都在 Anthropic 基础设施内完成：</p>
+        <p>用户描述需求 → Claude 生成应用 → Supabase 自动配置 → 部署到 Antspace</p>
+    </div>
+
+    <h2>💡 竞争影响</h2>
+    <p>Anthropic 正在构建一个垂直整合的 AI 原生 PaaS：</p>
+    <ul>
+        <li>🆚 Vercel / Netlify - 托管和部署</li>
+        <li>🆚 Replit / Lovable / Bolt - AI 应用生成</li>
+        <li>🆚 Supabase / Firebase - 托管后端（通过紧密集成）</li>
+    </ul>
+
+    <p><strong>结构性优势:</strong> Anthropic 拥有整个堆栈，从理解用户意图的 LLM，到构建代码的运行时，再到托管应用的平台。</p>
+
+    <h2>🔬 研究方法</h2>
+    <p>所有发现都是通过标准 Linux 工具在 Claude Code 会话中获得的：</p>
+    <ul>
+        <li><code>strace -p 1</code> - 追踪 PID 1 系统调用</li>
+        <li><code>dmesg</code> - 内核消息用于虚拟机识别</li>
+        <li><code>go tool objdump</code> - 符号表和函数签名提取</li>
+        <li><code>strings + grep</code> - 字符串字面量提取</li>
+    </ul>
+
+    <p><em>注意：二进制文件未剥离，包含完整调试信息，使分析变得微不足道。</em></p>
+</article>

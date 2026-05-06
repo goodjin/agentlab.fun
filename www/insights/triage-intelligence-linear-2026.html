@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How we built Triage Intelligence - Linear</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<a href="/insights/index.html" class="back">← Back to Index</a>
+    <h1>How we built Triage Intelligence</h1>
+    <div class="meta">
+        <span class="rating">⭐⭐⭐⭐⭐ 5星</span> · 
+        <span>Linear</span> · 
+        <span>2025-09-03</span> · 
+        <span>Yann-Edern Gillet, Matthijs Wolting</span>
+    </div>
+    
+    <div class="highlight">
+        <strong>核心观点：</strong> Triage Intelligence 使用搜索、排名和基于 LLM 的推理来提供建议——利用现有 backlog 作为数据集，理解过去类似工作如何组织。
+    </div>
+
+    <h2>关键亮点</h2>
+    
+    <h3>1. 核心原则</h3>
+    <ul>
+        <li><strong>信任：</strong> 如果你要根据 AI 生成的建议采取行动，你需要看到它们来自哪里并相信其准确性</li>
+        <li><strong>透明：</strong> 让模型的推理可见，以便团队可以验证其输出并随着时间的推移改进</li>
+        <li><strong>自然集成：</strong> 让功能感觉是 Linear 的自然延伸，而不是附加组件</li>
+    </ul>
+
+    <h3>2. 技术架构</h3>
+    <div class="key-points">
+        <strong>搜索系统演进</strong>
+        <ul>
+            <li>从基本的基于关键词的系统迁移到更通用的语义后端</li>
+            <li>使用向量搜索和语义相似性检测相关 issue</li>
+            <li>新的搜索系统从 backlog 中浮现更好的候选 issue</li>
+        </ul>
+    </div>
+
+    <div class="key-points">
+        <strong>模型选择</strong>
+        <ul>
+            <li><strong>第一版：</strong> 小模型如 GPT-4o mini 和 Gemini 2.0 Flash</li>
+            <li>严格范围的 prompts 和刚性工作流程，在简单情况下表现良好</li>
+            <li>但在需要上下文敏感、细微决策时失败</li>
+            <li><strong>升级版：</strong> 更大的模型如 GPT-5 和 Gemini 2.5 Pro</li>
+            <li>agentic 方法：模型可以从 Linear 数据中拉入任何额外上下文</li>
+        </ul>
+    </div>
+
+    <h3>3. UI 设计</h3>
+    <ul>
+        <li><strong>速度挑战：</strong> Linear 核心原则是速度，但更大的前沿模型运行多步骤推理和匹配过程</li>
+        <li><strong>Triage View：</strong> Triage Intelligence 位于专门的模块中，可见但不会在已经很密集的屏幕上增加噪音</li>
+        <li><strong>信任设计：</strong> 悬停在建议上会显示模型的推理和替代建议</li>
+        <li><strong>思考面板：</strong> 显示模型的完整研究trace：它拉入的上下文、所做的决策</li>
+    </ul>
+
+    <h3>4. 未来路线图</h3>
+    <ul>
+        <li><strong>更多自动化：</strong> 基于更丰富的上下文做更多决策</li>
+        <li><strong>新能力：</strong> 除了 triage 支持，还将添加新能力，包括使用 LLM 起草项目和 initiative 更新</li>
+        <li><strong>渐进式自动化：</strong> 用户可以选择自动应用某些类型的建议</li>
+    </ul>
+
+    <h2>实用价值</h2>
+    <p>这篇文章提供了关于：</p>
+    <ul>
+        <li>如何构建生产级 AI 产品功能</li>
+        <li>小型模型 vs 大型模型的选择权衡</li>
+        <li>如何设计可信赖和透明的 AI UI</li>
+        <li>agentic 方法的实际实现</li>
+    </ul>
+
+    <hr>
+    <p><a href="https://linear.app/now/how-we-built-triage-intelligence">原文链接</a></p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

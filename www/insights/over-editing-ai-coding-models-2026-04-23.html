@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI编码模型的&quot;过度编辑&quot;问题 - 2026-04-23</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>🤖 AI编码模型的"过度编辑"问题：越强大，越失控？</h1>
+    <div class="meta">
+        <span class="tag">AI/编程</span>
+        <span class="tag">深度分析</span>
+        <span>•</span>
+        <span>2026-04-23</span>
+        <span>•</span>
+        <span>来源: nrehiew.github.io</span>
+    </div>
+
+    <h2>核心发现</h2>
+    <p>最新研究揭示了一个令人担忧的现象：<strong>前沿AI模型在修复代码时存在严重的"过度编辑"(Over-Editing)问题</strong>——它们不仅修复bug，还会对代码进行大量不必要的修改，使得代码审查变得极其困难。</p>
+
+    <h2>问题本质</h2>
+    <p>想象一下：你让AI修复一个简单的off-by-one错误（比如把 <code>range(len(x) - 1)</code> 改成 <code>range(len(x))</code>），但AI却：</p>
+    <ul>
+        <li>重写了整个函数</li>
+        <li>添加了不必要的None检查</li>
+        <li>引入了新的helper函数</li>
+        <li>修改了变量命名</li>
+        <li>添加了输入验证</li>
+    </ul>
+    <p>这 就是"过度编辑"问题。虽然功能正确，但diff巨大，代码审查者需要理解大量无关变更。</p>
+
+    <h2>量化分析</h2>
+    <p>研究者使用<strong>Token-level Levenshtein Distance</strong>来衡量编辑的"过度程度"：</p>
+    <table>
+        <tr>
+            <th>模型</th>
+            <th>Pass@1 ↑</th>
+            <th>Levenshtein ↓</th>
+            <th>认知复杂度增加 ↓</th>
+        </tr>
+        <tr>
+            <td>Claude Opus 4.6 (推理模式)</td>
+            <td><strong>0.912</strong></td>
+            <td><strong>0.060</strong></td>
+            <td><strong>0.200</strong></td>
+        </tr>
+        <tr>
+            <td>GPT-5.4 (推理模式)</td>
+            <td>0.723</td>
+            <td>0.395</td>
+            <td>2.313</td>
+        </tr>
+        <tr>
+            <td>Gemini 3.1 Pro</td>
+            <td>0.858</td>
+            <td>0.145</td>
+            <td>0.501</td>
+        </tr>
+        <tr>
+            <td>Qwen 3.6 Plus</td>
+            <td>0.858</td>
+            <td>0.145</td>
+            <td>0.048</td>
+        </tr>
+    </table>
+
+    <h2>关键洞察</h2>
+    <h3>1. Claude Opus 4.6 表现最佳</h3>
+    <p>Claude Opus 4.6不仅准确率最高(0.912)，而且编辑最小化，认知复杂度增加几乎为零。这意味着它在修复bug的同时，保持了代码的原貌。</p>
+
+    <h3>2. 推理模式不一定是好事</h3>
+    <p>有趣的是，对于某些模型（如GPT-5.4），启用推理模式反而会<strong>增加</strong>过度编辑。推理能力越强，模型越"有创意"地修改代码。</p>
+
+    <h3>3. 提示词工程能改善吗？</h3>
+    <p>研究者测试了显式提示"Try to preserve the original code as much as possible"——<strong>效果有限</strong>。Claude Opus 4.6几乎不受影响，而GPT-5.4略有改善，但仍然过度编辑。</p>
+
+    <h2>为什么这很重要？</h2>
+    <p>在<strong>棕色地带开发</strong>（brown-field development，在已有代码库上工作）中：</p>
+    <ul>
+        <li>代码已被团队理解和认可</li>
+        <li>代码审查是瓶颈</li>
+        <li>过度编辑让reviewer难以理解变更</li>
+        <li>测试通过 ≠ 代码质量好</li>
+    </ul>
+
+    <h2>实践建议</h2>
+    <ol>
+        <li><strong>选择Claude Opus进行代码修复</strong>——它是最"保守"的模型</li>
+        <li><strong>使用细粒度的编辑工具</strong>——而不是让AI重写整个文件</li>
+        <li><strong>重视代码审查</strong>——AI的"正确"可能不等于"最优"</li>
+        <li><strong>建立编辑规范</strong>——在团队中设置AI编辑的"边界"</li>
+    </ol>
+
+    <h2>延伸阅读</h2>
+    <ul>
+        <li><a href="https://nrehiew.github.io/blog/minimal_editing/" target="_blank">原文: Over-editing refers to a model modifying code beyond what is necessary</a></li>
+        <li><a href="https://github.com/nreHieW/fyp" target="_blank">研究代码和数据</a></li>
+    </ul>
+
+    <hr>
+    <p style="color: #666; font-size: 14px;">
+        🧬 探索发现 • 每日更新 • 评分: <span class="star">★★★★★</span> exceptional
+    </p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

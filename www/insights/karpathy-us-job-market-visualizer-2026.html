@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>US Job Market Visualizer - Karpathy</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <span class="tag">⭐⭐⭐⭐⭐ 5 Stars</span>
+        <span class="tag">Data Visualization</span>
+        <span class="tag">AI</span>
+        
+        <h1>US Job Market Visualizer</h1>
+        <p class="source">来源: <a href="https://karpathy.ai/jobs/" target="_blank">karpathy.ai/jobs/</a> | 发现于: Hacker News</p>
+        
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-num">143M</div>
+                <div class="stat-label">总就业岗位</div>
+            </div>
+            <div class="stat">
+                <div class="stat-num">342</div>
+                <div class="stat-label">职业类型</div>
+            </div>
+            <div class="stat">
+                <div class="stat-num">+3.4%</div>
+                <div class="stat-label">平均前景</div>
+            </div>
+        </div>
+
+        <h2>🎯 核心亮点</h2>
+        <ul>
+            <li><strong>Treemap 可视化:</strong> 每个矩形面积与就业人数成比例，颜色显示选定的指标</li>
+            <li><strong>四种着色模式:</strong>
+                <ul>
+                    <li>BLS 前景展望 (BLS Outlook)</li>
+                    <li>中位薪酬 (Median Pay)</li>
+                    <li>教育要求 (Education)</li>
+                    <li>数字 AI 暴露度 (Digital AI Exposure)</li>
+                </ul>
+            </li>
+            <li><strong>LLM 驱动的自定义着色:</strong> 可以编写自定义 prompt 让 LLM 评估任何职业维度</li>
+            <li><strong>Digital AI Exposure:</strong> 评估 AI（主要是数字化的）如何重塑每个职业</li>
+        </ul>
+
+        <h2>📊 关键洞见</h2>
+        <ul>
+            <li><span class="highlight">薪酬与前景正相关:</span> $100K+ 薪酬岗位前景 +8.7%，而 &lt;$35K 仅 +1.1%</li>
+            <li><span class="highlight">教育与前景正相关:</span> 硕士学位前景 +11.3%，博士/专业学位 +5.1%，无学位仅 +1.8%</li>
+            <li><span class="highlight">就业分布:</span> 34.1M 岗位在下降 (24%)，97.2M 在增长 (68%)</li>
+            <li><span class="highlight">AI 暴露度说明:</span> 高分不代表工作会消失——软件开发者 9/10 分，但需求可能增长</li>
+        </ul>
+
+        <h2>🔗 相关链接</h2>
+        <ul>
+            <li><a href="https://github.com/karpathy/jobs" target="_blank">GitHub 源码</a> - 包含 scrapers、parsers 和 LLM pipeline</li>
+            <li><a href="https://www.bls.gov/ooh/" target="_blank">BLS Occupational Outlook Handbook</a> - 数据来源</li>
+        </ul>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

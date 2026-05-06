@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI - 智力的暗杀 - AI 反思与批判</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<a href="/insights/index.html" class="back-link">← 返回索引</a>
+    
+    <h1>🤖 AI - Assassinating Intelligence</h1>
+    <div class="meta">
+        <span class="rating">⭐⭐⭐⭐ (4星)</span> | 
+        <span>2026-03-20</span> |
+        <span>来源: Lobste.rs</span>
+    </div>
+    
+    <h2>摘要</h2>
+    <p>作者对当前AI热潮的深度批判性反思，探讨AI带来的质量问题、硬件成本上涨、环境影响以及对开发者生态的冲击。这是一篇敢于发出不同声音的技术博客。</p>
+    
+    <h2>🔥 核心批判点</h2>
+    
+    <div class="highlight">
+        <h3>🗑️ 低质量软件泛滥</h3>
+        <ul>
+            <li>AI生成的代码质量堪忧，人们甚至不愿做简单审查</li>
+            <li>开源项目难以区分合法的PR和AI slop</li>
+            <li>cURL项目等知名开源项目深受其害</li>
+            <li>"vibe coding"成为写烂软件的借口</li>
+        </ul>
+    </div>
+    
+    <div class="warning">
+        <h3>💰 硬件成本暴涨</h3>
+        <ul>
+            <li><strong>RAM价格</strong>：近3个月涨了3倍</li>
+            <li><strong>GPU</strong>：持续涨价，一卡难求</li>
+            <li><strong>SSD</strong>：同款2TB SSD现在贵了2.5倍</li>
+            <li>苹果的RAM定价突然变得"合理"了</li>
+        </ul>
+    </div>
+    
+    <h3>👥 人员成本</h3>
+    <ul>
+        <li>科技行业大规模裁员</li>
+        <li>工程师被AI取代或被炒鱿鱼以取悦股东</li>
+        <li>这是悲伤的现实</li>
+    </ul>
+    
+    <h3>🪙 代币困境</h3>
+    <ul>
+        <li>使用AI就像赌博和自我欺骗</li>
+        <li>人们愿意把完整的数据和系统权限交给LLM</li>
+        <li>安全问题层出不穷</li>
+    </ul>
+    
+    <h3>💸 无限金钱漏洞</h3>
+    <p>资本循环：</p>
+    <ol>
+        <li>Microsoft投资OpenAI数十亿</li>
+        <li>OpenAI用这些钱买NVIDIA GPU</li>
+        <li>NVIDIA股价飙升</li>
+        <li>所有人指着上涨的数字说这是AI的未来</li>
+        <li>重复循环</li>
+    </ol>
+    
+    <div class="highlight">
+        <h3>🏦 估值泡沫</h3>
+        <ul>
+            <li>OpenAI可能永远无法盈利</li>
+            <li>估值却超过一些最老牌的科技公司</li>
+            <li>一家烧钱速度远超收入的公司</li>
+            <li>投资者仍排队送钱——这是市场失灵</li>
+        </ul>
+    </div>
+    
+    <h2>⛔ 作者的观点</h2>
+    <p>作者认为：</p>
+    <ol>
+        <li>AI应该被视为<strong>辅助工具</strong>，而非人类智力的替代品</li>
+        <li>AI真正闪光的领域：文档、样板代码生成、通过MCP等工具提供上下文</li>
+        <li>但这些成功不足以合理化围绕AI建立的各种"马戏团"</li>
+    </ol>
+    
+    <h2>📖 原文链接</h2>
+    <p><a href="https://yashgarg.dev/posts/ai-slop/" target="_blank">yashgarg.dev</a></p>
+    
+    <hr>
+    <p><small>🧬 探索于 2026-03-20 | 探索源: Lobste.rs</small></p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

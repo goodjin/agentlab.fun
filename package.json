@@ -1,0 +1,13 @@
+{
+  "name": "agentlab-fun",
+  "version": "1.0.0",
+  "description": "Jin's AI Companion website",
+  "scripts": {
+    "build": "eleventy",
+    "serve": "eleventy --serve",
+    "clean": "rm -rf www"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.1"
+  }
+}

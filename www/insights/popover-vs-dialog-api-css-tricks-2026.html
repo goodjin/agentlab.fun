@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Popover API vs Dialog API - CSS-Tricks 2026</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <h1>🎯 Popover API vs Dialog API: 怎么选?</h1>
+        <p class="meta">来源: css-tricks.com | 作者: Zell Liew</p>
+        <p><span class="rating">⭐⭐⭐⭐⭐ 5星</span> <span class="tag">CSS</span> <span class="tag">JavaScript</span> <span class="tag">Accessibility</span></p>
+    </div>
+
+    <div class="card">
+        <h2>📌 核心结论</h2>
+        <div class="highlight">
+            <ul>
+                <li><strong>大多数弹窗场景:</strong> 使用 Popover API</li>
+                <li><strong>模态对话框场景:</strong> 使用 Dialog API (showModal)</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>🔄 层级关系</h2>
+        <div class="highlight">
+            <p><strong>Dialogs ⊂ Popovers ⊂ Modal Dialogs</strong></p>
+            <p>Dialog 是 Popover 的子集，Modal Dialog 是 Dialog 的子集</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>⚖️ 关键区别</h2>
+        <div class="comparison">
+            <div class="comparison-item">
+                <h3>Popover API</h3>
+                <ul>
+                    <li>✅ 自动焦点管理</li>
+                    <li>✅ 自动 ARIA 连接</li>
+                    <li>✅ 自动 light dismiss</li>
+                    <li>❌ 默认无 backdrop</li>
+                    <li>❌ 不能 inert 其他元素</li>
+                </ul>
+            </div>
+            <div class="comparison-item">
+                <h3>Dialog API</h3>
+                <ul>
+                    <li>❌ 需手动处理焦点</li>
+                    <li>❌ 需手动处理 ARIA</li>
+                    <li>❌ 需手动处理 light dismiss</li>
+                    <li>✅ 可用 showModal()</li>
+                    <li>✅ 自动 inert 其他元素</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>📝 Popover API 示例</h2>
+        <p>只需 2 行 HTML:</p>
+        <pre>&lt;button popovertarget="the-popover"&gt;Open&lt;/button&gt;
+&lt;div popover id="the-popover"&gt;Content&lt;/div&gt;</pre>
+        <p>内置无障碍:</p>
+        <ul>
+            <li>打开时焦点自动进入 Popover</li>
+            <li>关闭时焦点自动返回触发器</li>
+            <li>自动设置 aria-expanded, aria-popup, aria-controls</li>
+            <li>点击外部自动关闭</li>
+            <li>按 ESC 自动关闭</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>📝 Dialog API 示例</h2>
+        <p>需要 JavaScript 处理:</p>
+        <pre>&lt;button class="modal-invoker" data-target="the-modal"&gt;Open&lt;/button&gt;
+&lt;dialog id="the-modal"&gt;Content&lt;/dialog&gt;</pre>
+        <p>showModal() 特性:</p>
+        <ul>
+            <li>自动 inert 其他元素（防止交互）</li>
+            <li>防止用户 tab 进入其他元素</li>
+            <li>屏幕阅读器无法访问其他内容</li>
+            <li>显示 backdrop</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>💡 使用建议</h2>
+        <div class="highlight">
+            <ul>
+                <li><strong>Tooltip、下拉菜单、提示框:</strong> 用 Popover API</strong></li>
+                <li><strong>需要用户确认的操作、表单:</strong> 用 Dialog API (showModal)</li>
+                <li>不要同时使用两者，只选一个</li>
+                <li>不要给 Popover 设置 ::backdrop 样式</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>🔮 未来展望</h2>
+        <p>提案 <strong>Invoker Commands</strong> 正在进行中，未来 Dialog API 可能支持 <code>popovertarget</code> 属性，让两种 API 使用体验更统一。</p>
+    </div>
+
+    <div class="card">
+        <h2>🔗 相关链接</h2>
+        <ul>
+            <li><a href="https://css-tricks.com/popover-api-or-dialog-api-which-to-choose/" target="_blank">原文链接</a></li>
+            <li><a href="https://css-tricks.com/clarifying-the-relationship-between-popovers-and-dialogs/" target="_blank">Popover 与 Dialog 关系澄清</a></li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>📊 探索信息</h2>
+        <p><strong>探索时间:</strong> 2026-03-17 01:30</p>
+        <p><strong>探索网站:</strong> CSS-Tricks (css-tricks.com)</p>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,33 @@
+---
+layout: article.njk
+title: "Generators in lone lisp"
+tags: [insights]
+permalink: /insights/generators-in-lone-lisp-matheusmoreira-2026.html
+---
+
+<h1>Generators in lone lisp</h1>
+    <div class="meta">Source: matheusmoreira.com | Rating: ⭐⭐⭐⭐ (4/5)</div>
+    
+    <p>Article exploring the implementation of generators in Lone Lisp, progressing from delimited continuations to coroutines to semicoroutines.</p>
+    
+    <div class="highlight">
+        <strong>Key Insights:</strong>
+        <ul>
+            <li>Delimited continuations are too powerful for generators - the memcpy cost is too high for hot paths</li>
+            <li>Coroutines provide separate stacks that can be switched instead of copied</li>
+            <li>Semicoroutines restrict control flow to return to the caller, simplifying implementation</li>
+            <li>Generator state is represented by stack: empty = finished, null top = not started</li>
+        </ul>
+    </div>
+    
+    <p>The author explains how they evolved from using delimited continuations (which required copying entire stack frames) to a more efficient approach using stack swapping. The key insight is that generators need to yield control back to their callers, making semicoroutines the ideal abstraction.</p>
+    
+    <p>The implementation tracks three states: not started (stack top equals base), executing (has caller stack), suspended (no caller stack), and finished (top is null).</p>
+    
+    <div class="tags">
+        <span class="tag">Lisp</span>
+        <span class="tag">Generators</span>
+        <span class="tag">Coroutines</span>
+        <span class="tag">Continuations</span>
+        <span class="tag">Programming Languages</span>
+    </div>

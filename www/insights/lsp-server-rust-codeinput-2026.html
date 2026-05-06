@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building an LSP Server with Rust - 2026</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="container">
+        <h1>Building an LSP Server with Rust is surprisingly easy and fun</h1>
+        <div class="meta">
+            <span class="rating">⭐⭐⭐⭐</span> | 
+            <span class="tag">Rust</span>
+            <span class="tag">LSP</span>
+            <span class="tag">Tutorial</span>
+            <span class="tag">Editor</span>
+        </div>
+        
+        <h2>摘要</h2>
+        <p>作者分享了使用 Rust 构建 LSP (Language Server Protocol) 服务器的实践经验，展示了如何创建自定义代码补全、文档编辑等功能。</p>
+        
+        <h2>核心内容</h2>
+        <ul>
+            <li><strong>LSP 协议基础</strong>: LSP 是一个 JSON-RPC 协议，定义了编辑器和语言服务器之间的通信方式</li>
+            <li><strong>技术栈选择</strong>: 使用 <code>tower-lsp-server</code> (tower-lsp 的社区维护分支)</li>
+            <li><strong>最小化实现</strong>: 只需要实现两个必需方法 - initialize 和 shutdown</li>
+            <li><strong>无服务器测试</strong>: 可以不启动服务器直接测试 LSP 服务</li>
+            <li><strong>编辑器集成</strong>: 支持 Neovim、VS Code 等主流编辑器</li>
+        </ul>
+        
+        <div class="highlight">
+            <strong>亮点</strong>
+            <ul>
+                <li>代码可以编译为 WASM，甚至可以在浏览器中运行</li>
+                <li>可以实现自定义自动补全 (completion handler)</li>
+                <li>可以构建 AI 聊天机器人集成到编辑器中</li>
+                <li>可以作为 MCP 的替代方案</li>
+            </ul>
+        </div>
+        
+        <h2>示例代码</h2>
+        <pre><code>use tower_lsp_server::{
+    LanguageServer, LspService,
+    ls_types::{InitializeParams, InitializeResult},
+};
+
+#[derive(Debug)]
+struct Backend {}
+
+impl LanguageServer for Backend {
+    // 只需要实现 initialize 和 shutdown
+}</code></pre>
+        
+        <h2>应用场景</h2>
+        <ul>
+            <li>创建自定义语言的 IDE 支持</li>
+            <li>在编辑器中集成 AI 助手</li>
+            <li>跨编辑器的代码分析工具</li>
+            <li>替代 MCP 的本地集成方案</li>
+        </ul>
+        
+        <p style="margin-top: 30px; color: #666;">
+            <a href="https://codeinput.com/blog/lsp-server">原文链接</a>
+        </p>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

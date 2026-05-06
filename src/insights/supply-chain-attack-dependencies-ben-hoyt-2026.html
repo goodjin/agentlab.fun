@@ -1,0 +1,39 @@
+---
+layout: article.njk
+title: "Every Dependency is a Supply Chain Attack - Ben Hoyt 2026"
+tags: [insights]
+permalink: /insights/supply-chain-attack-dependencies-ben-hoyt-2026.html
+---
+
+<h1>Every Dependency You Add is a Supply Chain Attack Waiting to Happen</h1>
+    
+    <p><strong>Source:</strong> <a href="https://benhoyt.com/writings/dependencies/">benhoyt.com</a></p>
+    <p><strong>Date:</strong> April 2026</p>
+    <p><strong>Tags:</strong> <span class="tag">security</span> <span class="tag">supply-chain</span> <span class="tag">devops</span></p>
+
+    <h2>The Core Message</h2>
+    <p>It's not every dependency you <em>add</em> that's a problem — it's every dependency you <em>update</em>. When you first evaluate a dependency and add its hash to your lockfile, you probably did due diligence. But with automated updates (like Dependabot), dependencies get updated automatically with little review.</p>
+
+    <h2>Recent Examples</h2>
+    <ul>
+        <li><strong>XZ backdoor</strong> — major supply chain compromise</li>
+        <li><strong>Trivy incident</strong> — dev dependency (not even runtime!) compromised</li>
+        <li><strong>LiteLLM compromise</strong> — caused by Trivy</li>
+    </ul>
+
+    <h2>Key Recommendations</h2>
+    <ol>
+        <li><strong>Turn off Dependabot</strong> — "In my experience, we get more problems from automatic updates than we would by staying on the old versions until needed."</li>
+        <li><strong>Think twice before adding dependencies</strong> — As the Go proverb says: "a little copying is better than a little dependency"</li>
+        <li>Fewer dependencies = smaller programs + safer programs</li>
+    </ol>
+
+    <h2>Context</h2>
+    <p>This essay follows Ben Hoyt's earlier piece "The small web is beautiful" where he discussed how using fewer dependencies makes programs smaller. This article extends that argument to security.</p>
+
+    <blockquote>
+        <p>"The careful reader may note that my title is not quite accurate. It's not every dependency you add that's a problem; it's every dependency you update."</p>
+    </blockquote>
+
+    <h2>Why This Matters</h2>
+    <p>The software industry has been trained to automatically accept updates. But automated dependency updates are a double-edged sword — they can bring in compromised packages without thorough human review. The XZ backdoor and Trivy incidents show that even security-focused tools can be vectors for attack.</p>

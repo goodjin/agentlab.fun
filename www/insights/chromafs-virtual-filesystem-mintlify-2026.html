@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChromaFs - Virtual Filesystem for AI Assistants</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>ChromaFs: Virtual Filesystem for AI Assistants</h1>
+    <div class="meta">
+        <span class="tag">AI Infrastructure</span>
+        <span class="tag">Virtual Filesystem</span>
+        <span class="tag">RAG</span>
+        <span class="tag">Mintlify</span>
+        <br><br>
+        <strong>Source:</strong> Lobste.rs | <strong>Date:</strong> 2026-04-03 | <strong>Score:</strong> <span class="score">★★★★☆ (4.5/5)</span>
+    </div>
+
+    <h2>Summary</h2>
+    <p>Mintlify built <strong>ChromaFs</strong>, a virtual filesystem that replaces heavy VM sandboxes with lightweight ChromaDB queries. This clever infrastructure optimization reduced session boot time from <strong>46 seconds to 100 milliseconds</strong> and eliminated marginal compute costs.</p>
+
+    <h2>The Problem</h2>
+    <ul>
+        <li><strong>Traditional approach:</strong> Spin up isolated micro-VM sandbox, clone repo</li>
+        <li><strong>P90 boot time:</strong> ~46 seconds (including GitHub clone + setup)</li>
+        <li><strong>Infrastructure cost:</strong> At 850K conversations/month, naive approach costs <strong>$70,000+/year</strong></li>
+        <li><strong>Latency unacceptable:</strong> Users stare at loading spinner during session creation</li>
+    </ul>
+
+    <h2>The Solution: ChromaFs</h2>
+    <p>The key insight: <strong>the agent doesn't need a real filesystem—it just needs the illusion of one</strong>. Documentation was already indexed and chunked in Chroma for search, so they built ChromaFs to intercept UNIX commands and translate them into ChromaDB queries.</p>
+
+    <h3>Performance Comparison</h3>
+    <div class="metric">
+        <span class="metric-label">P90 Boot Time</span>
+        <span class="metric-value">46s → 100ms</span>
+    </div>
+    <div class="metric">
+        <span class="metric-label">Marginal Compute Cost</span>
+        <span class="metric-value">$0.0137/conversation → $0</span>
+    </div>
+
+    <h2>How It Works</h2>
+    
+    <h3>1. Bootstrapping the Directory Tree</h3>
+    <ul>
+        <li>Entire file tree stored as gzipped JSON in Chroma collection</li>
+        <li>On init: fetch and decompress into in-memory structures</li>
+        <li>ls, cd, find resolve in local memory—no network calls</li>
+        <li>Tree cached for subsequent sessions</li>
+    </ul>
+
+    <h3>2. Access Control</h3>
+    <ul>
+        <li>Path tree includes isPublic and groups fields</li>
+        <li>Before building tree, prune slugs using user's session token</li>
+        <li>Files user can't access are excluded from tree entirely</li>
+        <li>Built-in RBAC without new infrastructure</li>
+    </ul>
+
+    <h3>3. Reassembling Pages from Chunks</h3>
+    <ul>
+        <li>Pages split into chunks for embedding</li>
+        <li>cat /auth/oauth.mdx fetches all chunks with matching slug</li>
+        <li>Sort by chunk_index, join into full page</li>
+        <li>Results cached for repeated reads</li>
+    </ul>
+
+    <h3>4. Grep Optimization</h3>
+    <ul>
+        <li>Built on <strong>just-bash</strong> (Vercel Labs)—TypeScript reimplementation of bash</li>
+        <li>Intercept just-bash's grep, parse flags with yargs-parser</li>
+        <li>Chroma acts as coarse filter</li>
+        <li>Bulk prefetch matching chunks into Redis cache</li>
+        <li>Rewrite grep to target only matched files for fine in-memory execution</li>
+    </ul>
+
+    <h2>Key Takeaways</h2>
+    <ul>
+        <li><strong>Virtual over real:</strong> Sometimes the illusion is enough—no need for heavyweight infrastructure</li>
+        <li><strong>Leverage existing:</strong> Reusing Chroma DB they already pay for = zero marginal cost</li>
+        <li><strong>RBAC built-in:</strong> Per-user access control without Linux user groups or isolated containers</li>
+        <li><strong>Read-only design:</strong> EROFS errors on writes = stateless, no session cleanup, no corruption risk</li>
+    </ul>
+
+    <h2>Impact</h2>
+    <p>Powers documentation assistant for <strong>hundreds of thousands of users</strong> across <strong>30,000+ conversations/day</strong>. The pattern applies to any team with indexed documentation and agents that need filesystem-like access.</p>
+
+    <hr>
+    <p><em>探索时间: 2026-04-03 12:45 UTC</em></p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

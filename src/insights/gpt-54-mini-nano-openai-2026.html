@@ -1,0 +1,104 @@
+---
+layout: article.njk
+title: "GPT-5.4 Mini & Nano - OpenAI's Most Capable Small Models"
+tags: [insights]
+permalink: /insights/gpt-54-mini-nano-openai-2026.html
+---
+
+<h1>GPT-5.4 Mini & Nano <span class="rating">⭐⭐⭐⭐⭐ 5/5</span></h1>
+    <p class="source">Source: <a href="https://openai.com/index/introducing-gpt-5-4-mini-and-nano" style="color: #1a73e8;">OpenAI Blog</a> | Date: March 2026</p>
+    
+    <h2>Overview</h2>
+    <p>OpenAI releases GPT-5.4 mini and nano - their most capable small models yet. These models bring many strengths of GPT-5.4 to faster, more efficient versions designed for high-volume workloads.</p>
+    
+    <div class="highlight">
+        <strong>Key Insight:</strong> The best model is often not the largest one — it's the one that responds quickly, uses tools reliably, and still performs well on complex professional tasks.
+    </div>
+    
+    <h2>GPT-5.4 Mini</h2>
+    <ul>
+        <li><strong>Performance:</strong> Significantly improves over GPT-5 mini across coding, reasoning, multimodal understanding, and tool use</li>
+        <li><strong>Speed:</strong> Runs more than 2x faster than GPT-5 mini</li>
+        <li><strong>Benchmark Results:</strong>
+            <ul>
+                <li>SWE-Bench Pro: 54.4% (approaches GPT-5.4's 57.7%)</li>
+                <li>Terminal-Bench 2.0: 60.0%</li>
+                <li>GPQA Diamond: 88.0%</li>
+                <li>OSWorld-Verified: 72.1%</li>
+            </ul>
+        </li>
+        <li><strong>Pricing:</strong> $0.75 per 1M input tokens, $4.50 per 1M output tokens</li>
+        <li><strong>Context:</strong> 400k tokens</li>
+    </ul>
+    
+    <h2>GPT-5.4 Nano</h2>
+    <ul>
+        <li><strong>Purpose:</strong> Smallest, cheapest version for tasks where speed and cost matter most</li>
+        <li><strong>Use Cases:</strong> Classification, data extraction, ranking, coding subagents for simpler tasks</li>
+        <li><strong>Pricing:</strong> $0.20 per 1M input tokens, $1.25 per 1M output tokens</li>
+        <li><strong>Benchmark Results:</strong>
+            <ul>
+                <li>SWE-Bench Pro: 52.4%</li>
+                <li>Terminal-Bench 2.0: 46.3%</li>
+                <li>GPQA Diamond: 82.8%</li>
+            </ul>
+        </li>
+    </ul>
+    
+    <h2>Architecture Pattern: Model Composition</h2>
+    <p>GPT-5.4 mini enables a powerful new pattern where larger models handle planning and coordination while delegating to smaller subagents:</p>
+    <ul>
+        <li>Larger model (GPT-5.4): Planning, coordination, final judgment</li>
+        <li>Smaller models (GPT-5.4 mini): Execute narrower subtasks in parallel</li>
+        <li>Example: Search codebase, review large files, process supporting documents</li>
+    </ul>
+    
+    <h2>Benchmark Comparison Table</h2>
+    <table>
+        <tr>
+            <th>Benchmark</th>
+            <th>GPT-5.4</th>
+            <th>GPT-5.4 mini</th>
+            <th>GPT-5.4 nano</th>
+            <th>GPT-5 mini</th>
+        </tr>
+        <tr>
+            <td>SWE-Bench Pro</td>
+            <td>57.7%</td>
+            <td>54.4%</td>
+            <td>52.4%</td>
+            <td>45.7%</td>
+        </tr>
+        <tr>
+            <td>Terminal-Bench 2.0</td>
+            <td>75.1%</td>
+            <td>60.0%</td>
+            <td>46.3%</td>
+            <td>38.2%</td>
+        </tr>
+        <tr>
+            <td>GPQA Diamond</td>
+            <td>93.0%</td>
+            <td>88.0%</td>
+            <td>82.8%</td>
+            <td>81.6%</td>
+        </tr>
+    </table>
+    
+    <h2>Availability</h2>
+    <ul>
+        <li><strong>API:</strong> Text/image inputs, tool use, function calling, web search, file search, computer use, skills</li>
+        <li><strong>Codex:</strong> CLI, IDE extension, web - uses only 30% of GPT-5.4 quota</li>
+        <li><strong>ChatGPT:</strong> Free and Go users via "Thinking" feature</li>
+    </ul>
+    
+    <h2>Why This Matters</h2>
+    <p>The release marks a significant shift in how AI systems are built:</p>
+    <ul>
+        <li>不再是"一个模型做所有事" - 组合多个模型实现最佳效果</li>
+        <li>小模型也能达到接近大模型的性能，同时速度更快、成本更低</li>
+        <li>子代理模式成为主流：大的做规划，小的执行</li>
+    </ul>
+    
+    <hr>
+    <p style="color: #666; font-size: 0.9em;">探索时间: 2026-03-18 | 来源: Hacker News Best</p>

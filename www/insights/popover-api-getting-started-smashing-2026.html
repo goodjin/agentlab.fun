@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Getting Started With The Popover API</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<span class="rating">⭐⭐⭐⭐ 4星</span>
+    <h1>Getting Started With The Popover API</h1>
+    <p class="meta">来源: Smashing Magazine | 日期: 2026-03-02 | 作者: Godstime Aburu</p>
+    <p class="source">URL: https://www.smashingmagazine.com/2026/03/getting-started-popover-api/</p>
+    
+    <h2>摘要</h2>
+    <p>如果不用库的帮助，重新构建一个tooltip会怎样？Popover API将tooltip从模拟的概念变成了浏览器真正理解的东西。打开和关闭、键盘交互、Escape处理和大部分无障碍功能现在都来自平台本身，而不是临时性的JavaScript。</p>
+    
+    <h2>亮点</h2>
+    <ul>
+        <li><strong>浏览器原生支持</strong>：Popover API让tooltip成为平台原生概念</li>
+        <li><strong>内置无障碍</strong>：键盘导航、焦点管理、屏幕阅读器支持由浏览器自带</li>
+        <li><strong>减少JavaScript</strong>：不再需要大量样板代码管理tooltip状态</li>
+        <li><strong>语义化标记</strong>：使用popover属性替代自定义ARIA实现</li>
+    </ul>
+    
+    <h2>分类</h2>
+    <p>CSS, HTML, API, 无障碍, 前端开发</p>
+    
+    <h2>为何值得关注</h2>
+    <p>Popover API是浏览器平台能力增强的又一个里程碑。它让开发者能够用更少的代码实现更可靠的UI组件。对于需要实现tooltip、dropdown、popover等交互的开发者来说，学习这一API将显著提升开发效率和用户体验。</p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,76 @@
+---
+layout: article.njk
+title: "Measuring AI Agent Autonomy in Practice - Anthropic Research"
+tags: [insights]
+permalink: /insights/measuring-agent-autonomy-anthropic-2026.html
+---
+
+<div class="card">
+        <span class="source">Anthropic Research</span>
+        <span class="stars">⭐⭐⭐⭐⭐</span>
+        <h1>Measuring AI Agent Autonomy in Practice</h1>
+        <p class="meta">Anthropic • February 18, 2026</p>
+        
+        <h2>Executive Summary</h2>
+        <p>Anthropic analyzed millions of human-agent interactions across Claude Code and public API to understand: <strong>How much autonomy do people grant agents?</strong> The findings reveal a significant deployment overhang—models are capable of more autonomy than they exercise in practice.</p>
+
+        <h2>Key Findings</h2>
+        
+        <div class="stat-box">
+            <strong>Claude Code is working autonomously for longer.</strong><br>
+            The longest-running sessions nearly doubled: from under 25 minutes to over 45 minutes (99.9th percentile). This increase is smooth across model releases—suggesting it's not purely about model capability.
+        </div>
+
+        <h3>User Experience Patterns</h3>
+        <ul>
+            <li><strong>New users:</strong> ~20% of sessions use full auto-approve</li>
+            <li><strong>Experienced users (750+ sessions):</strong> >40% use full auto-approve</li>
+            <li>But experienced users also <strong>interrupt more often</strong>—intervening only when needed</li>
+            <li>Claude Code pauses for clarification more often than humans interrupt it—<strong>2x more on complex tasks</strong></li>
+        </ul>
+
+        <h3>Risk Profile</h3>
+        <ul>
+            <li>Most agent actions are <strong>low-risk and reversible</strong></li>
+            <li>Software engineering accounts for <strong>nearly 50%</strong> of agentic activity</li>
+            <li>Emerging usage in <strong>healthcare, finance, and cybersecurity</strong></li>
+            <li>Agents are used in risky domains, but <strong>not yet at scale</strong></li>
+        </ul>
+
+        <h2>Methodology</h2>
+        <ul>
+            <li>Definition: An agent is "an AI system equipped with tools that allow it to take actions"</li>
+            <li>Studied both Claude Code (depth) and public API (breadth)</li>
+            <li>Privacy-preserving infrastructure (CLIO)</li>
+        </ul>
+
+        <h2>Critical Insight: Deployment Overhang</h2>
+        <div class="key-insight">
+            <strong>Central Conclusion:</strong> The latitude granted to models in practice lags behind what they can handle.
+            <br><br>
+            METR estimates Claude Opus 4.5 can complete tasks with 50% success rate that would take a human nearly 5 hours. But the 99.9th percentile turn duration in practice is ~42 minutes—far below capability.
+        </div>
+
+        <h2>Internal Results</h2>
+        <ul>
+            <li>From August to December: <strong>Success rate doubled</strong> on most challenging tasks</li>
+            <li>Average human interventions per session: <strong>5.4 → 3.3</strong></li>
+            <li>Users achieving better outcomes while needing to <strong>intervene less often</strong></li>
+        </ul>
+
+        <h2>Recommendations</h2>
+        <ul>
+            <li><strong>Model developers:</strong> Need new forms of post-deployment monitoring</li>
+            <li><strong>Product developers:</strong> New human-AI interaction paradigms</li>
+            <li><strong>Policymakers:</strong> Understand how autonomy and risk are managed together</li>
+        </ul>
+
+        <h2>Classification</h2>
+        <div class="tags">
+            <span class="tag">AI Agents</span>
+            <span class="tag">Claude Code</span>
+            <span class="tag">Human-AI Interaction</span>
+            <span class="tag">Autonomy</span>
+            <span class="tag">Deployment</span>
+        </div>
+    </div>

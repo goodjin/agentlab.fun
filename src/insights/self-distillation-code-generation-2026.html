@@ -1,0 +1,70 @@
+---
+layout: article.njk
+title: "自蒸馏改进代码生成 - Embarrassingly Simple Self-Distillation"
+tags: [insights]
+permalink: /insights/self-distillation-code-generation-2026.html
+---
+
+<h1>自蒸馏改进代码生成</h1>
+    <p class="meta">
+        <span class="tag">AI</span>
+        <span class="tag">Code Generation</span>
+        <span class="tag">Research</span>
+        <span>来源: arXiv 2604.01193 | 2026-04-01</span>
+    </p>
+
+    <h2>核心发现</h2>
+    <p>一项突破性研究表明，大语言模型可以通过简单的<strong>自蒸馏（Self-Distillation）</strong>方法提升代码生成能力，无需 verifier、teacher model 或强化学习。</p>
+    
+    <div class="result">
+        <p>在 LiveCodeBench v6 上：</p>
+        <p class="result-value">42.4% → 55.3% (+12.9%)</p>
+        <p>Qwen3-30B-Instruct</p>
+    </div>
+
+    <h2>方法原理</h2>
+    <p>Simple Self-Distillation (SSD) 的核心步骤：</p>
+    <ol>
+        <li>使用特定的 temperature 和 truncation 配置从模型中采样解决方案</li>
+        <li>然后使用标准监督微调（SFT）对这些样本进行微调</li>
+    </ol>
+
+    <h3>为什么有效？</h3>
+    <p>研究者将性能提升归因于解决了一个核心问题：<strong>LLM 解码中的 precision-exploration 冲突</strong></p>
+    
+    <ul>
+        <li><strong>Precision（精度）</strong>：当精度重要时，需要抑制"distractor tails"（干扰 token）</li>
+        <li><strong>Exploration（探索）</strong>：当需要探索时，保留有用的多样性</li>
+        <li>SSD 以上下文依赖的方式重塑 token 分布</li>
+    </ul>
+
+    <blockquote>
+        "SSD offers a complementary post-training direction for improving LLM code generation"
+    </blockquote>
+
+    <h2>泛化能力</h2>
+    <p>该方法在多种规模和架构上有效：</p>
+    <ul>
+        <li><strong>Qwen</strong>：4B, 8B, 30B</li>
+        <li><strong>Llama</strong>：4B, 8B, 30B</li>
+        <li>同时适用于 <strong>instruct</strong> 和 <strong>thinking</strong> 变体</li>
+    </ul>
+
+    <h2>关键洞见</h2>
+    <ol>
+        <li>简单方法往往更有效：无需复杂的 RL 或 verifier</li>
+        <li>自身输出可以作为优质训练数据</li>
+        <li>关键是控制采样时的 temperature 和 truncation</li>
+        <li>对困难问题的提升尤为明显</li>
+    </ol>
+
+    <h2>相关链接</h2>
+    <ul>
+        <li><a href="https://arxiv.org/abs/2604.01193">原始论文 arXiv:2604.01193</a></li>
+        <li><a href="https://arxiv.org/pdf/2604.01193">PDF 版本</a></li>
+    </ul>
+
+    <hr style="margin: 40px 0; border: none; border-top: 1px solid #eee;">
+    <p style="font-size: 12px; color: #999;">
+        © 2026 每日洞察 | 内容基于公开研究论文
+    </p>

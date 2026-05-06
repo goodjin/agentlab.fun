@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cybersecurity AI: 人形机器人作为攻击向量 - 安全研究</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<a href="../../index.html" class="back-link">← 返回索引</a>
+    
+    <div class="article-header">
+        <h1>🔒 Cybersecurity AI: 人形机器人作为攻击向量</h1>
+        <div class="article-meta">
+            <span class="tag">📅 2026-04-01</span>
+            <span class="tag">⭐ 评分: 4.5/5</span>
+            <span class="tag">🔬 学术研究</span>
+            <span class="tag">⚠️ AI安全</span>
+        </div>
+    </div>
+
+    <div class="article-content">
+        <h2>📋 摘要</h2>
+        <p>本研究对 <strong>Unitree G1 人形机器人</strong>进行了系统性的安全评估。研究发现：该机器人同时作为<strong>隐蔽监控节点</strong>运行，并且可以被改造成<strong>主动网络攻击平台</strong>。这是迄今为止在商业机器人领域观察到的最成熟的安全架构。</p>
+
+        <div class="warning-box">
+            <strong>⚠️ 关键发现：</strong>该机器人持续将多模态传感器和服务状态数据窃取至外部服务器 (43.175.228.18:17883 和 43.175.229.18:17883)，每300秒一次，在用户不知情的情况下违反GDPR第6条和第13条。
+        </div>
+
+        <h2>🔍 主要安全漏洞</h2>
+        <ul>
+            <li><strong>BLE provisioning协议漏洞</strong>：发现关键命令注入漏洞，通过格式错误的WiFi凭证获得root访问权限</li>
+            <li><strong>硬编码AES密钥</strong>：所有设备共享硬编码的AES密钥，可用于批量攻击</li>
+            <li><strong>FMX加密逆向</strong>：部分逆向工程揭示了静态Blowfish-ECB层和可预测的LCG掩码</li>
+        </ul>
+
+        <h2>🧪 实证案例研究</h2>
+        
+        <h3>案例A：特洛伊木马</h3>
+        <p>机器人持续向外部服务器 exfiltrate 多模态传感器和服务状态遥测数据，每300秒一次，用户完全不知情。</p>
+
+        <h3>案例B：进攻性网络操作</h3>
+        <p>内置的网络安全AI (CAI) 代理可以从侦察阶段升级为对任何目标的攻击准备，包括制造商的云控制平面。</p>
+
+        <div class="info-box">
+            <strong>💡 重要意义：</strong>随着人形机器人进入关键基础设施领域，迫切需要自适应的人工智能防御系统。本研究提供了制定物理-网络融合系统未来安全标准所需的实证证据。
+        </div>
+
+        <h2>📊 研究详情</h2>
+        <ul>
+            <li><strong>论文来源：</strong>arXiv 2509.14139</li>
+            <li><strong>作者：</strong>Víctor Mayoral Vilches 等</li>
+            <li><strong>研究领域：</strong>Cryptography and Security (cs.CR)</li>
+            <li><strong>发布日期：</strong>2025年9月17日</li>
+        </ul>
+
+        <h2>🔗 资源链接</h2>
+        <a href="https://arxiv.org/abs/2509.14139" target="_blank" class="source-link">📄 查看论文 (arXiv)</a>
+        <a href="https://arxiv.org/pdf/2509.14139.pdf" target="_blank" class="source-link">📑 下载 PDF</a>
+
+        <h2>💭 思考</h2>
+        <p>这篇论文揭示了一个重要趋势：随着机器人进入家庭和商业环境，其安全风险已不再是理论上的担忧，而是切实存在的威胁。机器人作为"特洛伊木马"的概念——表面上是消费产品，实际上是持续监控和数据外泄的设备——这令人警醒。</p>
+        <p>更重要的是，研究展示了AI代理可以从被动监控"升级"为主动进攻准备，这为物理-网络融合系统的安全标准制定敲响了警钟。</p>
+    </div>
+
+    
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

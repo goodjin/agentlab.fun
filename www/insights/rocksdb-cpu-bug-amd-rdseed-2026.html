@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RocksDB development finds a CPU bug - AMD RDSEED</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="container">
+        <h1>🖥️ RocksDB development finds a CPU bug</h1>
+        <div class="meta">
+            <span class="tag">RocksDB</span>
+            <span class="tag">硬件bug</span>
+            <span class="tag">AMD</span>
+            <span class="tag">RDSEED</span>
+            <span class="tag">数据库</span>
+            <span class="tag">测试</span>
+            <br><br>
+            ⭐⭐⭐⭐⭐ (5星) · Source: lobste.rs
+        </div>
+
+        <h2>摘要</h2>
+        <p>这是一个关于RocksDB团队如何在日常开发中发现AMD处理器上RDSEED指令bug的故事。该bug足够严重，被分配了CVE "高危"级别。</p>
+
+        <div class="highlight">
+            <strong>📌 核心发现：</strong>AMD某些型号CPU的RDSEED指令在特定微架构条件下会返回0但报告"成功"，概率远高于随机预期。该问题仅影响特定CPU核心，且仅在libstdc++(GCC)环境下出现。
+        </div>
+
+        <h2>故事背景</h2>
+        <p>大约4年前，RocksDB团队<a href="https://github.com/facebook/rocksdb/pull/9126">为SST文件添加了唯一标识符</a>，目的是为不同文件系统提供稳定的标识符用于缓存。其动机是消除对OS文件系统提供唯一标识符的依赖。</p>
+
+        <p>团队使用了三种熵源的组合来生成高质量随机数：</p>
+        <ul>
+            <li><strong>C++11的std::random_device</strong> - 应提供高质量随机数</li>
+            <li><strong>各种环境参数的哈希</strong> - 包括主机名、进程ID、线程ID、各种时间和宏</li>
+            <li><strong>平台特定的UUID生成器</strong> - 仅限Linux和Windows</li>
+        </ul>
+
+        <h2>发现过程</h2>
+        <p>4年内测试从未失败，直到近2个月内连续失败2次。关键发现：</p>
+        <ul>
+            <li>失败测试生成的唯一ID数量比预期少几十甚至上百个</li>
+            <li>两次失败都运行在相同类型的硬件上，尽管在完全不同的数据中心</li>
+            <li>通过增加线程数到接近核心数，可以快速稳定地复现问题</li>
+            <li>使用rdrand和/dev/urandom的std::random_device不受影响</li>
+            <li>libc++(Clang)不受影响，仅libstdc++(GCC)受影响</li>
+        </ul>
+
+        <h2>根因分析</h2>
+        <p>Meta同事进行了低级别调查，发现问题在于：</p>
+        <ul>
+            <li>该类型处理器的<strong>RDSEED指令</strong>返回0和"成功"的频率远高于随机预期</li>
+            <li>但仅在某些核心上，且仅在"复杂微架构条件下可复现"</li>
+            <li>Linux内核开发了缓解补丁来表明RDSEED在这些处理器上不可用</li>
+            <li><a href="https://www.amd.com/en/resources/product-security/bulletin/amd-sb-7055.html">AMD已承认问题并宣布计划修复</a></li>
+        </ul>
+
+        <h2>关键教训</h2>
+        <div class="highlight">
+            <ol>
+                <li><strong>测试你依赖的东西</strong> - 单元测试揭示了硬件bug</li>
+                <li><strong>为依赖添加冗余和健全性检查</strong> - 多种熵源组合，即使一个坏掉也有备份</li>
+                <li><strong>即使CPU也可能存在bug</strong> - 通常是间歇性的单个单元问题，少数是影响所有单元的bug</li>
+            </ol>
+        </div>
+
+        <h2>技术细节</h2>
+        <p>团队使用了准随机(quasi-random)方法，论文发表在ACM等平台。该方法最小化了所需的熵量，使得获取每个熵单位的性能成本几乎可以忽略。</p>
+        <p>有趣的是，文章提到RocksDB开发中越来越多的精力和CPU时间用于"逻辑上冗余但存在以在腐败传播太远之前检测CPU miscalculations"的检查。</p>
+
+        <hr>
+        <p><small>探索时间: 2026-03-24 · 来源: Lobsters</small></p>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

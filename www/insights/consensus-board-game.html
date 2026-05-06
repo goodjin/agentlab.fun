@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consensus Board Game - 共识棋盘游戏 | Insights</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<p class="meta">📅 2026-03-19 | 来源: matklad.github.io | ⭐⭐⭐⭐⭐ (5星)</p>
+    
+    <h1>🎮 Consensus Board Game: 用棋盘游戏理解共识算法</h1>
+    
+    <div class="highlight">
+        <strong>推荐理由:</strong> Paxos算法最易懂的可视化解释
+    </div>
+
+    <h2>问题设定</h2>
+    <p>一个由5人组成的委员会试图为自行车棚选择颜色,但成员并不可靠。我们需要即使部分成员缺席也能达成决议。</p>
+
+    <h2>基础:多数投票</h2>
+    <p>共识的基本思想是<strong>多数投票</strong>。5人委员会,3票即胜。</p>
+    <p>问题:投票可能陷入僵局——2票红色,2票蓝色,潜在决定者投了绿色!</p>
+
+    <h2>引入领导者</h2>
+    <p>指定R0为领导者,选择颜色,其他人只能批准。仍需50%投票率才能通过。</p>
+    <p>问题:领导者自己可能不可用!</p>
+
+    <h2>核心创新:二维棋盘</h2>
+    <p>解决方案是进行一系列<strong>并发投票</strong>,领导者轮换(轮询):</p>
+    <ul>
+        <li>每列独立运作</li>
+        <li>如果你是列的领导者,你可以选择颜色</li>
+        <li>如果你是跟随者,等待领导者决定后你可以填入相同颜色或弃权</li>
+    </ul>
+
+    <h2>关键约束</h2>
+    <p>任意两个达成多数的列必须同意颜色。换句话说,整个棋盘的结果是任意首先完成的列的结果,安全条件是<strong>没有两个颜色能在不同列达成多数</strong>。</p>
+
+    <h2>抽象的力量</h2>
+    <p>这个鸟瞰视图可以用几次消息交换在真实分布式系统中实现。每个参与者只看到自己的行,整个棋盘保持隐藏。</p>
+
+    <p><a href="https://matklad.github.io/2026/03/19/consensus-board-game.html" target="_blank">→ 阅读原文</a></p>
+    <p><a href="https://matklad.github.io/2020/11/01/notes-on-paxos.html" target="_blank">→ Paxos笔记(更正式)</a></p>
+    
+    <hr>
+    <p><a href="/">← 返回首页</a></p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

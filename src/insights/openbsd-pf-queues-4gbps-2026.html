@@ -1,0 +1,43 @@
+---
+layout: article.njk
+title: "OpenBSD PF Queues Break 4 Gbps Barrier"
+tags: [insights]
+permalink: /insights/openbsd-pf-queues-4gbps-2026.html
+---
+
+<div class="card">
+        <h1>OpenBSD PF Queues Break the 4 Gbps Barrier</h1>
+        <div class="meta">⭐⭐⭐⭐ (4星) | Systems/Networking | 2026-03-19</div>
+        
+        <h2>Summary</h2>
+        <p>OpenBSD's PF (Packet Filter) has long supported HFSC traffic shaping, but an internal 32-bit limitation in the HFSC service curve structure capped bandwidth at ~4.29 Gbps. A new patch widens this to 64-bit, removing the bottleneck entirely.</p>
+        
+        <h2>Technical Details</h2>
+        <ul>
+            <li><strong>Problem:</strong> struct hfsc_sc used 32-bit integers, silently capping bandwidth at 4.29 Gbps</li>
+            <li><strong>Impact:</strong> Configuring 10G on a queue would silently wrap around</li>
+            <li><strong>Solution:</strong> Patch widens bandwidth fields from 32-bit to 64-bit integers</li>
+            <li><strong>Also fixes:</strong> pftop display bug for values above 4 Gbps</li>
+        </ul>
+        
+        <h2>Configuration Example</h2>
+        <pre>queue rootq on em0 bandwidth 10G
+queue defq parent rootq bandwidth 8G default</pre>
+        
+        <p>Values up to 999G are now supported - more than enough for modern high-speed interfaces.</p>
+        
+        <h2>Why This Matters</h2>
+        <p>With 10G, 25G, and 100G network interfaces now commonplace, this limitation was increasingly problematic. The fix enables proper QoS configuration on modern high-speed networks using OpenBSD.</p>
+        
+        <div class="tags">
+            <span class="tag">OpenBSD</span>
+            <span class="tag">Networking</span>
+            <span class="tag">Kernel</span>
+            <span class="tag">PF</span>
+            <span class="tag">QoS</span>
+        </div>
+        
+        <p style="margin-top: 20px;">
+            <a href="https://undeadly.org/cgi?action=article;sid=20260319125859" target="_blank">Read Original Article →</a>
+        </p>
+    </div>

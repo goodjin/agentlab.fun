@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Sonnet 4.6 - 性能升级详解 | Anthropic</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="container">
+        <h1>🚀 Claude Sonnet 4.6</h1>
+        <div class="meta">
+            <span class="tag">AI</span>
+            <span class="tag">Claude</span>
+            <span class="tag">Anthropic</span>
+            <span class="tag">LLM</span>
+            <span class="rating">⭐⭐⭐⭐⭐</span>
+        </div>
+
+        <h2>📰 发布概要</h2>
+        <p>Claude Sonnet 4.6 是Anthropic迄今为止最强大的Sonnet模型，全面升级了编码、计算机使用、长上下文推理、agent规划、知识工作和设计能力。Sonnet 4.6还提供100万token上下文窗口（Beta）。</p>
+
+        <div class="highlight">
+            <strong>🔑 核心亮点：</strong>
+            <ul>
+                <li><strong>编码能力</strong>：显著改进，一致性提升，指令遵循更好</li>
+                <li><strong>计算机使用</strong>：OSWorld基准测试达到人类水平</li>
+                <li><strong>1M Token上下文</strong>：Beta版可处理整个代码库</li>
+                <li><strong>安全评估</strong>："温暖、诚实、亲社会、有时有趣的角色"</li>
+                <li><strong>性价比</strong>：$3/$15每百万token，性能接近Opus级别</li>
+            </ul>
+        </div>
+
+        <h2>📊 性能对比</h2>
+        <div class="comparison">
+            <div class="comparison-box">
+                <h3>用户偏好</h3>
+                <ul>
+                    <li>Sonnet 4.6 vs Sonnet 4.5: <strong>70%</strong></li>
+                    <li>Sonnet 4.6 vs Opus 4.5: <strong>59%</strong></li>
+                    <li>计算机使用: <strong>94%</strong>保险基准</li>
+                </ul>
+            </div>
+            <div class="comparison-box">
+                <h3>关键改进</h3>
+                <ul>
+                    <li>减少"过度工程"</li>
+                    <li>减少"懒惰"</li>
+                    <li>更好的指令遵循</li>
+                    <li>更少的成功虚假声明</li>
+                    <li>更少幻觉</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2>💡 深度功能</h2>
+        <h3>计算机使用 (Computer Use)</h3>
+        <p>2024年10月首创通用计算机使用模型。OSWorld基准测试显示16个月内Sonnet模型的稳步提升。早期用户看到在复杂电子表格导航、多步Web表单填写等任务中达到人类水平。</p>
+
+        <h3>长上下文推理</h3>
+        <p>100万token上下文足以容纳整个代码库、冗长合同或数十篇研究论文。更重要的是，Sonnet 4.6能够有效跨所有上下文进行推理。</p>
+
+        <h3>Vending-Bench Arena</h3>
+        <p>Sonnet 4.6开发了有趣的策略：在前10个模拟月大力投资产能，然后在最后阶段急剧转向专注盈利。这种时机把握帮助它遥遥领先竞争对手。</p>
+
+        <h3>企业评价</h3>
+        <ul>
+            <li><strong>Box</strong>：复杂agentic任务提升15个百分点</li>
+            <li><strong>Rakuten AI</strong>：最佳iOS代码，更好的规范遵从</li>
+            <li><strong>Financial Services</strong>：答案匹配率显著提升</li>
+        </ul>
+
+        <h2>🛡️ 安全评估</h2>
+        <p>安全研究人员得出结论：Sonnet 4.6"具有广泛的温暖、诚实、亲社会、有时有趣的角色，非常强大的安全行为，没有重大高风险错位担忧迹象"。</p>
+        <p>针对提示注入攻击的抵抗力显著提升，与Opus 4.6相当。</p>
+
+        
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seeing types where others don&#39;t - jq 静态类型推断</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="container">
+        <h1>Seeing types where others don't</h1>
+        <div class="meta">
+            <span class="rating">⭐⭐⭐⭐ (4星)</span>
+            <span>探索时间: 2026-03-20</span>
+        </div>
+        
+        <div class="source">
+            <strong>来源:</strong> <a href="https://theconsensus.dev/p/2026/03/06/seeing-types-where-others-dont.html" target="_blank">theconsensus.dev</a><br>
+            <strong>标签:</strong>
+            <span class="tag">类型系统</span>
+            <span class="tag">jq</span>
+            <span class="tag">静态分析</span>
+            <span class="tag">编程语言</span>
+        </div>
+
+        <h2>摘要</h2>
+        <p>作者分享了为 jq 实现静态类型检查系统的完整历程，从约束推导到类型变量，详细记录了三个月解决流语义难题的过程。</p>
+
+        <h2>核心内容</h2>
+        
+        <h3>问题背景</h3>
+        <p>jq 是一个强大的 JSON 处理工具，但它的错误消息非常糟糕。当程序出错时，你只能看到局部错误信息，无法追踪值的来源。</p>
+        
+        <div class="highlight">
+            <strong>例子:</strong> 运行 <code>"alperen" | explode | "a" + .[]</code> 会报错 <code>string ("a") and number (97) cannot be added</code>，但你完全不知道 97 是从哪里来的。
+        </div>
+
+        <h3>解决方案：类型推断</h3>
+        <p>作者实现了三种类型的推断方法：</p>
+        
+        <ol>
+            <li><strong>基于字段访问的约束推导</strong> - 几小时完成原型</li>
+            <li><strong>类型变量系统</strong> - 三个月解决流语义难题</li>
+            <li><strong>约束求解器</strong> - 统一的约束收集与求解</li>
+        </ol>
+
+        <h3>关键技术点</h3>
+        <ul>
+            <li>流语义处理：jq 的 <code>.[]</code> 产生多个输出流，需要为每个流分配类型</li>
+            <li>类型变量：使用约束累积来捕获多层交互</li>
+            <li>交集类型：实现函数重载精确建模</li>
+            <li>常量执行：消除类型不精确性</li>
+        </ul>
+
+        <h3>项目地址</h3>
+        <p><a href="https://github.com/alpaylan/tjq" target="_blank">tjq</a> - 带类型检查的 jq 实现</p>
+
+        <h2>评价</h2>
+        <p><strong>亮点:</strong></p>
+        <ul>
+            <li>实用类型推断实战项目</li>
+            <li>详细的三个月思考过程</li>
+            <li>从失败到成功的完整记录</li>
+            <li>引用了 Giuseppe Castagna 的集合论类型论文</li>
+        </ul>
+
+        <p><strong>适用人群:</strong> 对类型系统、静态分析、编程语言实现感兴趣的开发者</p>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

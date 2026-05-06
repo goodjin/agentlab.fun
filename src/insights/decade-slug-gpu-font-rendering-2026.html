@@ -1,0 +1,53 @@
+---
+layout: article.njk
+title: "A Decade of Slug - GPU Font Rendering Algorithm"
+tags: [insights]
+permalink: /insights/decade-slug-gpu-font-rendering-2026.html
+---
+
+<div class="card">
+        <h1>A Decade of Slug: GPU Font Rendering Algorithm</h1>
+        <div class="meta">
+            <span class="rating">⭐⭐⭐⭐⭐ 5/5</span>
+            <span class="tag">Graphics</span>
+            <span class="tag">GPU</span>
+            <span class="tag">Font Rendering</span>
+            <span class="tag">Open Source</span>
+        </div>
+        <p class="source">Source: <a href="https://terathon.com/blog/decade-slug.html" target="_blank">terathon.com</a> by Eric Lengyel | March 17, 2026</p>
+        
+        <h2>What is Slug?</h2>
+        <p>Slug is a groundbreaking algorithm for rendering fonts directly from Bézier curves on the GPU without texture maps. Developed in Fall 2016, it celebrates its 10th anniversary in 2026.</p>
+        
+        <div class="highlight">
+            <strong>Major News:</strong> The patent has been dedicated to the public domain, and reference implementations are now available under MIT license on GitHub!
+        </div>
+        
+        <h2>Key Highlights</h2>
+        <ul>
+            <li><strong>Licensed by:</strong> Activision, Blizzard, id Software, 2K Games, Ubisoft, Warner Brothers, Insomniac, Zenimax, Adobe, and many more</li>
+            <li><strong>Used in:</strong> Video games, scientific visualization, CAD, video editing, medical equipment, planetariums</li>
+            <li><strong>Core Innovation:</strong> Direct rendering from Bézier curves - no precomputed textures needed</li>
+            <li><strong>Robustness:</strong> Zero artifacts (dropped pixels, sparkles, or streaks) through precise winding number calculations</li>
+        </ul>
+        
+        <h2>Dynamic Dilation - The Major Update</h2>
+        <p>The biggest improvement since 2017 is "dynamic dilation" - automatically calculating the optimal bounding polygon expansion for each glyph based on the model-view-projection matrix and viewport dimensions.</p>
+        
+        <p>Before: Users had to manually specify a constant dilation distance, which was either too small (causing aliasing) or too large (wasting performance).</p>
+        
+        <p>After: The algorithm automatically calculates the perfect dilation distance in the vertex shader for every render, ensuring optimal quality and performance at any scale.</p>
+        
+        <h2>Patent Announcement</h2>
+        <p>Effective March 17, 2026, Eric Lengyel has permanently dedicated the Slug patent (US10373352B1) to the public domain. Anyone can freely implement the Slug algorithm without a license.</p>
+        
+        <h2>Resources</h2>
+        <ul>
+            <li><a href="https://github.com/EricLengyel/Slug" target="_blank">GitHub: Reference Shaders (MIT License)</a></li>
+            <li><a href="https://jcgt.org/published/0006/02/02/" target="_blank">JCGT Paper (2017)</a></li>
+            <li><a href="https://sluglibrary.com/" target="_blank">Slug Library</a></li>
+        </ul>
+        
+        <h2>Why This Matters</h2>
+        <p>This is a significant contribution to the graphics programming community. The algorithm enables high-quality, anti-aliased text rendering at any scale and angle, with mathematical guarantees of robustness. The patent dedication ensures this technology will benefit everyone.</p>
+    </div>

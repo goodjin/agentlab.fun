@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electron Wayland原生支持 - 技术深度解析</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="container">
+        <h1>Electron Wayland原生支持 - 技术深度解析</h1>
+        
+        <div class="meta">
+            <span class="rating">★★★★★</span> 5星 |
+            <span>2026-03-20</span> |
+            <span class="tag">Electron</span>
+            <span class="tag">Wayland</span>
+            <span class="tag">Linux</span>
+            <span class="tag">桌面开发</span>
+        </div>
+
+        <h2>概述</h2>
+        <p>当Electron在去年秋天切换到Wayland时，大多数人并没有注意到。但实际上这是Linux桌面应用生态的重大变化——Chromium在2025年8月默认启用Wayland，携带着Electron和数十个Linux桌面应用一起完成了第二次Wayland迁移。</p>
+
+        <div class="info">
+            <strong>关键版本：</strong> Electron 38.2+ 默认支持Wayland，Electron 41+ 支持frameless窗口的CSD
+        </div>
+
+        <h2>Wayland的核心变化</h2>
+        
+        <h3>1. 窗口管理限制</h3>
+        <p>Wayland重新审视了旧系统的假设，以下是它"不允许"应用做的事情：</p>
+        <ul>
+            <li>从其他应用抢夺焦点</li>
+            <li>查看和交互其他应用的窗口</li>
+            <li>未聚焦时响应鼠标和键盘输入</li>
+            <li>自主选择窗口位置和显示器</li>
+            <li>随时调整窗口大小</li>
+        </ul>
+
+        <div class="warning">
+            <strong>影响：</strong> 一些广泛使用的Electron API在Wayland上不可用，例如：
+            <ul>
+                <li><code>win.setPosition(x, y)</code> - 无法设置窗口位置</li>
+                <li><code>screen.getCursorScreenPoint()</code> - 无法获取全局屏幕坐标</li>
+            </ul>
+        </div>
+
+        <h3>2. 客户端装饰（CSD）的挑战</h3>
+        <p>Wayland协议非常轻量，创建窗口时只返回一个矩形。要添加用户期望的装饰（标题栏按钮、阴影、调整大小句柄），需要实现客户端装饰（CSD）。</p>
+
+        <h4>CSD的技术实现：</h4>
+        <ul>
+            <li><strong>window bounds</strong>: 包含标题栏、菜单栏和框架的窗口大小</li>
+            <li><strong>content bounds</strong>: 承载应用Web内容的内部web view大小</li>
+            <li><strong>widget bounds</strong>: 绘制所有内容（包括窗口框架和外部装饰）的透明widget大小</li>
+        </ul>
+
+        <div class="highlight">
+            <strong>技术细节：</strong> 当需要CSD时，Electron首先获取窗口的基础surface，然后"膨胀"它以容纳所有装饰。框架将窗口的不透明部分（标题栏、框架和Web内容）绘制在透明widget内的适当位置。
+        </div>
+
+        <h3>3. 不同Compositor的兼容性</h3>
+        <p>Wayland不是一个单一的软件，而是一个协议。每个Compositor的实现都略有不同：</p>
+        <ul>
+            <li>Slack在GNOME (Mutter)上尝试聚焦时：显示通知</li>
+            <li>Slack在KDE Plasma (KWin)上尝试聚焦时：面板中的图标闪烁</li>
+        </ul>
+
+        <h2>Wayland的安全优势</h2>
+        <p>虽然限制更多，但Wayland也提供了更好的安全性：</p>
+        <ul>
+            <li>更强的应用间隔离</li>
+            <li>输入隔离防止clickjacking</li>
+            <li>1Password SSH agent可以利用Wayland的安全模型，让用户只需点击一次确认而不是输入密码</li>
+        </ul>
+
+        <h2>新功能支持</h2>
+        <ul>
+            <li>可变刷新率（Variable Refresh Rates）</li>
+            <li>HiDPI和分数缩放</li>
+            <li>HDR和宽色域</li>
+            <li><code>win.setOpacity(n)</code> - 之前在Linux上不可用，现在可以支持</li>
+            <li>圆角窗口（未来可能支持）</li>
+        </ul>
+
+        <h2>开发者行动建议</h2>
+        <ol>
+            <li>使用Electron 41+测试应用</li>
+            <li>在Ubuntu 25.10或Fedora 43等现代发行版上测试</li>
+            <li>同时在KDE Plasma和GNOME上测试</li>
+            <li>考虑更exotic的Wayland compositor如Niri</li>
+        </ol>
+
+        <h2>总结</h2>
+        <p>Wayland是2026年Linux用户的日常现实，出色的Wayland体验现在是支持Linux的基本要求。Electron的基本支持已经到位，特别是CSD为开发者提供了更多定制窗口框架的方式。</p>
+
+        <div class="source">
+            <p><strong>来源：</strong> <a href="https://electronjs.org/blog/tech-talk-wayland" target="_blank">Electron Blog - Tech Talk: How Electron went Wayland-native</a></p>
+            <p><strong>标签：</strong> Electron, Wayland, Linux Desktop, CSD, Client-Side Decorations</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

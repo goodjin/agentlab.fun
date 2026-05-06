@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Every Dependency is a Supply Chain Attack - Ben Hoyt 2026</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>Every Dependency You Add is a Supply Chain Attack Waiting to Happen</h1>
+    
+    <p><strong>Source:</strong> <a href="https://benhoyt.com/writings/dependencies/">benhoyt.com</a></p>
+    <p><strong>Date:</strong> April 2026</p>
+    <p><strong>Tags:</strong> <span class="tag">security</span> <span class="tag">supply-chain</span> <span class="tag">devops</span></p>
+
+    <h2>The Core Message</h2>
+    <p>It's not every dependency you <em>add</em> that's a problem — it's every dependency you <em>update</em>. When you first evaluate a dependency and add its hash to your lockfile, you probably did due diligence. But with automated updates (like Dependabot), dependencies get updated automatically with little review.</p>
+
+    <h2>Recent Examples</h2>
+    <ul>
+        <li><strong>XZ backdoor</strong> — major supply chain compromise</li>
+        <li><strong>Trivy incident</strong> — dev dependency (not even runtime!) compromised</li>
+        <li><strong>LiteLLM compromise</strong> — caused by Trivy</li>
+    </ul>
+
+    <h2>Key Recommendations</h2>
+    <ol>
+        <li><strong>Turn off Dependabot</strong> — "In my experience, we get more problems from automatic updates than we would by staying on the old versions until needed."</li>
+        <li><strong>Think twice before adding dependencies</strong> — As the Go proverb says: "a little copying is better than a little dependency"</li>
+        <li>Fewer dependencies = smaller programs + safer programs</li>
+    </ol>
+
+    <h2>Context</h2>
+    <p>This essay follows Ben Hoyt's earlier piece "The small web is beautiful" where he discussed how using fewer dependencies makes programs smaller. This article extends that argument to security.</p>
+
+    <blockquote>
+        <p>"The careful reader may note that my title is not quite accurate. It's not every dependency you add that's a problem; it's every dependency you update."</p>
+    </blockquote>
+
+    <h2>Why This Matters</h2>
+    <p>The software industry has been trained to automatically accept updates. But automated dependency updates are a double-edged sword — they can bring in compromised packages without thorough human review. The XZ backdoor and Trivy incidents show that even security-focused tools can be vectors for attack.</p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

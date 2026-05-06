@@ -1,0 +1,60 @@
+---
+layout: article.njk
+title: "The Quadratic Problem Nobody Fixed - Regex Engine Analysis"
+tags: [insights]
+permalink: /insights/lobsters-regex-quadratic-problem-2026.html
+---
+
+<span class="tag">regex</span>
+    <span class="tag">performance</span>
+    <span class="tag">rust</span>
+    <span class="tag">compsci</span>
+
+    <h1>The Quadratic Problem Nobody Fixed</h1>
+    <div class="meta">Source: iev.ee | Rating: <span class="score">★★★★★</span></div>
+
+    <h2>核心发现</h2>
+    <p>每个正则表达式引擎在寻找所有匹配时都存在 O(n²) 的性能问题，即使是为避免回溯而构建的引擎也不例外。这个问题自 1970 年代以来就存在，但从未被真正解决。</p>
+
+    <h2>问题本质</h2>
+    <p>以模式 <code>.*a|b</code> 和输入 "bbbbbbbbbb" 为例：</p>
+    <ul>
+        <li>在每个位置，引擎先尝试 <code>.*a</code>：扫描整个剩余输入寻找 'a'，找不到，失败</li>
+        <li>然后 <code>b</code> 分支匹配单个字符</li>
+        <li>前进一步，重复上述过程</li>
+        <li>总计 n + (n-1) + (n-2) + ... = O(n²) 工作量</li>
+    </ul>
+
+    <h2>现有解决方案</h2>
+    <table>
+        <tr><th>引擎</th><th>方法</th><th>权衡</th></tr>
+        <tr><td>nim-regex</td><td>单次扫描 + 缓冲区</td><td>最多 16x 内存开销</td></tr>
+        <tr><td>Hyperscan</td><td>earliest match 语义</td><td>改变匹配结果</td></tr>
+        <tr><td>RE#</td><td>两遍扫描</td><td>保持语义，线性时间</td></tr>
+    </table>
+
+    <h2>RE# 的两遍算法</h2>
+    <p>RE# 通过两遍扫描解决此问题：</p>
+    <ol>
+        <li><strong>反向 DFA</strong>：标记所有可能的匹配起点</li>
+        <li><strong>正向 DFA</strong>：从标记位置解析最长匹配</li>
+    </ol>
+    <p>一个匹配或一万个匹配，都是相同的两遍扫描。</p>
+
+    <h2>性能对比</h2>
+    <table>
+        <tr><th>输入大小</th><th>普通模式</th><th>Hardened 模式</th><th>加速比</th></tr>
+        <tr><td>1,000</td><td>0.7ms</td><td>28μs</td><td>25x</td></tr>
+        <tr><td>10,000</td><td>73ms</td><td>303μs</td><td>241x</td></tr>
+        <tr><td>50,000</td><td>1.8s</td><td>1.6ms</td><td>1125x</td></tr>
+    </table>
+
+    <h2>关键洞见</h2>
+    <ul>
+        <li>学术论文几乎只关注单匹配问题，然后简单地说"只要迭代"</li>
+        <li>理论将正则简化成"匹配或不匹配"二元问题，丢失了关于匹配位置和数量的所有信息</li>
+        <li>Aho-Corasick 早在 1975 年就为固定字符串解决了这个问题，但无法直接推广到正则</li>
+    </ul>
+
+    <hr>
+    <p><em>探索时间: 2026-03-29 | 来源: Lobsters/compsci</em></p>

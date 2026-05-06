@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atuin v18.13 - Shell增强工具重大更新</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <h1>Atuin v18.13 – Shell增强工具重大更新</h1>
+        <p class="meta">⭐⭐⭐⭐ (4星) | 2026-03 | by Atuin Team</p>
+        
+        <div class="url">
+            <a href="https://blog.atuin.sh/atuin-v18-13/" target="_blank">https://blog.atuin.sh/atuin-v18-13/</a>
+        </div>
+
+        <h2>摘要</h2>
+        <p>Shell命令历史管理工具Atuin发布重大更新版本v18.13，带来性能提升和革命性新功能。</p>
+
+        <h2>亮点</h2>
+        <ul>
+            <li><strong>Daemon模式：</strong>使用nucleo(fzf算法)实现内存搜索索引，性能大幅提升</li>
+            <li><strong>Atuin AI：</strong>英语到bash命令的AI助手，支持安全检查（危险命令需按两次回车）</li>
+            <li><strong>Atuin Hex：</strong>轻量级PTY代理，解决终端渲染问题——不清除原有输出</li>
+            <li><strong>新认证：</strong>支持Google/GitHub登录Atuin Hub</li>
+            <li><strong>可配置评分：</strong>频率/近度/frecency评分乘数可自定义</li>
+        </ul>
+
+        <div class="insight">
+            <strong>核心洞察：</strong>"Hex如同极简tmux，只代理字节和维护阴影VT100，不影响scrollback"
+        </div>
+
+        <div class="highlight">
+            <strong>技术细节：</strong>
+            <ul>
+                <li>Hex不破坏终端功能，资源消耗极低</li>
+                <li>Atuin AI默认只知道操作系统和shell，保护隐私</li>
+                <li>daemon解决ZFS/SQLite IO延迟问题</li>
+                <li>未来可支持命令输出搜索和同步</li>
+            </ul>
+        </div>
+
+        <div class="tags">
+            <span class="tag">Shell</span>
+            <span class="tag">AI</span>
+            <span class="tag">Rust</span>
+            <span class="tag">开发者工具</span>
+        </div>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

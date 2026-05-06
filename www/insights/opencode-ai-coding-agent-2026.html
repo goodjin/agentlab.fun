@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenCode - 开源AI编码代理</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <h1>OpenCode - Open Source AI Coding Agent</h1>
+        <div class="meta">
+            <span class="tag">AI</span>
+            <span class="tag">编码代理</span>
+            <span class="tag">开源</span>
+            <span class="rating">⭐⭐⭐⭐⭐ (5星)</span>
+        </div>
+        
+        <p>120K GitHub stars 的开源 AI 编码代理，挑战 Claude Code 和 Cursor 的新势力。</p>
+        
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-num">120K</div>
+                <div class="stat-label">GitHub Stars</div>
+            </div>
+            <div class="stat">
+                <div class="stat-num">800</div>
+                <div class="stat-label">贡献者</div>
+            </div>
+            <div class="stat">
+                <div class="stat-num">5M</div>
+                <div class="stat-label">月活开发者</div>
+            </div>
+        </div>
+        
+        <div class="highlight">
+            <strong>核心洞察:</strong> 开源 AI 编码代理挑战 Claude Code/Cursor，隐私优先设计。
+        </div>
+        
+        <h2>核心特性</h2>
+        <ul>
+            <li><strong>LSP 自动启用</strong>：自动加载正确的语言服务器</li>
+            <li><strong>多会话</strong>：同一项目可启动多个并行的代理</li>
+            <li><strong>分享链接</strong>：可分享任何会话用于参考或调试</li>
+            <li><strong>任意模型</strong>：支持 75+ LLM 提供商，包括本地模型</li>
+            <li><strong>多形态</strong>：终端、桌面应用、IDE 插件</li>
+        </ul>
+        
+        <h2>模型支持</h2>
+        <ul>
+            <li><strong>内置免费模型</strong></li>
+            <li><strong>连接任意模型</strong>：Claude, GPT, Gemini 等</li>
+            <li><strong>GitHub Copilot</strong>：登录使用 Copilot 账号</li>
+            <li><strong>ChatGPT Plus/Pro</strong>：登录使用 OpenAI 账号</li>
+            <li><strong>Models.dev</strong>：75+ LLM 提供商</li>
+        </ul>
+        
+        <h2>Zen 优化模型</h2>
+        <p>Zen 提供针对编码代理测试和基准验证的 AI 模型，无需担心跨提供商的性能和质量不一致。</p>
+        
+        <h2>隐私优先</h2>
+        <p>OpenCode 不存储任何代码或上下文数据，可在敏感环境中运行。</p>
+        
+        <p style="margin-top: 24px; color: #666; font-size: 0.9em;">
+            来源: <a href="https://opencode.ai/">opencode.ai</a>
+        </p>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atuin v18.13 发布 - Shell 历史管理工具重大更新</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <h1>Atuin v18.13 发布</h1>
+        <p><span class="rating">⭐⭐⭐⭐ (4星)</span> <span class="tag">工具</span> <span class="tag">Shell</span> <span class="tag">AI</span></p>
+        
+        <div class="url">
+            <a href="https://blog.atuin.sh/atuin-v18-13/" target="_blank">https://blog.atuin.sh/atuin-v18-13/</a>
+        </div>
+        
+        <h2>摘要</h2>
+        <p>Atuin v18.13 是近一段时间以来最大的更新版本，带来了多项重大功能改进。</p>
+        
+        <h2>亮点</h2>
+        <div class="highlight">
+            <h3>1. Daemon 模式更快更好的搜索</h3>
+            <p>daemon 模式维护一个热内存搜索索引，使用修改版的 nucleo（fzf 同款算法），带来更好的性能和准确性。</p>
+            <p>新增可配置的频率/即时性/综合权重调整：</p>
+            <pre><code>search_mode = "daemon-fuzzy"
+
+[daemon]
+enabled = true
+autostart = true</code></pre>
+        </div>
+        
+        <div class="highlight">
+            <h3>2. Atuin AI - 英语到 Bash 命令的 AI 助手</h3>
+            <p>按 ? 描述你想要的操作，AI 生成命令，按 Enter 执行或 Tab 编辑。</p>
+            <ul>
+                <li><strong>准确性</strong>：使用前沿模型 + man pages 数据集</li>
+                <li><strong>安全性</strong>：静态检查 + LLM 护栏，危险命令需按两次 Enter</li>
+                <li><strong>隐私</strong>：默认只知道操作系统和 shell</li>
+            </ul>
+        </div>
+        
+        <div class="highlight">
+            <h3>3. Hex - 轻量级 PTY 代理</h3>
+            <p>解决终端渲染问题：不再需要全屏模式或清除之前输出。</p>
+            <p>像极简版 tmux，但不影响 scrollback，不破坏终端功能，只代理字节和维护影子 vt100。</p>
+            <pre><code>eval "$(atuin hex init)"</code></pre>
+        </div>
+        
+        <div class="highlight">
+            <h3>4. 新认证方式</h3>
+            <p>支持 Google/GitHub 登录，self-host 用户不受影响。</p>
+        </div>
+        
+        <div class="insight">
+            <strong>核心洞察：</strong> "Atuin 从单纯的 shell 历史管理进化为完整的终端效率工具"
+        </div>
+        
+        
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,95 @@
+---
+layout: article.njk
+title: "Goodbye innerHTML, Hello setHTML: Firefox 148 XSS 保护 - Mozilla Hacks"
+tags: [insights]
+permalink: /insights/sanitizer-api-firefox-xss-protection-2026.html
+---
+
+<div class="container">
+        <h1>告别 innerHTML，迎接 setHTML：Firefox 148 XSS 保护 🛡️</h1>
+        <p class="source">来源: <a href="https://hacks.mozilla.org/2026/02/goodbye-innerhtml-hello-sethtml-stronger-xss-protection-in-firefox-148/">Mozilla Hacks</a> | 评分: <span class="rating">⭐⭐⭐⭐⭐ 5星</span></p>
+        
+        <div style="margin: 20px 0;">
+            <span class="tag">XSS</span>
+            <span class="tag">Security</span>
+            <span class="tag">Firefox</span>
+            <span class="tag">Web Security</span>
+            <span class="tag">Sanitizer API</span>
+        </div>
+
+        <h2>XSS：十年之久的 Web 安全噩梦</h2>
+        
+        <p>跨站脚本攻击 (XSS) 是 Web 上最普遍的安全漏洞之一。近十年来，它一直是 <strong>CWE-79</strong>，位列三大 Web 漏洞之中。</p>
+
+        <div class="warning">
+            <strong>⚠️ XSS 危害：</strong>攻击者可以监控和操纵用户交互，持续窃取用户数据，漏洞存在多久就能偷多久。
+        </div>
+
+        <h2>现有方案的局限</h2>
+        
+        <p>Mozilla 从 2009 年开始牵头制定 Content-Security-Policy (CSP) 标准。尽管不断改进，但 <strong>CSP 未获得足够采用</strong>，无法保护长尾 Web 站点，因为它需要：</p>
+        <ul>
+            <li>对现有网站进行重大架构更改</li>
+            <li>安全专家持续审查</li>
+        </ul>
+
+        <h2>Sanitizer API：标准化解决方案</h2>
+        
+        <p>Sanitizer API 提供了一种<strong>标准化</strong>的方法，将恶意 HTML 转换为无害 HTML。Firefox 148 是首个实现这一标准化安全增强 API 的浏览器！</p>
+
+        <h3>使用 setHTML() 替代 innerHTML</h3>
+        
+        <pre><code>// 之前 (不安全)
+element.innerHTML = userInput;
+
+// 现在 (安全)
+element.setHTML(userInput);</code></pre>
+
+        <h3>自动净化示例</h3>
+        
+        <pre><code>// 输入
+document.body.setHTML(`&lt;h1&gt;Hello my name is &lt;img src="x" onclick="alert('XSS')"&gt;`);
+
+// 输出 (安全的)
+&lt;h1&gt;Hello my name is&lt;/h1&gt;</code></pre>
+        
+        <p>危险的 <code>onclick</code> 属性被自动移除！</p>
+
+        <h2>自定义配置</h2>
+        
+        <p>如果默认配置太严格或太宽松，开发者可以提供自定义配置：</p>
+        <pre><code>const sanitizer = new Sanitizer({
+  elements: ['div', 'span', 'p'],
+  attributes: {'*': ['class']}
+});
+element.setHTML(userInput, { sanitizer });</code></pre>
+
+        <h2>结合 Trusted Types 使用</h2>
+        
+        <p>更强的保护可以结合 Trusted Types：</p>
+        <ul>
+            <li>集中控制 HTML 解析和注入</li>
+            <li>允许 setHTML() 同时阻止其他不安全的 HTML 插入方法</li>
+            <li>帮助防止未来的 XSS 回滚</li>
+        </ul>
+
+        <h2>为什么这很重要</h2>
+        
+        <ul>
+            <li><strong>零代码修改</strong>：只需将 innerHTML 替换为 setHTML()</li>
+            <li><strong>默认安全</strong>：内置净化，无需安全团队</li>
+            <li><strong>标准化</strong>：跨浏览器兼容</li>
+            <li><strong>Firefox 领先</strong>：其他浏览器即将跟进</li>
+        </ul>
+
+        <div class="highlight">
+            <strong>💡 开发者建议：</strong>立即将 <code>innerHTML</code> 替换为 <code>setHTML()</code>！可以使用 <a href="https://sanitizer-api.dev/">Sanitizer API Playground</a> 进行实验。
+        </div>
+
+        <h2>总结</h2>
+        
+        <p>Sanitizer API 是 Web 安全的重大进步。它让所有开发者都能轻松防止 XSS 攻击，无需专门的安全团队或复杂的实施更改。</p>
+        
+        <hr>
+        <p style="color: #666; font-size: 14px;">🕐 最后更新: 2026-03-18 | 来源: Mozilla Hacks</p>
+    </div>

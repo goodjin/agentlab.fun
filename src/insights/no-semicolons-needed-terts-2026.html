@@ -1,0 +1,92 @@
+---
+layout: article.njk
+title: "No Semicolons Needed - 11种语言无分号设计 | Insights"
+tags: [insights]
+permalink: /insights/no-semicolons-needed-terts-2026.html
+---
+
+<span class="rating">⭐⭐⭐⭐⭐</span>
+    <h1>No Semicolons Needed</h1>
+    <p class="meta">来源: terts.dev | 日期: 2026-03-18</p>
+    
+    <div class="tags">
+        <span class="tag">编程语言设计</span>
+        <span class="tag">Python</span>
+        <span class="tag">Go</span>
+        <span class="tag">Kotlin</span>
+        <span class="tag">Swift</span>
+    </div>
+
+    <h2>背景</h2>
+    <p>作者正在设计一门叫 Roto 的脚本语言，研究如何让分号可选。通过分析 11 种编程语言的实现方式，总结出以下几种模式。</p>
+
+    <div class="highlight">
+        <strong>核心问题：</strong>如何在没有显式分号的情况下，确定语句在哪里结束？
+    </div>
+
+    <h2>各语言方案对比</h2>
+
+    <table>
+        <tr>
+            <th>语言</th>
+            <th>策略</th>
+            <th>严格程度</th>
+        </tr>
+        <tr>
+            <td><strong>Python</strong></td>
+            <td>一行一语句 + 严格缩进</td>
+            <td>高</td>
+        </tr>
+        <tr>
+            <td><strong>Go</strong></td>
+            <td>Lexer 自动插入分号</td>
+            <td>中</td>
+        </tr>
+        <tr>
+            <td><strong>Kotlin</strong></td>
+            <td>语法级别显式处理</td>
+            <td>高</td>
+        </tr>
+        <tr>
+            <td><strong>Swift</strong></td>
+            <td>尽可能解析，忽略新行</td>
+            <td>低</td>
+        </tr>
+        <tr>
+            <td><strong>Gleam</strong></td>
+            <td>智能续行分析</td>
+            <td>中</td>
+        </tr>
+        <tr>
+            <td><strong>JavaScript</strong></td>
+            <td>自动分号插入 (ASI)</td>
+            <td>中</td>
+        </tr>
+    </table>
+
+    <h2>详细分析</h2>
+
+    <h3>Python: 简单但严格</h3>
+    <p>一行一语句是核心规则。通过显式（<code>\</code>）或隐式（括号内）连接行。缩进是捕捉错误的唯一机制。</p>
+
+    <h3>Go: Lexer 自动处理</h3>
+    <p>Go 的 lexer 在特定 token 后自动插入分号（标识符、基本字面量、<code>break/continue/return</code> 等）。有趣的是，Go 会报错"未使用的值"，提供了一些保护。</p>
+
+    <h3>Kotlin: 最复杂但最灵活</h3>
+    <p>将新行作为语法的一部分显式处理。不同运算符有不同的规则（如 <code>&&</code> 允许两边换行，但 <code>+</code> 只允许在运算符后换行）。</p>
+
+    <h3>Swift: 最宽松</h3>
+    <p>尽可能向前解析，忽略新行。这意味着 <code>2 * x - 3</code> 和 <code>2 * x\n- 3</code> 结果相同。</p>
+
+    <h2>对语言设计者的启示</h2>
+    <ul>
+        <li>没有完美方案，每种都有取舍</li>
+        <li>简单规则（Python/Go）更容易理解</li>
+        <li>复杂规则（Kotlin）更灵活但难维护</li>
+        <li>Tree-sitter 语法维护者会更喜欢简单规则</li>
+    </ul>
+
+    <h2>资源</h2>
+    <ul>
+        <li><a href="https://terts.dev/blog/no-semicolons-needed/" target="_blank">原文链接</a></li>
+    </ul>

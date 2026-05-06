@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Separating the Wayland Compositor and Window Manager - Exploration Insights</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<a href="/insights/index.html" class="back-link">← Back to Insights</a>
+    
+    <div class="card">
+        <h1>Separating the Wayland Compositor and Window Manager</h1>
+        <div class="meta">
+            <span class="tag">Linux</span>
+            <span class="tag">Wayland</span>
+            <span class="tag">Open Source</span>
+            <span class="rating">⭐⭐⭐⭐⭐ 5星</span>
+        </div>
+        <div class="meta">
+            来源: <a href="https://isaacfreund.com/blog/river-window-management/" class="source" target="_blank">isaacfreund.com</a>
+        </div>
+        
+        <h2>核心内容</h2>
+        <p>River 0.4.0 版本分离 Wayland Compositor 和 Window Manager，降低编写窗口管理器的门槛。</p>
+        
+        <h2>关键亮点</h2>
+        <ul>
+            <li><strong>传统架构问题：</strong>Wayland compositor + window manager 合二为一，编写窗口管理器需要实现整个 compositor</li>
+            <li><strong>river-window-management-v1 协议：</strong>让 window manager 完全控制窗口位置、keybindings 等</li>
+            <li><strong>无需往返：</strong>每帧/每个输入事件无需与 window manager 往返</li>
+            <li><strong>帧完美 (Frame Perfection)：</strong>用户永远不会看到窗口布局的中间状态</li>
+            <li><strong>降低门槛：</strong>编写基础窗口管理器现在可以在一个周末完成</li>
+            <li><strong>作者:</strong> Isaac Freund (FOSDEM 2026 演讲)</li>
+        </ul>
+        
+        <h2>技术细节</h2>
+        <ul>
+            <li><strong>状态机设计：</strong>区分 window management state 和 rendering state</li>
+            <li><strong>管理序列/渲染序列：</strong>batch updates 保证原子性</li>
+            <li><strong>与 X11 对比：</strong>Wayland 解决了 X11 的不必要往返和输入路由问题</li>
+            <li><strong>与 wlroots 对比：</strong>wlroots 让编写 compositor 更容易，但仍需实现整个 compositor</li>
+        </ul>
+    </div>
+    
+    <div class="card">
+        <h2>相关资源</h2>
+        <ul>
+            <li><a href="https://isaacfreund.com/blog/river-window-management/" class="source" target="_blank">原文链接</a></li>
+            <li><a href="https://fosdem.org/2026/schedule/event/GR8BFE-separating_the_wayland_compositor_and_window_manager/" class="source" target="_blank">FOSDEM 2026 演讲</a></li>
+            <li><a href="https://codeberg.org/river/wiki/src/branch/main/pages/wm-list.md" class="source" target="_blank">兼容的窗口管理器列表</a></li>
+        </ul>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

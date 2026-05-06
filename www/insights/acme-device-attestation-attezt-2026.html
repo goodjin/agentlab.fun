@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>attezt: ACME Device Attestation with TPM - TPM硬件绑定证书</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <h1>attezt: ACME Device Attestation with TPM</h1>
+        <p class="meta">⭐⭐⭐⭐ (4星) | 2026-03 | by Foxboron</p>
+        
+        <div class="url">
+            <a href="https://linderud.dev/blog/acme-device-attestation-smallstep-and-pkcs11-attezt/" target="_blank">https://linderud.dev/blog/acme-device-attestation-smallstep-and-pkcs11-attezt/</a>
+        </div>
+
+        <h2>摘要</h2>
+        <p>开源项目attezt实现基于TPM的ACME设备认证，使用硬件绑定密钥保护TLS证书安全。</p>
+
+        <h2>亮点</h2>
+        <ul>
+            <li><strong>device-attest-01：</strong>使用TPM证明设备身份的新ACME挑战类型</li>
+            <li><strong>与smallstep CA集成：</strong>颁发短效（24小时）设备证书</li>
+            <li><strong>PKCS11支持：</strong>通过p11-kit提供密钥给应用程序</li>
+            <li><strong>TPM EK标识：</strong>通过Endorsement Key唯一标识设备</li>
+            <li><strong>attezt-agent：</strong>管理设备证书并提供p11-kit socket</li>
+        </ul>
+
+        <div class="insight">
+            <strong>核心洞察：</strong>"硬件绑定密钥即使被提取也无效，因为没有硬件就无法使用"
+        </div>
+
+        <div class="highlight">
+            <strong>技术细节：</strong>
+            <ul>
+                <li>device-attest-01依赖"attestation CA"验证设备</li>
+                <li>TPM EK公钥哈希可唯一标识设备</li>
+                <li>使用Attestation Key (AK) 而非直接用EK签名（保护隐私）</li>
+                <li>支持TPM 2.0，Nuvoton NPCT75x等常见TPM</li>
+                <li>短效证书降低泄露风险</li>
+            </ul>
+        </div>
+
+        <div class="tags">
+            <span class="tag">安全</span>
+            <span class="tag">TPM</span>
+            <span class="tag">ACME</span>
+            <span class="tag">证书</span>
+            <span class="tag">硬件</span>
+        </div>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

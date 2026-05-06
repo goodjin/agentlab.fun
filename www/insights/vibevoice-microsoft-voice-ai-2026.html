@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VibeVoice - Microsoft Open-Source Frontier Voice AI</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<a href="/insights/index.html" class="back">← Back to Insights</a>
+    
+    <h1>VibeVoice - Microsoft Open-Source Frontier Voice AI</h1>
+    <p class="meta">Source: <a href="https://github.com/microsoft/VibeVoice" target="_blank">github.com/microsoft/VibeVoice</a> | Rating: <span class="rating rating-5">★★★★★</span></p>
+    
+    <div class="tags">
+        <span class="tag">Voice AI</span>
+        <span class="tag">ASR</span>
+        <span class="tag">TTS</span>
+        <span class="tag">Microsoft</span>
+        <span class="tag">Open Source</span>
+        <span class="tag">50+ Languages</span>
+    </div>
+
+    <h2>核心创新</h2>
+    <p>VibeVoice是微软开源的前沿语音AI模型系列，包括文本转语音(TTS)和自动语音识别(ASR)模型。核心创新在于使用连续语音tokenizer（声学和语义），以超低帧率7.5 Hz运行，显著提升长序列处理效率。</p>
+
+    <h2>核心特性</h2>
+    <ul>
+        <li><strong>60分钟单次处理</strong> - 不同于传统模型将音频切片处理，VibeVoice ASR支持最多60分钟连续音频输入，保持说话人跟踪和语义连贯性</li>
+        <li><strong>自定义热词</strong> - 支持用户提供自定义热词（如特定名称、术语、背景信息）来指导识别，显著提升专业领域准确率</li>
+        <li><strong>丰富转录</strong> - 联合执行ASR、说话人分离和时间戳标注</li>
+        <li><strong>原生多语言</strong> - 支持超过50种语言</li>
+    </ul>
+
+    <h2>模型系列</h2>
+    <table class="model-table">
+        <tr>
+            <th>模型</th>
+            <th>权重</th>
+            <th>快速尝试</th>
+        </tr>
+        <tr>
+            <td>VibeVoice-ASR-7B</td>
+            <td><a href="https://huggingface.co/microsoft/VibeVoice-ASR" target="_blank">HuggingFace</a></td>
+            <td><a href="https://aka.ms/vibevoice-asr" target="_blank">Playground</a></td>
+        </tr>
+        <tr>
+            <td>VibeVoice-TTS-1.5B</td>
+            <td><a href="https://huggingface.co/microsoft/VibeVoice-1.5B" target="_blank">HuggingFace</a></td>
+            <td>Disabled</td>
+        </tr>
+        <tr>
+            <td>VibeVoice-Realtime-0.5B</td>
+            <td><a href="https://huggingface.co/microsoft/VibeVoice-Realtime-0.5B" target="_blank">HuggingFace</a></td>
+            <td><a href="https://colab.research.google.com/github/microsoft/VibeVoice/blob/main/demo/vibevoice_realtime_colab.ipynb" target="_blank">Colab</a></td>
+        </tr>
+    </table>
+
+    <h2>技术亮点</h2>
+    <blockquote>
+        VibeVoice employs a next-token diffusion framework, leveraging a Large Language Model (LLM) to understand textual context and dialogue flow, and a diffusion head to generate high-fidelity acoustic details.
+    </blockquote>
+
+    <h2>发展历程</h2>
+    <ul>
+        <li><strong>2026-03</strong> - VibeVoice-ASR被HuggingFace Transformers v5.3.0采用</li>
+        <li><strong>2026-01</strong> - 开源VibeVoice-ASR，支持60分钟长音频单次处理</li>
+        <li><strong>2025-12</strong> - 开源VibeVoice-Realtime-0.5B实时语音合成</li>
+        <li><strong>2025-08</strong> - VibeVoice-TTS被ICLR 2026接受为Oral论文</li>
+    </ul>
+
+    <h2>为什么重要</h2>
+    <p>VibeVoice代表了开源语音AI的重大突破：
+    <ul>
+        <li>突破传统ASR的60分钟限制</li>
+        <li>首次实现真正的端到端语音处理</li>
+        <li>支持自定义热词对专业场景至关重要</li>
+        <li>已集成到HuggingFace Transformers生态</li>
+    </ul>
+    </p>
+
+    <p class="meta">探索时间: 2026-04-02 | 来源: GitHub Trending</p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

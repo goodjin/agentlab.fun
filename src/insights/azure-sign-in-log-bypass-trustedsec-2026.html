@@ -1,0 +1,101 @@
+---
+layout: article.njk
+title: "Azure Sign-In Log Bypass - Full Disclosure"
+tags: [insights]
+permalink: /insights/azure-sign-in-log-bypass-trustedsec-2026.html
+---
+
+<div class="container">
+        <span class="tag">Security</span>
+        <span class="tag">Azure</span>
+        <span class="tag">Vulnerability</span>
+        <h1>Azure Sign-In Log Bypass - 完整披露</h1>
+        <p class="rating">⭐⭐⭐⭐⭐ (5星)</p>
+        
+        <h2>摘要</h2>
+        <p>安全研究员发现第三和第四次 Azure Entra ID 登录日志绕过漏洞。可以获取有效 token 而不在日志中留下记录，这是管理员检测入侵的关键日志。</p>
+        
+        <div class="warning">
+            <strong>⚠️ 严重安全漏洞</strong> - 攻击者可在不被发现的情况下验证密码并获取有效 token
+        </div>
+
+        <h2>历史发现</h2>
+        
+        <table>
+            <tr>
+                <th>名称</th>
+                <th>报告时间</th>
+                <th>修复时间</th>
+                <th>描述</th>
+            </tr>
+            <tr>
+                <td>GraphNinja</td>
+                <td>08/2023</td>
+                <td>05/2024</td>
+                <td>通过指定外国 tenant ID 验证密码但不创建日志</td>
+            </tr>
+            <tr>
+                <td>GraphGhost</td>
+                <td>12/2024</td>
+                <td>04/2025</td>
+                <td>提供无效参数导致凭证验证后整体失败</td>
+            </tr>
+            <tr>
+                <td>GraphGoblin</td>
+                <td>2025</td>
+                <td>已修复</td>
+                <td>重复 scope 参数溢出 SQL 列</td>
+            </tr>
+            <tr>
+                <td>Graph****</td>
+                <td>2025</td>
+                <td>已修复</td>
+                <td>另一种绕过方式</td>
+            </tr>
+        </table>
+
+        <h2>GraphGoblin 详细分析</h2>
+        
+        <h3>攻击原理</h3>
+        <p>通过提交重复的 scope 值（如 <code>openid openid openid...</code>）导致 SQL 列溢出，整个 INSERT 失败：</p>
+        
+        <pre><code>export TENANT_ID="[tenant-guid-goes-here]"
+curl -X POST "https://login.microsoftonline.com/${TENANT_ID}/oauth2/v2.0/token" \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  --data-urlencode "client_id=f05ff7c9-f75a-4acd-a3b5-f4b6a870245d" \
+  --data-urlencode "grant_type=password" \
+  --data-urlencode "username=user@tenant.com" \
+  --data-urlencode "password=secretpassword123" \
+  --data-urlencode "scope=$(for num in {1..10000}; do echo -n 'openid ';done)"</code></pre>
+
+        <h3>为什么有效</h3>
+        <ul>
+            <li>SQL 列长度溢出导致整个插入失败</li>
+            <li>凭证验证已完成，但日志记录失败</li>
+            <li>返回有效 token，但日志中无记录</li>
+            <li>管理员看不到任何登录尝试</li>
+        </ul>
+
+        <h2>影响</h2>
+        <ul>
+            <li>攻击者可以无限次尝试密码</li>
+            <li>获取有效 access token 和 refresh token</li>
+            <li>完全绕过 SIEM 和威胁检测</li>
+            <li>适合密码喷洒攻击</li>
+        </ul>
+
+        <h2>检测建议</h2>
+        <p>使用 KQL 查询检测异常登录模式：</p>
+        <ul>
+            <li>检查 scope 字段异常长度</li>
+            <li>监控多次失败后的成功登录</li>
+            <li>关注非工作时间的大量认证尝试</li>
+        </ul>
+
+        <h2>URL</h2>
+        <div class="url"><a href="https://trustedsec.com/blog/full-disclosure-a-third-and-fourth-azure-sign-in-log-bypass-found" target="_blank">https://trustedsec.com/blog/full-disclosure-a-third-and-fourth-azure-sign-in-log-bypass-found</a></div>
+        
+        <p style="margin-top: 30px; color: #6b7280; font-size: 14px;">
+            来源: Hacker News | 发现日期: 2026-03-20
+        </p>
+    </div>

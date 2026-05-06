@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lemonade by AMD - Fast Open Source Local LLM Server</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>Lemonade by AMD: Local AI for Everyone</h1>
+    <p class="meta">Source: Hacker News | Score: <span class="score">4/5</span> | Date: 2026-04-03</p>
+    
+    <div class="highlight">
+        <strong>TL;DR:</strong> AMD releases Lemonade - an open source, fast local LLM server that runs on GPU and NPU, with OpenAI API compatibility and cross-platform support.
+    </div>
+
+    <h2>What is Lemonade?</h2>
+    <p>Lemonade is a refreshingly fast local AI server built by AMD for GPUs and NPUs. It exists because local AI should be free, open, fast, and private.</p>
+
+    <h2>Key Features</h2>
+    <ul>
+        <li><strong>Native C++ Backend:</strong> Lightweight service that's only 2MB</li>
+        <li><strong>One Minute Install:</strong> Simple installer that sets up the stack automatically</li>
+        <li><strong>OpenAI API Compatible:</strong> Works with hundreds of apps out-of-box</li>
+        <li><strong>Auto-configures for Hardware:</strong> Configures dependencies for your GPU and NPU</li>
+        <li><strong>Multi-engine Compatibility:</strong> Works with llama.cpp, Ryzen AI SW, FastFlowLM, and more</li>
+        <li><strong>Multiple Models at Once:</strong> Run more than one model simultaneously</li>
+        <li><strong>Cross-platform:</strong> Consistent experience across Windows, Linux, and macOS (beta)</li>
+        <li><strong>Built-in App:</strong> GUI to download, try, and switch models quickly</li>
+    </ul>
+
+    <h2>Capabilities</h2>
+    <h3>Text/LLM</h3>
+    <p>Load up models like gpt-oss-120b or Qwen-Coder-Next for advanced tool use with 128 GB unified RAM.</p>
+
+    <h3>Image Generation</h3>
+    <p>Generate images directly from the local server.</p>
+
+    <h3>Speech</h3>
+    <p>Transcription and speech generation capabilities built-in.</p>
+
+    <h2>Unified API</h2>
+    <p>One local service for every modality. Point your app at Lemonade and get chat, vision, image generation, transcription, speech generation, and more with standard APIs.</p>
+
+    <pre style="background: #f5f5f5; padding: 10px; border-radius: 4px; overflow-x: auto;">POST /api/v1/chat/completions</pre>
+
+    <h2>Why It Matters</h2>
+    <p>Lemonade addresses critical needs in the local AI space:</p>
+    <ul>
+        <li><strong>Privacy:</strong> All processing happens locally - no data leaves your machine</li>
+        <li><strong>Cost:</strong> No API fees - run models on your own hardware</li>
+        <li><strong>Accessibility:</strong> One-minute install makes local AI approachable</li>
+        <li><strong>Compatibility:</strong> OpenAI API means easy integration with existing tools</li>
+        <li><strong>Performance:</strong> AMD GPU/NPU optimization delivers fast inference</li>
+    </ul>
+
+    <p>With Lemonade, AMD is making local AI more accessible to developers and users who want privacy, control, and cost savings.</p>
+
+    <h2>Links</h2>
+    <ul>
+        <li><a href="https://lemonade-server.ai">Official website</a></li>
+    </ul>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

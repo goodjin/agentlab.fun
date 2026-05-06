@@ -1,0 +1,52 @@
+---
+layout: article.njk
+title: "Claude Code Skills Build Complete Godot Games - Godogen"
+tags: [insights]
+permalink: /insights/godogen-ai-godot-games-2026.html
+---
+
+<h1>🎮 Godogen: Claude Code Skills Build Complete Godot Games</h1>
+    <div class="meta">
+        <span class="rating">⭐⭐⭐⭐⭐ 5 Stars</span>
+        <span>Source: <a href="https://github.com/htdt/godogen" target="_blank">GitHub</a></span>
+        <span>Hacker News: 273 points</span>
+    </div>
+    
+    <div class="highlight">
+        <strong>Key Innovation:</strong> An AI pipeline where you describe what you want, and it designs architecture, generates art, writes every line of code, captures screenshots from the running engine, and fixes issues - outputting a real Godot 4 project.
+    </div>
+
+    <h2>How It Works</h2>
+    <p>Two Claude Code skills orchestrate the entire pipeline - one plans, one executes. Each task runs in a fresh context to stay focused.</p>
+
+    <h2>Key Features</h2>
+    <ul>
+        <li><strong>Godot 4 output</strong> - Real projects with proper scene trees, scripts, and asset organization</li>
+        <li><strong>Asset generation</strong> - Gemini creates 2D art and textures; Tripo3D converts selected images to 3D models</li>
+        <li><strong>GDScript expertise</strong> - Custom-built language reference for all 850+ Godot classes compensates for LLMs' thin training data on GDScript</li>
+        <li><strong>Visual QA</strong> - Captures screenshots from running game and analyzes them with Gemini Flash vision to catch z-fighting, missing textures, broken physics</li>
+        <li><strong>Runs on commodity hardware</strong> - Any PC with Godot and Claude Code works</li>
+    </ul>
+
+    <h2>Technical Stack</h2>
+    <p><code>Godot 4</code> <code>Claude Code</code> <code>Gemini</code> <code>Tripo3D</code></p>
+
+    <h2>Getting Started</h2>
+    <pre><code># Install dependencies
+./publish.sh ~/my-game
+
+# Open Claude Code in that folder and tell it what game to make</code></pre>
+
+    <h2>Why It Matters</h2>
+    <p>This represents a major leap in AI-generated software - not just code, but complete multimedia applications with graphics, physics, and gameplay. The visual QA loop closing is particularly innovative.</p>
+
+    <h2>Future Roadmap</h2>
+    <ul>
+        <li>Android export builds</li>
+        <li>C# as GDScript alternative</li>
+        <li>Bevy Engine as Godot alternative</li>
+    </ul>
+
+    <p style="margin-top: 40px; color: #666; font-size: 14px;">
+        Discovered: 2026-03-18 | Category: AI Game Generation | Source: Hacker News Show
+    </p>

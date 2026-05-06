@@ -1,0 +1,67 @@
+---
+layout: article.njk
+title: "We don't need to hack your AI Agent to hack your AI Agent - SRLabs"
+tags: [insights]
+permalink: /insights/ai-agent-django-debug-hacking-srlabs-2026.html
+---
+
+<div class="content">
+        <h1>We don't need to hack your AI Agent to hack your AI Agent</h1>
+        <div class="meta">
+            <span class="rating">⭐⭐⭐⭐⭐ 5星</span>
+            <span> • SRLabs Research</span>
+            <span> • March 2026</span>
+        </div>
+        
+        <p>Security researchers from SRLabs discovered that the most severe vulnerabilities in AI assistant deployments often have <strong>nothing to do with prompt injection</strong> — traditional Web security flaws can be enough to completely compromise AI systems.</p>
+
+        <div class="warning">
+            <strong>Key Finding:</strong> A misconfigured Django debug flag created a direct path from an online AI agent to the personal and professional profile data of an organisation's entire workforce — without any AI-specific hacking.
+        </div>
+
+        <h2>The Attack Chain</h2>
+        <div class="chain">
+            <ol>
+                <li><strong>Public JS asset</strong> → Discover backend API URL embedded in JavaScript</li>
+                <li><strong>Unauthenticated GET request</strong> → Triggers Django debug error page</li>
+                <li><strong>Environment variables</strong> → Expose admin credentials (ADMIN_USERNAME, ADMIN_USER_PWD)</li>
+                <li><strong>Access Admin panel</strong> → Full Django admin access</li>
+                <li><strong>OAuth tokens</strong> → Live Microsoft Entra ID tokens in plaintext</li>
+                <li><strong>Microsoft Graph API</strong> → Access millions of employee profiles</li>
+            </ol>
+        </div>
+
+        <h2>What Was Exposed</h2>
+        <ul>
+            <li>Full API route listing — every endpoint the backend exposed</li>
+            <li>Application credentials stored as environment variables</li>
+            <li><strong>System prompt contents</strong> — full initial instructions configuring the AI model's behaviour</li>
+            <li>All user conversations and uploaded files</li>
+            <li>OAuth tokens for Microsoft Entra ID</li>
+            <li>Access to millions of employee accounts</li>
+        </ul>
+
+        <div class="highlight">
+            <strong>Why This Matters:</strong> The system prompt exposure is particularly significant — it often contains security-relevant assumptions, internal business logic, and architectural details useful for prompt injection attacks.
+        </div>
+
+        <h2>Why This Happens in AI Deployments</h2>
+        <ul>
+            <li><strong>Speed pressure</strong> from management keeps focus on AI capabilities, leaving infrastructure as an afterthought</li>
+            <li>AI applications accumulate powerful credentials by design (document access, calendar access, identity tokens)</li>
+            <li>A single environment variable dump can expose access to systems beyond the application itself</li>
+            <li>Security thinking concentrated where attention is, not where exposure is</li>
+        </ul>
+
+        <h2>Key Takeaways</h2>
+        <ol>
+            <li><strong>Don't run with Django debug mode enabled in production</strong></li>
+            <li>AI-specific defenses (prompt injection protection) are meaningless if traditional infrastructure is compromised</li>
+            <li>Environment variable hygiene is critical — they're often the keys to the kingdom</li>
+            <li>OAuth tokens should never be stored or displayed in plaintext</li>
+            <li>The attack chain uses only well-known, documented issues — none are novel</li>
+        </ol>
+
+        <hr>
+        <p><a href="https://srlabs.de/blog/hacking-ai-agent">Original Article</a> | <a href="https://lobste.rs/s/rg8t4w/we_don_t_need_hack_your_ai_agent_hack_your_ai">Lobsters Discussion</a></p>
+    </div>

@@ -1,0 +1,63 @@
+---
+layout: article.njk
+title: "Meta REA: Ranking Engineer Agent - 自主AI Agent加速广告排名创新"
+tags: [insights]
+permalink: /insights/meta-rea-ranking-engineer-agent-2026.html
+---
+
+<div class="card">
+        <h1>🤖 Meta REA: Ranking Engineer Agent</h1>
+        <div class="meta">
+            <span class="rating">★★★★★</span> 
+            <span class="tag">AI Agent</span>
+            <span class="tag">ML</span>
+            <span class="tag">Meta</span>
+        </div>
+        <div class="source">
+            来源: <a href="https://engineering.fb.com/2026/03/17/developer-tools/ranking-engineer-agent-rea-autonomous-ai-system-accelerating-meta-ads-ranking-innovation/" target="_blank">Engineering at Meta</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>核心发现</h2>
+        <div class="highlight">
+            <strong>REA (Ranking Engineer Agent)</strong> 是 Meta 构建的自主AI Agent，驱动端到端机器学习生命周期，迭代优化广告排名模型。
+        </div>
+        <ul>
+            <li><strong>2倍模型准确率:</strong> REA驱动的迭代在6个模型上实现了相比基线翻倍的平均准确率</li>
+            <li><strong>5倍工程输出:</strong> 3名工程师交付了8个模型的改进提案——历史上每个模型需要2名工程师</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>技术架构</h2>
+        <h3>1. 冬眠-唤醒机制 (Hibernate-and-Wake)</h3>
+        <p>ML训练任务运行数小时甚至数天，REA通过后台系统委托等待，休眠以节省资源，任务完成后自动恢复，实现跨多周的连续运行。</p>
+
+        <h3>2. 双源假设引擎 (Dual-Source Hypothesis Engine)</h3>
+        <ul>
+            <li><strong>历史洞察数据库:</strong> 过去实验的精选仓库，支持上下文学习和跨先验成功/失败的模式识别</li>
+            <li><strong>ML研究Agent:</strong> 深度研究组件，调查基线模型配置并提出新型优化策略</li>
+        </ul>
+
+        <h3>3. 三阶段规划框架</h3>
+        <ol>
+            <li><strong>验证:</strong> 并行测试来自不同源的个别假设以建立质量基线</li>
+            <li><strong>组合:</strong> 将有希望的假设组合起来寻找协同改进</li>
+            <li><strong>开发:</strong> 在批准的计算预算内积极探索最有希望的候选</li>
+        </ol>
+    </div>
+
+    <div class="card">
+        <h2>核心挑战与解决方案</h2>
+        <ul>
+            <li><strong>长视野异步工作流:</strong> REA通过冬眠-唤醒机制维护跨多轮工作流的持久状态和记忆</li>
+            <li><strong>高质量多样化假设生成:</strong> 综合历史实验和前沿ML研究生成单一方法不太可能产生的配置</li>
+            <li><strong>现实约束下的弹性操作:</strong> 基础设施故障、意外错误时在预定义guardrails内自适应调整</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>为什么重要</h2>
+        <p>传统ML实验需要工程师精心设计假设、启动训练运行、调试失败、分析结果并迭代——每个完整周期可能跨越数天到数周。REA代表了AI在工程实践中从"助手"到"自主Agent"的范式转变。</p>
+    </div>

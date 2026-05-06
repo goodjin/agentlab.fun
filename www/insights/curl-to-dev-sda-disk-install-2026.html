@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>curl &gt; dev/sda - Writing directly to disk</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>curl > dev/sda</h1>
+    <p class="meta">
+        <span class="rating">⭐⭐⭐⭐</span>
+        <span class="tag">Linux</span>
+        <span class="tag">系统安装</span>
+        <span class="tag">Unix哲学</span>
+    </p>
+    
+    <p>Author: <strong>astrid</strong> | Source: <a href="https://astrid.tech/2026/03/24/0/curl-to-dev-sda/" target="_blank">astrid.tech</a></p>
+    
+    <h2>核心概念</h2>
+    <p>可以直接把下载的磁盘镜像直接pipe到磁盘设备，无需先保存到文件：</p>
+    
+    <pre><code>curl https://something.example/foo.img > /dev/sda</code></pre>
+    
+    <div class="highlight">
+        <strong>为什么能工作？</strong>
+        <p>/dev/sdX、/dev/nvmeX等磁盘可以直接从文件系统访问，遵循古老的Unix概念——"一切皆文件"。写入/dev/sdX就是直接写入磁盘！</p>
+    </div>
+    
+    <h2>EFI自动发现</h2>
+    <p>大多数EFI机器无需任何efibootmgr命令，因为<strong>EFI固件会自动发现新的EFI系统分区</strong>！</p>
+    
+    <h2>演进历程</h2>
+    
+    <h3>第1步：正常方式</h3>
+    <pre><code>wget -O disk.img https://www.raspberrypi.com/whatever
+sudo dd bs=1M if=disk.img of=/dev/sdx</code></pre>
+    
+    <h3>第2步：更懒</h3>
+    <pre><code>curl https://www.raspberrypi.com/whatever | sudo dd bs=1M of=/dev/sdx</code></pre>
+    
+    <h3>第3步：更更懒</h3>
+    <pre><code>sudo -i
+curl https://www.raspberrypi.com/whatever > /dev/sdx</code></pre>
+    
+    <h3>第4步：直接在线安装</h3>
+    <p>在VPS上直接用rescue模式：</p>
+    <pre><code>ssh root@myhost
+wget -O- > /dev/sda</code></pre>
+    
+    <h2>在运行中的系统上写入？</h2>
+    <div class="highlight">
+        <strong>实验结果：会crash！</strong>
+        <p>作者尝试在运行的系统上直接写入磁盘，结果在77.8%处panic。因为正在运行的OS相关代码被覆盖了。</p>
+    </div>
+    
+    <h2>解决方案：Rescue镜像</h2>
+    <p>大多数Linux发行版的安装盘都自带rescue工具。Arch、NixOS、Fedora的安装盘都可以！</p>
+    
+    <p>作者使用Contabo的Debian rescue镜像启动，然后：</p>
+    <pre><code>wget -O- > /dev/sda</code></pre>
+    
+    <h2>终极问题</h2>
+    <p>能否完全从内存运行来实现原地OS替换？把需要的工具复制到内存 unmount所有其他东西 从内存写入磁盘？</p>
+    
+    <p><em>To be continued...</em></p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

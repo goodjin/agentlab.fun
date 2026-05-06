@@ -1,0 +1,74 @@
+---
+layout: article.njk
+title: "Self-Improving Coding Agents - Addy Osmani"
+tags: [insights]
+permalink: /insights/addyosmani-self-improving-coding-agents-2026.html
+---
+
+<div class="container">
+    <h1>Self-Improving Coding Agents</h1>
+    <p class="meta">来源: <a href="https://addyosmani.com/blog/self-improving-agents/" target="_blank">addyosmani.com</a> | 作者: Addy Osmani (Google Cloud AI)</p>
+    
+    <div class="highlight">
+      <strong>核心理念：</strong> 设置自主编码代理循环，让 AI 在你睡觉时写代码、测试、准备 review。核心是"Ralph Wiggum"技术 + AGENTS.md 知识积累。
+    </div>
+
+    <h2>核心机制：连续编码循环</h2>
+    
+    <div class="framework">
+      <h3>Ralph Wiggum 技术</h3>
+      <ol>
+        <li>从 to-do 列表中选取下一个任务</li>
+        <li>实现任务 - Agent 写代码</li>
+        <li>验证变更 - 运行测试</li>
+        <li>如果检查通过，提交代码</li>
+        <li>更新任务状态并记录学习</li>
+        <li><strong>重置 Agent 上下文</strong>，重复直到完成</li>
+      </ol>
+    </div>
+
+    <h3>关键设计：无状态但迭代</h3>
+    <p>每次迭代重置 Agent 记忆，避免上下文溢出导致模型漂移或遗忘细节。这种"stateless but iterative"设计是可靠性的关键。</p>
+
+    <h2>AGENTS.md：知识库累积</h2>
+    <p>每个任务后追加关键学习：</p>
+    <ul>
+      <li>Patterns & Conventions: 高层模式（如 SSR、组件目录结构）</li>
+      <li>Gotchas: Agent 或开发者踩过的坑</li>
+      <li>Style/Preferences: 代码风格偏好</li>
+      <li>Recent Learnings/Changes: 近期问题和解决方案</li>
+    </ul>
+    <blockquote>每个改进都应该让未来的改进更容易。</blockquote>
+
+    <h2>四层记忆机制</h2>
+    <ol>
+      <li><strong>Git Commit History:</strong> 每次迭代的代码变更都被 commit，下一次可以通过 git diff 查看</li>
+      <li><strong>Progress Log (progress.txt):</strong> 纯文本日志，记录每次尝试的任务和结果</li>
+      <li><strong>Task State (prd.json):</strong> JSON 文件持久化任务状态</li>
+      <li><strong>AGENTS.md:</strong> 长期语义记忆</li>
+    </ol>
+
+    <h2>质量保证：测试和验证循环</h2>
+    <ul>
+      <li>单元测试和集成测试</li>
+      <li>类型检查和 Linting</li>
+      <li>CI 集成</li>
+      <li>AI 自我评估（可选）</li>
+    </ul>
+    <blockquote>测试是将不可靠的 Agent 转变为可靠系统的关键。</blockquote>
+
+    <h2>扩展：并发 Agent 和多循环编排</h2>
+    <p>Cursor 的实验：Planner-Worker 模型。Planners 读取代码库、决定需要做什么、生成任务。Workers 实现任务。Judge Agent 评估目标是否达成。</p>
+    <p>结果：数百个 Agent 同时工作，一周内生成超过 100 万行代码。</p>
+
+    <h2>关键技巧</h2>
+    <ul>
+      <li>任务要足够小，能在一个 AI session 内完成</li>
+      <li>每个任务要有清晰的 pass/fail 标准</li>
+      <li>保持 AGENTS.md 精简，周期性归档过时信息</li>
+      <li>定期验证 Agent 实际使用了记忆文件</li>
+    </ul>
+
+    <hr>
+    <p class="meta">探索时间: 2026-03-28 | 评分: ★★★★★</p>
+  </div>

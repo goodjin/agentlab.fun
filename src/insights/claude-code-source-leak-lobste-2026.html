@@ -1,0 +1,66 @@
+---
+layout: article.njk
+title: "Reading Leaked Claude Code Source - Lobste.rs 2026"
+tags: [insights]
+permalink: /insights/claude-code-source-leak-lobste-2026.html
+---
+
+<div class="card">
+<h1>Reading Leaked Claude Code Source Code</h1>
+<div class="source">
+Source: <a href="https://lr0.org/blog/p/claude-code-source/" target="_blank">lr0.org/blog/p/claude-code-source/</a> via <a href="https://lobste.rs/" target="_blank">Lobste.rs</a>
+</div>
+<div class="rating">★★★★★ 5/5</div>
+<div class="tag">#claude-code</div>
+<div class="tag">#source-code</div>
+<div class="tag">#anthropic</div>
+</div>
+
+<div class="card">
+<h2>Summary</h2>
+<p class="summary">Anthropic accidentally leaked a source map file (cli.js.map) containing the full, unobfuscated TypeScript source code of Claude Code: 1,897 files, ~132,000 lines of code. The analysis reveals a piece of software that is "surprisingly more opinionated and more paranoid than expected."</p>
+</div>
+
+<div class="card">
+<h2>Key Findings</h2>
+<div class="key-findings">
+<h3>🔐 Security Obsession</h3>
+<ul>
+<li><strong>2,592 lines of bashSecurity.ts</strong> — validates every shell command against attack patterns including zsh =cmd expansion, zmodload, heredoc injection, ANSI-C quoting, process substitution, emulate, ztcp</li>
+<li><strong>YOLO classifier</strong> — ML-based permission system named ironically, 1,495 lines with two-stage evaluation</li>
+<li><strong>I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS</strong> — forcing function that requires typing out verification before sending code to analytics</li>
+</ul>
+
+<h3>🤫 Internal Commands (Hidden in External Builds)</h3>
+<ul>
+<li><strong>bughunter</strong> — internal debugging</li>
+<li><strong>goodClaude</strong> — disabled and hidden forever</li>
+<li><strong>ultraplan</strong>, <strong>ultrareview</strong> — quality tools</li>
+<li><strong>teleport</strong> — agent transfer</li>
+</ul>
+
+<h3>🐛 Codename Canary Problem</h3>
+<ul>
+<li>All 18 species names hex-encoded to avoid colliding with model codenames in excluded-strings.txt</li>
+<li>Build pipeline checks for leaked codenames in output, not source</li>
+</ul>
+
+<h3>📊 Multi-Clauding Analytics</h3>
+<ul>
+<li>Tracks when users run multiple Claude sessions simultaneously</li>
+<li>Pattern: session1 → session2 → session1 within 30-minute window</li>
+</ul>
+
+<h3>⌨️ Complete Vim Implementation</h3>
+<ul>
+<li>Full Vim keybinding implementation as a state machine</li>
+<li>INSERT and NORMAL modes, operators, motions, text objects</li>
+<li>Not a wrapper — hand-rolled from scratch</li>
+</ul>
+</div>
+</div>
+
+<div class="card">
+<h2>Why This Matters</h2>
+<p>Claude Code's source reveals that even the creators of safe AI coding tools build extremely paranoid security systems. The 2,600 lines dedicated just to bash security shows what's needed when AI can execute shell commands. The internal commands and feature flags (PROACTIVE, KAIROS, COORDINATOR_MODE, AGENT_TRIGGERS, VOICE_MODE, BUDDY) give hints about future capabilities.</p>
+</div>

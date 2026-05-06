@@ -1,0 +1,139 @@
+---
+layout: article.njk
+title: "浏览器原生 Popover API 入门指南 (2026)"
+tags: [insights]
+permalink: /insights/popover-api-beginners-guide-2026.html
+---
+
+<div class="card">
+        <h1>🎈 浏览器原生 Popover API 入门</h1>
+        <div class="meta">
+            <span class="tag">CSS</span>
+            <span class="tag">HTML</span>
+            <span class="tag">Browser API</span>
+            <span class="rating">⭐⭐⭐⭐</span>
+        </div>
+        
+        <div class="source">
+            📖 原文: <a href="https://www.smashingmagazine.com/2026/03/getting-started-popover-api/" target="_blank">Getting Started With The Popover API</a>
+        </div>
+
+        <h2>为什么需要 Popover API?</h2>
+        
+        <p>Tooltip 看起来是简单的 UI 问题，但实际上有很多边缘情况:</p>
+        <ul>
+            <li>键盘用户 Tab 太快会跳过 tooltip</li>
+            <li>屏幕阅读器可能 announc 两次或根本不 announc</li>
+            <li>鼠标移动太快会闪烁</li>
+            <li>小屏幕上会遮挡内容</li>
+            <li>按 Esc 无法关闭</li>
+        </ul>
+
+        <div class="comparison">
+            <div class="old-way">
+                <h3>❌ 旧方式 (库)</h3>
+                <ul>
+                    <li>~60 行 JavaScript</li>
+                    <li>5 个事件监听器</li>
+                    <li>手动管理 ARIA 状态</li>
+                    <li>手动处理焦点</li>
+                </ul>
+            </div>
+            <div class="new-way">
+                <h3>✅ Popover API</h3>
+                <ul>
+                    <li>~10 行声明式 HTML</li>
+                    <li>零 JavaScript 事件监听</li>
+                    <li>原生 ARIA 状态同步</li>
+                    <li>原生焦点管理</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2>快速开始</h2>
+
+        <h3>1. 基本语法</h3>
+        <pre><code>&lt;!-- 触发元素 --&gt;
+&lt;button popovertarget="my-tooltip"&gt;?&lt;/button&gt;
+
+&lt;!-- Popover 元素 --&gt;
+&lt;div id="my-tooltip" popover="manual" role="tooltip"&gt;
+    这是 tooltip 内容
+&lt;/div&gt;</code></pre>
+
+        <h3>2. popover 属性值</h3>
+        <ul>
+            <li><code>popover="auto"</code>: 点击外部自动关闭，焦点移出关闭</li>
+            <li><code>popover="manual"</code>: 只能手动关闭(按 Esc 或调用 hidePopover())</li>
+        </ul>
+
+        <h3>3. 控制行为</h3>
+        <pre><code>&lt;!-- 只打开 --&gt;
+&lt;button popovertarget="tip" popovertargetaction="show"&gt;显示&lt;/button&gt;
+
+&lt;!-- 只关闭 --&gt;
+&lt;button popovertarget="tip" popovertargetaction="hide"&gt;隐藏&lt;/button&gt;
+
+&lt;!-- 切换(默认) --&gt;
+&lt;button popovertarget="tip" popovertargetaction="toggle"&gt;切换&lt;/button&gt;</code></pre>
+
+        <h2>无障碍支持</h2>
+        
+        <div class="highlight">
+            <strong>🎯 这就是迁移的最大动力!</strong>
+        </div>
+
+        <ul>
+            <li><strong>键盘支持</strong>: Tab/Shift+Tab 原生工作，Esc 关闭</li>
+            <li><strong>屏幕阅读器</strong>: aria-expanded 自动同步</li>
+            <li><strong>焦点管理</strong>: 关闭后焦点自动返回触发器</li>
+            <li><strong>Lighthouse</strong>: ARIA 状态警告消失</li>
+        </ul>
+
+        <h2>仍需 JavaScript 的场景</h2>
+        
+        <h3>1. 延迟关闭</h3>
+        <pre><code>// 鼠标移出后延迟 200ms 关闭
+let hideTimeout;
+const tooltip = document.getElementById('tip');
+
+tooltip.addEventListener('pointerleave', () => {
+    hideTimeout = setTimeout(() => {
+        tooltip.hidePopover();
+    }, 200);
+});
+
+tooltip.addEventListener('pointerenter', () => {
+    clearTimeout(hideTimeout);
+});</code></pre>
+
+        <h3>2. 悬停意图判断</h3>
+        <p>浏览器不知道用户是有意悬停还是路过，这个逻辑仍需 JS。</p>
+
+        <h2>何时仍用库?</h2>
+        <ol>
+            <li><strong>大型设计系统</strong>: 需要集中管理、一致性</li>
+            <li><strong>复杂定位</strong>: 嵌套滚动容器、碰撞检测</li>
+            <li><strong>CSS Anchor Positioning</strong>: 正在快速获得支持，可替代库</li>
+            <li><strong>团队无障碍经验不足</strong>: 库可作为安全网</li>
+        </ol>
+
+        <div class="highlight">
+            <strong>💡 建议:</strong> 先用 Popover API 替换一个 tooltip，感受有多少代码"消失"了。
+        </div>
+
+        <h2>浏览器支持</h2>
+        <ul>
+            <li><strong>Chrome</strong> ✅</li>
+            <li><strong>Firefox</strong> ✅</li>
+            <li><strong>Safari</strong> ✅</li>
+            <li><strong>查看详情</strong>: <a href="https://caniuse.com/?search=popover+api" target="_blank">Can I Use</a></li>
+        </ul>
+
+        <h2>相关 API</h2>
+        <ul>
+            <li><a href="https://css-tricks.com/css-anchor-positioning-guide/" target="_blank">CSS Anchor Positioning</a> - 用 CSS 定位 popover</li>
+            <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Popover_API" target="_blank">MDN Popover API</a></li>
+            <li><a href="https://open-ui.org/components/popover.research.explainer/" target="_blank">Open UI 研究</a></li>
+        </ul>
+    </div>

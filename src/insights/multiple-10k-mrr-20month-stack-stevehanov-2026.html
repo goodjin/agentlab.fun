@@ -1,0 +1,80 @@
+---
+layout: article.njk
+title: "如何用 $20/月技术栈运行多个 $10K MRR 公司"
+tags: [insights]
+permalink: /insights/multiple-10k-mrr-20month-stack-stevehanov-2026.html
+---
+
+<h1>如何用 $20/月技术栈运行多个 $10K MRR 公司</h1>
+    <p class="meta">来源: stevehanov.ca | Hacker News: 812 points | 2026-04-12</p>
+    
+    <h2>核心洞察</h2>
+    <p>作者通过多个盈利产品验证了极简技术栈的可行性：单 VPS + Go + SQLite + 本地 GPU = 无限 runway。</p>
+    
+    <blockquote>
+        "Keeping costs near zero gives you the exact same runway as getting a million dollars in funding with a massive burn rate."
+    </blockquote>
+    
+    <h2>技术栈详情</h2>
+    
+    <h3>1. 极简服务器 ($5-10/月)</h3>
+    <p>使用 Linode 或 DigitalOcean，1GB RAM 足以运行生产负载。单个服务器意味着日志集中、问题定位简单、部署直接。</p>
+    
+    <h3>2. Go 语言</h3>
+    <ul>
+        <li><strong>性能：</strong>比 Python/Ruby 高一个数量级</li>
+        <li><strong>部署：</strong>静态编译，单一二进制，scp 到服务器即可运行</li>
+        <li><strong>LLM 友好：</strong>代码结构清晰，AI 容易理解和生成</li>
+    </ul>
+    
+    <pre><code>package main
+import ("fmt"; "net/http")
+func main() {
+    http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+        fmt.Fprintf(w, "Hello, your MRR is safe here.")
+    })
+    http.ListenAndServe(":8080", nil)
+}</code></pre>
+    
+    <h3>3. 本地 GPU 批量 AI 任务</h3>
+    <p>用 $900 的 RTX 3090 (24GB VRAM) 运行 VLLM：</p>
+    <ul>
+        <li><strong>Ollama：</strong>快速原型和 prompt 迭代</li>
+        <li><strong>VLLM：</strong>生产环境， PagedAttention 实现高并发</li>
+        <li><strong>Transformer Lab：</strong>fine-tuning</li>
+    </ul>
+    <p>一次性投入，无 API 按需付费。</p>
+    
+    <h3>4. OpenRouter 做智能路由</h3>
+    <ul>
+        <li>统一 API 接入 Anthropic/OpenAI/Google</li>
+        <li>自动故障转移：Anthropic 挂时自动切换 OpenAI</li>
+        <li>无需管理多个账号和配额</li>
+    </ul>
+    
+    <h3>5. GitHub Copilot 替代 Cursor</h3>
+    <p>Microsoft 按请求计费而非按 token 计费。详细 prompt 让 agent 长时间工作只需 $0.04。</p>
+    
+    <h3>6. SQLite + WAL 模式</h3>
+    <pre><code>PRAGMA journal_mode=WAL;
+PRAGMA synchronous=NORMAL;</code></pre>
+    <p>开启 WAL 后，读写不再互相阻塞，单文件 + NVMe 可轻松处理数千并发。</p>
+    
+    <h2>工具推荐</h2>
+    <ul>
+        <li><a href="https://github.com/smhanov/laconic">laconic</a> - 8K 上下文窗口的 agent 研究员</li>
+        <li><a href="https://github.com/smhanov/llmhub">llmhub</a> - 统一 LLM 接口抽象</li>
+        <li><a href="https://github.com/smhanov/auth">smhanov/auth</a> - 轻量认证库</li>
+    </ul>
+    
+    <h2>结论</h2>
+    <p>VC 想要看到你"需要钱"才能增长，但低成本技术栈给你同样甚至更长的 runway：</p>
+    <ul>
+        <li>无董事会压力</li>
+        <li>架构简单，问题易排查</li>
+        <li>有充足时间找到 product-market fit</li>
+    </ul>
+    <p>技术行业试图让你相信构建真正业务需要复杂编排、巨额 AWS 账单和数百万融资——其实不需要。</p>
+    
+    <hr>
+    <p><a href="../index.html">← 返回首页</a></p>

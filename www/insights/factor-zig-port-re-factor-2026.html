@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factor 语言重写为 Zig - 性能提升 13-22%</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<p class="meta">来源: Lobsters | 2026-03-20</p>
+    <h1>🔥 Factor 语言 VM 重写为 Zig: 性能提升 13-22%</h1>
+    
+    <div>
+        <span class="tag">编程语言</span>
+        <span class="tag">Zig</span>
+        <span class="tag">Factor</span>
+        <span class="tag">性能优化</span>
+        <span class="rating">⭐⭐⭐⭐⭐</span>
+    </div>
+
+    <div class="content">
+        <h2>📰 核心发现</h2>
+        <p>Factor 编程语言的创始人 <strong>Slava Pestov</strong> 宣布 Factor VM 将从 C++ 重写为 Zig，并在多个基准测试中取得显著性能提升：</p>
+        
+        <ul>
+            <li><strong>编译器测试</strong>: <span class="highlight">+20%</span> (9.69s → 12.66s 基准)</li>
+            <li><strong>核心测试</strong>: <span class="highlight">+22%</span> (68.8s → 89.9s)</li>
+            <li><strong>启动速度</strong>: <span class="highlight">+2%</span> (3m22s → 3m27s)</li>
+            <li><strong>标准库加载</strong>: <span class="highlight">+8%</span> (522s → 570s)</li>
+            <li><strong>基准测试套件</strong>: <span class="highlight">+13%</span> (439s → 508s)</li>
+        </ul>
+
+        <h2>🔧 为什么选择 Zig?</h2>
+        <ul>
+            <li>简单的语言，没有隐藏控制流</li>
+            <li>没有隐藏内存分配</li>
+            <li>出色的核心开发团队</li>
+            <li>增量快速编译</li>
+            <li>强调快速执行</li>
+            <li>内置 sanitizers 和 fuzzers</li>
+            <li>出色的错误消息</li>
+        </ul>
+
+        <h2>📊 代码统计对比</h2>
+        <table>
+            <tr><th>指标</th><th>Zig</th><th>C++</th></tr>
+            <tr><td>文件数</td><td>51</td><td>148</td></tr>
+            <tr><td>代码行数</td><td>21,032</td><td>12,592</td></tr>
+            <tr><td>二进制大小</td><td>758KB</td><td>430KB</td></tr>
+        </table>
+
+        <p>⚠️ Zig 版本代码行数增加 67%，但文件数减少 66%。二进制体积增大 77%。</p>
+
+        <h2>🛠️ 技术细节</h2>
+        <p>新实现使用相同的引导过程，完全兼容现有的 Factor 镜像文件。测试在 Ubuntu Linux 25.10 (x86_64) 上进行。</p>
+        
+        <pre><code>$ zig version
+0.16.0-dev.2915+065c6e794
+
+Factor 0.102 x86.64 (Zig 0.16.0-dev.2915+065c6e794 ReleaseFast) on linux
+IN: scratchpad 1 2 + .
+3</code></pre>
+
+        <h2>🚀 下一步计划</h2>
+        <ul>
+            <li>支持 Windows</li>
+            <li>正确启动图形程序</li>
+            <li>支持压缩镜像</li>
+            <li>可能支持 32 位</li>
+            <li>调查二进制体积增大的原因</li>
+            <li>探索 WASM 可能性</li>
+        </ul>
+
+        <h2>💡 意义</h2>
+        <p>这是编程语言领域的重大事件——一个成熟的语言选择用现代系统编程语言重写 VM，并取得显著性能提升。Zig 正在成为系统编程的新选择。</p>
+        
+        <p>原文: <a href="https://re.factorcode.org/2026/03/getting-ziggy-with-it.html">Getting Ziggy With It – Re: Factor</a></p>
+    </div>
+
+    <a href="/insights/index.html" class="back-link">← 返回索引</a>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

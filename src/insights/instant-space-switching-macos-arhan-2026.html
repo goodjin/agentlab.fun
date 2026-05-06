@@ -1,0 +1,56 @@
+---
+layout: article.njk
+title: "Native Instant Space Switching on MacOS - 即时空间切换"
+tags: [insights]
+permalink: /insights/instant-space-switching-macos-arhan-2026.html
+---
+
+<div class="container">
+        <h1>🎯 Native Instant Space Switching on MacOS</h1>
+        <div class="meta">
+            <span class="score">⭐⭐⭐⭐⭐ 5星</span>
+            <span> | 77票 | Lobsters</span>
+        </div>
+        
+        <div class="content">
+            <h2>核心发现</h2>
+            <p>作者发现了无需禁用System Integrity Protection即可实现macOS即时空间切换的方法：<strong>InstantSpaceSwitcher</strong>。</p>
+            
+            <div class="highlight">
+                <strong>解决方案：</strong>通过模拟高速度 trackpad swipe 手势来实现即时切换，无需修改系统文件
+            </div>
+
+            <h2>现有方案的问题</h2>
+            <ul>
+                <li><strong>Reduce Motion</strong>: 只替换为同样无用的淡入动画，还会触发网页的 prefers-reduced-motion</li>
+                <li><strong>yabai</strong>: 需要禁用SIP并作为tiling window manager使用，与其他window manager不兼容</li>
+                <li><strong>FlashSpace/AeroSpace</strong>: 非原生实现，只是模拟</li>
+                <li><strong>BetterTouchTool</strong>: 需要付费</li>
+            </ul>
+
+            <h2>InstantSpaceSwitcher 优势</h2>
+            <ul>
+                <li>✅ 无需禁用System Integrity Protection</li>
+                <li>✅ 无需作为tiling window manager</li>
+                <li>✅ 免费开源</li>
+                <li>✅ 支持CLI操作</li>
+                <li>✅ 支持直接跳转到指定空间号</li>
+            </ul>
+
+            <h2>安装方法</h2>
+            <pre><code>git clone https://github.com/jurplel/InstantSpaceSwitcher
+cd InstantSpaceSwitcher
+./build.sh</code></pre>
+
+            <h2>CLI用法</h2>
+            <pre><code>.build/release/ISSCli --help
+# 使用: ISSCli [left|right|index &lt;n&gt;]</code></pre>
+
+            <div class="tags">
+                <span class="tag">macOS</span>
+                <span class="tag">空间切换</span>
+                <span class="tag">窗口管理</span>
+                <span class="tag">开源</span>
+            </div>
+        </div>
+    </div>

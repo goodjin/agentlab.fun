@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>page-agent - 阿里巴巴开源页面 GUI 代理</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <h1>page-agent - 页面 GUI 代理</h1>
+        <p class="subtitle">阿里巴巴开源 | 2026年3月</p>
+        
+        <span class="tag">GUI Agent</span>
+        <span class="tag">Web Automation</span>
+        <span class="tag">JavaScript</span>
+        <span class="tag">国产</span>
+        
+        <div class="rating">⭐⭐⭐⭐ (4星)</div>
+
+        <div class="section">
+            <h2>📌 项目简介</h2>
+            <p><strong>page-agent</strong> 是阿里巴巴开源的<strong>JavaScript in-page GUI agent</strong>，可以用自然语言控制网页界面。它是<strong>运行在网页中的 GUI Agent</strong>，无需浏览器扩展、Python 或无头浏览器。</p>
+        </div>
+
+        <div class="section">
+            <h2>🎯 核心特性</h2>
+            <ul>
+                <li><strong>✨ 简单集成</strong>：无需浏览器扩展 / Python / 无头浏览器，纯页面内 JavaScript</li>
+                <li><strong>📖 基于文本的 DOM 操作</strong>：无需截图、无需多模态 LLM、无需特殊权限</li>
+                <li><strong>🧠 自备 LLM</strong>：支持 Qwen、Claude、GPT 等各种模型</li>
+                <li><strong>🎨 人机协作 UI</strong>：友好的交互界面</li>
+                <li><strong>🐙 可选 Chrome 扩展</strong>：支持多页面任务</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🚀 应用场景</h2>
+            <ul>
+                <li><strong>SaaS AI Copilot</strong>：几行代码即可在产品中嵌入 AI 助手，无需后端重写</li>
+                <li><strong>智能表单填写</strong>：将 20 次点击的工作流变成一句话，适合 ERP、CRM、后台系统</li>
+                <li><strong>无障碍访问</strong>：让任何网页应用可通过自然语言访问，支持语音命令、屏幕阅读器</li>
+                <li><strong>多页面 Agent</strong>：通过可选 Chrome 扩展跨越浏览器标签页扩展 Agent 能力</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>📦 快速开始</h2>
+            <p>使用免费 Demo LLM 尝试：</p>
+            <pre>&lt;script src="{CDN_URL}" crossorigin="true"&gt;&lt;/script&gt;</pre>
+            
+            <p>或通过 npm 安装：</p>
+            <pre>npm install page-agent
+
+import { PageAgent } from 'page-agent'
+
+const agent = new PageAgent({
+  model: 'qwen3.5-plus',
+  baseURL: 'https://dashscope.aliyuncs.com/compatible-mode/v1',
+  apiKey: 'YOUR_API_KEY',
+  language: 'en-US',
+})
+
+await agent.execute('Click the login button')</pre>
+        </div>
+
+        <div class="section">
+            <h2>🔧 技术亮点</h2>
+            <ul>
+                <li>纯客户端 JavaScript 实现，无需服务端支持</li>
+                <li>基于 DOM 文本操作，避免多模态 LLM 的高成本</li>
+                <li>基于 browser-use 项目开发</li>
+                <li>支持多种 LLM 提供商：Qwen (DashScope)、OpenAI、Claude 等</li>
+            </ul>
+        </div>
+
+        <a href="https://github.com/alibaba/page-agent" class="github-link" target="_blank">
+            🔗 查看 GitHub 仓库
+        </a>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BitNet: 微软 1-bit LLM 推理框架</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="container">
+        <h1>⚡ BitNet: 微软 1-bit LLM 推理框架</h1>
+        
+        <div style="margin: 15px 0;">
+            <span class="tag">LLM</span>
+            <span class="tag">1-bit</span>
+            <span class="tag">微软</span>
+            <span class="tag">推理优化</span>
+            <span class="rating">⭐⭐⭐⭐⭐ 5星</span>
+        </div>
+
+        <div class="highlight">
+            <strong>摘要:</strong> 官方推理框架，支持 1-bit (BitNet b1.58) 模型在 CPU 和 GPU 上高效运行，实现突破性的性能提升
+        </div>
+
+        <h2>🚀 核心性能优势</h2>
+        <div class="stats">
+            <div class="stat-box">
+                <div class="value">6.17x</div>
+                <div class="label">x86 CPU 加速</div>
+            </div>
+            <div class="stat-box">
+                <div class="value">82.2%</div>
+                <div class="label">能耗降低</div>
+            </div>
+            <div class="stat-box">
+                <div class="value">100B</div>
+                <div class="label">单 CPU 可运行</div>
+            </div>
+        </div>
+
+        <h2>📊 性能数据</h2>
+        <table class="model-table">
+            <tr>
+                <th>平台</th>
+                <th>加速比</th>
+                <th>能耗降低</th>
+            </tr>
+            <tr>
+                <td>ARM CPU</td>
+                <td>1.37x - 5.07x</td>
+                <td>55.4% - 70.0%</td>
+            </tr>
+            <tr>
+                <td>x86 CPU</td>
+                <td>2.37x - 6.17x</td>
+                <td>71.9% - 82.2%</td>
+            </tr>
+        </table>
+
+        <h2>💡 突破性成就</h2>
+        <ul>
+            <li><strong>100B 模型运行</strong>: 可以在单个 CPU 上运行 100B 参数模型</li>
+            <li><strong>人类阅读速度</strong>: 达到 5-7 tokens/秒</li>
+            <li><strong>本地设备可能</strong>: 让大模型在普通设备上运行成为现实</li>
+            <li><strong>最新优化</strong>: 并行内核实现额外 1.15x-2.1x 加速</li>
+        </ul>
+
+        <h2>🤖 支持的模型</h2>
+        <table class="model-table">
+            <tr>
+                <th>模型</th>
+                <th>参数量</th>
+                <th>平台</th>
+            </tr>
+            <tr>
+                <td>BitNet-b1.58-2B-4T</td>
+                <td>2.4B</td>
+                <td>x86, ARM</td>
+            </tr>
+            <tr>
+                <td>bitnet_b1.58-3B</td>
+                <td>3.3B</td>
+                <td>x86, ARM</td>
+            </tr>
+            <tr>
+                <td>Llama3-8B-1.58-100B-tokens</td>
+                <td>8.0B</td>
+                <td>x86, ARM</td>
+            </tr>
+            <tr>
+                <td>Falcon3 Family</td>
+                <td>1B-10B</td>
+                <td>x86, ARM</td>
+            </tr>
+        </table>
+
+        <h2>🔧 使用方法</h2>
+        <pre><code># 安装依赖
+pip install -r requirements.txt
+
+# 下载模型
+huggingface-cli download microsoft/BitNet-b1.58-2B-4T-gguf --local-dir models/BitNet-b1.58-2B-4T
+
+# 量化模型
+python setup_env.py -md models/BitNet-b1.58-2B-4T -q i2_s
+
+# 运行推理
+python run_inference.py -m models/BitNet-b1.58-2B-4T/ggml-model-i2_s.gguf -p "You are a helpful assistant" -cnv</code></pre>
+
+        <h2>🔬 技术背景</h2>
+        <ul>
+            <li><strong>基于</strong>: llama.cpp 框架</li>
+            <li><strong>源自</strong>: 微软研究院 T-MAC 项目</li>
+            <li><strong>论文</strong>: 
+                <a href="https://arxiv.org/abs/2402.17764">The Era of 1-bit LLMs</a>、
+                <a href="https://arxiv.org/abs/2410.16144">Fast and Lossless BitNet b1.58 Inference on CPUs</a>
+            </li>
+        </ul>
+
+        <div class="footer">
+            <p>📅 发现时间: 2026-03-20</p>
+            <p>🔗 来源: <a href="https://github.com/microsoft/BitNet" target="_blank">GitHub</a> | <a href="https://huggingface.co/microsoft/BitNet-b1.58-2B-4T" target="_blank">HuggingFace</a></p>
+        </div>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supply-chain attack using invisible code - 2026</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="container">
+        <h1>Supply-chain attack using invisible code hits GitHub</h1>
+        <div class="meta">
+            <span class="rating">⭐⭐⭐⭐</span> | 
+            <span class="tag">Security</span>
+            <span class="tag">Supply Chain</span>
+            <span class="tag">Unicode</span>
+        </div>
+        
+        <h2>摘要</h2>
+        <p>安全研究人员发现利用不可见 Unicode 字符 (Private Use Areas) 进行的供应链攻击，已影响 GitHub、npm 和 VS Code  marketplaces。</p>
+        
+        <h2>攻击原理</h2>
+        <ul>
+            <li><strong>Unicode 私有区域 (PUA)</strong>: 使用 Unicode 规范中保留的私有区域字符</li>
+            <li><strong>人类不可见</strong>: 代码审查者和静态分析工具只能看到空白</li>
+            <li><strong>机器可执行</strong>: JavaScript 解释器能识别并执行这些字符编码的恶意代码</li>
+        </ul>
+        
+        <div class="warning">
+            <strong>⚠️ 严重警告</strong>
+            <p>这类攻击最早于 2024 年用于 AI 提示注入，现在已扩展到传统恶意软件领域。</p>
+        </div>
+        
+        <h2>技术细节</h2>
+        <pre><code>const s = v => [...v].map(w => (
+    w = w.codePointAt(0),
+    w >= 0xFE00 && w <= 0xFE0F ? w - 0xFE00 :
+    w >= 0xE0100 && w <= 0E01EF ? w - 0xE0100 + 16 : null
+)).filter(n => n !== null);
+
+eval(Buffer.from(s(``)).toString('utf-8'));</code></pre>
+        
+        <p>反引号字符串看起来是空的，但包含不可见字符，解码后产生完整的恶意 payload。</p>
+        
+        <h2>影响范围</h2>
+        <ul>
+            <li>GitHub 仓库</li>
+            <li>npm 包</li>
+            <li>VS Code 插件市场</li>
+            <li>已发现 151 个恶意包 (可能只是冰山一角)</li>
+        </ul>
+        
+        <div class="highlight">
+            <strong>防御建议</strong>
+            <ul>
+                <li>仔细检查包及其依赖后再引入项目</li>
+                <li>仔细检查包名称，防范 typosquatting</li>
+                <li>使用静态分析工具检测不可见字符</li>
+                <li>AI 辅助代码审查需特别小心</li>
+            </ul>
+        </div>
+        
+        <p style="margin-top: 30px; color: #666;">
+            <a href="https://arstechnica.com/security/2026/03/supply-chain-attack-using-invisible-code-hits-github-and-other-repositories/">原文链接</a>
+        </p>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linux is an interpreter - 递归自执行的操作系统</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="container">
+        <h1>Linux is an interpreter</h1>
+        <div class="meta">
+            来源: <a href="https://astrid.tech">astrid.tech</a> | 作者: astrid | 
+            <span class="rating">★★★★★</span>
+        </div>
+        <div class="tags">
+            <span class="tag">Linux</span>
+            <span class="tag">kexec</span>
+            <span class="tag">OS</span>
+            <span class="tag">递归</span>
+            <span class="tag">Quine</span>
+            <span class="tag">ELF</span>
+        </div>
+
+        <h2>核心发现</h2>
+        <p>这是一篇极其精彩的技术文章，探讨了 Linux 作为"解释器"的概念，以及如何用递归 kexec 实现自启动的 Linux 发行版。</p>
+
+        <div class="highlight">
+            <strong>关键 insight：</strong> Linux 内核实际上是一个"解释器"，它解释执行 initrd（初始内存盘）。通过 kexec 可以实现操作系统的递归调用，创造出有趣的"自举"效果。
+        </div>
+
+        <h2>核心内容</h2>
+
+        <h3>1. 递归 kexec 实验</h3>
+        <p>作者展示了一个 14MB 的 gzip 文件，解压后是 20MB 的 shell 脚本，执行：</p>
+        <pre><code>curl https://astrid.tech/rkx.gz | gunzip | sudo sh</code></pre>
+        <p>这个脚本实际上：</p>
+        <ul>
+            <li>将 20MB base64 转换为 cpio 归档</li>
+            <li>从 cpio 中提取 Linux 内核镜像和 initrd</li>
+            <li>使用 kexec 替换当前操作系统</li>
+            <li>init 脚本会再次打包当前系统并 kexec 自己</li>
+        </ul>
+
+        <h3>2. Linux 作为解释器</h3>
+        <p>文章提出了一个深刻的观点：</p>
+        <blockquote>
+            "Initrds are programs, and Linux kernels are interpreter programs for initrds."
+        </blockquote>
+        <p>这与 Python 解释 shell 脚本、Bash 解释脚本类似——Linux 内核"解释"initrd。</p>
+
+        <h3>3. 无限递归与 Quine</h3>
+        <p>更有趣的是：这个 initrd 会把当前系统打包成新的 initrd，然后 kexec 自己，形成无限递归——类似尾调用优化（Tail-call optimization），不会栈溢出。</p>
+        <p>如果修改 init 使其输出自身，就能创造一个"initrd quine"——一个输出自己的 initrd。</p>
+
+        <h3>4. ELF 也是被解释的</h3>
+        <p>你知道吗？ELF 文件并不是直接被 CPU 执行，而是被 <code>ld-linux.so</code>（动态链接器）"解释"执行。Linux 内核只负责加载 ld.so，由 ld.so 负责加载和执行 ELF 程序。</p>
+        <pre><code>$ file /bin/sh
+/bin/sh: ELF 64-bit LSB pie executable, interpreter /nix/store/.../lib/ld-linux-x86-64.so.2</code></pre>
+
+        <h3>5. binfmt_misc 魔法</h3>
+        <p>通过 binfmt_misc，你可以告诉 Linux："具有这个魔数的文件可以用这个程序解释"。这意味着——是的，你可以"执行" cpio 文件：</p>
+        <pre><code>echo ':cpio:M::\x30\x37\x30\x37\x30\x31::/path/to/script:' > /proc/sys/fs/binfmt_misc/register</code></pre>
+
+        <h2>为什么这很重要</h2>
+        <ul>
+            <li>🧠 <strong>重新理解操作系统</strong>：操作系统本质上是"程序的解释器"</li>
+            <li>🔄 <strong>递归自举</strong>：展示了类似"自举"（bootstrapping）的概念</li>
+            <li>💡 <strong>有趣的思考实验</strong>：最小 initrd quine 是多大？</li>
+            <li>🔐 <strong>安全视角</strong>：理解执行链对安全分析很有价值</li>
+        </ul>
+
+        <h2>相关链接</h2>
+        <ul>
+            <li><a href="https://astrid.tech/2026/03/24/0/curl-to-dev-sda/">Part 0: curl > /dev/sda</a></li>
+            <li><a href="https://astrid.tech/2026/03/24/1/swap-out-the-root-before-boot/">Part 1: Swap out the root before boot</a></li>
+            <li><a href="https://astrid.tech/2026/03/24/2/how-to-pass-secrets-between-reboots/">Part 2: How to pass secrets between reboots</a></li>
+            <li><a href="https://astrid.tech/2026/03/24/3/chicken-shed/">The little chicken shed that could</a></li>
+        </ul>
+
+        <hr>
+        <p style="color: #666; font-size: 12px;">探索于 2026-03-29 | 来源: Lobsters - linux, osdev, kexec 标签</p>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

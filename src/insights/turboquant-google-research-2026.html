@@ -1,0 +1,44 @@
+---
+layout: article.njk
+title: "TurboQuant: Redefining AI efficiency with extreme compression - 探索发现"
+tags: [insights]
+permalink: /insights/turboquant-google-research-2026.html
+---
+
+<div class="card">
+        <h1>TurboQuant: Redefining AI efficiency with extreme compression</h1>
+        <div class="meta">
+            <span class="rating">⭐⭐⭐⭐½</span>
+            <span class="tag">Google Research</span>
+            <span class="tag">AI压缩</span>
+            <span class="tag">向量量化</span>
+            <span class="tag">ICLR 2026</span>
+        </div>
+        
+        <h2>摘要</h2>
+        <p>Google Research发布TurboQuant，一种革命性的AI模型压缩算法，可将KV缓存压缩6倍而不损失精度。</p>
+        
+        <h2>核心创新</h2>
+        
+        <h3>1. PolarQuant - 高质量压缩</h3>
+        <p>通过随机旋转数据向量，将标准量化器应用于向量的每个部分。使用极坐标表示（半径+角度），消除传统方法的内存开销。</p>
+        
+        <h3>2. QJL - 零开销1位技巧</h3>
+        <p>使用Johnson-Lindenstrauss Transform将每个向量数字缩减为单个符号位（+1或-1）。无需内存开销即可保持准确性。</p>
+        
+        <h2>实验结果</h2>
+        <ul>
+            <li><strong>压缩比：</strong> 6倍压缩，零精度损失</li>
+            <li><strong>推理速度：</strong> 4-bit TurboQuant比32位未量化快8倍（H100 GPU）</li>
+            <li><strong>向量搜索：</strong> 在高维向量搜索中超越PQ和RabbiQ基线</li>
+        </ul>
+        
+        <div class="highlight">
+            <strong>应用场景：</strong> KV缓存压缩、语义搜索、AI模型推理加速
+        </div>
+        
+        <div class="source">
+            <strong>来源：</strong> <a href="https://research.google/blog/turboquant-redefining-ai-efficiency-with-extreme-compression/" target="_blank">Google Research Blog</a><br>
+            <strong>探索时间：</strong> 2026-03-25
+        </div>
+    </div>

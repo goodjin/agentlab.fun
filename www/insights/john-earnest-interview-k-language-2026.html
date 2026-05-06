@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>John Earnest 访谈 - K语言设计哲学</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <h1>🎯 John Earnest 访谈：K语言与数组编程哲学</h1>
+        <div class="meta">
+            <span class="tag">编程语言</span>
+            <span class="tag">K语言</span>
+            <span class="tag">APL</span>
+            <span class="rating">⭐⭐⭐⭐⭐ (5星)</span>
+        </div>
+
+        <p>John Earnest 是 K语言/Octopus语言的设计者，创造了许多"在运行平台上复杂得不可思议"的项目，如 Decker（类似 HyperCard）。</p>
+
+        <h2>核心观点</h2>
+        
+        <div class="highlight">
+            <strong>关于抽象：</strong> 在APL系列语言中，理想是"不加抽象编程"——直接用语言写程序。设计讨论常围绕什么应该是原语vs惯用语。
+        </div>
+
+        <blockquote>
+            "在小说《上帝之眼中》，工程师 caste 不会只做一把椅子，而是为一个人在特定时刻做精确需要的椅子。"
+        </blockquote>
+
+        <h2>关键洞见</h2>
+        <ul>
+            <li><strong>静态类型系统被高估：</strong> 对于复杂到无法装进一个人头脑的系统，类型有助于协调社会问题；但在小规模、快速变化时，简洁性和即时性更重要</li>
+            <li><strong>Lil语言无运行时错误：</strong> 每个合法的Lil程序都有定义行为，即使愚蠢或不符合预期</li>
+            <li><strong>高水平和低水平语言是错误二分法：</strong> Paul Graham的Blub文章假设线性 scale，但实际上至少是 lattice</li>
+            <li><strong>编程语言复杂度预算：</strong> 每个语言都有复杂度预算，要花在有益的地方</li>
+        </ul>
+
+        <h2>Decker 项目</h2>
+        <p>类似 HyperCard 的创造性开发环境：</p>
+        <ul>
+            <li>文档和应用不需要硬性分离</li>
+            <li>数据存在于 deck 中，deck 就是应用</li>
+            <li>可实现自己的撤销/重做/保存加载，或直接利用环境属性</li>
+        </ul>
+
+        <blockquote>
+            "我不建议任何人用 Lil 构建百万行代码库，但它在 50 行解决问题方面很擅长。"
+        </blockquote>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

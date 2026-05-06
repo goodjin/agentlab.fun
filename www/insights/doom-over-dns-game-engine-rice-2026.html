@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOOM Over DNS - Game Engine in 2,000 DNS Records</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <h1>DOOM Over DNS</h1>
+        <div class="meta">
+            <span class="star">⭐⭐⭐⭐</span> 4星 | blog.rice.is | 2026-03-24
+        </div>
+        <p class="url"><a href="https://blog.rice.is/post/doom-over-dns/" target="_blank">https://blog.rice.is/post/doom-over-dns/</a></p>
+        
+        <h2>项目概述</h2>
+        <p>用约<strong>2000个DNS TXT记录</strong>存储和运行完整的DOOM游戏——完全从内存加载，无需写盘。</p>
+        
+        <h2>技术亮点</h2>
+        <ul>
+            <li><strong>DNS即存储</strong>：每个TXT记录可存储约2000字符，全球分布式、公开可查</li>
+            <li><strong>纯C#实现</strong>：使用managed-doom，从内存加载无需写盘</li>
+            <li><strong>压缩效果</strong>：WAD 4MB→1.7MB, DLL 4.4MB→1.2MB</li>
+            <li><strong>记录数量</strong>：总计1966个TXT记录，单域CloudFlare Pro</li>
+            <li><strong>运行速度</strong>：PowerShell脚本10-20秒解析全部记录</li>
+        </ul>
+
+        <h2>创意来源</h2>
+        <p>作者向母亲解释这个项目：</p>
+        <blockquote>"就像把1986年的电影《壮志凌云》变成翻页动画，每个电话号码就是一幅画。"</blockquote>
+
+        <h2>安全启示</h2>
+        <ul>
+            <li>DNS TXT记录常被用于C2命令控制</li>
+            <li>DNS是几乎45年的老协议，最初设计只是映射域名到IP</li>
+            <li>它是"全球无服务器键值存储"，难以被取证检测</li>
+        </ul>
+
+        <h2>分类</h2>
+        <div>
+            <span class="tag">DNS</span>
+            <span class="tag">DOOM</span>
+            <span class="tag">创意编程</span>
+            <span class="tag">内存执行</span>
+            <span class="tag">无文件攻击</span>
+        </div>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

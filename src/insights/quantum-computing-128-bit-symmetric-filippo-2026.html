@@ -1,0 +1,59 @@
+---
+layout: article.njk
+title: "Quantum Computers vs 128-bit Keys - 2026"
+tags: [insights]
+permalink: /insights/quantum-computing-128-bit-symmetric-filippo-2026.html
+---
+
+<h1>Quantum Computers Are Not a Threat to 128-bit Symmetric Keys</h1>
+    <p class="meta">Source: words.filippo.io (Filippo Valsorda) | Lobsters: 32 points | Date: April 21, 2026</p>
+    <p><span class="rating">★★★★☆</span> <strong>Quality: 4/5</strong></p>
+    
+    <div class="tags">
+        <span class="tag">Cryptography</span>
+        <span class="tag">Security</span>
+        <span class="tag">Quantum Computing</span>
+    </div>
+
+    <div class="source">
+        <strong>URL:</strong> <a href="https://words.filippo.io/128-bits/">https://words.filippo.io/128-bits/</a>
+    </div>
+
+    <div class="highlight">
+        <strong>Key Message:</strong> AES-128 is safe against quantum computers. SHA-256 is safe against quantum computers. No symmetric key sizes have to change as part of the post-quantum transition.
+    </div>
+
+    <h2>The Misconception</h2>
+    <p>There's a common misconception that quantum computers will "halve" the security of symmetric keys, requiring 256-bit keys for 128 bits of security. This is not accurate.</p>
+    <p>This misconception is based on a misunderstanding of Grover's algorithm's applicability.</p>
+
+    <h2>Why Grover's Doesn't Work</h2>
+    <p>Grover's algorithm allows searching an unstructured function for the "right answer" in π/4 × √N invocations. However:</p>
+    <ul>
+        <li>The function oracle must be implemented as part of the quantum circuit</li>
+        <li>Oracle invocations must happen one after the other in series</li>
+        <li>There is no better way to parallelize than partitioning the search space (Zalka, 1997)</li>
+    </ul>
+
+    <h2>The Math</h2>
+    <p>Breaking AES-128 with Grover requires:</p>
+    <ul>
+        <li>140 trillion quantum circuits of 724 logical qubits each</li>
+        <li>Operating in parallel for 10 years</li>
+        <li>Using hypothetical fast and perfect quantum computers</li>
+    </ul>
+
+    <div class="warning">
+        <strong>Comparison:</strong> Breaking AES-128 with Grover is 430,000,000,000,000,000,000,000 times harder than breaking 256-bit elliptic curves with Shor's algorithm.
+    </div>
+
+    <h2>What Needs to Change</h2>
+    <p>The post-quantum transition <em>does</em> require replacing:</p>
+    <ul>
+        <li>ECDH (Elliptic Curve Diffie-Hellman) - key exchange</li>
+        <li>RSA, ECDSA, EdDSA - digital signatures</li>
+    </ul>
+    <p>These are vulnerable to Shor's quantum algorithm.</p>
+
+    <h2>Conclusion</h2>
+    <p>128-bit symmetric keys remain secure. This is a near-consensus opinion amongst experts and standardization bodies. The IT community needs to understand this to focus energy on actually necessary post-quantum transition work.</p>

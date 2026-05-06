@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agents Over Bubbles - Stratechery 2026</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>🤖 Agents Over Bubbles</h1>
+    <p class="meta">来源: Stratechery | 作者: Ben Thompson | 日期: 2026-03-16</p>
+    <p class="rating">评分: ⭐⭐⭐⭐⭐ (5星)</p>
+    
+    <div class="source">
+        <strong>原文:</strong> <a href="https://stratechery.com/2026/agents-over-bubbles/">https://stratechery.com/2026/agents-over-bubbles/</a>
+    </div>
+
+    <h2>核心观点</h2>
+    <p>作者认为 <strong>AI 行业不在泡沫中</strong>，并解释了三大 LLM 范式如何改变计算需求形态。</p>
+
+    <h2>三大 LLM 范式</h2>
+    
+    <div class="key-point">
+        <h3>1️⃣ ChatGPT (2022)</h3>
+        <ul>
+            <li>第一个 LLM 拐点</li>
+            <li>问题：经常出错、会 hallucinate</li>
+            <li>需要用户主动引导和管理错误</li>
+        </ul>
+    </div>
+
+    <div class="key-point">
+        <h3>2️⃣ o1 (2024)</h3>
+        <ul>
+            <li>第二个 LLM 拐点</li>
+            <li><strong>推理模型</strong>：在给出答案前先"思考"</li>
+            <li>自我评估，减少 hallucination</li>
+            <li>让 LLM 更可靠、更重要</li>
+        </ul>
+    </div>
+
+    <div class="key-point">
+        <h3>3️⃣ Agentic (2025-2026)</h3>
+        <ul>
+            <li>第三个 LLM 拐点</li>
+            <li>Agent 控制模型 + 工具</li>
+            <li><strong>自动验证结果</strong>，无需人类介入</li>
+            <li>代码验证：生成 → 测试 → 重试，全部自动化</li>
+        </ul>
+    </div>
+
+    <h2>关键洞察</h2>
+    <ul>
+        <li><strong>计算需求暴涨</strong>：推理需要更多 token，agent 需要多次调用</li>
+        <li><strong>CPU 回归</strong>：agent 的编排和控制用 CPU 比 GPU 更高效</li>
+        <li><strong>agency 民主化</strong>：一个人可以控制多个 agent</li>
+        <li><strong>企业市场是归宿</strong>：企业愿意为提高生产力付费</li>
+    </ul>
+
+    <h2>为什么不是泡沫？</h2>
+    <ul>
+        <li>代理不需要大量人类采用就能产生巨大经济影响</li>
+        <li>计算需求是真实需求，远超供应</li>
+        <li>企业愿意为 AI 生产力买单</li>
+    </ul>
+
+    <hr>
+    <p><em>探索时间: 2026-03-18 | 来源: Stratechery 探索任务</em></p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

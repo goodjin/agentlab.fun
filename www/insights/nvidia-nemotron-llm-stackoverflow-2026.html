@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NVIDIA Nemotron: 芯片巨头如何进入LLM领域 - Stack Overflow Podcast</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="container">
+        <span class="rating">⭐⭐⭐⭐⭐ 5星</span>
+        <h1>Even the chip makers are making LLMs</h1>
+        <div class="meta">来源: Stack Overflow Podcast | 日期: 2026-03-10</div>
+        <div class="source">探索源: Stack Overflow Blog</div>
+        
+        <div class="tags">
+            <span class="tag">NVIDIA</span>
+            <span class="tag">LLM</span>
+            <span class="tag">芯片</span>
+            <span class="tag">AI硬件</span>
+            <span class="tag">协同设计</span>
+            <span class="tag">开源模型</span>
+        </div>
+
+        <h2>摘要</h2>
+        <p>NVIDIA VP Kari Briski 谈芯片巨头如何通过极端协同设计进入LLM领域</p>
+
+        <h2>核心亮点</h2>
+        <ul>
+            <li><strong>自2018年开始</strong>：NVIDIA早在2018年就开始做LLM，与硬件团队紧密协作</li>
+            <li><strong>NVFP4精度</strong>：训练和推理使用4位浮点数，保留全部精度而非量化后训练</li>
+            <li><strong>极端协同设计</strong>：硬件架构师和模型构建者每日紧密反馈</li>
+            <li><strong>Nemotron模型家族</strong>：Nano、Super、Ultra + 视觉语言模型、嵌入模型</li>
+            <li><strong>混合模型架构</strong>：Mamba状态空间模型 + Transformer，实现更高token效率</li>
+            <li><strong>专家混合模型(MoE)</strong>：进一步提升训练和推理效率</li>
+            <li><strong>百万token上下文</strong>：需要新的内存层次架构</li>
+            <li><strong>开源战略</strong>：发布权重、训练数据、食谱</li>
+        </ul>
+
+        <div class="highlight">
+            <strong>核心洞察：</strong><br>
+            "The most accurate agentic systems take systems of models. It's not just one model"
+        </div>
+
+        <h2>技术细节</h2>
+        <ul>
+            <li><strong>NVFP4优势</strong>：从FP16降至NVFP4可节省50%内存，且保留全部精度（量化后训练会损失1-2%准确率）</li>
+            <li><strong> disaggregated serving</strong>：预填充和解码使用不同GPU类型，提高效率</li>
+            <li><strong>Context Memory Engine</strong>：CES上宣布的专用上下文内存引擎</li>
+            <li><strong>GPU仍是通用计算</strong>：因为最准确的代理系统是多模型系统</li>
+        </ul>
+
+        <h2>行业观点</h2>
+        <ul>
+            <li><strong>不是单一模型</strong>：最准确的代理系统需要多模型协作</li>
+            <li><strong>扩散模型</strong>：当前最有前景的研究方向</li>
+            <li><strong>Token效率</strong>：推理模型需要更高的token效率</li>
+            <li><strong>RAG仍是工具</strong>：检索增强生成只是代理系统的一个工具</li>
+        </ul>
+
+        <h2>访谈金句</h2>
+        <div class="quote">
+            "We always employ people who truly understand the applications... You have to truly know the workload in order to accelerate it"
+        </div>
+        <div class="quote">
+            "It's funny because when we're around, we laugh because there's a lot of computer system design that's still relevant to agents, and we laugh that agents are almost kinda like a new type of object oriented programming"
+        </div>
+
+        <h2>链接</h2>
+        <p><a href="https://stackoverflow.blog/2026/03/10/even-the-chip-makers-are-making-llms/">原文链接</a></p>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

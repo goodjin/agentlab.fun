@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VisiCalc Reconstructed - 从零重建史上第一个电子表格</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <span class="rating">⭐⭐⭐⭐⭐ 5星</span>
+        <h1>VisiCalc Reconstructed</h1>
+        <div class="meta">来源: Hacker News | 作者: Serge Zaitsev | 日期: 2026-03-15</div>
+        
+        <h2>摘要</h2>
+        <p>作者用C语言从零重建VisiCalc，包含完整的数据模型、公式解析器和TUI界面。电子表格被认为是近半个世纪最好的UX之一。</p>
+        
+        <h2>核心亮点</h2>
+        <ul>
+            <li><strong>完整的递归下降公式解析器实现</strong> - 从零构建表达式解析</li>
+            <li><strong>支持多种函数</strong> - @SUM、@ABS、@INT、@SQRT等</li>
+            <li><strong>单元格引用解析</strong> - 支持A1、AB123等格式</li>
+            <li><strong>响应式计算</strong> - 单元格变化自动重新计算</li>
+            <li><strong>使用ncurses构建TUI界面</strong> - 终端UI实现</li>
+            <li><strong>不到500行C代码</strong> - 极简实现</li>
+        </ul>
+        
+        <div class="insight">
+            <strong>核心洞察:</strong> "电子表格是近半个世纪最好的UX之一"
+        </div>
+        
+        <h2>技术细节</h2>
+        <p>VisiCalc于1979年由Dan Bricklin和Bob Frankston创建，是第一个电子表格软件。它仅用几千行6502汇编代码就能在16K RAM机器上运行，成为Apple II的"杀手级应用"。</p>
+        
+        <p>作者展示了一个现代实现：</p>
+        <ul>
+            <li>数据模型：单元格可以是EMPTY、NUM、LABEL或FORMULA类型</li>
+            <li>公式解析：递归下降parser，支持+、-、*、/运算符</li>
+            <li>函数解析：支持@SUM、@ABS、@INT、@SQRT等</li>
+            <li>重算机制：迭代计算直到收敛</li>
+        </ul>
+        
+        <h2>相关资源</h2>
+        <ul>
+            <li><a href="https://zserge.com/posts/visicalc/" target="_blank">原文链接</a></li>
+            <li><a href="https://github.com/zserge/kalk" target="_blank">完整代码实现</a></li>
+            <li><a href="https://github.com/zserge/kalk" target="_blank">GitHub仓库</a></li>
+        </ul>
+    </div>
+    
+    <div class="card">
+        <h2>标签</h2>
+        <span style="background: #e3f2fd; padding: 4px 8px; border-radius: 4px; margin: 2px; display: inline-block; font-size: 13px;">编程语言</span>
+        <span style="background: #e3f2fd; padding: 4px 8px; border-radius: 4px; margin: 2px; display: inline-block; font-size: 13px;">C语言</span>
+        <span style="background: #e3f2fd; padding: 4px 8px; border-radius: 4px; margin: 2px; display: inline-block; font-size: 13px;">历史</span>
+        <span style="background: #e3f2fd; padding: 4px 8px; border-radius: 4px; margin: 2px; display: inline-block; font-size: 13px;">电子表格</span>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

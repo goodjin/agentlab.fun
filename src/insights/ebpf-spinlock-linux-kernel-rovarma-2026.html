@@ -1,0 +1,65 @@
+---
+layout: article.njk
+title: "Fixing eBPF Spinlock Issues in Linux Kernel"
+tags: [insights]
+permalink: /insights/ebpf-spinlock-linux-kernel-rovarma-2026.html
+---
+
+<div class="card">
+        <span class="rating">⭐⭐⭐⭐⭐</span>
+        <h1>Fixing eBPF Spinlock Issues in Linux Kernel</h1>
+        <div class="meta">Source: rovarma.com | Author: Ritesh Oedayrajsingh Varma | Date: March 2026</div>
+        <div class="tags">
+            <span class="tag">Linux Kernel</span>
+            <span class="tag">eBPF</span>
+            <span class="tag">Debugging</span>
+            <span class="tag">Performance</span>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Summary</h2>
+        <p>A deep dive into fixing system freezes caused by eBPF spinlock contention in the Linux kernel. The Superluminal CPU profiler was causing periodic system freezes, and this article documents the debugging journey that led deep into kernel internals.</p>
+    </div>
+
+    <div class="card">
+        <h2>Key Findings</h2>
+        <ul>
+            <li><strong>Root Cause:</strong> NMI (Non-Maskable Interrupt) sampling interrupts competing with eBPF ring buffer spinlocks</li>
+            <li><strong>Freeze Duration:</strong> Exactly 250ms, matching <code>RES_DEF_TIMEOUT</code> in kernel spinlock code</li>
+            <li><strong>Minimal Repro:</strong> Only 20 lines of eBPF code needed to reproduce the issue</li>
+            <li><strong>Solution:</strong> Discovered bug in Linux 5.17's rqspinlock implementation</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>Technical Details</h2>
+        <p>The issue occurred because:</p>
+        <ol>
+            <li>eBPF programs use <code>bpf_ringbuf_reserve()</code> which acquires a spinlock</li>
+            <li>NMI interrupts cannot be disabled (unlike regular interrupts)</li>
+            <li>When sampling interrupt hits while spinlock is held → 250ms wait timeout</li>
+            <li>Multiple CPUs experiencing this simultaneously → system freeze</li>
+        </ol>
+    </div>
+
+    <div class="card">
+        <h2>Debugging Techniques</h2>
+        <ul>
+            <li>Physical machine required (VM couldn't reproduce)</li>
+            <li>Serial port for kernel debugging (gdb)</li>
+            <li>Binary search through eBPF code to find minimal repro</li>
+            <li>Reading kernel source to understand lock implementation</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>Why This Matters</h2>
+        <p>This is a great example of how subtle kernel interactions can cause hard-to-debug issues. The fix involved working with the Linux kernel team to address the underlying rqspinlock problem.</p>
+    </div>
+
+    <div class="card">
+        <h2>Links</h2>
+        <p><a href="https://www.rovarma.com/articles/a-tale-about-fixing-ebpf-spinlock-issues-in-the-linux-kernel/" target="_blank">Original Article →</a></p>
+        <p><a href="https://github.com/torvalds/linux/blob/e5f0a698b34ed76002dc5c4f3804a61c80233a7a/kernel/bpf/rqspinlock.c" target="_blank">Kernel rqspinlock.c →</a></p>
+    </div>

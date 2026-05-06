@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WordPress 插件供应链攻击 - 30+ 插件被植入后门</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>WordPress 插件供应链攻击：30+ 插件被植入后门</h1>
+    <p class="source">来源: Anchor Hosting | 作者: Austin Ginder | 日期: 2026-04-09</p>
+
+    <div class="stats">
+        <div class="stat-box">
+            <div class="stat-number">30+</div>
+            <div class="stat-label">受影响插件</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number">31</div>
+            <div class="stat-label">被WordPress.org关闭</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number">8个月</div>
+            <div class="stat-label">后门潜伏期</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number">6位数</div>
+            <div class="stat-label">Flippa成交价</div>
+        </div>
+    </div>
+
+    <h2>事件概述</h2>
+    <p>2026年4月7日，WordPress.org插件团队在一天内永久关闭了Essential Plugin作者的所有31个插件。这些插件在Flippa上被收购后，被植入了复杂的后门程序，包括：</p>
+    <ul>
+        <li>PHP反序列化RCE后门</li>
+        <li>通过Ethereum智能合约解析C2域名（传统域名封禁失效）</li>
+        <li>仅对Googlebot可见的SEO垃圾内容注入</li>
+        <li>wp-config.php持久化感染</li>
+    </ul>
+
+    <div class="highlight">
+        <strong>关键发现：</strong> 买家的第一个SVN commit就是后门。2025年8月8日发布的2.6.7版本 changelog 写着"检查WordPress 6.8.2兼容性"，实际上植入了191行恶意代码。
+    </div>
+
+    <h2>时间线</h2>
+    <div class="timeline">
+        <div class="timeline-item"><strong>2015年2月</strong> - wponlinesupport.com域名注册</div>
+        <div class="timeline-item"><strong>2016年10月</strong> - Countdown Timer Ultimate发布</div>
+        <div class="timeline-item"><strong>2021年8月</strong> - rebranding为Essential Plugin</div>
+        <div class="timeline-item"><strong>2024年底</strong> - 收入下降35-45%，在Flippa上架</div>
+        <div class="timeline-item"><strong>2025年初</strong> - 买家"Kris"以六位数价格收购</div>
+        <div class="timeline-item"><strong>2025年8月8日</strong> - 首个commit植入后门（版本2.6.7）</div>
+        <div class="timeline-item"><strong>2026年4月5-6日</strong> - 后门激活，开始分发恶意payload</div>
+        <div class="timeline-item"><strong>2026年4月7日</strong> - WordPress.org关闭全部31个插件</div>
+    </div>
+
+    <h2>技术细节</h2>
+    <h3>后门机制</h3>
+    <ul>
+        <li><code>fetch_ver_info()</code> - 调用file_get_contents()获取远程数据，传入@unserialize()执行PHP反序列化攻击</li>
+        <li><code>version_info_clean()</code> - 执行任意函数调用，远程服务器完全控制函数名和参数</li>
+        <li>未认证REST API端点：<code>permission_callback: __return_true</code></li>
+    </ul>
+
+    <h3>C2通信创新</h3>
+    <p>恶意软件通过Ethereum智能合约解析C2域名，查询公共区块链RPC端点。传统域名封禁无法生效，因为攻击者可以随时更新智能合约指向新域名。</p>
+
+    <div class="warning">
+        <strong>重要：</strong> WordPress.org的强制更新只禁用了插件的phone-home功能，但没有清理wp-config.php中的已注入代码！
+    </div>
+
+    <h2>受影响插件列表</h2>
+    <ul class="plugin-list">
+        <li>Accordion and Accordion Slider</li>
+        <li>Album and Image Gallery Plus Lightbox</li>
+        <li>Audio Player with Playlist Ultimate</li>
+        <li>Blog Designer for Post and Widget</li>
+        <li>Countdown Timer Ultimate</li>
+        <li>Featured Post Creative</li>
+        <li>Footer Mega Grid Columns</li>
+        <li>Hero Banner Ultimate</li>
+        <li>HTML5 VideoGallery Plus Player</li>
+        <li>Meta Slider and Carousel with Lightbox</li>
+        <li>Popup Anything on Click</li>
+        <li>Portfolio and Projects</li>
+        <li>Post Grid and Filter Ultimate</li>
+        <li>Woo Product Slider and Carousel</li>
+        <li>WP Blog and Widgets</li>
+        <li>WP Team Showcase and Slider</li>
+        <li>WP Testimonial with Widget</li>
+    </ul>
+
+    <h2>修复方案</h2>
+    <h3>检查wp-config.php</h3>
+    <p>恶意代码追加在<code>require_once ABSPATH . wp-settings.php;</code>同一行，容易被忽略。如果文件大小显著增大（注入payload约6KB），说明站点已被主动入侵。</p>
+
+    <h3>清理步骤</h3>
+    <ol>
+        <li>删除插件目录下的<code>wpos-analytics/</code>目录</li>
+        <li>从主插件PHP文件中删除loader函数（搜索"Plugin Wpos Analytics Data Starts"或wpos_analytics_anl）</li>
+        <li>将版本号添加"-patched"后缀</li>
+        <li>使用<code>wp plugin install your-plugin-patched.zip --force</code>重新安装</li>
+    </ol>
+
+    <h2>信任问题</h2>
+    <p>这是两周内第二起WordPress插件供应链攻击。模式相同：收购受信赖的插件，继承WordPress.org提交权限，注入恶意代码。</p>
+    <p>Essential Plugin的Flippa listing是公开的，买家的SEO和在线赌博营销背景也是公开的，但WordPress.org没有任何机制来标记或审查插件所有权变更。</p>
+
+    <p><a href="https://anchor.host/someone-bought-30-wordpress-plugins-and-planted-a-backdoor-in-all-of-them/">原文链接</a></p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

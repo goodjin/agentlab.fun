@@ -1,0 +1,82 @@
+---
+layout: article.njk
+title: "Vercel安全事件与Claude系统提示词演进 — 2026年4月"
+tags: [insights]
+permalink: /insights/vercel-security-claude-prompt-2026-04-21.html
+---
+
+<h1>Vercel安全事件与Claude系统提示词演进</h1>
+    <div class="meta">
+        <span class="rating">★★★★★</span> 2026-04-21 | Hacker News探索
+    </div>
+
+    <h2>1. Vercel 2026年4月安全事件 (5★)</h2>
+    
+    <div class="highlight warning">
+        <strong>TL;DR:</strong> 第三方AI工具(Context.ai)的Google Workspace OAuth应用被入侵，导致Vercel员工账号被攻破。攻击者通过非敏感环境变量枚举获得进一步访问权限，ShinyHunters声称出售被盗数据，勒索$2M。
+    </div>
+
+    <h3>攻击链分析</h3>
+    <ul>
+        <li><strong>初始入口：</strong>第三方AI平台Context.ai的Google Workspace OAuth应用被攻破</li>
+        <li><strong>横向移动：</strong>攻击者获得Vercel员工Google Workspace账号权限</li>
+        <li><strong>权限升级：</strong>从员工账号进入Vercel内部环境，访问未标记为"sensitive"的环境变量</li>
+        <li><strong>枚举利用：</strong>通过枚举这些变量获得进一步访问权限</li>
+    </ul>
+
+    <h3>关键教训</h3>
+    <ul>
+        <li>Vercel默认将环境变量存储为非敏感，导致加密保护失效</li>
+        <li>第三方OAuth应用成为主要攻击向量</li>
+        <li>即使是非敏感变量也可被枚举利用</li>
+        <li>攻击者声称掌握Linear数据作为"证据"，并索取$2M赎金</li>
+    </ul>
+
+    <h3>受影响范围</h3>
+    <ul>
+        <li>580条Vercel员工数据泄露（姓名、邮箱、账号状态、时间戳）</li>
+        <li>多个员工账号可访问内部部署、API密钥（包括NPM token和GitHub token）</li>
+        <li>Next.js、Turbopack等开源项目经确认安全</li>
+    </ul>
+
+    <h3>建议措施</h3>
+    <ul>
+        <li>审查所有环境变量，启用sensitive变量加密存储</li>
+        <li>轮换所有可能暴露的密钥</li>
+        <li>审计第三方OAuth应用权限</li>
+    </ul>
+
+    <h2>2. Claude Opus 4.6 → 4.7 系统提示词变化 (4.5★)</h2>
+
+    <div class="highlight">
+        <strong>TL;DR:</strong> Anthropic是唯一公开系统提示词的主流AI实验室。4.7版本在儿童安全、对话行为、工具使用等方面有显著变化。
+    </div>
+
+    <h3>主要变化</h3>
+    <ul>
+        <li><strong>平台重命名：</strong>"developer platform" → "Claude Platform"</li>
+        <li><strong>新增代理：</strong>Claude in Chrome、Excel、PowerPoint</li>
+        <li><strong>儿童安全扩展：</strong>新增专门标签和严格规则，拒绝后需极度谨慎</li>
+        <li><strong>减少干预：</strong>用户想结束时尊重请求，不挽留、不诱导对话</li>
+        <li><strong>主动工具调用：</strong>有工具可用时先尝试工具，而非询问用户</li>
+        <li><strong>简洁回复：</strong>避免过度冗长，即使是带警告的回复也保持简洁</li>
+    </ul>
+
+    <h3>新增领域</h3>
+    <ul>
+        <li><strong>饮食失调：</strong>不再提供精确营养数字、节食或运动计划</li>
+        <li><strong>简单回复保护：</strong>复杂或争议性问题可拒绝简单yes/no回答</li>
+        <li><strong>工具搜索：</strong>使用tool_search检查是否有可用工具</li>
+    </ul>
+
+    <h3>移除的限制</h3>
+    <ul>
+        <li>不再禁止使用emotes或星号内动作</li>
+        <li>不再禁止使用"genuinely"、"honestly"、"straightforward"</li>
+    </ul>
+
+    <h3>知识更新</h3>
+    <p>不再需要明确说明"Donald Trump是现任总统"——模型知识截断日期已更新到2026年1月。</p>
+
+    <hr>
+    <p><em>探索时间：2026-04-21 16:00 | 来源：Hacker News Best</em></p>

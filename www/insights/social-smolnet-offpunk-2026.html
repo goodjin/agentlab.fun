@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Social Smolnet - Offpunk 去中心化社交网络</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>The Social Smolnet - 使用邮件和博客构建去中心化社交网络</h1>
+    
+    <div class="meta">
+        <span class="rating">⭐⭐⭐⭐</span> 评级 | 
+        来源: <a href="https://ploum.net/2026-03-20-social-smolnet.html" target="_blank">ploum.net</a> |
+        日期: 2026-03-20
+    </div>
+    
+    <div class="tags">
+        <span class="tag">去中心化</span>
+        <span class="tag">邮件</span>
+        <span class="tag">博客</span>
+        <span class="tag">Small Web</span>
+        <span class="tag">Gemini</span>
+    </div>
+
+    <h2>概述</h2>
+    <p>作者 Ploum 分享了他如何使用 Offpunk 工具将邮件和博客转变为一个去中心化的"社交网络"。这个概念被称为"Social Smolnet"（小网络），它利用现有的邮件协议和静态网站来创建一种不需要中心化平台的社交体验。</p>
+
+    <h2>核心功能</h2>
+    
+    <h3>Share（分享）</h3>
+    <p>在 Offpunk 中阅读有趣的内容时，只需输入：</p>
+    <pre><code>share</code></pre>
+    <p>或者指定收件人：</p>
+    <pre><code>share myfriend@example.com</code></pre>
+    <p>系统会打开邮件客户端，包含要分享的 URL 和页面标题，你只需添加一些文字说明为什么想分享这个内容。</p>
+
+    <h3>Reply（回复）</h3>
+    <p>阅读博客文章后想要反馈或感谢作者？只需输入：</p>
+    <pre><code>reply</code></pre>
+    <p>Offpunk 会尝试通过探索页面、根页面和"contact"页面来找到邮件地址。一旦找到，地址会被保存供将来使用。</p>
+
+    <div class="highlight">
+        <strong>关键洞察：</strong>"社交网络"不是关于协议，而是关于我们如何使用现有基础设施。微软和谷歌努力让你讨厌邮件和建立网站，但我们不必服从。
+    </div>
+
+    <h2>实际体验</h2>
+    <p>在不到两个月的时间里，作者使用这个功能对 40 个不同的在线空间做出了反应。他还开始使用 Offpunk 作为博主朋友的地址簿，直接访问他们的博客/gemini 胶囊/gopher 洞并输入"reply"来联系。</p>
+
+    <h2>哲学意义</h2>
+    <p>这不仅仅是关于技术，而是关于：</p>
+    <ul>
+        <li>阅读、写作和在没有 JavaScript 和中心化平台的情况下享受社交乐趣的权利</li>
+        <li>使用轻量级 HTML 和快速邮件相互交流</li>
+        <li>保持去中心化网络的火炬继续燃烧</li>
+    </ul>
+
+    <h2>评价</h2>
+    <p>这看起来很简单，甚至微不足道。但对于作者来说，这真正把 Gemini/Gopher 和小网络变成了一个社交网络。就像点击"点赞"按钮一样简单，但更加个性化。</p>
+
+    <div class="back-link">
+        <a href="/insights/index.html">← 返回索引</a>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

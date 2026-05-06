@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQLite标签性能基准测试 - 5种策略对比 - 2026</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <h1>SQLite标签性能基准测试</h1>
+        <div class="meta">
+            <span class="rating">⭐⭐⭐⭐ 4星</span>
+            <span class="source"> 来源: Simon Willison Research</span>
+        </div>
+        <div>
+            <span class="tag">SQLite</span>
+            <span class="tag">数据库</span>
+            <span class="tag">性能</span>
+            <span class="tag">基准测试</span>
+            <span class="tag">Python</span>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>测试参数</h2>
+        <ul>
+            <li><strong>数据规模：</strong>100,000行</li>
+            <li><strong>标签数量：</strong>100个唯一标签</li>
+            <li><strong>平均标签/行：</strong>6.5个</li>
+            <li><strong>查询迭代：</strong>每查询100次，10种不同标签组合</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>查询性能对比 (ms)</h2>
+        <table>
+            <tr>
+                <th>策略</th>
+                <th>单标签</th>
+                <th>AND (2标签)</th>
+                <th>OR (2-5标签)</th>
+            </tr>
+            <tr>
+                <td>JSON + 物化查找表</td>
+                <td>1.37</td>
+                <td>1.88</td>
+                <td>11.02</td>
+            </tr>
+            <tr>
+                <td>M2M关联表</td>
+                <td>1.41</td>
+                <td>2.26</td>
+                <td>10.69</td>
+            </tr>
+            <tr>
+                <td>FTS5</td>
+                <td>3.28</td>
+                <td>2.59</td>
+                <td>13.54</td>
+            </tr>
+            <tr>
+                <td>LIKE</td>
+                <td>19.45</td>
+                <td>19.41</td>
+                <td>57.94</td>
+            </tr>
+            <tr>
+                <td>JSON (无索引)</td>
+                <td>54.98</td>
+                <td>54.63</td>
+                <td>84.24</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>存储与设置时间</h2>
+        <table>
+            <tr>
+                <th>策略</th>
+                <th>存储 (KB)</th>
+                <th>设置时间 (ms)</th>
+            </tr>
+            <tr>
+                <td>FTS5</td>
+                <td>7,044</td>
+                <td>267</td>
+            </tr>
+            <tr>
+                <td>LIKE</td>
+                <td>7,244</td>
+                <td>167</td>
+            </tr>
+            <tr>
+                <td>M2M表</td>
+                <td>8,772</td>
+                <td>1,313</td>
+            </tr>
+            <tr>
+                <td>JSON (无索引)</td>
+                <td>9,124</td>
+                <td>295</td>
+            </tr>
+            <tr>
+                <td>JSON + 查找表</td>
+                <td>20,344</td>
+                <td>1,002</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>最佳实践建议</h2>
+        <ul>
+            <li><strong>通用生产环境：</strong>M2M关联表 - 平衡性能与可维护性</li>
+            <li><strong>读密集型搜索：</strong>FTS5 - 最小存储，AND查询性能优秀</li>
+            <li><strong>需要JSON API + 快速查询：</strong>JSON + 物化查找表</li>
+            <li><strong>小数据集、简单代码：</strong>LIKE查询</li>
+            <li><strong>永远不要用：</strong>纯JSON无索引</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>核心洞察</h2>
+        <p><strong>"Classic relational approach delivers 1.4ms single-tag lookups with reasonable storage (8.7MB). Well-understood, well-indexed, and predictable."</strong></p>
+        <p>传统关联表方案仍然是最佳平衡选择，性能出色且易于维护。</p>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

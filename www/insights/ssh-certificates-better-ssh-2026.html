@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSH Certificates: 更安全的SSH体验 - 進的洞察</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>🔐 SSH Certificates: 更安全的SSH体验</h1>
+    <p class="meta">📅 2026-04-04 | 🏷️ <span class="tag">Security</span> <span class="tag">Infrastructure</span> <span class="tag">DevOps</span></p>
+    
+    <div class="highlight">
+        <strong>核心发现：</strong> SSH证书可以彻底解决传统SSH密钥管理的痛点——无需逐服务器部署authorized_keys，host key轮换不再需要客户端确认，证书过期自动失效。
+    </div>
+
+    <h2>为什么传统SSH密钥有问题？</h2>
+    <p>作者Jan-Piet Mens指出传统SSH密钥的缺点：</p>
+    <ul>
+        <li><strong>TOFU问题：</strong> 首次连接服务器时需要手动确认fingerprint，大多数用户直接输入"yes"</li>
+        <li><strong>维护困难：</strong> 每台服务器都需要在authorized_keys中部署公钥</li>
+        <li><strong>Host key变更：</strong> 服务器重装后host key变化，客户端会看到吓人的"WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED"</li>
+    </ul>
+
+    <h2>SSH证书的核心优势</h2>
+    <ol>
+        <li><strong>消除TOFU：</strong> 客户端和服务器通过CA相互信任，无需手动确认</li>
+        <li><strong>短效证书：</strong> 可以设置20分钟、24小时、34周等有效期，过期自动失效</li>
+        <li><strong>无需部署authorized_keys：</strong> 证书包含principal，服务器通过CA信任</li>
+        <li><strong>Host key轮换无感：</strong> 证书更新后客户端自动信任</li>
+        <li><strong>强制约束：</strong> 可限制源IP、强制命令、限制登录用户</li>
+    </ol>
+
+    <h2>实现方式</h2>
+    <p>SSH证书基于OpenSSH（自5.4版本2010年支持），核心步骤：</p>
+    
+    <h3>1. 创建CA密钥对</h3>
+    <pre><code>ssh-keygen -t ecdsa -C "My SSH CA" -f CA/ssh-ca</code></pre>
+
+    <h3>2. 签发用户证书</h3>
+    <pre><code>ssh-keygen -s CA/ssh-ca -I "Jane" -n jane -V +1w jane.pub</code></pre>
+
+    <h3>3. 服务器配置信任CA</h3>
+    <pre><code>echo "TrustedUserCAKeys /etc/ssh/ssh-ca.pub" >> /etc/ssh/sshd_config</code></pre>
+
+    <h3>4. 客户端配置</h3>
+    <pre><code>echo "@cert-authority *.example.com $(cat CA/ssh-ca.pub)" > ~/.ssh/known_hosts</code></pre>
+
+    <h2>自动化工具</h2>
+    <p>作者推荐 <a href="https://github.com/scheiblingco/sshkey-tools">sshkey-tools</a>（Python模块）可程序化签发证书，还有 <a href="https://smallstep.com/product/ssh/">Smallstep SSH</a> 提供完整解决方案。</p>
+
+    <h2>阅读建议</h2>
+    <p>原文非常详细，包含实际配置示例和故障排查清单，适合需要管理多台服务器的DevOps/SRE工程师。</p>
+    
+    <p class="quality">评分: ★★★★☆ (4/5)</p>
+    <p>🔗 <a href="https://jpmens.net/2026/04/03/ssh-certificates-the-better-ssh-experience/">原文链接</a></p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

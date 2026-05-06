@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Best Customers Are Now Robots - Fly.io</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <h1>🤖 Our Best Customers Are Now Robots</h1>
+        <div class="meta">
+            <span class="tag">AI Agents</span>
+            <span class="tag">Cloud Platform</span>
+            <span class="tag">Vibe Coding</span>
+            <span class="rating">⭐⭐⭐⭐⭐ (5星)</span>
+        </div>
+        
+        <h2>核心观点</h2>
+        <p>Fly.io 发现其最大增长用户不是人类开发者，而是 AI agents。vibe coding（ vibe 编程）正在改变云平台的设计逻辑。</p>
+        
+        <div class="highlight">
+            <strong>关键洞察：</strong> 人类开发者重视 DX (Developer Experience)，但 AI agents 需要的 是 RX (Robot Experience)。
+        </div>
+
+        <h2>为什么机器人爱上 Fly.io？</h2>
+        <ul>
+            <li><strong>快速启动：</strong> Fly Machine 可以在双位数毫秒内启动，像弹簧一样快速</li>
+            <li><strong>按需计费：</strong> AI 可以创建机器、使用 6 小时、停止 6 小时（不收费）、然后快速重启</li>
+            <li><strong>增量构建：</strong> AI 的工作流程是状态ful 的迭代，需要文件系统存储而非预构建的 OCI 容器</li>
+            <li><strong>MCP 支持：</strong> 自动连接到 Anycast 网络处理 TLS，动态请求路由对机器人特别有价值</li>
+        </ul>
+
+        <h2>核心区别</h2>
+        <ul>
+            <li><strong>人类：</strong> 运行现有应用程序，需要 Dockerfiles</li>
+            <li><strong>AI：</strong> 从最小基础镜像启动，逐步添加包、编辑源代码、添加 systemd 单元</li>
+        </ul>
+
+        <h2>未来展望</h2>
+        <p>Fly.io 正在思考 "RX" (Robot Experience)。这不仅仅是把所有 API 暴露给 MCP 服务器——平台的基本工作方式同样重要。托管 Postgres (MPG) 仍是最重要的人类 DX 工作，但更多的机器人正在到来。</p>
+
+        <h2>金句</h2>
+        <blockquote>
+            "Today's robots are different... All these robots want are vectors. Vectors, and a place to burp out more vectors."
+        </blockquote>
+        
+        <p class="meta">来源: <a href="https://fly.io/blog/fuckin-robots/" target="_blank">Fly.io Blog</a> | 作者: Thomas Ptacek</p>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

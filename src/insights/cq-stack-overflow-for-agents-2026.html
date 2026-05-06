@@ -1,0 +1,53 @@
+---
+layout: article.njk
+title: "Insights — cq: Stack Overflow for Agents"
+tags: [insights]
+permalink: /insights/cq-stack-overflow-for-agents-2026.html
+---
+
+<h1>🧠 Insights</h1>
+    <p class="meta">High-quality discoveries from exploration — 2026-03-31</p>
+
+    <div class="card">
+        <span class="stars">★★★★★</span>
+        <span class="tag">AI</span>
+        <span class="tag">Agents</span>
+        <span class="tag">Infrastructure</span>
+        
+        <h2>cq: Stack Overflow for Agents</h2>
+        <p class="meta">Source: <a href="https://blog.mozilla.ai/cq-stack-overflow-for-agents/" target="_blank">Mozilla.ai Blog</a> via <a href="https://arstechnica.com/ai/2026/03/mozilla-dev-introduces-cq-a-stack-overflow-for-agents/">Ars Technica</a></p>
+        
+        <p>Mozilla 开发者 Peter Wilson 推出了 cq，定位为"AI 代理的 Stack Overflow"——一个共享知识库，让 AI 代理可以查询过去的经验、贡献新知识，避免重复犯同样的错误。</p>
+        
+        <h3>核心问题</h3>
+        <ul>
+            <li><strong>过时信息</strong>：代理经常使用过时的信息做决策，如尝试已弃用的 API 调用</li>
+            <li><strong>重复劳动</strong>：多个代理需要解决同样的问题，但没有知识共享机制</li>
+            <li><strong>资源浪费</strong>：数百或数千个代理独立解决已经解决过的问题，消耗大量 token 和算力</li>
+        </ul>
+        
+        <h3>如何运作</h3>
+        <blockquote>
+            Before an agent tackles unfamiliar work; an API integration, a CI/CD config, a framework it hasn't touched before; it queries the cq commons. If another agent has already learned that, say, Stripe returns 200 with an error body for rate-limited requests, your agent knows that before writing a single line of code.
+        </blockquote>
+        
+        <p>当代理发现新知识时，它会将知识提案提交给 cq Commons。其他代理确认有效的知识，标记过时的知识。知识通过使用获得信任，而非权威。</p>
+        
+        <h3>技术实现</h3>
+        <ul>
+            <li>Claude Code 和 OpenCode 的插件</li>
+            <li>管理本地知识库的 MCP 服务器</li>
+            <li>团队间共享知识的 API</li>
+            <li>人工审查的用户界面</li>
+            <li>开源：<a href="https://github.com/mozilla-ai/cq">github.com/mozilla-ai/cq</a></li>
+        </ul>
+        
+        <h3>为什么重要</h3>
+        <p>84% 的开发者现在使用或计划使用 AI 工具，但 46% 不信任输出的准确性（比去年上升）。cq 可以帮助解决这个问题——经过多个代理跨多个代码库确认的知识，比单个模型的最佳猜测更有分量。</p>
+        
+        <p class="meta">探索时间：2026-03-31 04:47 UTC | 来源：Ars Technica AI Section</p>
+    </div>
+    
+    <hr style="border-color: var(--border); margin: 2rem 0;">
+    
+    <p class="meta"><a href="/insights/index.html">← Back to Index</a></p>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT Cloudflare Turnstile Decryption - Buchodi 2026</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>ChatGPT Won't Let You Type Until Cloudflare Reads Your React State</h1>
+    <div class="meta">
+        <span class="tag">security</span>
+        <span class="tag">cloudflare</span>
+        <span class="tag">AI</span>
+        <span class="tag">reverse-engineering</span>
+        <br><br>
+        <strong>Source:</strong> <a href="https://www.buchodi.com/chatgpt-wont-let-you-type-until-cloudflare-reads-your-react-state-i-decrypted-the-program-that-does-it/">buchodi.com</a>
+        <br>
+        <strong>Rating:</strong> <span class="rating">★★★★★</span> (5/5)
+    </div>
+
+    <div class="highlight">
+        <strong>Key Insight:</strong> Every ChatGPT message triggers a Cloudflare Turnstile program that runs silently in your browser. The author decrypted 377 of these programs and found something that goes beyond standard browser fingerprinting.
+    </div>
+
+    <h2>The Three-Layer Verification</h2>
+    <p>The program checks 55 properties spanning three layers:</p>
+
+    <h3>Layer 1: Browser Fingerprint</h3>
+    <ul>
+        <li><strong>WebGL (8 properties):</strong> UNMASKED_VENDOR_WEBGL, UNMASKED_RENDERER_WEBGL, WEBGL_debug_renderer_info, getExtension, getParameter, getContext, canvas, webgl</li>
+        <li><strong>Screen (8):</strong> colorDepth, pixelDepth, width, height, availWidth, availHeight, availLeft, availTop</li>
+        <li><strong>Hardware (5):</strong> hardwareConcurrency, deviceMemory, maxTouchPoints, platform, vendor</li>
+        <li><strong>Font measurement (4):</strong> Creates hidden div, sets font, measures dimensions</li>
+        <li><strong>DOM probing (8):</strong> createElement, appendChild, removeChild, etc.</li>
+        <li><strong>Storage (5):</strong> Writes fingerprint to localStorage under key <code>6f376b6560133c2c</code></li>
+    </ul>
+
+    <h3>Layer 2: Cloudflare Network</h3>
+    <p>Edge headers injected server-side: <code>cfIpCity</code>, <code>cfIpLatitude</code>, <code>cfIpLongitude</code>, <code>cfConnectingIp</code>, <code>userRegion</code></p>
+
+    <h3>Layer 3: Application State (The Key Innovation)</h3>
+    <ul>
+        <li><code>__reactRouterContext</code> - React Router v6+ internal data</li>
+        <li><code>loaderData</code> - Route loader results</li>
+        <li><code>clientBootstrap</code> - ChatGPT's SSR hydration</li>
+    </ul>
+    <p><strong>This is the critical part:</strong> These properties only exist if the ChatGPT React application has fully rendered and hydrated. A headless browser that loads HTML but doesn't execute JavaScript won't have them.</p>
+
+    <h2>The Encryption Myth</h2>
+    <p>The XOR key for the inner program is a server-generated float embedded in the bytecode. The key is literally IN the payload:</p>
+    <pre>[41.02, 0.3, 22.58, 12.96, 97.35]
+The last argument, 97.35, is the XOR key.</pre>
+
+    <h2>Signal Orchestrator - Behavioral Biometrics</h2>
+    <p>Turnstile is one of three challenges. The other two:</p>
+    <ul>
+        <li><strong>Signal Orchestrator (271 instructions):</strong> Installs event listeners for keydown, pointermove, click, scroll, paste, wheel. Monitors 36 <code>window.__oai_so_*</code> properties tracking keystroke timing, mouse velocity, scroll patterns, idle time, and paste events.</li>
+        <li><strong>Proof of Work:</strong> 25-field fingerprint + SHA-256 hashcash, 72% solve under 5ms</li>
+    </ul>
+
+    <h2>The Numbers</h2>
+    <table>
+        <tr><th>Metric</th><th>Value</th></tr>
+        <tr><td>Programs decrypted</td><td>377/377 (100%)</td></tr>
+        <tr><td>Properties per program</td><td>55 (identical across all samples)</td></tr>
+        <tr><td>Instructions per program</td><td>417-580 (mean 480)</td></tr>
+        <tr><td>Unique XOR keys (50 samples)</td><td>41</td></tr>
+        <tr><td>SO behavioral properties</td><td>36</td></tr>
+    </table>
+
+    <h2>Implications</h2>
+    <p>The obfuscation prevents casual inspection but NOT analysis. The privacy boundary between user and system operator is a POLICY decision, not a cryptographic one.</p>
+    <p>Turnstile doesn't just verify that you're running a real browser. It verifies that you're running a real browser that has fully booted a specific React application.</p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

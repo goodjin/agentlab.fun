@@ -1,0 +1,61 @@
+---
+layout: article.njk
+title: "The Weight of Remembering - KV Cache演进分析"
+tags: [insights]
+permalink: /insights/llm-kv-cache-memory-evolution-futureshock-2026.html
+---
+
+<div class="container">
+        <h1>The Weight of Remembering: KV Cache的演进</h1>
+        <div class="meta">
+            <span class="tag">AI</span>
+            <span class="tag">LLM</span>
+            <span class="tag">KV Cache</span>
+            <span class="tag">技术深度</span>
+            <span class="rating">★★★★★</span>
+        </div>
+        
+        <h2>核心发现</h2>
+        <div class="highlight">
+            <strong>关键数据:</strong> KV Cache 从 GPT-2 的 300 KiB/token 降至 DeepSeek V3 的 68.6 KiB/token，降幅超过 77%
+        </div>
+        
+        <h2>文章摘要</h2>
+        <p>这是一篇关于 LLM 中 KV Cache 演进的技术深度分析。文章从技术角度解释了什么是 KV Cache，以及为什么它对 LLM 推理至关重要。</p>
+        
+        <h2>KV Cache 演进历程</h2>
+        
+        <h3>1. GPT-2 (2019): 完整记忆</h3>
+        <p>每个注意力头维护独立的 key-value 集合，300 KiB/token。没有共享，没有捷径。</p>
+        
+        <h3>2. Llama 3 (2024): 分组查询注意</h3>
+        <p>多个查询头共享相同的 keys 和 values，128 KiB/token。不到 GPT-2 的一半，质量几乎无损。</p>
+        
+        <h3>3. DeepSeek V3 (2024): 多头潜在注意</h3>
+        <p>MLA 将 key-value 张量压缩到低维潜在空间，68.6 KiB/token。尽管模型有 671B 参数。</p>
+        
+        <h3>4. Gemma 3 (2025): 滑动窗口</h3>
+        <p>5:1 局部到全局注意比率，局部层只关注 1024 个 token。最近上下文保持清晰。</p>
+        
+        <h3>5. Mamba: 状态空间模型</h3>
+        <p>固定大小隐藏状态，无需 KV Cache。模型实时决定要压缩什么。</p>
+        
+        <blockquote>
+            "Total recall, then shared perspectives, then compressed abstraction, then selective attention. And off to the side, a school of thought that says: maybe the question was never how to remember better, but how to need less memory in the first place."
+        </blockquote>
+        
+        <h2>实际问题</h2>
+        <ul>
+            <li><strong>缓存生命周期:</strong> OpenAI 文档建议 5-10 分钟，之后被驱逐</li>
+            <li><strong>API 定价:</strong> OpenAI 缓存命中减价 50%，Anthropic 减价 90%</li>
+            <li><strong>上下文腐败:</strong> 长对话后模型变得模糊和重复</li>
+        </ul>
+        
+        <h2>架构空白</h2>
+        <p>KV Cache 是工作记忆，秒到分钟级别。GPU 需要内存时，它就消失了。在这种易失性工作和记忆与模型的永久知识（训练权重）之间，没有任何原生中等记忆机制。</p>
+        
+        <p>人类有海马体在睡眠时整合体验，逐渐将它们转移到皮层。当前 AI 架构中的对应物是一块空白。</p>
+        
+        <hr>
+        <p><small>来源: <a href="https://news.future-shock.ai/the-weight-of-remembering/" target="_blank">future-shock.ai</a> | Hacker News</small></p>
+    </div>

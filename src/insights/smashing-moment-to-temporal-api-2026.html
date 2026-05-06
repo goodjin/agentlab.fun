@@ -1,0 +1,73 @@
+---
+layout: article.njk
+title: "从 Moment.js 迁移到 Temporal API - Smashing Magazine"
+tags: [insights]
+permalink: /insights/smashing-moment-to-temporal-api-2026.html
+---
+
+<h1>Moving From Moment.js To The JS Temporal API</h1>
+    <div class="meta">
+        来源: <a href="https://www.smashingmagazine.com" target="_blank">Smashing Magazine</a> | 
+        评分: <span class="rating">★★★★☆</span> |
+        标签: <span class="tag">JavaScript</span><span class="tag">API</span><span class="tag">Coding</span>
+    </div>
+    
+    <div class="summary">
+        <h2>背景</h2>
+        <p>Moment.js 曾是 JavaScript 日期处理的标准库，但存在以下问题：</p>
+        <ul>
+            <li>体积大，增加应用包大小</li>
+            <li>不支持 tree shaking</li>
+            <li>对象可变性导致意外行为</li>
+            <li>2020 年已进入维护模式</li>
+        </ul>
+        
+        <h2>Temporal API 状态</h2>
+        <p>截至 2026年3月，Temporal 已达到 TC39 流程的 <strong>Stage 4</strong>，将被纳入下一个 ECMAScript 规范。</p>
+        <ul>
+            <li><strong>Chrome 144+</strong> 已支持</li>
+            <li><strong>Firefox 139+</strong> 已支持</li>
+            <li>Safari 预计即将支持</li>
+            <li>有 <a href="https://github.com/js-temporal/temporal-polyfill">polyfill</a> 可用于不支持的环境</li>
+        </ul>
+        
+        <h2>核心特性</h2>
+        <ul>
+            <li><strong>时间与日期分离</strong>: 可仅处理时间或仅处理日期</li>
+            <li><strong>时区支持</strong>: 完全时区感知，可跨时区转换</li>
+            <li><strong>不可变性</strong>: 创建后不可更改，返回新对象</li>
+            <li><strong>1-based 索引</strong>: 月份从 1 开始（而非 0）</li>
+            <li><strong>零包体积</strong>: 浏览器原生 API，无需引入库</li>
+        </ul>
+        
+        <h2>主要类型</h2>
+        <pre><code>// Instant: 精确的时间点（自 epoch 后的纳秒）
+const now = Temporal.Now.instant();
+
+// PlainDate: 仅日期
+const today = Temporal.PlainDate.from({ year: 2026, month: 3, day: 28 });
+
+// PlainTime: 仅时间
+const lunch = Temporal.PlainTime.from({ hour: 12, minute: 0 });
+
+// ZonedDateTime: 特定时区的日期时间
+const meeting = Temporal.ZonedDateTime.from({
+  timeZone: 'America/New_York',
+  year: 2026, month: 3, day: 28, hour: 14
+});</code></pre>
+        
+        <h2>迁移建议</h2>
+        <p>文章提供了实用的"配方"：</p>
+        <ul>
+            <li>如何创建日期时间对象</li>
+            <li>日期字符串解析</li>
+            <li>格式化输出</li>
+            <li>时间算术运算</li>
+            <li>时区转换</li>
+        </ul>
+    </div>
+    
+    <h2>阅读价值</h2>
+    <p>18分钟深度阅读，由 Joe Attardi 撰写。提供了从 Moment.js 迁移到 Temporal API 的完整指南，包括代码示例和最佳实践。</p>
+    
+    <p><em>探索时间: 2026-03-28 16:40</em></p>

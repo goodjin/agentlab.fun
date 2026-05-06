@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XML is a Cheap DSL - IRS Tax Withholding Estimator</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <span class="rating">⭐⭐⭐⭐⭐</span>
+        <h1>XML is a Cheap DSL</h1>
+        <div class="meta">Source: unplannedobsolescence.com | Author: (IRS Engineer) | Date: March 13, 2026</div>
+        <div class="tags">
+            <span class="tag">XML</span>
+            <span class="tag">DSL</span>
+            <span class="tag">IRS</span>
+            <span class="tag">Tax</span>
+            <span class="tag">Declarative</span>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Summary</h2>
+        <p>An engineer from the IRS Tax Withholding Estimator (TWE) project makes the case for XML as a domain-specific language (DSL) for representing complex tax logic. The project is open source and accepting public contributions.</p>
+    </div>
+
+    <div class="card">
+        <h2>The Problem: Tax Logic is Complex</h2>
+        <p>Tax calculations involve:</p>
+        <ul>
+            <li>Conditional logic (if married, use different brackets)</li>
+            <li>Dependencies between values (total tax depends on tentative tax minus credits)</li>
+            <li>Dynamic questioning (only ask if relevant to user's situation)</li>
+            <li>Different types: dollar amounts, booleans, etc.</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>XML as Declarative DSL</h2>
+        <p>Instead of imperative JavaScript:</p>
+        <div class="code">&lt;Fact path="/totalOwed"&gt;
+  &lt;Derived&gt;
+    &lt;Subtract&gt;
+      &lt;Minuend&gt;
+        &lt;Dependency path="/totalTax"/&gt;
+      &lt;/Minuend&gt;
+      &lt;Subtrahends&gt;
+        &lt;Dependency path="/totalPayments"/&gt;
+      &lt;/Subtrahends&gt;
+    &lt;/Subtract&gt;
+  &lt;/Derived&gt;
+&lt;/Fact&gt;</div>
+        
+        <p>This describes: totalOwed = totalTax - totalPayments</p>
+        <p>The XML explicitly models the <strong>dependency graph</strong>, not execution order.</p>
+    </div>
+
+    <div class="card">
+        <h2>Why Not Imperative Code?</h2>
+        <h3>Problem 1: Execution Order</h3>
+        <p>JavaScript describes a sequence of actions. But tax logic has circular dependencies and conditional inputs.</p>
+        
+        <h3>Problem 2: Dynamic Questions</h3>
+        <p>You can't ask all questions upfront - some questions only make sense based on earlier answers. XML's declarative model naturally handles this.</p>
+        
+        <h3>Problem 3: Auditability</h3>
+        <p>Tax law must be traceable. The XML shows the calculation structure directly.</p>
+    </div>
+
+    <div class="card">
+        <h2>Key Operators Available</h2>
+        <ul>
+            <li><code>&lt;Add&gt;</code>, <code>&lt;Subtract&gt;</code>, <code>&lt;Multiply&gt;</code></li>
+            <li><code>&lt;Min&gt;</code>, <code>&lt;Max&gt;</code>, <code>&lt;GreaterOf&gt;</code></li>
+            <li><code>&lt;Dependency&gt;</code> - reference other facts</li>
+            <li><code>&lt;Writable&gt;</code> - user input</li>
+            <li><code>&lt;Derived&gt;</code> - computed values</li>
+            <li><code>&lt;Boolean&gt;</code>, <code>&lt;Dollar&gt;</code> - value types</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>The Fact Graph Engine</h2>
+        <p>TWE uses the "Fact Graph" - a logic engine originally built for IRS Direct File. It:</p>
+        <ul>
+            <li>Parses XML to build a dependency graph</li>
+            <li>Evaluates facts in correct order (topological sort)</li>
+            <li>Handles conditional inputs (only ask what's needed)</li>
+            <li>Supports both derived and writable facts</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>Key Insight</h2>
+        <p><strong>XML is verbose but unambiguous.</strong> For complex, regulated domains like taxes:</p>
+        <ul>
+            <li>Verbosity → clarity</li>
+            <li>Explicit structure → auditability</li>
+            <li>Declarative → handles dependencies naturally</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>Links</h2>
+        <p><a href="https://unplannedobsolescence.com/blog/xml-cheap-dsl/" target="_blank">Original Article →</a></p>
+        <p><a href="https://github.com/IRS-Public/tax-withholding-estimator" target="_blank">IRS TWE on GitHub →</a></p>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

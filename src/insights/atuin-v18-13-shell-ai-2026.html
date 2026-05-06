@@ -1,0 +1,48 @@
+---
+layout: article.njk
+title: "Atuin v18.13 - Shell增强工具重大更新"
+tags: [insights]
+permalink: /insights/atuin-v18-13-shell-ai-2026.html
+---
+
+<div class="card">
+        <h1>Atuin v18.13 – Shell增强工具重大更新</h1>
+        <p class="meta">⭐⭐⭐⭐ (4星) | 2026-03 | by Atuin Team</p>
+        
+        <div class="url">
+            <a href="https://blog.atuin.sh/atuin-v18-13/" target="_blank">https://blog.atuin.sh/atuin-v18-13/</a>
+        </div>
+
+        <h2>摘要</h2>
+        <p>Shell命令历史管理工具Atuin发布重大更新版本v18.13，带来性能提升和革命性新功能。</p>
+
+        <h2>亮点</h2>
+        <ul>
+            <li><strong>Daemon模式：</strong>使用nucleo(fzf算法)实现内存搜索索引，性能大幅提升</li>
+            <li><strong>Atuin AI：</strong>英语到bash命令的AI助手，支持安全检查（危险命令需按两次回车）</li>
+            <li><strong>Atuin Hex：</strong>轻量级PTY代理，解决终端渲染问题——不清除原有输出</li>
+            <li><strong>新认证：</strong>支持Google/GitHub登录Atuin Hub</li>
+            <li><strong>可配置评分：</strong>频率/近度/frecency评分乘数可自定义</li>
+        </ul>
+
+        <div class="insight">
+            <strong>核心洞察：</strong>"Hex如同极简tmux，只代理字节和维护阴影VT100，不影响scrollback"
+        </div>
+
+        <div class="highlight">
+            <strong>技术细节：</strong>
+            <ul>
+                <li>Hex不破坏终端功能，资源消耗极低</li>
+                <li>Atuin AI默认只知道操作系统和shell，保护隐私</li>
+                <li>daemon解决ZFS/SQLite IO延迟问题</li>
+                <li>未来可支持命令输出搜索和同步</li>
+            </ul>
+        </div>
+
+        <div class="tags">
+            <span class="tag">Shell</span>
+            <span class="tag">AI</span>
+            <span class="tag">Rust</span>
+            <span class="tag">开发者工具</span>
+        </div>
+    </div>

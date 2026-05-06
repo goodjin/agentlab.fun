@@ -1,0 +1,85 @@
+---
+layout: article.njk
+title: "Interview with John Earnest: K Language & Array Programming - 2026 Insights"
+tags: [insights]
+permalink: /insights/interview-john-earnest-k-language-2026.html
+---
+
+<h1>🎯 Interview with John Earnest: K Language & Array Programming</h1>
+    
+    <div class="meta">
+        <span class="rating rating-5">⭐⭐⭐⭐⭐ (5星)</span>
+        <span style="margin-left: 15px;">来源: Lobsters / alexalejandre.com</span>
+        <span style="margin-left: 15px;">分类: Programming Languages / Language Design</span>
+    </div>
+
+    <h2>📝 摘要</h2>
+    <p>与 K 语言专家 John Earnest 的深度对话，探讨数组编程语言 (K/APL)、Lisp 语言设计哲学、无抽象编程理念，以及 Lil 语言的创新错误模型。</p>
+
+    <h2>🔑 核心亮点</h2>
+    
+    <h3>1. K vs 其他 APL：嵌套列表支持</h3>
+    <p>与大多数 APL 要求严格的矩形数组不同，K 支持嵌套的树状列表。K 的语法本质上类似 Lisp 的 m-expr（宏表达式）。</p>
+
+    <h3>2. 无抽象编程理念</h3>
+    <blockquote>
+        "在 APL 语言中，理想的编程是直接用语言写程序，不构建中间抽象层。"
+    </blockquote>
+    <ul>
+        <li>设计讨论焦点：什么应该是原语vs惯用语（简单组合）</li>
+        <li>一些激进的 APLer 反对将库作为导入的文件，而是作为可以修改的代码片段</li>
+        <li>类似 Forth 的哲学：编程不需要抽象</li>
+    </ul>
+
+    <h3>3. Lil 语言的创新错误模型</h3>
+    <div class="highlight">
+        <strong>Lil 有语法错误，但没有运行时错误</strong>
+    </div>
+    <p>每个格式正确的 Lil 程序都有明确定义的行为，即使它很愚蠢或不一定是您希望的。这意味着：</p>
+    <ul>
+        <li>添加"这个操作无效或错误"的约束 = 使有效程序空间变得更稀疏</li>
+        <li>如果目标是尽可能简洁，应该在程序中填充尽可能多的含义</li>
+        <li>Lil 适合用 50 行代码解决问题，而不是 1000 行</li>
+    </ul>
+
+    <h3>4. 静态类型系统被高估</h3>
+    <blockquote>
+        "在很多情况下，静态类型系统被高估了。"
+    </blockquote>
+    <ul>
+        <li><strong>适用场景</strong>：构建极其复杂的系统，无法装进一个人的脑袋，需要机器可读的约束</li>
+        <li><strong>不适用</strong>：小规模编程，快速迭代时，简洁性和即时性更重要</li>
+        <li>类型约束会不必要地限制思维</li>
+    </ul>
+
+    <h3>5. 高/低级别语言是错误的二分法</h3>
+    <blockquote>
+        "Paul Graham 的 Blub 文章假设语言 goodness 是线性的，但实际上它至少是一个格子。"
+    </blockquote>
+    <p>语言有多个维度：</p>
+    <ul>
+        <li><strong>表达性 vs 刚性</strong></li>
+        <li><strong>严谨性 vs 可塑性</strong></li>
+        <li>不同维度适合不同领域</li>
+    </ul>
+
+    <h3>6. Decker: HyperCard 精神继承者</h3>
+    <p>John Earnest 的项目 Decker 让许多人想起 HyperCard：</p>
+    <ul>
+        <li>数据和应用程序不需要硬分离</li>
+        <li>数据存在于 deck 中，deck 就是应用程序</li>
+        <li>可以自己实现 undo/redo，或直接利用环境提供的属性</li>
+        <li>CRUD 应用：放置一个网格组件，支持添加/删除行、排序列</li>
+    </ul>
+
+    <div class="insight">
+        <h3>💡 核心洞察</h3>
+        <p><strong>"编程语言是人类的工程学，而非纯数学"</strong></p>
+        <p>语言设计的决策应该基于上下文——艺术家为自己选择有趣的约束，或工程师接收需要满足的约束列表（是否需要快速、部署在小型或特殊设备上、长期维护等）。</p>
+    </div>
+
+    <h2>🔗 原文链接</h2>
+    <p><a href="https://alexalejandre.com/programming/interview-with-john-earnest/" target="_blank">Interview With John Earnest - Lobsters</a></p>
+
+    <h2>📅 发现日期</h2>
+    <p>2026-03-21</p>

@@ -1,0 +1,45 @@
+---
+layout: article.njk
+title: "Subscription Bombing Attack - Bytemash 2026"
+tags: [insights]
+permalink: /insights/subscription-bombing-attack-bytemash-2026.html
+---
+
+<div class="card">
+        <span class="score">4/5★</span>
+        <h1>Subscription Bombing: Your Sign-up Form is a Weapon</h1>
+        <div class="meta">Source: Hacker News #8 | 53 points | bytemash.net | 2026-04-02</div>
+        <span class="tag">security</span>
+        <span class="tag">attack-vector</span>
+        <span class="tag">bot-detection</span>
+        
+        <div class="section">
+            <h2>What is Subscription Bombing?</h2>
+            <p>An attack where bots sign up a victim's email address across hundreds or thousands of websites to flood their inbox with noise, making it impossible to find legitimate security alerts (password resets, bank notifications).</p>
+        </div>
+
+        <div class="section">
+            <h2>Key Insights</h2>
+            <ul>
+                <li><strong>Silent attack:</strong> Only 1-2 sign-ups per hour - designed to be invisible</li>
+                <li><strong>Bot typing pattern:</strong> Characters entered one at a time with uniform randomness (flat distribution), unlike human burst typing</li>
+                <li><strong>Country/time mismatch:</strong> Bot traffic had zero correlation between country and time of day</li>
+                <li><strong>Attack chain:</strong> Sign up → Wait ~60s → Request password reset → Victim gets 3 emails in under a minute</li>
+                <li><strong>Real-world impact:</strong> Attackers use this noise to reset bank passwords, make purchases, or sign up for credit cards in victim's name</li>
+            </ul>
+        </div>
+
+        <div class="highlight">
+            <strong>Defense:</strong> Every sign-up form that allows any email without verification is a potential weapon. Implement email verification before sending welcome emails, and monitor for anomalous sign-up patterns.
+        </div>
+
+        <div class="section">
+            <h2>Detection Patterns</h2>
+            <ul>
+                <li>Garbage names with valid email addresses (e.g., "PfVQXvYTXjwSbEeJBjXYy" → real@email.com)</li>
+                <li>Unusually high forgot-password page views coinciding with unusual sign-ups</li>
+                <li>Typing behavior: flat distribution of delays vs. human burst patterns</li>
+                <li>Country/timezone mismatch in traffic</li>
+            </ul>
+        </div>
+    </div>

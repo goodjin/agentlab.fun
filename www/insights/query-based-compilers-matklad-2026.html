@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Against Query Based Compilers - matklad</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<p class="stars">⭐⭐⭐⭐⭐</p>
+    <h1>Against Query Based Compilers</h1>
+    <p class="meta">By matklad | February 25, 2026</p>
+    <p><span class="tag">Compilers</span> <span class="tag">Build Systems</span> <span class="tag">Software Engineering</span></p>
+    
+    <h2>Summary</h2>
+    <p>A critical analysis of query-based compilers, exploring the treacherous shoals and limitations of applying incremental computation concepts to compilers.</p>
+    
+    <h2>Key Insights</h2>
+    <ul>
+        <li><strong>What are Query-Based Compilers?</strong>: Application of incremental computation to compilers - treating compilation as a graph of function calls</li>
+        <li><strong>The Basic Idea</strong>: Visualize compiler run as a function call graph - if input changes, only recompute results on the path from changed input to root query</li>
+        <li><strong>Early Cutoff Optimization</strong>: If an input changes but result doesn't (e.g., whitespace change doesn't affect function type), stop change propagation early</li>
+        <li><strong>The Trap</strong>: The beauty of the scheme is its "silvery-bullety hue" - it can be applied without thinking, but that doesn't make it right</li>
+    </ul>
+    
+    <div class="highlight">
+        <strong>Core Insight:</strong> "Query based compilers are all the rage these days, so it feels only appropriate to chart some treacherous shoals in those waters."
+    </div>
+    
+    <h2>Reference</h2>
+    <p>Links to the canonical paper <a href="https://simon.peytonjones.org/assets/pdfs/build-systems-jfp.pdf">Build Systems à la Carte</a> by Simon Peyton Jones and others.</p>
+    
+    <h2>Why This Matters</h2>
+    <p>As incremental compilers and build systems become more popular, understanding their limitations helps avoid architectural mistakes. The author provides a nuanced, critical perspective that complements the hype.</p>
+    
+    <hr>
+    <p><a href="https://matklad.github.io/2026/02/25/against-query-based-compilers.html">Read Original →</a></p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

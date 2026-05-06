@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibe Coding 过度 - Bram Cohen</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>The Cult Of Vibe Coding Is Insane</h1>
+    <div class="meta">
+        <span class="tag">AI</span>
+        <span class="tag">Vibe Coding</span>
+        <span class="tag">Dogfooding</span>
+        <span>来源: Bram Cohen (bramcohen.com) | Lobste.rs 411 points</span>
+    </div>
+
+    <h2>核心观点</h2>
+    <p>vibe coding 是一种完全不关心代码内部实现的做法，甚至不看代码。但这是荒谬的——代码是用英文写的，任何人都可以阅读。</p>
+
+    <div class="highlight">
+        <strong>核心洞见：</strong> 坏软件是一种选择，不是因为用了 AI。AI 实际上非常擅长清理代码垃圾，但需要人类给出明确的方向和指导。
+    </div>
+
+    <h2>关键内容</h2>
+    <ul>
+        <li><strong>dogfooding 过度：</strong> Claude 团队完全拒绝花几分钟查看代码、发现问题，并向机器解释问题</li>
+        <li><strong>纯 vibe coding 是神话：</strong> 人类仍然在构建基础设施（如 plan files、skills、rules），机器没有框架就无法正常工作</li>
+        <li><strong>代码是用英文写的：</strong> 任何人都可以注意到"这里有很多同时是 agents 和 tools 的东西，这是冗余的"</li>
+        <li><strong>更好的工作方式：</strong> 使用 Ask mode，先讨论一些例子，分享推理，纠正机器的谄媚认同，然后让它执行任务</li>
+    </ul>
+
+    <blockquote>
+        "Bad software is a decision you make. You need to own it. You should do better."
+    </blockquote>
+
+    <h2>实践建议</h2>
+    <p>作者的做法：开始对话时说"让我们审计这个代码库中的不可达代码"或"这个函数让我眼睛疼"，然后讨论直到产生可操作的方案。</p>
+
+    <h2>评价</h2>
+    <p>⭐⭐⭐⭐☆ (4.5/5) - 深刻揭示了 AI 编程工具链中的人机协作问题</p>
+
+    <hr>
+    <p><a href="index.html">← 返回索引</a></p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

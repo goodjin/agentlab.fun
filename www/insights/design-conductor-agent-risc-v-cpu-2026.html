@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Conductor: Agent Builds RISC-V CPU - 2026</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="container">
+        <h1>Design Conductor: An agent autonomously builds a 1.5 GHz Linux-capable RISC-V CPU</h1>
+        
+        <div class="meta">
+            <span class="rating">★★★★★</span> · 2026-03-26 · Lobsters
+        </div>
+        
+        <div class="tags">
+            <span class="tag">AI</span>
+            <span class="tag">Hardware</span>
+            <span class="tag">RISC-V</span>
+            <span class="tag">Agent</span>
+            <span class="tag">CPU</span>
+            <span class="tag">Arxiv</span>
+        </div>
+
+        <h2>摘要</h2>
+        <p>Design Conductor (DC) 是首个能够端到端构建半导体(从概念到验证的tape-out ready GDSII)的自主AI agent。在12小时内，DC从219字的需求文档构建出多个微架构变体的完整RISC-V CPU (VerCore)，在1.48 GHz下满足时序。</p>
+
+        <div class="highlight">
+            <strong>核心亮点：</strong>
+            <ul>
+                <li>首个自主agent从规格到GDSII(Layout CAD文件)构建完整CPU的案例</li>
+                <li>VerCore达到1.48 GHz (rv32i-zmmul，使用ASAP7 PDK)</li>
+                <li>CoreMark得分3261，相当于Intel Celeron SU2300 (2011年，1.2GHz)</li>
+                <li>端到端半导体设计：从概念到验证的tape-out ready GDSII</li>
+            </ul>
+        </div>
+
+        <h2>技术细节</h2>
+        <h3>DC设计关键组件：</h3>
+        <ul>
+            <li><strong>RTL实现</strong>：从需求生成Verilog代码</li>
+            <li><strong>测试台实现</strong>：自动生成验证测试</li>
+            <li><strong>前端调试</strong>：识别和修复逻辑错误</li>
+            <li><strong>时序收敛优化</strong>：调整设计满足频率目标</li>
+            <li><strong>后端工具交互</strong>：与EDA工具协作</li>
+        </ul>
+
+        <h3>性能指标：</h3>
+        <ul>
+            <li>时钟频率：1.48 GHz (目标1.5 GHz)</li>
+            <li>指令集：rv32i-zmmul</li>
+            <li>工艺库：ASAP7 PDK</li>
+            <li>CoreMark分数：3261</li>
+            <li>构建时间：12小时（全自主）</li>
+        </ul>
+
+        <h2>历史背景</h2>
+        <p>3261的CoreMark得分相当于Intel Celeron SU2300 (2011年中期，1.2GHz)。这是首次AI agent完成如此复杂的硬件设计任务，标志着AI在半导体领域的重大突破。</p>
+
+        <h2>未来展望</h2>
+        <p>论文讨论了前沿模型如何改进以更好地支持此类应用，以及像DC这样的系统将如何改变芯片构建方式。</p>
+
+        <div class="source">
+            <strong>来源：</strong> <a href="https://arxiv.org/abs/2603.08716" target="_blank">arXiv:2603.08716</a>
+        </div>
+        
+        <p><a href="/insights/index.html">← 返回索引</a></p>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

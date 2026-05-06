@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nvidia Groq 3 LPU：加速AI推理任务 - IEEE Spectrum</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="container">
+        <span class="rating">⭐⭐⭐⭐ 4星</span>
+        <h1>Nvidia Groq 3 LPU：加速AI推理任务</h1>
+        <div class="meta">来源: IEEE Spectrum | 发布: 2026年3月</div>
+        
+        <div class="source">
+            <strong>原始链接:</strong> <a href="https://spectrum.ieee.org/nvidia-groq-3" target="_blank">IEEE Spectrum</a>
+        </div>
+
+        <div class="section">
+            <h2>核心发现</h2>
+            <p>Nvidia在GTC大会上宣布推出Groq 3 LPU（语言处理单元），这是GPU巨头首次专门为AI推理任务设计的芯片。该芯片整合了从初创公司Groq授权的知识产权，交易价值200亿美元。</p>
+        </div>
+
+        <div class="highlight">
+            <strong>关键洞察：</strong>"终于，AI能够做生产性工作，因此推理的转折点已经到来。AI现在需要思考，为了思考，它需要推理。AI现在需要行动，为了行动，它需要推理。"
+            <br>— Jensen Huang, Nvidia CEO
+        </div>
+
+        <div class="section">
+            <h2>技术架构</h2>
+            <ul>
+                <li><strong>存储方案：</strong>Groq采用SRAM而非传统GPU的高带宽内存(HBM)，简化数据流，实现线性处理</li>
+                <li><strong>性能对比：</strong>
+                    <ul>
+                        <li>Rubin GPU: 288GB HBM, 50 petaFLOPS, 22 TB/s带宽</li>
+                        <li>Groq 3 LPU: 500MB SRAM, 1.2 petaFLOPS, 150 TB/s带宽（快7倍）</li>
+                    </ul>
+                </li>
+                <li><strong>优化目标：</strong>极低延迟的token生成</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>推理市场爆发</h2>
+            <p>过去几年，推理专用芯片初创公司经历了"寒武纪大爆发"，包括：</p>
+            <ul>
+                <li><strong>d-matrix:</strong> 数字内存计算</li>
+                <li><strong>Etched:</strong> Transformer推理专用ASIC</li>
+                <li><strong>RainAI:</strong> 神经形态芯片</li>
+                <li><strong>EnCharge:</strong> 模拟内存计算</li>
+                <li><strong>Cerebras:</strong> 世界上最大的单一芯片（44GB SRAM）</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>推理解聚趋势</h2>
+            <p>AWS宣布将在其数据中心部署新型推理系统，结合Tranium AI加速器和Cerebras的CS-3。这种方法称为"推理解聚"，将推理分为两部分：</p>
+            <ul>
+                <li><strong>Prefill（预填充）：</strong>处理提示，本质上是并行的，计算密集型</li>
+                <li><strong>Decode（解码）：</strong>生成输出，更多是串行过程，需要大量内存带宽</li>
+            </ul>
+            <p>Nvidia的Groq 3 LPX结合了这两种方法，在不同芯片上优化不同阶段。</p>
+        </div>
+
+        <div class="section">
+            <h2>行业意义</h2>
+            <p>d-matrix CEO Sid Sheth表示："Nvidia的公告验证了SRAM架构对大规模推理的重要性，没有人比d-matrix推动SRAM密度更远。"他相信数据中心客户会需要各种处理器来执行推理。</p>
+        </div>
+
+        <a href="/insights/index.html" class="back-link">← 返回洞察列表</a>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

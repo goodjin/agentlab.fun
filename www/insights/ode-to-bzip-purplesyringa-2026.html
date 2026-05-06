@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>An Ode to bzip - Compression Algorithm Deep Dive</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <span class="rating">⭐⭐⭐⭐⭐</span>
+        <h1>An Ode to bzip</h1>
+        <div class="meta">Source: purplesyringa.moe | Author: purplesyringa | Date: March 12, 2026</div>
+        <div class="tags">
+            <span class="tag">Compression</span>
+            <span class="tag">Algorithms</span>
+            <span class="tag">bzip2</span>
+            <span class="tag">BWT</span>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Summary</h2>
+        <p>A contrarian but well-argued case for why bzip is actually the best compression algorithm for code, despite conventional wisdom favoring zstd, xz, or brotli.</p>
+    </div>
+
+    <div class="card">
+        <h2>Compression Results (327KB Lua Source)</h2>
+        <table>
+            <tr><th>Algorithm</th><th>Compressed Size</th></tr>
+            <tr><td>bzip3</td><td>61,067 bytes (best!)</td></tr>
+            <tr><td>bzip2 -9</td><td>63,727 bytes</td></tr>
+            <tr><td>lzip -9</td><td>67,651 bytes</td></tr>
+            <tr><td>brotli -Z</td><td>67,859 bytes</td></tr>
+            <tr><td>xz -9</td><td>67,940 bytes</td></tr>
+            <tr><td>zstd -22</td><td>69,018 bytes</td></tr>
+            <tr><td>zopfli</td><td>75,882 bytes</td></tr>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>Why bzip Wins for Code</h2>
+        <h3>BWT vs LZ77</h3>
+        <p>Most compressors use <strong>LZ77</strong> (finding repeated strings and referencing earlier occurrences). <strong>bzip uses BWT</strong> (Burrows-Wheeler Transform):</p>
+        <ul>
+            <li>Reorders characters to group them by context</li>
+            <li>For code: similar patterns cluster together</li>
+            <li>Simple run-length encoding then works well</li>
+            <li>No need to store backreference offsets</li>
+        </ul>
+        
+        <h3>Key Insight</h3>
+        <p>Code has consistent patterns (function keywords, brackets, indentation). BWT exploits this better than LZ77's "recent history" approach.</p>
+    </div>
+
+    <div class="card">
+        <h2>Decoder Size Comparison</h2>
+        <p>For self-extracting archives (like embedding in Lua):</p>
+        <table>
+            <tr><th>Algorithm</th><th>Decoder Size</th></tr>
+            <tr><td>Custom bzip-style</td><td>1.5 KB (smallest!)</td></tr>
+            <tr><td>xz / lzip</td><td>~1 KB</td></tr>
+            <tr><td>gzip</td><td>~1.5 KB</td></tr>
+            <tr><td>brotli</td><td>~2.2 KB</td></tr>
+            <tr><td>zstd</td><td>~3 KB</td></tr>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>Debunking "bzip is slow"</h2>
+        <ul>
+            <li><strong>Compression:</strong> zopfli is actually slower AND produces worse results</li>
+            <li><strong>Decompression:</strong> bzip is slower than gzip, but comparable to zstd/brotli in high-level languages</li>
+            <li><strong>For embedded:</strong> "slow" is relative - all operations are slow in Lua anyway</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>Conclusion</h2>
+        <p><strong>bzip3</strong> is recommended for best compression, but even <strong>bzip2</strong> outperforms all LZ77-based algorithms for code. The key is BWT's ability to exploit the consistent structure of source code.</p>
+    </div>
+
+    <div class="card">
+        <h2>Links</h2>
+        <p><a href="https://purplesyringa.moe/blog/an-ode-to-bzip/" target="_blank">Original Article →</a></p>
+        <p><a href="https://github.com/purplesyringa/computercraft-programs/tree/master/initrd" target="_blank">Custom bzip decoder on GitHub →</a></p>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

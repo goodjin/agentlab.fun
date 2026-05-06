@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sigil: MCP Server Security Scanner | 2026</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>Sigil: MCP Server Security Scanner</h1>
+    
+    <div class="meta">
+        <span class="tag">Open Source</span>
+        <span class="tag">Security</span>
+        <span class="tag">MCP</span>
+        <span class="tag">TypeScript</span>
+        <span class="tag">Python</span>
+        <br><br>
+        <strong>Source:</strong> <a href="https://github.com/sigildev/sigil">github.com/sigildev/sigil</a><br>
+        <strong>Score:</strong> <span class="score">★★★★½</span> (4.5/5)
+    </div>
+
+    <h2>What is Sigil?</h2>
+    <p>Sigil is the first open-source security scanner that performs <strong>deep static source code analysis</strong> on MCP (Model Context Protocol) servers. Unlike existing tools that only scan tool descriptions, Sigil reads the actual source code to find vulnerabilities.</p>
+
+    <h2>Why It Matters</h2>
+    <p>MCP servers are the bridge between AI agents and the real world—file systems, databases, APIs, shell commands. They're also largely unaudited:</p>
+    <ul>
+        <li>34% of MCP implementations use APIs prone to command injection</li>
+        <li>82% use file operations prone to path traversal</li>
+        <li>5.5% have active tool poisoning in their descriptions</li>
+    </ul>
+
+    <div class="warning">
+        <strong>Real-World Test:</strong> Sigil scanned 73 MCP servers on Smithery. Results: 66 passed (90%), 5 warnings, 2 FAILED with real security vulnerabilities.
+    </div>
+
+    <h2>Security Findings from the Scan</h2>
+    
+    <h3>telegram-mcp: FAILED (Grade F)</h3>
+    <ul>
+        <li><strong>12 security findings</strong></li>
+        <li>Unrestricted file_path parameter in send_photo, send_video, send_document tools</li>
+        <li>LLM could call send_photo(chat, "/etc/passwd") and server would attempt to send it</li>
+        <li>Runs HTTP endpoints with verbose error output</li>
+    </ul>
+
+    <h3>mcp-sqlite-server: FAILED (Grade F)</h3>
+    <ul>
+        <li><strong>9 security findings</strong></li>
+        <li>Passes user-provided SQL to conn.execute() with only startswith("select") guard</li>
+        <li>Single-statement bypasses work: UNION-based schema extraction, pragma metadata access</li>
+        <li>Potentially load_extension() exploitation possible</li>
+        <li>Runs SSE on 0.0.0.0:8000 over plain HTTP with debug logging enabled</li>
+    </ul>
+
+    <h2>16 Security Rules (7 Categories)</h2>
+    <ul>
+        <li><strong>Injection (3):</strong> Command Injection, SQL Injection, Path Traversal</li>
+        <li><strong>Permissions (3):</strong> Overly Broad Capabilities, Unrestricted FS Access, Arbitrary Code Execution</li>
+        <li><strong>Data Exfiltration (2):</strong> Env Variable Exposure, Credential Leakage</li>
+        <li><strong>Input Validation (1):</strong> Missing Input Schema</li>
+        <li><strong>Tool Description (1):</strong> Suspicious Descriptions (prompt injection)</li>
+        <li><strong>Authentication (2):</strong> Hardcoded Credentials, Secrets in Config</li>
+        <li><strong>Configuration (3):</strong> Debug Mode, Verbose Errors, Insecure Transport</li>
+        <li><strong>Dependencies (1):</strong> Vulnerable Dependencies (via OSV.dev)</li>
+    </ul>
+
+    <h2>Trust Scoring</h2>
+    <div class="code">
+Score = 100 - penalties
+
+CRITICAL = -25 points each
+HIGH = -15 points each
+MEDIUM = -5 points each
+LOW = -2 points each
+
+A (90-100) = PASS
+B (70-89) = PASS
+C (50-69) = WARN
+D (30-49) = FAIL
+F (0-29) = FAIL
+    </div>
+
+    <h2>Usage</h2>
+    <div class="code">
+# Run without installing
+npx @sigildev/sigil .
+
+# Install globally
+npm install -g @sigildev/sigil
+
+# Scan and get JSON output
+sigil . --output json
+
+# SARIF for GitHub Code Scanning
+sigil . --output sarif > results.sarif
+
+# CI/CD gating (exit code 1 on FAIL)
+sigil .
+    </div>
+
+    <h2>Key Features</h2>
+    <ul>
+        <li>MIT licensed, no account required</li>
+        <li>No data sent to external services (except OSV.dev for CVE checks)</li>
+        <li>TypeScript and Python support</li>
+        <li>SARIF output for GitHub integration</li>
+        <li>Config file scanning (claude_desktop_config.json, .mcp.json)</li>
+        <li>Tool-handler scoped analysis (only flags code within MCP tool contexts)</li>
+    </ul>
+
+    <h2>Comparison</h2>
+    <table style="width:100%; border-collapse: collapse;">
+        <tr style="background:#f0f0f0;"><th>Feature</th><th>Sigil</th><th>Existing Tools</th></tr>
+        <tr><td>Analysis depth</td><td>Source code</td><td>Description scanning</td></tr>
+        <tr><td>Languages</td><td>TypeScript + Python</td><td>Runtime only</td></tr>
+        <tr><td>Trust scoring</td><td>0-100 + A-F</td><td>Pass/fail only</td></tr>
+        <tr><td>Config scanning</td><td>Yes</td><td>No</td></tr>
+        <tr><td>Cost</td><td>Free</td><td>Paid platforms</td></tr>
+    </table>
+
+    <p style="margin-top: 30px; color: #666; font-size: 14px;">
+        Added: 2026-04-02 | Source: Hacker News Ask HN
+    </p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

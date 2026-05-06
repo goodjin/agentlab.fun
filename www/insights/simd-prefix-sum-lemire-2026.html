@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIMD Prefix Sum: 8.9 GiB/s with ARM NEON - Daniel Lemire</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="container">
+        <h1>SIMD Prefix Sum: 8.9 GiB/s with ARM NEON</h1>
+        <div class="meta">
+            <span class="tag">Performance</span>
+            <span class="tag">SIMD</span>
+            <span class="tag">ARM NEON</span>
+            <span class="tag">Apple M4</span>
+            <span style="float: right;">⭐⭐⭐⭐⭐ (5星)</span>
+        </div>
+        
+        <div class="highlight">
+            <strong>核心发现：</strong> Daniel Lemire 展示了如何使用 ARM NEON 指令将前缀和（prefix sum）性能提升到 8.9 GiB/s，比标量方法快 2.3 倍。
+        </div>
+
+        <h2>什么是前缀和？</h2>
+        <p>前缀和（Prefix Sum / Scan）是一种常见的数组操作：对于每个位置 i，计算从开始到 i 的所有元素之和。</p>
+        
+        <pre class="code">// 标量实现
+for (size_t i = 1; i < length; i++) {
+    data[i] += data[i - 1];
+}</pre>
+
+        <p><strong>理论极限：</strong> 每个元素至少需要 1 个 CPU 周期。因此在 4 GHz 处理器上，每秒最多处理 40 亿个整数值。</p>
+
+        <h2>SIMD 优化策略</h2>
+        <p>关键创新：使用 NEON 的交错加载（interleaved load/store）同时处理 16 个值：</p>
+        
+        <pre class="code">// 原始数据: ABCD EFGH IJKL MNOP
+// 加载后:  AEIM BFJN CGKO DHLP
+// (每列单独做前缀和)</pre>
+
+        <h2>性能对比 (Apple M4 @ 4.5 GHz)</h2>
+        <table>
+            <tr>
+                <th>方法</th>
+                <th>吞吐量 (十亿值/秒)</th>
+            </tr>
+            <tr>
+                <td>标量 (scalar)</td>
+                <td>3.9</td>
+            </tr>
+            <tr>
+                <td>朴素 SIMD</td>
+                <td>3.6</td>
+            </tr>
+            <tr>
+                <td><strong>快速 SIMD</strong></td>
+                <td><strong>8.9</strong></td>
+            </tr>
+        </table>
+
+        <div class="highlight">
+            <strong>结论：</strong> 优化的 SIMD 方法比标量方法快 <strong>2.3 倍</strong>，达到惊人的 8.9 十亿值/秒！
+        </div>
+
+        <h2>技术细节</h2>
+        <p>核心算法使用：</p>
+        <ul>
+            <li><code>vld4q_u32</code> - 16 值交错加载</li>
+            <li><code>vaddq_u32</code> - SIMD 加法</li>
+            <li><code>vextq_u32</code> - 向量移位</li>
+            <li><code>vdupq_laneq_u32</code> - 广播最后元素</li>
+        </ul>
+
+        <h2>启示</h2>
+        <p>这个案例说明：</p>
+        <ol>
+            <li>简单的 SIMD 优化可能比不优化更慢</li>
+            <li>需要算法级创新（如交错加载）才能获得显著提升</li>
+            <li>现代处理器的性能潜力远超我们的直觉</li>
+        </ol>
+
+        <hr>
+        <p><strong>来源：</strong> <a href="https://lemire.me/blog/" target="_blank">Daniel Lemire's Blog</a></p>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,61 @@
+---
+layout: article.njk
+title: "Running out of Disk Space in Production - alt-romes 2026"
+tags: [insights]
+permalink: /insights/running-out-of-disk-space-production-nix-2026.html
+---
+
+<h1>Running out of Disk Space in Production</h1>
+    
+    <p><strong>Source:</strong> <a href="https://alt-romes.github.io/posts/2026-04-01-running-out-of-disk-space-on-launch.html">alt-romes.github.io</a></p>
+    <p><strong>Date:</strong> April 1, 2026</p>
+    <p><strong>Tags:</strong> <span class="tag">devops</span> <span class="tag">nix</span> <span class="tag">nginx</span></p>
+
+    <h2>The Setup</h2>
+    <p>A simple server hosting digital Kanjideck files (2.2GB downloadable files) on a small Hetzner machine running NixOS — 4GB RAM, 40GB disk space. The architecture: Haskell program serves static files with authorization, proxied by nginx.</p>
+
+    <h2>First, Panic</h2>
+    <p>Within minutes of announcing the files were available, hundreds of customers hit the server. Logs showed repeated errors:</p>
+    <blockquote>
+        <p>Mar 31 20:43:03 mogbit kanjideck-fulfillment[2528300]: user error (Unexpected reply to: MAIL "&lt;...&gt;", Expected reply code: 250, Got this instead: 452 "4.3.1 Insufficient system storage")</p>
+    </blockquote>
+    <p>Disk space: 40GB/40GB used. 100% usage on /dev/sda.</p>
+
+    <h2>Initial Triage</h2>
+    <p>Two largest culprits found:</p>
+    <ul>
+        <li><strong>/var/lib</strong> — Plausible Analytics (ClickHouse): 8.5GB</li>
+        <li><strong>/nix/store</strong> — Server configuration and executables: 15GB</li>
+    </ul>
+    <p>Attempted <code>nix-collect-garbage -d</code> but failed — no space left on device.</p>
+    <p><strong>Solution:</strong> <code>journalctl --vacuum-time=1s</code> to clear logs first.</p>
+
+    <h2>Mounting the Nix Store on a Separate Volume</h2>
+    <p>Hetzner had no larger cloud instance available. Plan B: attach a separate Volume.</p>
+    <p>The /nix/store is immutable and was the largest system component at 12GB — perfect candidate for migration.</p>
+    <p>Following the NixOS Wiki instructions worked flawlessly:</p>
+    <pre><code>fileSystems."/nix" = {
+  device = "/dev/disk/by-label/nix";
+  fsType = "ext4";
+  neededForBoot = true;
+  options = [ "noatime" ];
+};</code></pre>
+
+    <h2>Finding the Root Cause in Nginx</h2>
+    <p>The large 2.2GB file download kept stopping halfway through.</p>
+    <p><strong>The bug:</strong> nginx's <code>proxy_max_temp_file_size</code> defaults to 1024m. The 2.2GB file exceeded this buffer.</p>
+    <p><strong>Fix:</strong> Set <code>proxy_max_temp_file_size 5000m;</code></p>
+
+    <h2>The Hidden Culprit: Deleted Files</h2>
+    <p>During the day, disk space spiked to 100% again. Investigation revealed:</p>
+    <pre><code>lsof +L1 | grep nginx</code></pre>
+    <p>Result: <strong>14.5 GB of deleted files</strong> held by nginx! These were unlinked open files — not visible in <code>du -h</code> but still consuming disk space.</p>
+
+    <h2>Key Lessons</h2>
+    <ul>
+        <li>Don't assume "the rest of the files" — calculate exactly what should be there</li>
+        <li>nginx proxy buffer limits can break large file downloads</li>
+        <li><code>lsof +L1</code> finds unlinked but open files — critical for debugging</li>
+        <li>NixOS makes mounting /nix/store on separate volumes declarative and smooth</li>
+        <li>Keep calm under pressure — think before acting</li>
+    </ul>

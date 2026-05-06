@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChromaFs：用虚拟文件系统替代RAG - AI工程实践</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>ChromaFs：用虚拟文件系统替代RAG</h1>
+    <p class="meta">来源: Hacker News | 评分: ★★★★★ (244 points) | 日期: 2026-04-04</p>
+    
+    <div style="margin: 15px 0;">
+        <span class="tag">AI</span>
+        <span class="tag">Engineering</span>
+        <span class="tag">Documentation</span>
+        <span class="tag">RAG</span>
+    </div>
+
+    <h2>核心洞察</h2>
+    <p>Mintlify团队发现：AI代理正在收敛于<strong>文件系统作为主要接口</strong>（grep, cat, ls, find）。如果每个文档页面是一个文件，每个章节是一个目录，代理可以搜索精确字符串、读取完整页面、自主遍历结构。</p>
+
+    <blockquote>
+        "RAG很棒，直到它不灵。我们的助手只能检索匹配查询的文本片段。如果答案跨越多个页面，或用户需要不在top-K结果中的精确语法，它就卡住了。我们希望它像探索代码库一样探索文档。"
+    </blockquote>
+
+    <h2>传统方案的问题</h2>
+    <ul>
+        <li><strong>启动慢</strong>：微VM沙箱（如Daytona）p90启动时间~46秒</li>
+        <li><strong>成本高</strong>：850K对话/月 → $70K/年（1 vCPU, 2 GiB RAM, 5分钟会话）</li>
+        <li><strong>基础设施复杂</strong>：每个用户需要独立容器</li>
+    </ul>
+
+    <h2>ChromaFs解决方案</h2>
+    <p>用虚拟文件系统拦截UNIX命令，转译为Chroma数据库查询：</p>
+    <ul>
+        <li><strong>启动时间</strong>：46秒 → 100毫秒 (<strong>460倍提升</strong>)</li>
+        <li><strong>边际成本</strong>：$0.0137/对话 → <strong>$0</strong>（复用现有DB）</li>
+        <li><strong>基于just-bash</strong>：Vercel Labs的TypeScript重实现</li>
+    </ul>
+
+    <div class="insight-box">
+        <h3>🎯 关键创新</h3>
+        <ul>
+            <li>代理不需要真正的文件系统，只需要"幻觉"</li>
+            <li>构建时嵌入访问控制，过滤用户无权访问的文件</li>
+            <li>grep -r 优化：Chroma粗筛 → Redis缓存 → just-bash精筛</li>
+            <li>只读文件系统：无状态、无会话清理、无损坏风险</li>
+        </ul>
+    </div>
+
+    <h2>性能对比</h2>
+    <table border="1" cellpadding="10" style="border-collapse: collapse; width: 100%;">
+        <tr style="background: #f8f9fa;"><th>指标</th><th>传统沙箱</th><th>ChromaFs</th></tr>
+        <tr><td>P90启动时间</td><td>~46秒</td><td>~100毫秒</td></tr>
+        <tr><td>边际计算成本</td><td>$0.0137/对话</td><td>$0</td></tr>
+        <tr><td>搜索机制</td><td>线性磁盘扫描</td><td>DB元数据查询</td></tr>
+    </table>
+
+    <h2>为什么重要</h2>
+    <p>ChromaFs为AI文档助手提供了一个<strong>即时、廉价、内置RBAC</strong>的方案。每日30,000+对话，数百万用户使用。这代表了一种范式转变：从向量检索转向文件系统接口。</p>
+
+    <p><strong>趋势洞察：</strong>AI代理正在从"检索模式"转向"文件系统模式"。当代理可以像人类开发者一样浏览文档（ls, cd, grep），而不仅仅是语义搜索，文档体验将发生根本性变化。</p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

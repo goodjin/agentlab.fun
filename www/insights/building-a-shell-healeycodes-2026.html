@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Building a Shell — Andrew Healey</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="container">
+        <h1>Building a Shell</h1>
+        <p class="meta">By Andrew Healey | <span class="rating">★★★★★</span> 5 Stars</p>
+        
+        <p>
+            <span class="tag">C</span>
+            <span class="tag">Systems Programming</span>
+            <span class="tag">Tutorial</span>
+        </p>
+
+        <p>A deep dive into building a toy shell (andsh) from scratch in C. The shell sits in front of a lot of my work, but I mostly use it for the outcome: running unix commands and scripts.</p>
+
+        <div class="highlight">
+            <strong>Key Features Built:</strong>
+            <ul>
+                <li>REPL (Read-Eval-Print Loop)</li>
+                <li>Tokenization and argv parsing</li>
+                <li>External command execution (fork/exec)</li>
+                <li>Built-in commands (cd, exit)</li>
+                <li>Environment variable expansion ($HOME, $?)</li>
+                <li>Piping (cmd1 | cmd2 | cmd3)</li>
+                <li>Tab completion and history (via readline)</li>
+            </ul>
+        </div>
+
+        <h2>1. REPL Structure</h2>
+        <pre><code>// repl.h
+typedef struct {
+    int last_status;
+    int running;
+    int interactive;
+} Shell;</code></pre>
+
+        <p>The shell maintains state including the last command's exit status, whether it's running interactively, and uses the classic read-eval-print loop pattern.</p>
+
+        <h2>2. Running External Commands</h2>
+        <pre><code>pid = fork();
+if (pid == 0) {
+    execvp(argv[0], argv);
+    _exit(errno == ENOENT ? 127 : 126);
+}
+while (waitpid(pid, &status, 0) < 0) {
+    if (errno != EINTR) { /* handle error */ }
+}</code></pre>
+
+        <p>Key insight: <code>cd</code> must be a built-in because it needs to change the working directory of the shell process itself, not a child process.</p>
+
+        <h2>3. Environment Variable Expansion</h2>
+        <pre><code>static char *expand_word(const Shell *shell, const char *word) {
+    if (strcmp(word, "$?") == 0) {
+        // Expand to last exit status
+        snprintf(status, sizeof(status), "%d", shell->last_status);
+        return strdup(status);
+    }
+    // Look up $NAME in environment
+}</code></pre>
+
+        <h2>4. Piping Implementation</h2>
+        <p>A pipe connects stdout of one process to stdin of another. The shell creates N-1 pipes for N commands.</p>
+        <pre><code>// Connect prev_read to stdin, pipefd[1] to stdout
+dup2(prev_read, STDIN_FILENO);
+dup2(pipefd[1], STDOUT_FILENO);</code></pre>
+
+        <h2>5. Tab Completion with readline</h2>
+        <pre><code>rl_attempted_completion_function = shell_completion;
+// Scan current directory and $PATH for matches</code></pre>
+
+        <h2>Demo</h2>
+        <div class="demo">
+andsh$ cd /<br>
+andsh$ pwd<br>
+/<br>
+andsh$ echo $HOME<br>
+/Users/andrew<br>
+andsh$ printf abc\n | tr a-z A-Z | rev<br>
+CBA<br>
+andsh$ unam&lt;Tab&gt;<br>
+andsh$ uname
+        </div>
+
+        <h2>What's Missing</h2>
+        <ul>
+            <li>Quoting (echo "hello world")</li>
+            <li>Redirection (&lt;, &gt;, &gt;&gt;)</li>
+            <li>More builtins</li>
+        </ul>
+
+        <h2>Why This Matters</h2>
+        <p>This is a fantastic learning exercise for understanding:</p>
+        <ul>
+            <li>How processes work in Unix</li>
+            <li>IPC (Inter-Process Communication)</li>
+            <li>File descriptors and redirection</li>
+            <li>Why some shell commands are built-in</li>
+        </ul>
+
+        <p><a href="https://healeycodes.com/building-a-shell">Original Article →</a></p>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

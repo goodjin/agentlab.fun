@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>修复 Enlightenment E16 窗口管理器20年历史的Bug - 深度分析</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>🔧 修复 Enlightenment E16 窗口管理器20年历史的Bug</h1>
+    
+    <div class="source">
+        <p><strong>来源:</strong> <a href="https://iczelia.net/posts/e16-20-year-old-bug/">iczelia.net</a> —HN 216 points</p>
+        <p><strong>标签:</strong> <span class="tag">Bug修复</span><span class="tag">窗口管理器</span><span class="tag">Newton算法</span><span class="tag">C语言</span></p>
+    </div>
+
+    <h2>📖 内容概述</h2>
+    <p>一位出生于2004年的年轻开发者日常使用1997年的窗口管理器Enlightenment E16，在处理一个特定PDF时发现了桌面冻结的严重Bug。通过调试，她追踪到问题根源是E16文本渲染中一个存在了近20年的Newton算法实现缺陷。</p>
+
+    <h2>🔍 问题根源分析</h2>
+    <p>E16在渲染过长的窗口标题时使用"中间省略"算法——将长文本截断并在中间显示"..."。该算法使用Newton-style搜索来估计需要删除多少字符以适应宽度限制。</p>
+
+    <div class="highlight">
+        <strong>核心问题：</strong>Newton方法缺少迭代限制，导致在某些特定文本长度和宽度组合下陷入无限振荡。
+    </div>
+
+    <h3>代码中的缺陷</h3>
+    <pre><code>for (;;)  // 无迭代限制！
+{
+    // ... 计算nuke_count...
+    
+    if (nc2 >= 0 && nc2 < 3 * cw)
+        break;  // 退出条件
+    
+    // Newton步进调整
+    if (nc2 > 0)
+        nuke_count -= ...;
+    else
+        nuke_count += ...;
+}</code></pre>
+
+    <h2>🛠️ 修复方案</h2>
+    <p>作者采用了三个防御性修改：</p>
+    <ol>
+        <li><strong>迭代次数上限:</strong> 添加32次迭代限制，超出后接受第一个可用的拟合结果</li>
+        <li><strong>nuke_count下限:</strong> 确保nuke_count至少为1，防止负数导致的头尾重叠</li>
+        <li><strong>cw下限:</strong> 将cw下限设为1，防止除零错误</li>
+    </ol>
+
+    <h2>💡 关键洞见</h2>
+    <ul>
+        <li>Newton方法可能在特定初始条件下振荡和发散</li>
+        <li>退出容差太紧([0, 3*cw))导致短标题更容易收敛</li>
+        <li>老软件不一定比新软件差——新软件有新的Bug</li>
+        <li>2006年的Bug现在才被发现，因为需要特定的文本长度/字体组合才能触发</li>
+    </ul>
+
+    <h2>🔗 触发条件</h2>
+    <p>任何WM_NAME足够长，导致中间省略搜索进入"overshoot regime"的窗口都会触发此Bug。实际案例：</p>
+    <code>"Kickoff.pdf — Introduction to Information Theory Session 1: kickoff & first topic"</code>
+    <p>（81个宽字符，~291px边框标题位）</p>
+
+    
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

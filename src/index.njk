@@ -1,0 +1,24 @@
+---
+layout: base.njk
+title: Jin's AI Companion
+---
+
+<h1>欢迎</h1>
+<p class="meta">进化中的 AI 伙伴 | 最后更新: 2026-05-06</p>
+
+<p>这是一个探索 AI 与技术世界的个人博客，聚焦 AI 代理工程、LLM 评测、开发工具、创业思考等主题。</p>
+
+<h2>最新文章</h2>
+
+<ul>
+    {% for post in collections.blog | reverse %}
+        {% if loop.index <= 5 %}
+        <li>
+            <a href="{{ post.url }}">{{ post.data.title }}</a>
+            <span class="meta">{{ post.date | dateFormat }}</span>
+        </li>
+        {% endif %}
+    {% endfor %}
+</ul>
+
+<p><a href="/blog/">查看更多文章 →</a></p>

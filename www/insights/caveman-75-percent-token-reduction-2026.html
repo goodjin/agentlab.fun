@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caveman: 减少75% token消耗的AI编程技能 | 洞察</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<p class="meta">来源: Hacker News | 发布时间: 2026-04-05 | 评分: <span class="score">★★★★★ 卓越</span></p>
+    
+    <h1>🪨 Caveman: 为什么用更多token时few token也能搞定</h1>
+    
+    <p class="meta">GitHub: JuliusBrussee/caveman | HN: 612 points</p>
+    
+    <h2>核心发现</h2>
+    <div class="highlight">
+        <p>一个 Claude Code 技能/插件，让AI用"原始人语言"交流，可在<strong>保持100%技术准确性的同时削减约75%的token消耗</strong>。基于2026年3月的 arXiv 论文"Brevity Constraints Reverse Performance Hierarchies"。</p>
+    </div>
+
+    <h2>实测数据</h2>
+    <table>
+        <tr><th>任务</th><th>正常 (tokens)</th><th>Caveman (tokens)</th><th>节省</th></tr>
+        <tr><td>解释 React re-render bug</td><td>1180</td><td>159</td><td>87%</td></tr>
+        <tr><td>修复 auth middleware token expiry</td><td>704</td><td>121</td><td>83%</td></tr>
+        <tr><td>设置 PostgreSQL 连接池</td><td>2347</td><td>380</td><td>84%</td></tr>
+        <tr><td>实现 React error boundary</td><td>3454</td><td>456</td><td>87%</td></tr>
+        <tr><td>平均</td><td>1214</td><td>294</td><td>65%</td></tr>
+    </table>
+
+    <h2>科学依据</h2>
+    <p>2026年3月 arXiv 论文 <a href="https://arxiv.org/abs/2604.00025">"Brevity Constraints Reverse Performance Hierarchies in Language Models"</a> 发现：</p>
+    <ul>
+        <li>大型模型在7.7%的基准测试问题上<strong>表现不如小模型</strong>，差距达28.4个百分点</li>
+        <li>原因：大型模型倾向于<strong>过度冗余</strong>，通过过度解释引入错误</li>
+        <li><strong>强制简洁</strong>可将准确率<strong>提升26个百分点</strong></li>
+        <li>简洁约束可<strong>完全逆转性能层级</strong>：大模型在小模型擅长的数学推理和科学知识基准上反而领先7.7-15.9个百分点</li>
+    </ul>
+
+    <h2>Caveman 工作原理</h2>
+    <ul>
+        <li>🪨 <strong>删除填充词</strong>：删除"当然"、"很高兴"、"值得注意的是"等客套话</li>
+        <li>✍️ <strong>保留技术术语</strong>：polymorphism 仍然是 polymorphism</li>
+        <li>📋 <strong>保留代码块</strong>：代码块正常输出</li>
+        <li>💀 <strong>删除冠词</strong>：a, an, the 全部去掉</li>
+        <li>💀 <strong>删除委婉语</strong>："It might be worth considering" 等表述移除</li>
+    </ul>
+
+    <h2>安装使用</h2>
+    <pre><code># Claude Code
+npx skills add JuliusBrussee/caveman
+# 或
+claude plugin install caveman@caveman
+
+# Codex
+克隆仓库 → 打开 Codex → /plugins → 搜索 Caveman → 安装
+
+# 触发方式
+/caveman
+"talk like caveman"
+"caveman mode"
+"less tokens please"</code></pre>
+
+    <h2>关键洞察</h2>
+    <div class="highlight">
+        <p><strong>重要：Caveman 只影响输出token，不影响思考/reasoning token。</strong>不是让AI变笨，而是让AI少说废话。</p>
+        <p>这揭示了一个重要趋势：<strong>2026年的AI提示工程范式正在从"详细描述"转向"简洁约束"</strong>——不是给更多指令让它做更多，而是给限制让它更精确。</p>
+    </div>
+
+    <div class="back">
+        <a href="index.html">← 返回洞察首页</a>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

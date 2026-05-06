@@ -1,0 +1,84 @@
+---
+layout: article.njk
+title: "This Week in AI Security: OpenAI Codex Hacked, LiteLLM Supply Chain Attack, Claude Gets Computer Control - DEV.to"
+tags: [insights]
+permalink: /insights/dev-to-ai-security-week-2026.html
+---
+
+<div class="container">
+        <h1>This Week in AI Security: OpenAI Codex Hacked, LiteLLM Supply Chain Attack, Claude Gets Computer Control</h1>
+        <div class="meta">
+            <span>By: Not Elon</span> | 
+            <span>Published: March 30, 2026</span> | 
+            <span>Source: <a href="https://dev.to/solobillions/this-week-in-ai-security-openai-codex-hacked-litellm-supply-chain-attack-claude-gets-computer-55gh">DEV.to</a></span>
+        </div>
+        <div>
+            <span class="tag">security</span>
+            <span class="tag">ai</span>
+            <span class="tag">webdev</span>
+            <span class="tag">vibecoding</span>
+        </div>
+
+        <p>This was the week AI security stopped being theoretical.</p>
+        <p>Three events, all within days of each other, paint a picture that every developer building with AI tools needs to understand.</p>
+
+        <h2>1. OpenAI Codex: Command Injection via Branch Names</h2>
+        <p>BeyondTrust's Phantom Labs team (Tyler Jespersen) found a critical vulnerability in OpenAI Codex affecting <strong>all Codex users</strong>.</p>
+        <p><strong>The attack:</strong> command injection through GitHub branch names in task creation requests. An attacker could craft a malicious branch name that, when processed by Codex, would exfiltrate a victim's GitHub tokens to an attacker-controlled server.</p>
+        <p><strong>The impact:</strong> full read/write access to a victim's entire codebase. Lateral movement across repositories. Everything.</p>
+        <p>OpenAI patched it quickly. But the pattern is what matters: <strong>AI coding tools inherit trust from user context (GitHub tokens, env vars, API keys) but don't treat that context as a security boundary.</strong></p>
+        <p>Every AI coding tool that touches git has this same attack surface. Basically nobody is auditing for it.</p>
+
+        <h2>2. LiteLLM Supply Chain Attack: 47K Downloads in 46 Minutes</h2>
+        <p>On March 24, 2026, <code>litellm</code> version 1.82.8 was published to PyPI with a malicious <code>.pth</code> file that executed automatically on every Python process startup.</p>
+        <p><strong>The payload:</strong> a multi-stage credential stealer targeting AI pipelines and cloud secrets. The same threat actor (TeamPCP) had already compromised Trivy, KICS, and Telnyx across five supply chain ecosystems.</p>
+        <div class="highlight">
+            <strong>Timeline:</strong>
+            <ul>
+                <li><strong>13 minutes</strong> between the compromised publish and detection</li>
+                <li><strong>47,000 downloads</strong> before the package was pulled</li>
+                <li><strong>95 million monthly downloads</strong> for the litellm package overall</li>
+            </ul>
+        </div>
+        <p>This is the package that most AI proxy servers use. If you're routing API calls through litellm (and many vibe-coded apps do), you were exposed.</p>
+        <p>Endor Labs just published their analysis showing this is the <strong>same attacker</strong> behind the Trivy and KICS compromises. This is a coordinated campaign targeting AI infrastructure specifically.</p>
+
+        <h2>3. Claude Gets Computer Use: The Closed Loop</h2>
+        <p>Anthropic released Computer Use for Claude Code. Claude can now open your apps, click through your UI, and test what it built, all from the CLI.</p>
+        <p>The capability is impressive. The security implications are sobering.</p>
+        <p>With Computer Use, the feedback loop is fully closed: Claude writes code, runs it, tests it visually, finds bugs, fixes them, deploys. No human in the loop checking if:</p>
+        <ul>
+            <li>Auth middleware actually works</li>
+            <li>API keys are properly scoped</li>
+            <li>Rate limiting is real</li>
+            <li>Environment variables aren't hardcoded</li>
+            <li>The dependencies being installed are legitimate</li>
+        </ul>
+        <p>This isn't Claude's fault. The tool works as designed. But it means insecure code ships faster than ever, with more confidence, because "it tested itself."</p>
+
+        <h2>The Pattern</h2>
+        <p>All three events share a common thread: <strong>trust boundaries in AI development are poorly defined.</strong></p>
+        <ul>
+            <li>Codex trusted user-supplied branch names as safe input</li>
+            <li>Vibe coders trusted <code>pip install litellm</code> as a safe operation</li>
+            <li>Claude Computer Use trusts that the code it wrote is correct because the UI loaded</li>
+        </ul>
+        <p>Meanwhile, 9to5Mac reports that vibe coding has <strong>broken Apple's App Store review queue</strong>. Wait times are up from less than a day to 3+ days. The volume of AI-generated app submissions has overwhelmed human reviewers.</p>
+        <p>What comes next is predictable: automated security gates. Apple, Google, and every app marketplace will add automated scanning. Apps with exposed API keys, missing authentication, and hardcoded secrets will get auto-rejected before a human ever looks at them.</p>
+
+        <div class="recommendation">
+            <h3>What You Can Do Today</h3>
+            <p>If you're shipping vibe-coded apps:</p>
+            <ol>
+                <li><strong>Pin your dependencies.</strong> Use lockfiles. Verify hashes. Don't <code>pip install</code> without knowing exactly what version you're getting.</li>
+                <li><strong>Treat AI-generated code as untrusted input.</strong> Review it the way you'd review a PR from a new hire. The code works, but "works" and "secure" are different things.</li>
+                <li><strong>Scan before shipping.</strong> Tools like VibeCheck scan your GitHub repos and deployed URLs for the common vibe coding mistakes: exposed API keys, missing auth, open endpoints, insecure headers.</li>
+                <li><strong>Assume your secrets are exposed.</strong> If you've ever hardcoded an API key in a vibe-coded project, rotate it now. Not tomorrow. Now.</li>
+                <li><strong>Add rate limiting to every public endpoint.</strong> The bots are faster than your users.</li>
+            </ol>
+        </div>
+
+        <p>The AI coding revolution is real. The security crisis is also real. They're the same thing.</p>
+
+        
+    </div>

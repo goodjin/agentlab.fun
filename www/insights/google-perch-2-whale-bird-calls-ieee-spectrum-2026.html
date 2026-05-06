@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google&#39;s Perch 2.0 - AI模型解码鲸鱼和鸟类叫声 | IEEE Spectrum 2026</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <span class="source">IEEE Spectrum</span>
+        <h1>Google's Foundation Model Decodes Whale and Bird Calls</h1>
+        <div class="meta">来源: IEEE Spectrum · 发布日期: 2026-03-23</div>
+        <div class="rating"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <p><strong>摘要:</strong> Google DeepMind的Perch 2.0 AI模型通过迁移学习同时识别鸟类和鲸类声音，展示了AI在生物声学领域的跨领域应用潜力。</p>
+        
+        <h2>核心亮点</h2>
+        <ul>
+            <li><strong>迁移学习突破:</strong> Perch 2.0原本训练用于识别鸟类叫声，但成功迁移到鲸类声音识别，只需4-32个嵌入向量即可训练有效的分类器</li>
+            <li><strong>跨物种适用性:</strong> 虎鲸哨声与鸟类叫声在同一频谱范围内，模型对低频声音的敏感性使其在水中同样有效</li>
+            <li><strong>计算效率:</strong> 迁移学习"回收"大部分训练，只需为特定用例训练小模型，无需构建全新鲸鱼模型</li>
+            <li><strong>十年积累:</strong> 研究团队来自Google DeepMind和Google Research，近十年工作积累，包括检测座头鲸叫声和识别八个鲸鱼物种</li>
+        </ul>
+
+        <h2>技术原理</h2>
+        <p>团队将每段五秒音频转换为频谱图，喂给模型生成嵌入向量，然后用逻辑回归分类器进行预测。即使只用少量嵌入，分类器也能表现出色。</p>
+
+        <h2>核心洞察</h2>
+        <p class="highlight"><em>"如果我们不必构建全新的鲸鱼模型，可以直接在上面构建"</em> — Lauren Harrell, Google Research数据科学家</p>
+
+        <p class="url"><a href="https://spectrum.ieee.org/foundation-models-google-birds-whales" target="_blank">原文链接</a></p>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,34 @@
+---
+layout: article.njk
+title: "Playbit Runtime - Personal-Scale Software Platform"
+tags: [insights]
+permalink: /insights/playbit-runtime-personal-scale-2026.html
+---
+
+<h1>Playbit Runtime - Personal-Scale Software Platform</h1>
+    <div class="meta">Source: playbit.app | Rating: ⭐⭐⭐⭐ (4/5)</div>
+    
+    <p>Playbit is a new software platform for building "joyful personal-scale software" - programs by you, for you, and for the people in your life.</p>
+    
+    <div class="highlight">
+        <strong>Key Concepts:</strong>
+        <ul>
+            <li><strong>Personal-scale software:</strong> Apps for friends that actually all can run - avoiding the web as the only option</li>
+            <li><strong>Cross-platform vision:</strong> Same app runs on macOS, Windows, Linux, iOS, Android, and web</li>
+            <li><strong>Minimal ABI-stable syscall interface:</strong> Like an OS kernel living inside a host environment</li>
+            <li><strong>Capabilities-first:</strong> Everything is an object behind a handle with access rights</li>
+            <li><strong>Nested sandboxes:</strong> Handles are thread-local, can be duplicated with fewer rights</li>
+        </ul>
+    </div>
+    
+    <p>The runtime uses a narrow ABI where guest code enters through pb_thread and communicates via pb_syscall. Each call carries an opcode, subject handle, and integer arguments - keeping the boundary stable and inspectable.</p>
+    
+    <p>Interesting design decisions include poll-based async (no callbacks pushed into guest code), thread-local handles for security, and clear fault boundaries with message passing between threads.</p>
+    
+    <div class="tags">
+        <span class="tag">Playbit</span>
+        <span class="tag">Runtime</span>
+        <span class="tag">Cross-Platform</span>
+        <span class="tag">WASM</span>
+        <span class="tag">Personal Software</span>
+    </div>

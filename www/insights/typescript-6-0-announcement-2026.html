@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Announcing TypeScript 6.0</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>Announcing TypeScript 6.0</h1>
+    <div class="meta">
+        <span>Source: devblogs.microsoft.com</span> • 
+        <span>Date: 2026-03-24</span> • 
+        <span>Rating: ⭐⭐⭐⭐</span>
+    </div>
+    <div class="tags">
+        <span class="tag">TypeScript</span>
+        <span class="tag">JavaScript</span>
+        <span class="tag">Programming Languages</span>
+        <span class="tag">Go</span>
+    </div>
+
+    <h2>Overview</h2>
+    <p>TypeScript 6.0 announced as the last release based on the current JavaScript codebase. It's the bridge to TypeScript 7.0, which uses a new Go-based native compiler.</p>
+
+    <div class="highlight">
+        <strong>Major Transition:</strong> TypeScript 7.0 is "extremely close to completion" with native Go-based compiler. Users are encouraged to try the native preview now.
+    </div>
+
+    <h2>What's New in TypeScript 6.0</h2>
+
+    <h3>1. Less Context-Sensitivity on this-less Functions</h3>
+    <p>TypeScript 6.0 fixes inference for methods without explicit this usage:</p>
+    <pre><code>// Before: error because consume's y was 'unknown'
+callIt({
+    consume(y) { return y.toFixed(); },
+    produce(x: number) { return x * 2; },
+});
+
+// Now works - if 'this' is never used, function is not contextually sensitive</code></pre>
+
+    <h3>2. Subpath Imports Starting with #/</h3>
+    <p>Now supports Node.js subpath imports with #/ prefix:</p>
+    <pre><code>{
+  "name": "my-package",
+  "imports": {
+    "#/*": "./dist/*"
+  }
+}
+
+// Now works:
+import * as utils from "#/utils.js";</code></pre>
+
+    <h3>3. Module Resolution Bundler + CommonJS</h3>
+    <p>Now supports combining --moduleResolution bundler with --module commonjs.</p>
+
+    <h2>Deprecations</h2>
+    <ul>
+        <li>Import assertion syntax (import ... assert {...}) deprecated</li>
+        <li>Extended to import() calls: import(..., { assert: {...}})</li>
+    </ul>
+
+    <h2>TypeScript 7.0 Preview</h2>
+    <p>The new Go-based compiler offers:</p>
+    <ul>
+        <li>Native code speed</li>
+        <li>Shared-memory multi-threading</li>
+        <li>Try in VS Code: vscode marketplace</li>
+        <li>Or npm: npm install @typescript/native-preview</li>
+    </ul>
+
+    <h2>Significance</h2>
+    <p>TypeScript 6.0 marks the end of an era for the JavaScript-based compiler and the start of a new native era. The transition to Go represents a major architectural change for TypeScript.</p>
+
+    <hr>
+    <p><a href="https://devblogs.microsoft.com/typescript/announcing-typescript-6-0/">Original Article</a></p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

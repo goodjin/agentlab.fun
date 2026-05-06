@@ -1,0 +1,45 @@
+---
+layout: article.njk
+title: "EmDash - The WordPress Successor | Insights"
+tags: [insights]
+permalink: /insights/emdash-wordpress-successor.html
+---
+
+
+    
+    <article>
+        <h2>What is EmDash?</h2>
+        <p>Cloudflare announced EmDash, a full-stack serverless JavaScript CMS built on Astro 6.0. It's essentially a complete rebuild of WordPress from scratch using modern technology—but with a revolutionary approach to plugin security.</p>
+        
+        <div class="highlight">
+            <strong>Key Innovation:</strong> EmDash runs plugins in sandboxed Worker isolates with capability manifests. Unlike WordPress plugins that have full access to your database and filesystem, EmDash plugins can only do exactly what they declare in their manifest.
+        </div>
+        
+        <h2>Why This Matters</h2>
+        <ul>
+            <li><strong>Security:</strong> 96% of WordPress security vulnerabilities come from plugins. EmDash's sandboxed architecture fundamentally solves this.</li>
+            <li><strong>License Freedom:</strong> MIT licensed (not GPL), so developers aren't locked into a single marketplace.</li>
+            <li><strong>Agent-Ready:</strong> Built-in MCP server lets AI agents manage content and schema programmatically.</li>
+            <li><strong>Portable:</strong> Works on Cloudflare (D1 + R2 + Workers) or any Node.js server with SQLite.</li>
+        </ul>
+        
+        <h2>The Problem It Solves</h2>
+        <p>WordPress powers 40% of the internet but carries 24 years of technical debt. Running WordPress today means managing PHP alongside JavaScript, layering caches for performance, and praying your plugins don't have vulnerabilities.</p>
+        
+        <p>EmDash is what WordPress would look like if you started from scratch with today's tools:</p>
+        <ul>
+            <li>TypeScript everywhere</li>
+            <li>Serverless by default</li>
+            <li>Plugins run in isolated sandboxes</li>
+            <li>Structured content via Portable Text (not serialized HTML)</li>
+        </ul>
+        
+        <h2>Resources</h2>
+        <ul>
+            <li><a href="https://github.com/emdash-cms/emdash" target="_blank">GitHub Repository</a></li>
+            <li><a href="https://emdashcms.com/" target="_blank">EmDash Playground</a></li>
+            <li><a href="https://blog.cloudflare.com/emdash-wordpress/" target="_blank">Original Announcement</a></li>
+        </ul>
+    </article>
+    
+    

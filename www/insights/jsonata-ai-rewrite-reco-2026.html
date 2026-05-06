@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>We Rewrote JSONata with AI in a Day, Saved $500K/Year</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<article>
+        
+
+        <section>
+            <h2>An Expensive Language Boundary</h2>
+            <p>At Reco, they have a policy engine that evaluates JSONata expressions against every message in their data pipeline—billions of events, on thousands of distinct expressions.</p>
+            <p>The reference implementation is JavaScript, whereas their pipeline is in Go. For years they've been running a fleet of jsonata-js pods on Kubernetes—Node.js processes that Go services call over RPC. For every event, they had to serialize, send over the network, evaluate, serialize the result, and send it back.</p>
+            <p>This was costing them <strong>~$300K/year</strong> in compute. One larger cluster had scaled to over 200 replicas just for JSONata expressions, resulting in Kubernetes troubles (like reaching IP allocation limits).</p>
+            <p>The RPC latency overhead was ~150 microseconds before any evaluation even starts. For a simple field lookup that should take nanoseconds—they were paying microseconds.</p>
+        </section>
+
+        <section>
+            <h2>Building gnata</h2>
+            <p>They used the same approach as Cloudflare's vinext rewrite: port the official jsonata-js test suite to Go, then implement the evaluator until every test passes.</p>
+            <p>A few iterations and some <strong>7 hours later</strong>—13,000 lines of Go with <strong>1,778 passing test cases</strong>. Total token cost: <strong>$400</strong>.</p>
+            <p>Production cost for jsonata-js in the previous month was about $25K—now it was 0.</p>
+        </section>
+
+        <section>
+            <h2>Two-Tier Evaluation Architecture</h2>
+            <p>At compile time, each expression is analyzed and classified:</p>
+
+            <h3>Fast Path</h3>
+            <p>Handles simple expressions—field lookups, comparisons, and 21 built-in functions applied to pure paths. These are evaluated directly against raw JSON bytes without ever fully parsing the document. For "account.status = 'active'" you get 0 heap allocations.</p>
+
+            <h3>Full Path</h3>
+            <p>Everything else goes through a complete parser and evaluator with full JSONata 2.x semantics. This does parse the JSON, but only the subtrees it actually needs.</p>
+
+            <h3>Streaming Layer</h3>
+            <ul>
+                <li>All field paths from all expressions are merged into a single scan</li>
+                <li>After warm-up, the hot path is lock-free</li>
+                <li>Memory is bounded with configurable cache capacity</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Performance Results</h2>
+            <ul>
+                <li>Simple lookups: <strong>1,000x speedup</strong> (eliminating RPC overhead entirely)</li>
+                <li>Complex expressions: <strong>25-90x faster</strong> than RPC path</li>
+                <li>Correctness: 1,778 test cases + 2,107 integration tests</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Shadow Mode and Rollout</h2>
+            <ul>
+                <li>Day 1: gnata built, PR opened</li>
+                <li>Days 2-6: Code review, QA against real production expressions, deployed to preprod in shadow mode</li>
+                <li>Day 7: Three consecutive days of zero mismatches, gnata promoted to primary</li>
+            </ul>
+            <p>By promotion, gnata had already processed billions of events and produced identical results to jsonata-js. They also caught bugs in jsonata-js itself—cases where the reference implementation doesn't follow its own spec.</p>
+        </section>
+
+        <section>
+            <h2>Beyond gnata - The Next $200K</h2>
+            <p>Eliminating the RPC fleet took care of $300K, but there was one more thing: batching events end-to-end in their rule engine.</p>
+            <p>JSONata—being only able to do a single evaluation at a time—forced the infra around it to contort with workarounds. They were spinning up tens of thousands of goroutines, resulting in excessive memory and high CPU contention.</p>
+            <p>With gnata, they replaced the rule engine internals with a simpler, more efficient implementation. The result: another <strong>~$18K/month</strong>—around <strong>$200K/year</strong>.</p>
+            <p><strong>Combined: $500K/year gone from the pipeline, all in under 2 weeks of work.</strong></p>
+        </section>
+
+        <section>
+            <h2>No Longer Just Vibecoding</h2>
+            <p>"I believe gnata is just the beginning. I suspect 2026 will be the year of surgical refactors."</p>
+            <p>The approach: port existing test suite to target language, point AI at it, implement until tests pass. This is a systematic way to use AI for significant code migrations.</p>
+        </section>
+
+        
+    </article>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

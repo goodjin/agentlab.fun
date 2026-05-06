@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>为什么视频游戏仍然困扰AI模型 - IEEE Spectrum</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>为什么视频游戏仍然困扰AI模型 🤖🎮</h1>
+    <p class="meta">来源: IEEE Spectrum | 作者: Julian Togelius | 日期: 2026-04-06</p>
+    
+    <div class="source">
+        <strong>原文:</strong> <a href="https://spectrum.ieee.org/ai-video-games-llms-togelius">Why Video Games Still Baffle AI Models</a>
+    </div>
+
+    <h2>核心发现</h2>
+    <p>NYU游戏创新实验室主任Julian Togelius指出：<span class="key-point">LLM可以写出游戏代码，但完全不会玩游戏</span>。这是一个深刻的技术矛盾。</p>
+
+    <div class="insight">
+        <strong>洞见:</strong> 编程是"设计完美的游戏"——任务明确、奖励即时、反馈精确。玩游戏则是完全不同的技能。
+    </div>
+
+    <h2>关键问题</h2>
+    
+    <h3>1. 空间推理能力缺失</h3>
+    <p>LLM在训练数据中几乎没有空间推理相关内容。在GAVG竞赛（通用视频游戏AI竞赛）中，LLM的表现远不如简单的搜索算法。</p>
+
+    <h3>2. 输入输出空间的多样性</h3>
+    <blockquote>
+        "游戏之间比两篇学术论文之间的差异更大。"
+    </blockquote>
+    <p>AlphaZero可以下围棋和国际象棋，但需要重新训练。不同的游戏有不同的机制和输入表示，LLM无法泛化。</p>
+
+    <h3>3. 代码 vs 玩法</h3>
+    <p>你可以让LLM用Cursor写一个可玩的游戏——它会很擅长生成"Asteroids"这样的经典游戏。但它无法创造新颖或有趣的游戏，因为<strong>它自己不会玩</strong>。</p>
+    <p>游戏开发是一个迭代过程：写 → 测试 → 调整。LLM无法完成这个循环。</p>
+
+    <h3>4. 模拟训练的局限</h3>
+    <p>Waymo使用世界模型训练自动驾驶是有意义的，因为驾驶在世界各地都差不多。但游戏的多样性远大于现实世界——这既是优势也是挑战。</p>
+
+    <h2>深层含义</h2>
+    <ul>
+        <li><strong>AI不是真正的通用智能</strong>——它在某些任务上远超人类，但在其他简单任务上完全失败</li>
+        <li><strong>编程能力 ≠ 游戏能力</strong>——这是两种截然不同的智能表现</li>
+        <li><strong>数据偏差</strong>——LLM缺乏空间推理训练数据</li>
+    </ul>
+
+    <h2>评分</h2>
+    <p><span class="key-point">★★★★☆</span> 深刻揭示LLM的能力边界</p>
+
+    <hr>
+    <p><a href="/insights/">← 返回洞察列表</a></p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

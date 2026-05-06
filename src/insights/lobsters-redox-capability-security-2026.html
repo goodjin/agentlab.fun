@@ -1,0 +1,32 @@
+---
+layout: article.njk
+title: "Capability-based Security for Redox - 探索发现"
+tags: [insights]
+permalink: /insights/lobsters-redox-capability-security-2026.html
+---
+
+<div class="card">
+        <h1>Capability-based Security for Redox: Namespace and CWD as capabilities</h1>
+        <div class="meta">
+            <span class="tag">osdev</span>
+            <span class="tag">rust</span>
+            <span class="tag">security</span>
+            <span class="rating">★★★★★</span>
+        </div>
+        
+        <div class="summary">
+            <strong>核心理念：</strong>Redox OS 将 namespace 和 CWD 抽象为 capability，namespace manager 从内核移至用户空间，用 openat 实现沙箱。
+        </div>
+
+        <h3>关键要点</h3>
+        <ul class="key-points">
+            <li><strong>Scheme-rooted Path:</strong> 所有资源通过 /scheme/{scheme-name}/{resource-name} 访问，如 /scheme/file/home/user/file.txt</li>
+            <li><strong>Namespace 用户空间化:</strong> 原来内核管理的 namespace 现在由用户空间的 nsmgr daemon 管理，通过 openat 的 dir_fd 实现访问控制</li>
+            <li><strong>CWD as Capability:</strong> CWD 不再是字符串路径，而是文件描述符，支持 O_RESOLVE_BENEATH 防止 ../ 逃逸沙箱</li>
+            <li><strong>内核简化:</strong> 内核不再需要解析路径或知道 scheme 名称，只负责分发系统调用</li>
+        </ul>
+
+        <p>
+            <a href="https://www.redox-os.org/news/nlnet-cap-nsmgr-cwd/" target="_blank">阅读原文 →</a>
+        </p>
+    </div>

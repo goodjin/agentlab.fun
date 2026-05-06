@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FSF Threatens Anthropic - 开源与 AI 法律战</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <h1>FSF Threatens Anthropic over Infringed Copyright</h1>
+        <div class="meta">
+            <span class="rating">⭐⭐⭐⭐ (4星)</span> |
+            <span>2026-03-20</span> |
+            <span class="tag">开源</span>
+            <span class="tag">AI</span>
+            <span class="tag">版权</span>
+            <span class="tag">FSF</span>
+            <span class="tag">法律</span>
+        </div>
+        
+        <h2>背景</h2>
+        <p>自由软件基金会（FSF）收到了关于 <strong>Bartz v. Anthropic</strong> 版权集体诉讼和解协议的通知。这是一个声称 Anthropic 通过从 Library Genesis 和 Pirate Library Mirror 数据集下载作品来训练大型语言模型（LLM）而侵犯版权的集体诉讼。</p>
+        
+        <div class="highlight">
+            <strong>关键点：</strong> 地区法院裁定使用书籍训练 LLM 是合理使用，但下载行为是否合法留待审判。各方选择和解而非等待审判。
+        </div>
+        
+        <h2>FSF 的立场</h2>
+        <p>FSF 持有多个 GNU 项目程序的版权，以及几本书的版权。所有 FSF 持有版权的作品都以自由（freedom）许可证发布。</p>
+        
+        <div class="quote">
+            "显然，正确的事情是保护计算自由：与 LLM 的每个用户共享完整的训练输入，以及完整的模型、训练配置设置和附带的软件源代码。"
+        </div>
+        
+        <h2>具体案例</h2>
+        <ul>
+            <li>Sam Williams 和 Richard Stallman 的 <strong>《Free as in freedom》</strong> 被发现存在于 Anthropic 用于训练 LLM 的数据集中</li>
+            <li>该书由 O'Reilly 出版，FSF 根据 <strong>GNU 自由文档许可证 (GNU FDL)</strong> 发布</li>
+            <li>FDL 是一种自由许可证，允许出于任何目的免费使用该作品</li>
+        </ul>
+        
+        <h2>FSF 的要求</h2>
+        <p>FSF 敦促 Anthropic 和其他使用从互联网下载的大型数据集训练模型的 LLM 开发者向用户提供以下内容：</p>
+        <ul>
+            <li>完整的训练输入（数据）</li>
+            <li>完整的模型</li>
+            <li>训练配置设置</li>
+            <li>附带的软件源代码</li>
+        </ul>
+        
+        <div class="highlight">
+            <strong>FSF 的表态：</strong> 如果 FSF 参与此类诉讼并发现版权和许可证被违反，我们肯定会要求用户自由作为补偿。
+        </div>
+        
+        <h2>诉讼背景</h2>
+        <ul>
+            <li><strong>Bartz v. Anthropic</strong> 是针对 AI 公司使用版权材料训练模型的集体诉讼</li>
+            <li>争议焦点：下载版权书籍用于训练是否合法</li>
+            <li>地区法院：训练行为属于合理使用（fair use）</li>
+            <li>待定问题：下载行为本身的合法性</li>
+            <li>双方选择和解而非等待审判</li>
+        </ul>
+        
+        <h2>开源社区的反应</h2>
+        <p>这是开源社区对 AI 公司使用开源代码和文档训练模型日益增长的关切的最新表现。</p>
+        
+        <h3>类似事件</h3>
+        <ul>
+            <li>多个针对 AI 公司的版权诉讼</li>
+            <li>Creative Commons 对 AI 训练的立场</li>
+            <li>开源许可证是否覆盖 AI 训练的辩论</li>
+        </ul>
+        
+        <h2>深远意义</h2>
+        <ul>
+            <li><strong>法律先例：</strong> 可能为 AI 训练中的版权使用树立先例</li>
+            <li><strong>许可证冲突：</strong> 自由许可证与 AI 训练的冲突</li>
+            <li><strong>社区立场：</strong> 开源社区明确要求 AI 透明度和用户自由</li>
+            <li><strong>资源限制：</strong> FSF 承认资源有限，必须选择战场</li>
+        </ul>
+        
+        <h2>参考资源</h2>
+        <ul>
+            <li><a href="https://www.fsf.org/blogs/licensing/2026-anthropic-settlement">FSF 官方博客</a></li>
+            <li><a href="https://www.anthropiccopyrightsettlement.com/">诉讼和解网站</a></li>
+            <li><a href="https://www.gnu.org/licenses/fdl-1.3.html">GNU FDL 许可证</a></li>
+            <li><a href="https://static.fsf.org/nosvn/faif-2.0.pdf">Free as in Freedom PDF</a></li>
+        </ul>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

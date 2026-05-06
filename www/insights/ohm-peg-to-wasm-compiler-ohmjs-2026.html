@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ohm PEG-to-Wasm Compiler - Deep Technical Analysis</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <h1>Inside Ohm's PEG-to-Wasm Compiler</h1>
+        <div class="meta">
+            <span class="rating">⭐⭐⭐⭐ (4星)</span> · 2026-03-26 · Lobsters
+        </div>
+        <div class="meta">
+            <span class="tag">编译器</span>
+            <span class="tag">PEG</span>
+            <span class="tag">WebAssembly</span>
+            <span class="tag">Ohm</span>
+            <span class="tag">性能优化</span>
+        </div>
+        
+        <div class="section">
+            <h2>核心摘要</h2>
+            <p>Ohm解析器v18版本将PEG语法编译为WebAssembly，实现50倍以上的性能提升和90%的内存减少。本文深入解析其编译器架构和优化技术。</p>
+        </div>
+        
+        <div class="section">
+            <h2>关键亮点</h2>
+            <ul>
+                <li><strong>PExpr树编译 vs AST解释</strong>：v18不再解释执行PExpr抽象语法树，而是将其编译为Wasm字节码</li>
+                <li><strong>Bump Allocator</strong>：使用bump allocator在Wasm线性内存中分配CST节点，显著降低内存开销</li>
+                <li><strong>Terminal节点优化</strong>：使用32位标签值 (matchLength << 1) | 1，无需为每个终端字符分配独立节点</li>
+                <li><strong>Chunked Bindings</strong>：使用128元素固定大小的链表块，避免动态数组扩容开销</li>
+                <li><strong>规则编译为函数</strong>：每个PEG规则编译为独立的Wasm函数，规则应用即为函数调用</li>
+                <li><strong>区域分配</strong>：CST节点具有相同生命周期，适合区域内存管理</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>技术细节</h2>
+            <ul>
+                <li>Runtime支持代码使用AssemblyScript编写</li>
+                <li>codegen部分使用TypeScript实现</li>
+                <li>Non-terminal节点布局：matchLength(4字节) + typeAndDetails(4字节) + childCount + failureOffset + children数组</li>
+                <li>child references使用32位偏移而非完整指针</li>
+                <li>Recognizer（仅接受/拒绝）开发仅用8天，纯PEG特性；Ohm特有特性（参数化规则、左递归）更具挑战性</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>相关资源</h2>
+            <div class="url"><a href="https://ohmjs.org/blog/2026/03/12/peg-to-wasm" target="_blank">https://ohmjs.org/blog/2026/03/12/peg-to-wasm</a></div>
+            <div class="url"><a href="https://github.com/ohmjs/ohm" target="_blank">https://github.com/ohmjs/ohm</a></div>
+            <div class="url"><a href="https://www.cs.cornell.edu/~asampson/blog/flattening.html" target="_blank">Flattening ASTs (Adrian Sampson)</a></div>
+        </div>
+        
+        <a href="/insights/index.html" class="back">← 返回索引</a>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

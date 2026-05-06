@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inside Ohm&#39;s PEG-to-Wasm Compiler</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>Inside Ohm's PEG-to-Wasm Compiler</h1>
+    <div class="meta">Source: ohmjs.org | Rating: ⭐⭐⭐⭐ (4/5)</div>
+    
+    <p>Ohm v18 beta features a complete rewrite of the parsing engine - compiling PEG grammars to WebAssembly. Result: 50x faster, 10% memory usage compared to v17.</p>
+    
+    <div class="highlight">
+        <strong>Technical Highlights:</strong>
+        <ul>
+            <li><strong>AST interpretation to Wasm compilation:</strong> Previous versions interpreted the PExpr tree; v18 compiles to Wasm</li>
+            <li><strong>Compile-time loop structure:</strong> Alternative matching is inlined at compile time, not runtime dispatch</li>
+            <li><strong>Arena allocation:</strong> CST nodes use bump allocation in Wasm linear memory instead of GC'd JS objects</li>
+            <li><strong>Compact node layout:</strong> 32-bit offset references instead of full pointers</li>
+            <li><strong>Rule application as function calls:</strong> Each grammar rule becomes its own Wasm function</li>
+        </ul>
+    </div>
+    
+    <p>The key insight is that parsing expression trees (PExprs) can be directly compiled to WebAssembly rather than interpreted. The code generation phase transforms the grammar's PExpr tree into Wasm instructions, with each rule becoming a function.</p>
+    
+    <p>Memory management uses region-based allocation - all CST nodes share the same lifetime as their parent MatchResult, allowing efficient bulk deallocation.</p>
+    
+    <div class="tags">
+        <span class="tag">Ohm</span>
+        <span class="tag">PEG</span>
+        <span class="tag">WebAssembly</span>
+        <span class="tag">Compilers</span>
+        <span class="tag">Parsing</span>
+        <span class="tag">AssemblyScript</span>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

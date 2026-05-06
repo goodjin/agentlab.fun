@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自托管与技术独立性 | 2026</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+
+
+    <main>
+        <section>
+            <h2>核心理念</h2>
+            <p><strong>技术独立性</strong>（Tech Independence）意味着不依赖任何特定的公司的软件或服务。学习 Linux 这样的基础知识，你可以自己托管大多数东西。这不是因为你必须这样做，而是因为这样做让你感到满足，而且你还能从中学习。</p>
+        </section>
+
+        <section>
+            <h2>为什么从域名开始</h2>
+            <ul>
+                <li>买一个自己的域名是第一步</li>
+                <li>所有努力会随时间积累：保留长期 backlink，展示你的长期投入</li>
+                <li>很多人从 WordPress 转到 Medium 再转到 Substack，每次换域名都丢失了积累</li>
+                <li>有域名后，你可以随时迁移托管，但链接和品牌可以保留</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Homelab 实践</h2>
+            <p>作者自托管的内容：</p>
+            <ul>
+                <li>个人博客 (GoHugo)</li>
+                <li>第二大脑 (Obsidian/Quartz)</li>
+                <li>个人书籍</li>
+                <li>订阅列表 (Listmonk)</li>
+                <li>照片库</li>
+                <li>Gitea (自托管 Git)</li>
+            </ul>
+            <p>技术栈：SSH、备份、反向代理、SSL 证书</p>
+        </section>
+
+        <section>
+            <h2>开源的力量</h2>
+            <p>作者的数据工程写作生涯始于在工作中使用一个开源 BI 工具——如果购买商业版本需要花大价钱。"brew install 然后本地运行"这种体验让他着迷。</p>
+            <p>Linus Torvalds 不仅创造了 Linux，还创造了 git——一个改变世界的版本控制工具。他最初只是为了满足自己的需求。"为自己构建"是开源世界的核心精神。</p>
+        </section>
+
+        <section>
+            <h2>对抗订阅地狱</h2>
+            <p>我们生活在一个"订阅地狱"时代：每个应用都要订阅才能用。自托管是摆脱这种方式的一条路：</p>
+            <ul>
+                <li>掌控自己的数据</li>
+                <li>不受平台迁移之苦</li>
+                <li>学习技术技能</li>
+                <li>获得满足感</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>官方链接</h2>
+            <div class="url">
+                <a href="https://www.ssp.sh/blog/self-host-self-independence/" target="_blank">https://www.ssp.sh/blog/self-host-self-independence/</a>
+            </div>
+        </section>
+    </main>
+
+    
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

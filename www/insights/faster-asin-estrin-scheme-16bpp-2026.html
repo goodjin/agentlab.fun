@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Even Faster asin() - 16bpp.net</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<a href="/insights/index.html" class="back-link">← 返回索引</a>
+    
+    <div class="card">
+        <h1>Even Faster asin() Was Staring Right At Me</h1>
+        <div class="meta">
+            <span class="tag">性能优化</span>
+            <span class="tag">数学</span>
+            <span class="tag">C++</span>
+            <span>⭐⭐⭐⭐ (4星)</span>
+        </div>
+        
+        <div class="summary">
+            <p>作者通过 Estrin 方案优化 asin() 三角函数近似算法，进一步提升性能达 1.88x。</p>
+        </div>
+        
+        <div class="highlights">
+            <h3>关键亮点</h3>
+            <ul>
+                <li><strong>Estrin 方案</strong>：利用指令级并行性 (ILP)，减少依赖链从 3 个降至 2 个</li>
+                <li><strong>跨平台测试</strong>：Intel i7, AMD Ryzen 9 6900HX, Apple M4，Linux/Windows/macOS</li>
+                <li><strong>性能提升</strong>：MSVC 编译达 1.88x，GCC 1.80x，Clang 1.78x</li>
+                <li><strong>实用验证</strong>：光线追踪渲染器实际测试获得 +3% 提升</li>
+                <li><strong>结论</strong>：简单数学公式优于 LUT 查找表</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>基准测试结果</h2>
+        <table style="width:100%; border-collapse: collapse; font-size: 0.9em;">
+            <tr style="background: #f5f5f5;"><th style="padding:8px;text-align:left;">平台</th><th style="padding:8px;text-align:left;">编译器</th><th style="padding:8px;text-align:right;">std::asin()</th><th style="padding:8px;text-align:right;">asin_cg()</th><th style="padding:8px;text-align:right;">asin_cg_estrin()</th></tr>
+            <tr><td style="padding:8px;">Intel i7</td><td style="padding:8px;">GCC 14.2</td><td style="padding:8px;text-align:right;">74385 ms</td><td style="padding:8px;text-align:right;">48374 ms (1.54x)</td><td style="padding:8px;text-align:right;">41388 ms (1.80x)</td></tr>
+            <tr><td style="padding:8px;">Intel i7</td><td style="padding:8px;">MSVC</td><td style="padding:8px;text-align:right;">84733 ms</td><td style="padding:8px;text-align:right;">53592 ms (1.58x)</td><td style="padding:8px;text-align:right;">45014 ms (1.88x)</td></tr>
+            <tr><td style="padding:8px;">AMD Ryzen 9</td><td style="padding:8px;">GCC 14.2</td><td style="padding:8px;text-align:right;">74986 ms</td><td style="padding:8px;text-align:right;">53129 ms (1.41x)</td><td style="padding:8px;text-align:right;">52166 ms (1.44x)</td></tr>
+            <tr><td style="padding:8px;">Apple M4</td><td style="padding:8px;">Clang 17</td><td style="padding:8px;text-align:right;">33626 ms</td><td style="padding:8px;text-align:right;">32755 ms (1.03x)</td><td style="padding:8px;text-align:right;">30245 ms (1.11x)</td></tr>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>技术细节</h2>
+        <p>原始 Horner 方法：</p>
+        <pre style="background:#263238;color:#fff;padding:12px;border-radius:8px;overflow-x:auto;"><code>double p = a3 * abs_x + a2;
+p = p * abs_x + a1;
+p = p * abs_x + a0;</code></pre>
+        
+        <p>Estrin 方案优化后：</p>
+        <pre style="background:#263238;color:#fff;padding:12px;border-radius:8px;overflow-x:auto;"><code>const double x2 = abs_x * abs_x;
+const double p = (a3 * abs_x + a2) * x2 + (a1 * abs_x + a0);</code></pre>
+        
+        <p>关键洞见：现代 CPU 的乱序执行可以并行计算 <code>(a3 * abs_x + a2)</code> 和 <code>(a1 * abs_x + a0)</code>，然后再执行最后一步乘法。</p>
+    </div>
+
+    <div class="card">
+        <h2>来源</h2>
+        <p><a href="https://16bpp.net/blog/post/even-faster-asin-was-staring-right-at-me/" target="_blank">16bpp.net - Even Faster asin() Was Staring Right At Me</a></p>
+        <p><a href="https://news.ycombinator.com/item?id=47398080" target="_blank">Hacker News 讨论</a></p>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

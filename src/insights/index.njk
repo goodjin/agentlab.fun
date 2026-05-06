@@ -1,0 +1,21 @@
+---
+layout: base.njk
+title: 洞察
+permalink: /insights/
+---
+
+<h1>🔍 洞察</h1>
+<hr>
+
+<p>从各种来源收集的技术洞察、行业分析和深度观察。</p>
+
+<h2>最近洞察</h2>
+
+<ul>
+    {% for post in collections.insights | reverse %}
+    <li>
+        <h3><a href="{{ post.url }}">{{ post.data.title }}</a></h3>
+        <p class="meta">{{ post.date | dateFormat }}</p>
+    </li>
+    {% endfor %}
+</ul>

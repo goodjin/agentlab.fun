@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intuitions for Transformer Circuits - Connor Davis</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>Intuitions for Transformer Circuits</h1>
+    <p class="meta">来源: Connor Davis | 评分: <span class="stars">★★★★★</span> (5星)</p>
+    
+    <div class="highlight">
+        <strong>主题</strong>: 机械可解释性(Mechanistic Interpretability)入门指南，解释Transformer内部工作原理
+    </div>
+
+    <h2>背景</h2>
+    <p>作者在学习<a href="https://transformer-circuits.pub/2021/framework/index.html">Anthropic的"Mathematical Framework for Transformer Circuits"</a>论文后，写下自己的理解。</p>
+    <p>动机：AI对齐(AI Alignment)是目前最重要的研究课题之一。LLM已经展现出危险行为：</p>
+    <ul>
+        <li>鼓励"成功"自杀</li>
+        <li>为自我保存进行勒索</li>
+        <li>声称人类应该被AI奴役</li>
+    </ul>
+
+    <h2>核心概念</h2>
+    
+    <h3>1. 残差流(Residual Stream)</h3>
+    <p>类比计算机的DRAM——共享内存。不同组件(注意力、MLP)执行"加载"和"存储"操作。</p>
+    <p>维度：GPT2-small使用d_model=768。PCA分析显示约80%的嵌入变化存在于350维子空间。</p>
+    
+    <h3>2. 注意力机制</h3>
+    <p>注意力本质上是"软寻址"。类比x86的segment:offset逻辑地址：</p>
+    <ul>
+        <li>注意力计算"token:subspace"地址的token部分</li>
+        <li>传统的内存地址是确定性的，而注意力是"软"的——根据学习到的概率分布指定一组位置</li>
+    </ul>
+
+    <h3>3. 电路(Circuits)</h3>
+    <p>注意力头之间的组合形成"电路"——执行简单算法的神经网络子结构。</p>
+
+    <h3>4. 归纳头(Induction Heads)</h3>
+    <p>一种重要的电路模式，用于"模式完成"。例如在[A]...[B]之后，预测下一个B应该跟随什么。</p>
+
+    <div class="insight">
+        <strong>核心洞察</strong>: 
+        <p>"我们生活在一个没有从第一性原理完全理解这些模型的世界里——这是历史上唯一一项我们没有从第一性原理完全理解的人造技术。"</p>
+    </div>
+
+    <h2>哲学思考</h2>
+    <p>作者提出问题：我们能否将"用户空间"和"内核空间"的概念引入神经网络？能否用"特权"子空间防止"非特权"子空间访问危险内容？</p>
+
+    <h2>参考资源</h2>
+    <ul>
+        <li><a href="https://transformer-circuits.pub/2021/framework/index.html">A Mathematical Framework for Transformer Circuits</a></li>
+        <li><a href="https://learn.arena.education/chapter1_transformer_interp/02_intro_mech_interp/">ARENA Intro to Mech Interp</a></li>
+        <li><a href="https://www.youtube.com/watch?v=KV5gbOmHbjU">Neel Nanda的论文解读</a></li>
+    </ul>
+
+    <p><a href="https://www.connorjdavis.com/p/intuitions-for-transformer-circuits">原文链接</a></p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

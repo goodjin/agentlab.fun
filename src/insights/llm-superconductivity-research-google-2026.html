@@ -1,0 +1,84 @@
+---
+layout: article.njk
+title: "Google Research: Testing LLMs on Superconductivity"
+tags: [insights]
+permalink: /insights/llm-superconductivity-research-google-2026.html
+---
+
+<div class="container">
+        
+        
+        <div class="card">
+            <h2>研究背景</h2>
+            <p>AI 在加速科学研究方面具有巨大潜力，但在专业领域提供科学准确和全面答案的有效性仍需研究。Google Research 与康奈尔大学合作，评估大语言模型能否回答高温超导体领域的专家级问题。</p>
+            <p>研究聚焦于 <strong>铜基超导体 (cuprates)</strong>，这是自 1987 年诺贝尔奖发现以来凝聚态物理学的开放性研究课题。</p>
+        </div>
+        
+        <div class="card">
+            <h2>实验设计</h2>
+            <ul>
+                <li><strong>评估对象：</strong> 6 个 LLM：GPT-4o、Perplexity、Claude 3.5、Gemini Advanced Pro 1.5、Google NotebookLM、自定义 RAG 系统</li>
+                <li><strong>数据来源：</strong> 4 个模型使用完整互联网访问；2 个封闭系统使用专家精选的 15 篇科学综述文章</li>
+                <li><strong>评估方式：</strong> 6 位国际高温超导体专家编写 67 个问题，盲评模型答案</li>
+                <li><strong>评估标准：</strong> 平衡视角、完整性、简洁性、证据、视觉相关性</li>
+            </ul>
+        </div>
+        
+        <div class="highlight">
+            <strong>核心发现：</strong> 使用精选数据库的 NotebookLM 和自定义 RAG 系统表现最佳。网络来源的模型倾向于将 established theories 与高度 speculation 的理论混合。
+        </div>
+        
+        <div class="card">
+            <h2>模型表现排名</h2>
+            <div class="model-results">
+                <div class="model-row">
+                    <span class="model-name">🥇 Google NotebookLM</span>
+                    <span class="model-score">最佳</span>
+                </div>
+                <div class="model-row">
+                    <span class="model-name">🥈 自定义 RAG 系统</span>
+                    <span class="model-score">次佳</span>
+                </div>
+                <div class="model-row">
+                    <span class="model-name">🥉 Gemini Advanced Pro 1.5</span>
+                    <span class="model-score">第三</span>
+                </div>
+                <div class="model-row">
+                    <span class="model-name">GPT-4o</span>
+                    <span class="model-score">中等</span>
+                </div>
+                <div class="model-row">
+                    <span class="model-name">Claude 3.5</span>
+                    <span class="model-score">中等</span>
+                </div>
+                <div class="model-row">
+                    <span class="model-name">Perplexity</span>
+                    <span class="model-score">待改进</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>关键发现</h2>
+            <div class="key-finding">
+                <h3>数据质量决定性能</h3>
+                <p>使用专家精选数据库的模型显著优于依赖开放网络的模型。网络数据倾向于混合 established theories 与 speculation。</p>
+            </div>
+            <div class="key-finding">
+                <h3>时间理解缺陷</h3>
+                <p>LLM 经常无法识别假设何时被否定，遗漏未使用查询中精确语言的相关论文。</p>
+            </div>
+            <div class="key-finding">
+                <h3>视觉推理不足</h3>
+                <p>模型依赖图像 caption 而非视觉分析。增强图像、图表、刻度条的解释能力是未来改进方向。</p>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>研究意义</h2>
+            <p>可靠的 AI 研究伙伴可以帮助快速培养新研究生熟悉现有科学文献，作为随时可用的思维伙伴，帮助有经验的科学家识别新研究方向。</p>
+            <p>CMT-benchmark 将在 ICLR 2026 发表，作为更严格的 LLM 凝聚态理论评估。</p>
+        </div>
+        
+        <a href="/insights/index.html" class="back-link">← 返回洞察主页</a>
+    </div>

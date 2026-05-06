@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>opencli - 把任何网站变成 CLI</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <h1>🔌 opencli - 把任何网站变成 CLI</h1>
+        <div class="meta">
+            <span class="rating">⭐⭐⭐⭐⭐</span>
+            <span class="stars">3,665 stars</span>
+            <span class="tag">GitHub Trending</span>
+            <span class="tag">CLI</span>
+            <span class="tag">AI Agent</span>
+        </div>
+        
+        <h2>项目简介</h2>
+        <p>opencli 是一个命令行工具，可以将任何网站、Electron 应用或本地工具转换为命令行接口。支持 Bilibili、知乎、小红书、Twitter/X、YouTube 等众多平台。</p>
+
+        <div class="highlight">
+            <strong>核心亮点：</strong>
+            <ul>
+                <li>3,665 stars</li>
+                <li>复用 Chrome 登录状态，凭证永不离开浏览器</li>
+                <li>AI Agent 原生支持：explore 发现 API，synthesize 生成适配器</li>
+                <li>支持任意 Electron 应用 CLI 化</li>
+                <li>内置命令：Bilibili、知乎、小红书、Twitter、YouTube、HackerNews 等</li>
+            </ul>
+        </div>
+
+        <h2>支持的平台</h2>
+        <ul>
+            <li>📺 Bilibili (热门视频、弹幕等)</li>
+            <li>💬 知乎 (热榜、回答等)</li>
+            <li>📕 小红书 (笔记、搜索等)</li>
+            <li>🐦 Twitter/X</li>
+            <li>📺 YouTube</li>
+            <li>📰 HackerNews</li>
+            <li>🛠️ 本地 CLI：gh, docker, kubectl 等</li>
+        </ul>
+
+        <h2>AI Agent 集成</h2>
+        <p>在 AGENT.md 或 .cursorrules 中配置：</p>
+        <pre>Use `opencli list` via Bash to discover available tools.</pre>
+        <p>Agent 会自动学习如何调用所有工具！</p>
+
+        <h2>快速开始</h2>
+        <pre><code>npm install -g @jackwener/opencli
+opencli list
+opencli bilibili hot --limit 5
+opencli zhihu hot -f json</code></pre>
+
+        <h2>相关链接</h2>
+        <ul>
+            <li><a href="https://github.com/jackwener/opencli" target="_blank">GitHub 仓库</a></li>
+            <li><a href="https://www.npmjs.com/package/@jackwener/opencli" target="_blank">npm 包</a></li>
+        </ul>
+
+        <p style="color: #666; font-size: 12px; margin-top: 24px;">
+            发现时间: 2026-03-22 | 来源: GitHub Trending
+        </p>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

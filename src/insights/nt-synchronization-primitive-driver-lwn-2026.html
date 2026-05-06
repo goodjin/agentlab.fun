@@ -1,0 +1,49 @@
+---
+layout: article.njk
+title: "NT Synchronization Primitive Driver - LWN"
+tags: [insights]
+permalink: /insights/nt-synchronization-primitive-driver-lwn-2026.html
+---
+
+<div class="card">
+        <h1>NT Synchronization Primitive Driver</h1>
+        <div class="rating">⭐⭐⭐⭐ (4星)</div>
+        <div class="meta">来源: LWN.net | 日期: 2026-03-25</div>
+        
+        <div class="tag">Linux内核</div>
+        <div class="tag">Wine</div>
+        <div class="tag">Windows API</div>
+        <div class="tag">驱动开发</div>
+        <div class="tag">性能优化</div>
+
+        <h2>摘要</h2>
+        <p>Linux内核新驱动 /dev/ntsync 实现 Windows NT 同步原语，大幅提升 Wine 性能，部分游戏帧率提升 50-150%。</p>
+
+        <h2>背景</h2>
+        <p>Wine 项目在用户空间模拟 Windows API。NT 同步原语传统上通过 RPC 到专用"内核"进程实现，但更现代的应用程序使用这些 API 更频繁，RPC 开销已成为瓶颈。</p>
+
+        <h2>性能提升</h2>
+        <table style="width:100%; border-collapse: collapse; margin: 16px 0;">
+            <tr style="background: #f5f5f5;"><th style="padding:8px; text-align:left;">游戏</th><th style="padding:8px;">原始帧率</th><th style="padding:8px;">ntsync后</th><th style="padding:8px;">提升</th></tr>
+            <tr><td style="padding:8px;">Dirt 3</td><td style="padding:8px; text-align:center;">110.6</td><td style="padding:8px; text-align:center;">860.7</td><td style="padding:8px; text-align:center;">678%</td></tr>
+            <tr><td style="padding:8px;">Resident Evil 2</td><td style="padding:8px; text-align:center;">26</td><td style="padding:8px; text-align:center;">77</td><td style="padding:8px; text-align:center;">196%</td></tr>
+            <tr><td style="padding:8px;">Tiny Tina's Wonderlands</td><td style="padding:8px; text-align:center;">130</td><td style="padding:8px; text-align:center;">360</td><td style="padding:8px; text-align:center;">177%</td></tr>
+        </table>
+
+        <h2>技术亮点</h2>
+        <ul>
+            <li><strong>实现对象</strong>: semaphore、mutex、event 等同步原语</li>
+            <li><strong>等待模式</strong>: 支持 wait-for-any 和 wait-for-all</li>
+            <li><strong>性能优化</strong>: 每个对象只有单个 spinlock；wait-for-all 使用设备级锁</li>
+            <li><strong>线程管理</strong>: 用户空间模拟器管理线程 ID 和废弃 mutex 检测</li>
+            <li><strong>设计决策</strong>: 使用 misc 设备，便于创建多个自包含的"上下文"</li>
+        </ul>
+
+        <div class="highlight">
+            <strong>核心价值</strong>: NT 同步 API 太复杂，无法在现有原语上实现而不牺牲正确性。新驱动直接在 Linux 内核实现这些问题接口。
+        </div>
+
+        <h2>链接</h2>
+        <p><a href="https://lwn.net/Articles/960275/">原文链接</a></p>
+        <p><a href="https://www.youtube.com/watch?v=NjU4nyWyhU8">Linux Plumbers Conference 2023 演讲</a></p>
+    </div>

@@ -1,0 +1,78 @@
+---
+layout: article.njk
+title: "dial9: Tokio 飞行记录器 - 生产级异步调试"
+tags: [insights]
+permalink: /insights/dial9-tokio-flight-recorder-2026.html
+---
+
+<div class="container">
+        <a href="/insights/index.html" class="back-link">← 返回索引</a>
+        
+        <h1>dial9: Tokio 飞行记录器</h1>
+        <div class="meta">
+            <span class="tag">Rust</span>
+            <span class="tag">Tokio</span>
+            <span class="tag">调试工具</span>
+            <span class="tag">性能优化</span>
+            <span class="stars">⭐⭐⭐⭐⭐</span>
+        </div>
+
+        <h2>概述</h2>
+        <p>dial9 是 Tokio 运行时的遥测工具，能捕获底层运行时事件（轮询、暂停、唤醒），结合应用span和Linux内核事件，提供完整的应用与操作系统交互视图。</p>
+
+        <div class="highlight">
+            <strong>核心价值：</strong>解决生产环境中仅靠聚合指标无法定位的异步运行时问题
+        </div>
+
+        <h2>解决的问题</h2>
+        
+        <h3>1. 内核调度延迟</h3>
+        <p>在90% CPU使用率后性能骤降的案例中，团队发现运行时工作者看似空闲但队列已满。dial9显示存在<strong>频繁的10ms+内核调度延迟</strong>——线程已就绪但内核未立即调度。</p>
+        
+        <h3>2. fd_table 竞争</h3>
+        <p>另一个案例中，启动时p99延迟极差。dial9发现打开大量并发连接时会<strong>重设fd_table</strong>，需要获取一个阻塞所有工作者的锁，导致100ms+的轮询延迟。</p>
+        
+        <h3>3. 任务频繁迁移</h3>
+        <p>dial9可看到任务完整生命周期和每次轮询。单个任务在2ms内跨越5个不同工作者，展示了数据密集型应用为何能从per-core运行时架构中受益（避免缓存行乒乓）。</p>
+        
+        <h3>4. backtrace 全局锁</h3>
+        <p>作者在开发中发现启用任务转储导致开销从5%飙升至50%。dial9显示<strong>backtrace::trace获取全局锁</strong>，每个工作者都在竞争这单个互斥锁。</p>
+
+        <h2>使用方式</h2>
+        <pre><code>cargo add dial9-tokio-telemetry
+
+use dial9_tokio_telemetry::telemetry::{RotatingWriter, TracedRuntime};
+
+fn main() -> std::io::Result<()> {
+    let writer = RotatingWriter::new(
+        "/tmp/my_traces/trace.bin",
+        20 * 1024 * 1024, // 20MB后轮换
+        100 * 1024 * 1024, // 最多保留100MB
+    )?;
+
+    let mut builder = tokio::runtime::Builder::new_multi_thread();
+    builder.worker_threads(4).enable_all();
+
+    let (runtime, _guard) = TracedRuntime::build_and_start(builder, writer)?;
+
+    runtime.block_on(async {
+        // 你的异步代码
+    });
+
+    Ok(())
+}</code></pre>
+
+        <h2>性能开销</h2>
+        <p>开销通常<strong>低于5%</strong>。RotatingWriter限制磁盘使用，可安全在生产环境运行。</p>
+
+        <h2>链接</h2>
+        <ul>
+            <li><a href="https://github.com/dial9-rs/dial9-tokio-telemetry" target="_blank">GitHub</a></li>
+            <li><a href="https://crates.io/crates/dial9-tokio-telemetry" target="_blank">Crates.io</a></li>
+            <li><a href="https://docs.rs/dial9-tokio-telemetry/latest/dial9_tokio_telemetry/" target="_blank">文档</a></li>
+            <li><a href="https://dial9-tokio-telemetry.russell-r-cohen.workers.dev/" target="_blank">在线Trace查看器</a></li>
+        </ul>
+
+        <hr>
+        <p style="color: #888; font-size: 12px;">来源: <a href="https://tokio.rs/blog/2026-03-18-dial9">Tokio Blog</a> | 探索时间: 2026-03-20</p>
+    </div>

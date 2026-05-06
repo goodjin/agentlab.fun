@@ -1,0 +1,61 @@
+---
+layout: article.njk
+title: "Stripe AI Agents Benchmark - Can AI Build Real Stripe Integrations?"
+tags: [insights]
+permalink: /insights/stripe-ai-agents-benchmark-2026.html
+---
+
+<div class="card">
+        <h1>Can AI Agents Build Real Stripe Integrations?</h1>
+        <div class="meta">Stripe Engineering Blog | March 2, 2026</div>
+        <div class="rating">★★★★★</div>
+        <div class="tags">
+            <span class="tag">AI Agents</span>
+            <span class="tag">Benchmark</span>
+            <span class="tag">Stripe</span>
+            <span class="tag">Software Engineering</span>
+        </div>
+        
+        <h2>Summary</h2>
+        <p class="summary">
+            Stripe 构建了一个 benchmark 来测试 AI agents 能否自主构建完整的 Stripe 集成。这是首批针对生产环境 API 的 agentic 开发 benchmark 之一。研究发现 Claude Opus 4.5 在全栈 API 集成任务上表现优异（92% 平均分），而 GPT-5.2 在 gym 问题集上表现更好（73% 平均分）。
+        </p>
+
+        <div class="findings">
+            <h3>🔑 Key Findings</h3>
+            <ul>
+                <li><strong>Claude Opus 4.5:</strong> 擅长全栈 API 集成任务，4 项任务平均得分 92%</li>
+                <li><strong>GPT-5.2:</strong> 擅长 gym 问题集（Checkout、subscriptions 等），2 项任务平均得分 73%</li>
+                <li><strong>UI 能力:</strong> 模型可以导航 UI、调试实时问题、处理未文档化的行为</li>
+                <li><strong>自我验证:</strong> 某些 agent 会编写脚本生成测试数据来验证结果</li>
+                <li><strong>平均运行:</strong> 最佳运行平均 63 轮交互</li>
+            </ul>
+        </div>
+
+        <div class="challenges">
+            <h3>⚠️ Where Models Struggle</h3>
+            <ul>
+                <li><strong>模糊情况处理:</strong> 某些 agent 看到 400 错误就认为任务完成，不会深入调查</li>
+                <li><strong>浏览器使用:</strong> 偶尔被困在浏览器使用中，误解输出，无法完成任务</li>
+                <li><strong>端到端验证:</strong> 对于支付来说，99% 正确等于失败，需要 100% 准确</li>
+            </ul>
+        </div>
+
+        <h2>Benchmark Structure</h2>
+        <p class="summary">
+            评估包含 11 个不同的环境，涵盖三个主要类别：
+        </p>
+        <ul>
+            <li><strong>Backend-only Tasks:</strong> 数据迁移、API 版本升级、后端 API 更新</li>
+            <li><strong>Full-stack Tasks:</strong> 需要浏览器使用和 UI 验证的全栈集成</li>
+            <li><strong>Gym Problems:</strong> 针对特定功能集的深度练习（Checkout、subscriptions 等）</li>
+        </ul>
+
+        <h2>Technical Details</h2>
+        <p class="summary">
+            每个评估环境包含：完整代码环境（代码、数据库、脚本）、测试用 Stripe API keys、自动评分器（通过 API 调用或自动化 UI 测试验证）、基于 goose 的 agent harness、Model Context Protocol (MCP) server 提供终端、浏览器和 Stripe 特定搜索工具的访问权限。
+        </p>
+
+        <p><a href="https://stripe.com/blog/can-ai-agents-build-real-stripe-integrations">Read Original Article →</a></p>
+        <p><a href="https://github.com/stripe/ai/tree/main/benchmarks">View Benchmark on GitHub →</a></p>
+    </div>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serenely Fast I/O Buffer - C++ 高性能消息缓冲</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>Serenely Fast I/O Buffer - C++ 高性能消息缓冲实现</h1>
+    
+    <div class="meta">
+        <span class="rating">⭐⭐⭐⭐</span> 评级 | 
+        来源: <a href="https://blog.serenedb.com/io-buffer" target="_blank">blog.serenedb.com</a> |
+        日期: 2026-03-20
+    </div>
+    
+    <div class="tags">
+        <span class="tag">C++</span>
+        <span class="tag">高性能</span>
+        <span class="tag">数据库</span>
+        <span class="tag">网络</span>
+        <span class="tag">基准测试</span>
+    </div>
+
+    <h2>概述</h2>
+    <p>SereneDB 团队开发了一个高性能的并发 I/O 消息缓冲区 <code>sdb::message::Buffer</code>，在基准测试中比 Facebook 的 Folly IOBuf 最高快 45%。</p>
+
+    <h2>背景</h2>
+    <p>高负载服务需要优化网络数据传输并转向异步模型来发送和接收。这引入了另一个瓶颈：在发送之前将数据存储在缓冲区中。</p>
+    
+    <h3>需求</h3>
+    <ul>
+        <li><strong>FIFO：</strong>保持消息顺序</li>
+        <li><strong>无限大小：</strong>缓冲区需要可扩展</li>
+    </ul>
+
+    <h2>现有方案的问题</h2>
+    <p>虽然有很多消息缓冲区实现（Folly IOBuf、Abseil Cord、Seastar I/O Buffer 等），但团队找不到完美的方案，因为：</p>
+    <ul>
+        <li>有些不支持并发读写</li>
+        <li>有些不够快</li>
+    </ul>
+
+    <h2>实现细节</h2>
+    
+    <h3>SPSC 设计</h3>
+    <p><code>sdb::message::Buffer</code> 是 SPSC（单生产者单消费者）设计。这种弱约束实现了最有效的无锁解决方案，具有最少的原子操作。</p>
+    
+    <p>缓冲区只有一个原子变量 <code>_send_end</code>，定义可读数据的结尾。</p>
+
+    <h3>消息类型</h3>
+    <ul>
+        <li><strong>Flushed data（刷新数据）：</strong>紧急的，必须立即发送</li>
+        <li><strong>Committed data（提交数据）：</strong>不紧急，可以等待</li>
+        <li><strong>Uncommitted data（未提交数据）：</strong>不能被读取，必须先提交</li>
+    </ul>
+
+    <h3>Flush 机制</h3>
+    <div class="highlight">
+        <p>写入消息时，可以设置 <code>need_flush</code>：</p>
+        <ul>
+            <li><code>true</code> - 立即刷新（发送所有数据）</li>
+            <li><code>false</code> - 仅在缓冲区超过阈值时刷新</li>
+        </ul>
+    </div>
+
+    <h2>基准测试结果</h2>
+    
+    <h3>测试环境</h3>
+    <p>AMD Ryzen 9 9950X 16-Core Processor，使用 jemalloc</p>
+
+    <h3>100,000,000 个数据包（中位数 14 字节）</h3>
+    <table>
+        <tr><th>实现</th><th>时间</th><th>sdb 更快</th></tr>
+        <tr><td>folly_appender</td><td>886,926,752 ns</td><td>-</td></tr>
+        <tr><td>sdb_buffer</td><td>884,418,159 ns</td><td>-0.28%</td></tr>
+    </table>
+
+    <h3>1,000,000 个数据包（中位数 0.3 KB）</h3>
+    <table>
+        <tr><th>实现</th><th>时间</th><th>sdb 更快</th></tr>
+        <tr><td>folly_appender</td><td>28,003,500 ns</td><td>-</td></tr>
+        <tr><td>sdb_buffer</td><td>26,055,791 ns</td><td>-6.96%</td></tr>
+    </table>
+
+    <h3>1,000,000 个数据包（中位数 2.6 KB）</h3>
+    <table>
+        <tr><th>实现</th><th>时间</th><th>sdb 更快</th></tr>
+        <tr><td>folly_appender</td><td>365,769,290 ns</td><td>-</td></tr>
+        <tr><td>sdb_buffer</td><td>233,751,244 ns</td><td>-36.09%</td></tr>
+    </table>
+
+    <h3>10,000 个数据包（中位数 82 KB）</h3>
+    <table>
+        <tr><th>实现</th><th>时间</th><th>sdb 更快</th></tr>
+        <tr><td>folly_appender</td><td>90,551,226 ns</td><td>-</td></tr>
+        <tr><td>sdb_buffer</td><td>49,762,329 ns</td><td>-45.06%</td></tr>
+    </table>
+
+    <h2>结论</h2>
+    <p><code>sdb::message::Buffer</code> 在所有测试用例中都比 Folly appender 更快。虽然没有多显著，但这是诚实的工作。</p>
+    
+    <div class="highlight">
+        <strong>WOW!</strong> 在大数据包（82 KB）中，sdb::message::Buffer 比 Folly appender 快 45%！
+    </div>
+
+    <h2>链接</h2>
+    <ul>
+        <li>GitHub: <a href="https://github.com/serenedb/serenedb">https://github.com/serenedb/serenedb</a></li>
+        <li>基准测试代码: <a href="https://github.com/serenedb/serenedb/blob/main/tests/bench/micro/io_buffers.cpp">io_buffers.cpp</a></li>
+    </ul>
+
+    <div class="back-link">
+        <a href="/insights/index.html">← 返回索引</a>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

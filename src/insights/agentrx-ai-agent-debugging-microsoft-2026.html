@@ -1,0 +1,61 @@
+---
+layout: article.njk
+title: "AgentRx: AI Agent Systematic Debugging - Microsoft Research"
+tags: [insights]
+permalink: /insights/agentrx-ai-agent-debugging-microsoft-2026.html
+---
+
+<p class="meta">Source: Microsoft Research Blog | Date: March 2026</p>
+    <h1>AgentRx: Systematic Debugging for AI Agents</h1>
+    <p><span class="rating">⭐⭐⭐⭐⭐</span> <strong>5/5</strong> — Essential reading for AI agent developers</p>
+    
+    <div class="highlight">
+        <strong>🎯 Core Problem:</strong> Debugging AI agent failures is incredibly hard because trajectories are long, stochastic, and often multi-agent — the true root cause gets buried.
+    </div>
+
+    <h2>The Challenge</h2>
+    <p>Modern AI agents are:</p>
+    <ul>
+        <li><strong>Long-horizon:</strong> Dozens of actions over extended periods</li>
+        <li><strong>Probabilistic:</strong> Same input → different outputs, making reproduction difficult</li>
+        <li><strong>Multi-agent:</strong> Failures can be "passed" between agents, masking root cause</li>
+    </ul>
+
+    <h2>Introducing AgentRx</h2>
+    <p>AgentRx (Agent Diagnosis) treats agent execution like a system trace that needs validation. Instead of relying on a single LLM to "guess" the error, AgentRx uses a structured, multi-stage pipeline:</p>
+    
+    <div class="key-points">
+        <strong>Pipeline Stages:</strong>
+        <ul>
+            <li><strong>Trajectory normalization:</strong> Convert heterogeneous logs into common intermediate representation</li>
+            <li><strong>Constraint synthesis:</strong> Generate executable constraints from tool schemas and domain policies</li>
+            <li><strong>Guarded evaluation:</strong> Evaluate constraints step-by-step, producing auditable validation logs</li>
+            <li><strong>LLM-based judging:</strong> Use LLM judge to identify Critical Failure Step</li>
+        </ul>
+    </div>
+
+    <h2>Failure Taxonomy (9 Categories)</h2>
+    <table>
+        <tr><th>Category</th><th>Description</th></tr>
+        <tr><td>Plan Adherence Failure</td><td>Ignored required steps / did extra unplanned actions</td></tr>
+        <tr><td>Invention of New Information</td><td>Altered facts not grounded in trace/tool output (hallucination)</td></tr>
+        <tr><td>Invalid Invocation</td><td>Tool call malformed / missing args / schema-invalid</td></tr>
+        <tr><td>Misinterpretation of Tool Output</td><td>Read tool output incorrectly; acted on wrong assumptions</td></tr>
+        <tr><td>Intent–Plan Misalignment</td><td>Misread user goal/constraints and planned wrongly</td></tr>
+        <tr><td>Under-specified User Intent</td><td>Could not proceed because required info wasn't available</td></tr>
+        <tr><td>Intent Not Supported</td><td>No available tool can do what's being asked</td></tr>
+        <tr><td>Guardrails Triggered</td><td>Execution blocked by safety/access restrictions</td></tr>
+        <tr><td>System Failure</td><td>Connectivity/tool endpoint failures</td></tr>
+    </table>
+
+    <h2>Key Results</h2>
+    <ul>
+        <li><strong>+23.6%</strong> absolute improvement in failure localization accuracy</li>
+        <li><strong>+22.9%</strong> improvement in root-cause attribution</li>
+        <li>115 manually annotated failed trajectories across τ-bench, Flash, and Magentic-One</li>
+    </ul>
+
+    <h2>Why It Matters</h2>
+    <p>AgentRx allows developers to move beyond trial-and-error prompting and toward systematic agentic engineering. By providing the "why" behind a failure through an auditable log, it's a prerequisite for real-world agent deployment.</p>
+
+    <p class="source">🔗 <a href="https://www.microsoft.com/en-us/research/blog/systematic-debugging-for-ai-agents-introducing-the-agentrx-framework/">Original Article</a> | <a href="https://aka.ms/AgentRx/Repo">GitHub Repo</a></p>

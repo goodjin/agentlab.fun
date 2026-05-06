@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>immich vs ente photos - Photo Backup Showdown</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="container">
+        <h1>immich vs ente photos</h1>
+        <div class="meta">
+            <span class="tag">Self-hosted</span>
+            <span class="tag">Photos</span>
+            <span class="tag">Backup</span>
+            <span>Source: alexandmanu.com | 2026-03</span>
+        </div>
+
+        <h2>TL;DR</h2>
+        <div class="highlight">
+            Immich: 功能丰富、资源需求高 (4-6GB RAM) | Ente: 轻量 (130MB) + 零知识加密
+        </div>
+
+        <h2>核心对比</h2>
+        <div class="comparison">
+            <div class="option immich">
+                <h3>Immich</h3>
+                <ul>
+                    <li>完全自托管，数据自己掌控</li>
+                    <li>免费开源，Docker Compose 部署</li>
+                    <li><strong>资源需求</strong>: 4-6GB RAM, 2+ CPU cores</li>
+                    <li>AI 在服务端运行，隐私友好但耗电</li>
+                    <li>文件未加密，需自行在存储层加密</li>
+                </ul>
+            </div>
+            <div class="option ente">
+                <h3>Ente Photos</h3>
+                <ul>
+                    <li>云服务 + 自托管混合模式</li>
+                    <li><strong>零知识加密</strong> (服务端也无法查看)</li>
+                    <li><strong>资源需求</strong>: 130-150MB RAM</li>
+                    <li>端侧机器学习，手机处理 AI</li>
+                    <li>自托管配置较复杂 (S3 存储)</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2>选择建议</h2>
+        <ul>
+            <li><strong>选 Immich</strong>: 有 24/7 服务器，想要最大控制权和丰富功能</li>
+            <li><strong>选 Ente</strong>: 想要云端便利 + 加密，或低资源运行</li>
+        </ul>
+
+        <p style="margin-top:20px; color:#718096; font-size:14px;">
+            💡 无论选哪个，都比依赖 Google Photos "无限存储" 好——问问那些被政策改变坑过的人。
+        </p>
+
+        <p style="margin-top:30px; color:#718096; font-size:12px;">
+            标签: self-hosted, photos, backup, immich, ente<br>
+            探索来源: lobsters (devops)
+        </p>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,83 @@
+---
+layout: article.njk
+title: "Teaching Claude to QA a Mobile App"
+tags: [insights]
+permalink: /insights/claude-qa-mobile-app-christophermeiklejohn-2026.html
+---
+
+<div class="container">
+        <h1>Teaching Claude to QA a Mobile App</h1>
+        <div class="meta">
+            <span class="tag">AI</span>
+            <span class="tag">Mobile</span>
+            <span class="tag">Testing</span>
+            <span class="tag">Claude</span>
+            <span class="star">⭐⭐⭐⭐⭐</span>
+        </div>
+        
+        <p>Christopher Meiklejohn 的深度实践：用 Claude 测试 iOS 和 Android 移动应用 QA 自动化的实战经验。</p>
+        
+        <h2>核心发现</h2>
+        
+        <div class="highlight">
+            <strong>⏱️ 时间对比：</strong> Android 90分钟完成，iOS 超过6小时完成
+        </div>
+        
+        <h2>关键亮点</h2>
+        
+        <h3>1. Android: 相对简单</h3>
+        <ul>
+            <li><strong>连接问题：</strong> Android 模拟器中 localhost 指代模拟器本身，需要用 <code>adb reverse</code> 解决</li>
+            <li><strong>CDP 协议：</strong> Capacitor 应用运行在 Android WebView 中，暴露 Chrome DevTools Protocol socket</li>
+            <li><strong>认证方式：</strong> 通过 WebSocket 注入 JWT 到 localStorage，无需 UI 交互</li>
+            <li><strong>导航：</strong> 直接设置 <code>window.location.href</code>，无需坐标猜测</li>
+            <li><strong>屏幕截图：</strong> <code>adb shell screencap</code> 捕获屏幕</li>
+        </ul>
+        
+        <h3>2. iOS: 噩梦难度</h3>
+        
+        <div class="insight">
+            <strong>Apple 的封闭性：</strong> "Apple 给你一扇锁着的门和一张写着'请用 Xcode'的纸条"
+        </div>
+        
+        <ul>
+            <li><strong>无法输入 @ 符号：</strong> AppleScript 发送 Shift+2 被解释为快捷键，修改后端支持用户名登录</li>
+            <li><strong>无法关闭原生对话框：</strong> iOS 通知对话框无法通过任何方式关闭，最终直接写入 TCC.db 权限数据库</li>
+            <li><strong>坐标导航困难：</strong> AppleScript/idb/cliclick 各种方法准确率都不高，最终用 <code>ui_describe_point</code> 探测</li>
+            <li><strong>无 CDP 支持：</strong> Apple 的 WKWebView 不暴露 DevTools Protocol，只能用私有方案</li>
+        </ul>
+        
+        <h3>3. 开发者教训</h3>
+        
+        <ul>
+            <li><strong>CDP over Taps：</strong> 能用浏览器自己的调试协议就不坐标猜测</li>
+            <li><strong>测量，不要猜测：</strong> 用 accessibility API 查询按钮位置，而非假设坐标</li>
+            <li><strong>保持隔离：</strong> 在 git worktree 中工作，不要跨越边界</li>
+            <li><strong>推送前测试：</strong> "push and pray" 是危险的</li>
+        </ul>
+        
+        <h2>技术细节</h2>
+        
+        <pre><code># Android CDP 连接
+WV_SOCKET=$(adb shell "cat /proc/net/unix" | \
+ grep webview_devtools_remote | \
+ grep -oE 'webview_devtools_remote_[0-9]+' | head -1)
+adb forward tcp:9223 localabstract:$WV_SOCKET
+curl http://localhost:9223/json</code></pre>
+        
+        <pre><code># Android 认证 (一行代码)
+ws.send('{"method":"Runtime.evaluate","params":{"expression":"localStorage.setItem(\'token\',\'xxx\')"}}')</code></pre>
+        
+        <h2>核心洞察</h2>
+        
+        <blockquote>
+            "Android 给你一个 WebSocket 说'这是浏览器，想做什么都行'。iOS 给你一扇锁着的门和一张写着'请用 Xcode'的纸条。"
+        </blockquote>
+        
+        <p>这是 2026 年移动端 AI 测试自动化的第一手深度报告，展示了在 Apple 封闭生态系统中工作的真实挑战。</p>
+        
+        <h2>链接</h2>
+        <ul>
+            <li><a href="https://christophermeiklejohn.com/ai/zabriskie/development/android/ios/2026/03/22/teaching-claude-to-qa-a-mobile-app.html" target="_blank">原文链接</a></li>
+        </ul>
+    </div>

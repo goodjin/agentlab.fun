@@ -1,0 +1,97 @@
+---
+layout: article.njk
+title: "Shopify Liquid: 53% Performance Boost with AI - Karpathy Autoresearch"
+tags: [insights]
+permalink: /insights/shopify-liquid-ai-performance-2026.html
+---
+
+<div class="card">
+        <h1>🚀 Shopify Liquid: AI 驱动的 53% 性能优化</h1>
+        <div class="meta">来源: github.com/Shopify/liquid/pull/2056 | 评分: ⭐⭐⭐⭐⭐ (5星) | 日期: 2026-03</div>
+        <div>
+            <span class="tag">AI</span>
+            <span class="tag">Performance</span>
+            <span class="tag">Shopify</span>
+            <span class="tag">Karpathy</span>
+            <span class="tag">Autoresearch</span>
+            <span class="tag">Ruby</span>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>成绩单</h2>
+        <div class="stats">
+            <div class="stat-box">
+                <div class="stat-number">53%</div>
+                <div class="stat-label">解析+渲染提速</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">61%</div>
+                <div class="stat-label">内存分配减少</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">93</div>
+                <div class="stat-label">Commits</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">~120</div>
+                <div class="stat-label">自动化实验</div>
+            </div>
+        </div>
+
+        <h2>发生了什么？</h2>
+        <p>Shopify CEO <strong>Tobias Lütke</strong> 使用 Andrej Karpathy 的新系统 <strong>autoresearch</strong>，让 AI 代理自动运行数百个半自主实验，寻找 Liquid 模板引擎的新优化技术。</p>
+
+        <div class="highlight">
+            <strong>关键前提：</strong> 974 个单元测试是 AI 实验的基础。没有可靠的测试套件，这种自动化优化是不可能的！
+        </div>
+
+        <h2>Autoresearch 工作流程</h2>
+        <ol>
+            <li>定义 prompt 文件 (autoresearch.md)</li>
+            <li>编写测试脚本 (autoresearch.sh)</li>
+            <li>AI agent 自动运行实验</li>
+            <li>报告 benchmark 分数</li>
+            <li>迭代优化</li>
+        </ol>
+
+        <h2>关键优化技术</h2>
+        <ul>
+            <li><strong>StringScanner → byteindex</strong>: 单字节 byteindex 搜索比 regex skip_until 快 40%，仅此一项就减少 12% 解析时间</li>
+            <li><strong>纯字节解析 tag_token</strong>: 消除昂贵的 StringScanner#string= 重置（每个 {% %} token 调用 878 次）</li>
+            <li><strong>缓存小整数 to_s</strong>: 预计算 0-999 的 frozen strings，避免 267 次 Integer#to_s 分配</li>
+            <li><strong>手写字节扫描</strong>: 比通过 StringScanner 重置和重新扫描更快</li>
+        </ul>
+
+        <h2>Karpathy 的 Autoresearch</h2>
+        <p>这是 Andrej Karpathy (Tesla AI 总监、DeepLearning.AI 创始人) 创建的新系统，用于自动发现训练技术。</p>
+        <ul>
+            <li>让 coding agent 运行数百个半自主实验</li>
+            <li>自动发现新的训练技术</li>
+            <li>用于优化 nanochat (nanoGPT 聊天机器人)</li>
+        </ul>
+
+        <h2>为什么重要？</h2>
+        <div class="source">
+            <p>这是 AI 辅助代码优化的经典案例！</p>
+            <ul>
+                <li>展示了 AI 不仅可以写代码，还可以优化现有代码</li>
+                <li>证明了测试驱动开发 (TDD) 的新价值：AI 需要测试来验证优化</li>
+                <li>即使是 20 年历史的成熟代码库，仍有巨大优化空间</li>
+                <li>商业公司 CEO 亲自参与 AI 实验，标志性意义</li>
+            </ul>
+        </div>
+
+        <h2>相关资源</h2>
+        <ul>
+            <li><a href="https://github.com/Shopify/liquid/pull/2056">PR #2056 (GitHub)</a></li>
+            <li><a href="https://github.com/karpathy/autoresearch">Karpathy Autoresearch</a></li>
+            <li><a href="https://simonwillison.net/2026/Mar/13/shopify-liquid/">Simon Willison 原始报道</a></li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>📊 探索评分</h2>
+        <p class="rating">⭐⭐⭐⭐⭐ (5星)</p>
+        <p><strong>理由</strong>: AI 辅助性能优化的里程碑案例。Shopify CEO 亲自使用 AI 优化 20 年代码库，53% 性能提升。展示了 AI 在代码优化领域的巨大潜力。</p>
+    </div>

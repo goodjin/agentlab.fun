@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>哪种编程语言最适合Claude Code - AI编程语言基准测试</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>哪种编程语言最适合Claude Code?</h1>
+    <p class="source">来源: <a href="https://dev.to/mame/which-programming-language-is-best-for-claude-code-508a">dev.to</a> | 作者: mame | 2026-03</p>
+    
+    <div class="tldr">
+        <strong>TL;DR:</strong> Ruby、Python和JavaScript是最快、最便宜、最稳定的。静态类型语言比动态类型语言慢1.4-2.6倍，成本也更高。
+    </div>
+
+    <h2>实验方法</h2>
+    <p>让Claude Code (Opus 4.6)实现一个简化版Git (mini-git)，比较15种编程语言的表现：</p>
+    <ul>
+        <li><strong>v1阶段</strong>: 实现 init, add, commit, log</li>
+        <li><strong>v2阶段</strong>: 添加 status, diff, checkout, reset</li>
+        <li>每种语言运行20次，测量时间和成本</li>
+    </ul>
+
+    <h2>结果排名</h2>
+    <table>
+        <tr>
+            <th>排名</th>
+            <th>语言</th>
+            <th>测试通过</th>
+            <th>总时间</th>
+            <th>平均成本</th>
+            <th>代码行数</th>
+        </tr>
+        <tr class="top-3">
+            <td>🥇</td>
+            <td>Ruby</td>
+            <td>40/40</td>
+            <td>73.1s ± 4.2s</td>
+            <td>$0.36</td>
+            <td>219</td>
+        </tr>
+        <tr class="top-3">
+            <td>🥈</td>
+            <td>Python</td>
+            <td>40/40</td>
+            <td>74.6s ± 4.5s</td>
+            <td>$0.38</td>
+            <td>235</td>
+        </tr>
+        <tr class="top-3">
+            <td>🥉</td>
+            <td>JavaScript</td>
+            <td>40/40</td>
+            <td>81.1s ± 5.0s</td>
+            <td>$0.39</td>
+            <td>248</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Go</td>
+            <td>40/40</td>
+            <td>101.6s ± 37.0s</td>
+            <td>$0.50</td>
+            <td>324</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>Java</td>
+            <td>40/40</td>
+            <td>115.4s ± 34.4s</td>
+            <td>$0.50</td>
+            <td>303</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>Rust</td>
+            <td>38/40</td>
+            <td>113.7s ± 54.8s</td>
+            <td>$0.54</td>
+            <td>303</td>
+        </tr>
+        <tr>
+            <td>15</td>
+            <td>Ruby/Steep (类型检查)</td>
+            <td>40/40</td>
+            <td>186.6s ± 69.7s</td>
+            <td>$0.84</td>
+            <td>304</td>
+        </tr>
+    </table>
+
+    <h2>关键发现</h2>
+    <ul>
+        <li><span class="highlight">动态类型语言完胜</span>: Ruby、Python、JavaScript霸榜前三</li>
+        <li><span class="highlight">类型检查开销巨大</span>: Python/mypy比Python慢1.6-1.7倍，Ruby/Steep比Ruby慢2-3.2倍</li>
+        <li><span class="highlight">稳定性差异</span>: 动态语言方差小，静态语言(尤其是Go、Rust)方差大</li>
+        <li><span class="highlight">代码行数与速度无关</span>: OCaml/Haskell代码少但速度慢</li>
+        <li><span class="highlight">Rust的幻觉问题</span>: 2/40次失败，agent声称"测试是错的"</li>
+    </ul>
+
+    <h2>为什么动态语言更好?</h2>
+    <p>v1阶段(从零开始)差距最大：</p>
+    <ul>
+        <li>Python/Ruby只需要生成一个minigit.py/minigit.rb文件</li>
+        <li>静态语言需要额外的配置文件(Cargo.toml, package.json等)</li>
+        <li>类型注解消耗额外token</li>
+        <li>编译错误调试增加迭代次数</li>
+    </ul>
+
+    <h2>对AI编程的启示</h2>
+    <p>如果你追求<strong>速度</strong>和<strong>成本效率</strong>：</p>
+    <ul>
+        <li>✅ 选择 Ruby、Python、JavaScript</li>
+        <li>❌ 避免使用静态类型语言做快速原型</li>
+        <li>⚠️ 类型检查工具(Rust的borrow checker等)对AI是挑战</li>
+    </ul>
+    <p>实验数据: <a href="https://github.com/mame/ai-coding-lang-bench">GitHub仓库</a></p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

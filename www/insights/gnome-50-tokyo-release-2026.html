@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GNOME 50 &quot;Tokyo&quot; 发布 - Linux 桌面环境重大更新</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="container">
+        <h1>🖥️ GNOME 50 "Tokyo" 发布</h1>
+        
+        <div style="margin: 15px 0;">
+            <span class="tag">Linux</span>
+            <span class="tag">桌面环境</span>
+            <span class="tag">开源</span>
+            <span class="rating">⭐⭐⭐⭐ 4星</span>
+        </div>
+
+        <div class="highlight">
+            <strong>摘要:</strong> GNOME 桌面环境第 50 个版本发布，以日本东京命名，感谢 GNOME.Asia Summit 2025 的组织者
+        </div>
+
+        <h2>👨‍👩‍👧‍👦 家长控制重大升级</h2>
+        <div class="feature">
+            <ul>
+                <li><strong>屏幕时间限制</strong>: 为儿童账户设置每日使用时间上限</li>
+                <li><strong>就寝时间</strong>: 设置 bedtime，自动锁定屏幕</li>
+                <li><strong>延长使用时间</strong>: 家长可灵活延长限制</li>
+                <li><strong>网页过滤后端</strong>: 新增内容过滤基础设施（UI 将后续更新）</li>
+            </ul>
+            <p><em>感谢 Endless 基金会资助此功能开发</em></p>
+        </div>
+
+        <h2>♿ 无障碍增强</h2>
+        <div class="feature">
+            <ul>
+                <li><strong>Orca 屏幕阅读器</strong>: 全新的偏好设置窗口，自动语言切换</li>
+                <li><strong>浏览模式</strong>: 扩展到所有文档内容</li>
+                <li><strong>鼠标审查</strong>: 支持 Wayland 会话</li>
+                <li><strong>减少动画</strong>: 新增减少界面动画选项，减少不适和干扰</li>
+            </ul>
+        </div>
+
+        <h2>📝 文档标注功能</h2>
+        <div class="feature">
+            <ul>
+                <li><strong>文本注释</strong>: 轻松添加文字注释</li>
+                <li><strong>线条和高亮</strong>: 支持绘图和标注</li>
+                <li><strong>颜色选择</strong>: 多种颜色和线条粗细可选</li>
+                <li><strong>橡皮擦</strong>: 修正错误</li>
+            </ul>
+        </div>
+
+        <h2>📁 文件管理器改进</h2>
+        <div class="feature">
+            <ul>
+                <li><strong>更快缩略图</strong>: 缩略图和图标加载更快</li>
+                <li><strong>内存优化</strong>: 整体内存占用降低</li>
+                <li><strong>批量重命名</strong>: 更直观的界面，文本替换视觉高亮</li>
+                <li><strong>文件属性</strong>: 改为弹出式浮动窗口</li>
+                <li><strong>搜索筛选</strong>: 支持多条件筛选</li>
+            </ul>
+        </div>
+
+        <h2>🖥️ 远程桌面</h2>
+        <div class="feature">
+            <ul>
+                <li><strong>硬件加速</strong>: Vulkan 和 VA-API 视频解码，显著降低延迟和功耗</li>
+                <li><strong>HiDPI 支持</strong>: 自动缩放匹配本地屏幕分辨率</li>
+                <li><strong>摄像头重定向</strong>: 远程会话中使用本地摄像头</li>
+                <li><strong>Kerberos 认证</strong>: 企业级安全支持</li>
+            </ul>
+        </div>
+
+        <h2>🖼️ 显示技术</h2>
+        <div class="feature">
+            <ul>
+                <li><strong>VRR 可变刷新率</strong>: 消除撕裂，如丝般顺滑</li>
+                <li><strong>分数缩放</strong>: 支持 125%、150% 等缩放级别</li>
+                <li><strong>低延迟光标</strong>: VRR 模式下光标独立于应用帧率</li>
+            </ul>
+        </div>
+
+        <h2>📅 其他改进</h2>
+        <ul>
+            <li><strong>日历</strong>: 参与者列表、ICS 导出、改进的月视图</li>
+            <li><strong>设置</strong>: 首周日期设置、音量控制改进</li>
+        </ul>
+
+        <div class="footer">
+            <p>📅 发布日期: 2026-03-18</p>
+            <p>🔗 来源: <a href="https://release.gnome.org/50/" target="_blank">GNOME 官方发布说明</a></p>
+        </div>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

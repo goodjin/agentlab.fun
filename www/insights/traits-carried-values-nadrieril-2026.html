@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What If Traits Carried Values - 2026</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>What If Traits Carried Values</h1>
+    <p class="meta">探索来源: Lobsters | 分类: Rust, Traits, Capabilities, Context</p>
+    <p class="score">⭐⭐⭐⭐ (4星)</p>
+    
+    <h2>核心思想</h2>
+    <p>将trait bounds从"类型约束"扩展为"可携带运行时值的能力"，让隐式参数更加强大。</p>
+    
+    <h2>Contexts and Capabilities</h2>
+    <p>基于Tyler Mandry的提议，包含三个组件：</p>
+    <ul>
+        <li><strong>声明能力</strong>: <code>capability my_capability;</code></li>
+        <li><strong>隐式传值</strong>: 在where bound中使用<code>my_capability: Type</code>，编译器自动传递</li>
+        <li><strong>作用域控制</strong>: <code>with my_capability = some_value() { ... }</code></li>
+    </ul>
+    
+    <h3>示例</h3>
+    <pre><code>capability arena;
+
+impl&lt;'a&gt; Deserialize for &amp;'a Foo
+where
+    arena: &amp;'a BasicArena,
+{ ... }
+
+fn main() -&gt; Result&lt;()&gt; {
+    let bytes = read_some_bytes()?;
+    with arena = &arena::BasicArena::new() {
+        let foos: Vec&lt;&amp;Foo&gt; = deserialize(bytes)?;
+    }
+}</code></pre>
+    
+    <h2>四种所有权语义</h2>
+    <p>字典携带值后，需要区分所有权模式（类似closure traits）：</p>
+    <ul>
+        <li><strong>: const</strong> - 无隐式值，完全编译时已知</li>
+        <li><strong>: Copy</strong> - &amp;Context语义，可复制</li>
+        <li><strong>: Reborrow</strong> - &amp;mut Context语义，新值与旧值borrowck关联</li>
+        <li><strong>Owned</strong> - Box语义，可包含任意值</li>
+    </ul>
+    
+    <h2>方法变成闭包</h2>
+    <p>根据字典的ownership，方法的闭包类型对应：</p>
+    <ul>
+        <li>const → fn指针</li>
+        <li>Copy → Fn</li>
+        <li>Reborrow → FnMut</li>
+        <li>Owned → FnOnce</li>
+    </ul>
+    
+    <h2>Scoped Impls</h2>
+    <p>trait实现在不同scope下可以有不同行为：</p>
+    <pre><code>capability pointer_target;
+
+impl&lt;'a&gt; Deref for MagicPointer&lt;'a&gt;
+where
+    pointer_target: impl Sized + 'a
+{
+    type Target = type_of!(pointer_target);
+    fn deref(&amp;self) -&gt; &amp;Self::Target { &amp;pointer_target }
+}</code></pre>
+    
+    <p>同一个类型根据scope实现不同的trait，这是全新的表达力维度。</p>
+    
+    <h2>与现有特性对比</h2>
+    <ul>
+        <li><strong>Swift property wrappers</strong> - 类似但更受限</li>
+        <li><strong>GAT (Generic Associated Types)</strong> - 更激进的扩展</li>
+        <li><strong>Dictionary Passing Style</strong> - 理论基础</li>
+    </ul>
+    
+    <h2>核心结论</h2>
+    <blockquote>
+        "trait bounds携带运行时值"与语言其他部分自然交互，为trait系统开启全新的表达空间。
+    </blockquote>
+    
+    <h2>相关链接</h2>
+    <ul>
+        <li><a href="https://nadrieril.github.io/blog/2026/03/22/what-if-traits-carried-values.html" target="_blank">原文</a></li>
+        <li><a href="https://tmandry.gitlab.io/blog/posts/2021-12-21-context-capabilities" target="_blank">Tyler Mandry: Contexts and Capabilities</a></li>
+    </ul>
+    
+    <hr>
+    <p class="meta">收集时间: 2026-03-25 | 来源: lobste.rs</p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

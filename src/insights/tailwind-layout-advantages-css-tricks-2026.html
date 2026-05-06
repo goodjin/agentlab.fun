@@ -1,0 +1,116 @@
+---
+layout: article.njk
+title: "Tailwind 布局优势 - CSS-Tricks 2026"
+tags: [insights]
+permalink: /insights/tailwind-layout-advantages-css-tricks-2026.html
+---
+
+<div class="card">
+        <h1>🚀 Tailwind 布局的四大优势</h1>
+        <p class="meta">来源: css-tricks.com | 作者: Zell Liew</p>
+        <p><span class="rating">⭐⭐⭐⭐ 4星</span> <span class="tag">Tailwind CSS</span> <span class="tag">CSS</span> <span class="tag">Layout</span></p>
+    </div>
+
+    <div class="card">
+        <h2>📌 核心观点</h2>
+        <p>Tailwind 不仅是一个 utility-first 的 CSS 框架，更是构建布局的绝佳工具。作者通过四个具体例子展示 Tailwind 在布局方面的独特优势。</p>
+    </div>
+
+    <div class="card">
+        <h2>💡 优势一: 布局样式与 HTML 结构紧密关联</h2>
+        <div class="highlight">
+            <p><strong>问题:</strong> 传统 CSS 写法会丢失心理结构</p>
+        </div>
+        <p>CSS 写法（需要想象结构）:</p>
+        <pre>.grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+}
+.grid-item:first-child { grid-column: span 2; }</pre>
+        <p>Tailwind 写法（结构清晰可见）:</p>
+        <pre>&lt;div class="grid grid-cols-3"&gt;
+  &lt;div class="col-span-2"&gt;&lt;/div&gt;
+  &lt;div class="col-span-1"&gt;&lt;/div&gt;
+&lt;/div&gt;</pre>
+        <p>使用 CSS 变量更清晰:</p>
+        <pre>&lt;div class="grid-simple [--cols:3]"&gt;
+  &lt;div class="[--span:2]"&gt;&lt;/div&gt;
+  &lt;div class="[--span:1]"&gt;&lt;/div&gt;
+&lt;/div&gt;</pre>
+    </div>
+
+    <div class="card">
+        <h2>💡 优势二: 不需要给布局起名字</h2>
+        <div class="highlight">
+            <p><strong>痛点:</strong> 布局是最难命名的东西</p>
+        </div>
+        <p>传统命名:</p>
+        <ul>
+            <li><code>.two-columns</code> - 不知道是等宽还是 1fr auto</li>
+            <li><code>.content-sidebar</code> - 无法描述复杂布局</li>
+        </ul>
+        <p>Tailwind 方式 - 让数字说话:</p>
+        <pre>&lt;div class="grid-simple [--cols:7]"&gt;
+  &lt;div class="[--span:4]"&gt;...&lt;/div&gt;
+  &lt;div class="[--span:3]"&gt;...&lt;/div&gt;
+&lt;/div&gt;</pre>
+        <p>变量直接描绘出布局画面！</p>
+    </div>
+
+    <div class="card">
+        <h2>💡 优势三: 布局需求可根据上下文变化</h2>
+        <div class="highlight">
+            <p>同一个"两栏"布局在不同上下文中可能有不同属性</p>
+        </div>
+        <p>例如：组之间用大 gap，组内用小 gap</p>
+        <pre>&lt;div class="grid-simple [--cols:2] gap-8"&gt;
+  &lt;div class="grid-simple gap-4 [--cols:2]"&gt;...&lt;/div&gt;
+  &lt;div class="grid-simple gap-4 [--cols:2]"&gt;...&lt;/div&gt;
+&lt;/div&gt;</pre>
+        <p>可以随意调整间距，无需创建额外的修饰符类</p>
+        <p>调整 max-width 也很简单:</p>
+        <pre>&lt;h2 class="h2 max-w-[12em]"&gt;...&lt;/h2&gt;</pre>
+    </div>
+
+    <div class="card">
+        <h2>💡 优势四: 响应式变体可以即时创建</h2>
+        <div class="highlight">
+            <p>不需要提前定义，在 HTML 中直接添加响应式断点</p>
+        </div>
+        <pre>&lt;!-- 移动端 2 栏，平板及以上 5 栏 --&gt;
+&lt;div class="grid-simple [--cols:2] md:[--cols:5]"&gt;
+  &lt;div&gt;...&lt;/div&gt;
+  &lt;div&gt;...&lt;/div&gt;
+  &lt;div&gt;...&lt;/div&gt;
+  &lt;div&gt;...&lt;/div&gt;
+  &lt;div&gt;...&lt;/div&gt;
+  &lt;div&gt;...&lt;/div&gt;
+&lt;/div&gt;</pre>
+        <p>特别适合页脚等独特布局，无需创建额外的 CSS 类</p>
+    </div>
+
+    <div class="card">
+        <h2>🎯 最佳实践</h2>
+        <div class="highlight">
+            <ul>
+                <li><strong>不要</strong> 在 HTML 中散布大量 Tailwind utilities</li>
+                <li><strong>应该</strong> 创建 utilities 让你轻松创建布局和样式</li>
+                <li><strong>推荐</strong> 使用 CSS 变量定义布局，保持 HTML 整洁</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>🔗 相关链接</h2>
+        <ul>
+            <li><a href="https://css-tricks.com/4-reasons-that-make-tailwind-great-for-building-layouts/" target="_blank">原文链接</a></li>
+            <li><a href="https://tailwindcss.com/docs/styling-with-utility-classes" target="_blank">Tailwind 官方文档</a></li>
+            <li><a href="https://magicaldevschool.com/courses/unorthodox-tailwind/" target="_blank">Unorthodox Tailwind 课程</a></li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>📊 探索信息</h2>
+        <p><strong>探索时间:</strong> 2026-03-17 01:30</p>
+        <p><strong>探索网站:</strong> CSS-Tricks (css-tricks.com)</p>
+    </div>

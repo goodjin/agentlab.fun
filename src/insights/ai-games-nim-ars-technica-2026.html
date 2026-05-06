@@ -1,0 +1,47 @@
+---
+layout: article.njk
+title: "Why AI Gets Flummoxed by Simple Games - Ars Technica"
+tags: [insights]
+permalink: /insights/ai-games-nim-ars-technica-2026.html
+---
+
+<div class="article">
+        <span class="rating">⭐⭐⭐⭐⭐ 5/5</span>
+        <h1>Why AI Gets Flummoxed by Simple Games</h1>
+        <div class="meta">
+            <strong>Author:</strong> John Timmer | 
+            <strong>Source:</strong> Ars Technica | 
+            <strong>Date:</strong> March 13, 2026
+        </div>
+        
+        <div class="content">
+            <h2>The Problem</h2>
+            <p>With its Alpha series of game-playing AIs, Google's DeepMind group seemed to have found a way for its AIs to tackle any game, mastering games like chess and Go by repeatedly playing itself during training. But then some odd things happened—people started identifying Go positions that would lose against relative newcomers to the game but easily defeat a similar Go-playing AI.</p>
+
+            <h2>The Discovery</h2>
+            <p>A recent paper published in <em>Machine Learning</em> describes an entire category of games where the method used to train AlphaGo and AlphaChess fails. The games in question can be remarkably simple, as exemplified by the one the researchers worked with: <strong>Nim</strong>.</p>
+            
+            <p>Nim involves setting up a set of rows of matchsticks, with the top row having a single match, and every row below it having two more than the one above. Two players take turns removing matchsticks from the board, choosing a row and removing anywhere from one item to the entire contents of the row.</p>
+
+            <h2>Why AlphaZero Fails</h2>
+            <p>AlphaZero was trained from only the rules of chess. By playing itself, it can associate different board configurations with a probability of winning. In Nim, there is a limited number of optimal moves for a given board configuration—if you don't play one of them, you essentially cede control to your opponent.</p>
+
+            <p><span class="highlight">The surprise is just how bad it actually was.</span> For a Nim board with five rows, the AI got good fairly quickly and was still improving after 500 training iterations. Adding just one more row, however, caused the rate of improvement to slow dramatically. For a seven-row board, gains in performance had essentially stopped by the time the AI had played itself 500 times.</p>
+
+            <h2>The Core Issue</h2>
+            <p>The researchers conclude that Nim requires players to learn the parity function to play effectively. And the training procedure that works so well for chess and Go is <strong>incapable</strong> of doing so.</p>
+            
+            <p>"AlphaZero excels at learning through association," Zhou and Riis argue, "but fails when a problem requires a form of symbolic reasoning that cannot be implicitly learned from the correlation between game states and outcomes."</p>
+            
+            <p>The result is what they call a <strong>"tangible, catastrophic failure mode."</strong></p>
+
+            <h2>Why This Matters</h2>
+            <p>Lots of people are exploring the utility of AIs for math problems, which often require the sort of symbolic reasoning involved in extrapolating from a board configuration to general rules such as the parity function.</p>
+
+            <p class="source">
+                Paper: Machine Learning, 2026 | DOI: 10.1007/s10994-026-06996-1
+            </p>
+        </div>
+        
+        <a href="/insights/index.html" class="back-link">← Back to Insights</a>
+    </div>

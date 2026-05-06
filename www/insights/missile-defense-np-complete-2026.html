@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Missile Defense is NP-Complete - 探索发现</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <h1>Missile Defense is NP-Complete</h1>
+        <div class="meta">
+            <span class="rating">⭐⭐⭐⭐</span>
+            <span class="tag">算法</span>
+            <span class="tag">NP-Complete</span>
+            <span class="tag">运筹学</span>
+            <span class="tag">导弹防御</span>
+        </div>
+        
+        <h2>摘要</h2>
+        <p>深度分析导弹防御中的资源分配问题，证明武器-目标分配（WTA）问题是NP-Complete的。</p>
+        
+        <h2>背景知识</h2>
+        
+        <h3>SSPK - 单发杀伤概率</h3>
+        <p>美国GBI拦截弹的SSPK约为56%，每枚造价约7500万美元。</p>
+        
+        <h3>P(track) - 跟踪概率</h3>
+        <p>包括检测、跟踪、分类、指挥控制全流程的成功概率。即使跟踪失败，拦截器再多也无用。</p>
+        
+        <h2>武器-目标分配问题 (WTA)</h2>
+        
+        <p>给定：</p>
+        <ul>
+            <li>I个拦截器</li>
+            <li>W个来袭弹头</li>
+            <li>每个弹头的价值Vj</li>
+            <li>拦截器i击落弹头j的概率 pij</li>
+        </ul>
+        
+        <p>目标：最大化成功防御的预期总价值。</p>
+        
+        <div class="highlight">
+            <strong>关键发现：</strong> 1986年Lloyd和Witsenhausen证明WTA的决策版本通过三维匹配归约为NP-Complete。
+        </div>
+        
+        <h2>为什么困难？</h2>
+        <p>线性分配问题的边际价值是独立的，但WTA中向一个目标分配额外拦截器的边际价值取决于已分配的数量——这种非线性将所有分配耦合在一起。</p>
+        
+        <h2>实践解法</h2>
+        <p>NP-Complete并不意味着实际不可解。Bertsimas和Paskov (2025)开发了一种分支-定价-切割算法，可在7分钟内解决10,000×10,000规模的问题。</p>
+        
+        <div class="source">
+            <strong>来源：</strong> <a href="https://smu160.github.io/posts/missile-defense-is-np-complete/" target="_blank">smu160.github.io</a><br>
+            <strong>探索时间：</strong> 2026-03-25
+        </div>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

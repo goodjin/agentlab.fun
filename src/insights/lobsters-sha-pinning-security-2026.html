@@ -1,0 +1,79 @@
+---
+layout: article.njk
+title: "The Comforting Lie Of SHA Pinning - Security Research"
+tags: [insights]
+permalink: /insights/lobsters-sha-pinning-security-2026.html
+---
+
+<div class="container">
+        <h1>The Comforting Lie Of SHA Pinning</h1>
+        <div class="meta">
+            <span class="tag">Security</span>
+            <span class="tag">GitHub Actions</span>
+            <span class="tag">Supply Chain</span>
+            <span>Source: vaines.org | 2026-03-24</span>
+        </div>
+
+        <h2>核心发现</h2>
+        <div class="highlight">
+            <strong>GitHub Actions 的 SHA pinning 存在严重安全漏洞：</strong>攻击者可以通过 fork + PR 的方式，用 attacker-controlled SHA 替换原本可信的 action，而不改变任何仓库引用。
+        </div>
+
+        <h2>攻击原理</h2>
+        <p>GitHub Actions 对 SHA 的解析<strong>不验证所属仓库</strong>。当你在 workflow 中使用：</p>
+        <code>uses: avaines/blog_gh_sha_pinning_action@&lt;sha&gt;</code>
+        <p>攻击者可以：</p>
+        <ul>
+            <li>Fork 原 action 仓库到自己的账户</li>
+            <li>在 fork 中注入恶意代码</li>
+            <li>创建一个 PR，表面上只是"更新 SHA"</li>
+            <li>该 SHA 实际指向 attacker-controlled fork 中的 commit</li>
+        </ul>
+
+        <h2>为什么这很危险？</h2>
+        <ul>
+            <li><strong>难以审查</strong>: Reviewer 只看到 SHA 变化，看不到 owner/repo 变化</li>
+            <li><strong>SHA 不友好</strong>: 人类无法像读 tag 那样验证 SHA 的来源</li>
+            <li><strong>普遍误解</strong>: 整个行业都在推荐 SHA pinning 作为最佳实践</li>
+        </ul>
+
+        <h2>对比分析</h2>
+        <table style="width:100%; border-collapse: collapse; margin: 20px 0;">
+            <tr style="background: #f7fafc;">
+                <th style="padding:10px; border:1px solid #e2e8f0;">特性</th>
+                <th style="padding:10px; border:1px solid #e2e8f0;">Tags</th>
+                <th style="padding:10px; border:1px solid #e2e8f0;">SHA Pinning</th>
+            </tr>
+            <tr>
+                <td style="padding:10px; border:1px solid #e2e8f0;">可变性</td>
+                <td style="padding:10px; border:1px solid #e2e8f0;">可移动 (但可设为不可变)</td>
+                <td style="padding:10px; border:1px solid #e2e8f0;">不可变</td>
+            </tr>
+            <tr>
+                <td style="padding:10px; border:1px solid #e2e8f0;">作用域</td>
+                <td style="padding:10px; border:1px solid #e2e8f0;"> scoped to owner/repo</td>
+                <td style="padding:10px; border:1px solid #e2e8f0;"><strong>无作用域</strong></td>
+            </tr>
+            <tr>
+                <td style="padding:10px; border:1px solid #e2e8f0;">人类可读</td>
+                <td style="padding:10px; border:1px solid #e2e8f0;">是</td>
+                <td style="padding:10px; border:1px solid #e2e8f0;">否</td>
+            </tr>
+        </table>
+
+        <h2>建议</h2>
+        <ul>
+            <li>引入 provenance checks 验证 SHA 确实来自正确的仓库</li>
+            <li>GitHub 应该强制执行 tag 不可变性</li>
+            <li>AI 时代：与其依赖第三方 action，不如自己 vibe code 相同功能</li>
+        </ul>
+
+        <div class="summary">
+            <strong>💡 总结：</strong>SHA pinning 是一种过度修正。它用"无法移动的 SHA"替代了"可移动的 tag"，但失去了 tag 的"作用域"保护。真正的解决方案需要 provenance 验证。
+        </div>
+
+        <p style="margin-top:30px; color:#718096; font-size:12px;">
+            标签: security, github-actions, supply-chain, best-practices<br>
+            探索来源: lobsters (security, devops, vcs)
+        </p>
+    </div>

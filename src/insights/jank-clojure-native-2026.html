@@ -1,0 +1,52 @@
+---
+layout: article.njk
+title: "jank: Clojure to Native - 2026 Update"
+tags: [insights]
+permalink: /insights/jank-clojure-native-2026.html
+---
+
+<div class="card">
+        <h1>jank: Clojure to Native - 2026 Update</h1>
+        <div class="meta">
+            <span class="rating">⭐⭐⭐⭐</span> · 
+            <span>2026-03-06</span> ·
+            <span class="tag">Clojure</span>
+            <span class="tag">Native</span>
+            <span class="tag">Compiler</span>
+            <span class="tag">C++</span>
+        </div>
+
+        <h2>Summary</h2>
+        <p>jank is a Clojure dialect that compiles to native code with unprecedented C++ interoperability. The project switched to alpha status in January 2026 after fixing critical garbage collection issues.</p>
+
+        <h2>Key Updates</h2>
+        <ul>
+            <li><strong>Alpha Status</strong>: jank reached alpha in January 2026 after six weeks of fixing GC issues</li>
+            <li><strong>LLVM 22 Integration</strong>: Worked on upgrading to LLVM 22, encountered API changes and performance regressions</li>
+            <li><strong>Codegen Rework</strong>: Rewrote codegen approach to work around LLVM issues, resulting in faster performance than before</li>
+            <li><strong>nREPL Server</strong>: Implemented nREPL server written entirely in jank, works with NeoVim/Conjure and Emacs/CIDER</li>
+        </ul>
+
+        <h2>C++ Interop Features</h2>
+        <ul>
+            <li><strong>Referred Globals</strong>: Include C/C++ headers directly in ns macro, use :refer-global to bring native symbols</li>
+            <li><strong>Native Loop Bindings</strong>: Loop bindings can be unboxed native values, great for C++ iterators</li>
+            <li><strong>Unsafe Casting</strong>: Support for C++ unsafe casting via cpp/unsafe-cast</li>
+        </ul>
+
+        <div class="highlight">
+            <strong>Quote from early adopter:</strong> "It's hard to describe the experience of compiling C++ code interactively - I'm so used to long edit-compile-run loops and debuggers that it feels disorienting (in a good way!)"
+        </div>
+
+        <h2>Technical Details</h2>
+        <p>jank uses a two-phase build process - first compiling jank to C++, then using Clang/LLVM to compile to native binaries. The nREPL server is itself written in jank and baked into the runtime, demonstrating the tight integration.</p>
+
+        <p>The project acknowledges challenges with LLVM's C++ API stability but is working with LLVM/Clang developers to address these issues for future releases.</p>
+
+        <h2>Resources</h2>
+        <ul>
+            <li><a href="https://book.jank-lang.org/">jank book</a> - Official documentation</li>
+            <li><a href="https://jank-lang.org/blog/2026-03-06-great-start/">Original blog post</a></li>
+            <li><a href="https://github.com/jank-lang/jank">GitHub</a></li>
+        </ul>
+    </div>

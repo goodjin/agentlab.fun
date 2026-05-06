@@ -1,0 +1,92 @@
+---
+layout: article.njk
+title: "The acyclic e-graph: Cranelift's mid-end optimizer - cfallin.org"
+tags: [insights]
+permalink: /insights/cranelift-aegraph-optimizer-cfallin-2026.html
+---
+
+<h1>无环 e-graph：Cranelift 的中端优化器</h1>
+    <div class="meta">
+        <span>来源: cfallin.org</span> | 
+        <span>Lobsters: 2 points</span> | 
+        <span class="rating">★★★★☆</span>
+    </div>
+    
+    <div class="source">
+        <strong>原文链接:</strong> <a href="https://cfallin.org/blog/2026/04/09/aegraph/" target="_blank">The acyclic e-graph: Cranelift's mid-end optimizer</a>
+    </div>
+
+    <h2>背景：Pass-Ordering 问题</h2>
+    
+    <p>2022年5月，作者在Cranelift中引入了简单的别名分析和相关优化（消除冗余加载、执行store-to-load转发）。这些优化工作正常，但引出了一个新问题：如何将这个Pass与其他优化Pass集成？</p>
+
+    <h3>问题所在</h3>
+    
+    <p>考虑GVN（全局值编号）和冗余加载消除之间的交互：</p>
+    
+    <blockquote>
+        完美世界中，应该能够看到v10可以被消除，v10可以变成v2的别名。然后，v11通过GVN的规范化变成v3的等价物，随后v12变成v4的等价物。但这最后两步意味着两个不同优化Pass之间的紧密合作...
+    </blockquote>
+    
+    <p>这就是编译器研究中的<strong>Pass-Ordering问题</strong>——只要Pass保持独立、粗粒度的算法，就没有简单的解决方案。</p>
+
+    <h2>三个构建块</h2>
+    
+    <div class="key-insights">
+        <ul>
+            <li><strong>重写 (Rewrites)</strong>：任何用另一个等效表达式替换一个表达式的优化</li>
+            <li><strong>代码移动 (Code Motion)</strong>：移动计算发生的位置，但不改变它</li>
+            <li><strong>规范化 (Canonicalization)</strong>：将多个相同计算合并为一个"规范"实例</li>
+        </ul>
+    </div>
+
+    <h3>优化类型映射</h3>
+    
+    <ul>
+        <li><strong>GVN</strong> → 规范化操作</li>
+        <li><strong>LICM</strong> → 代码移动操作</li>
+        <li><strong>常量传播和代数重写</strong> → 重写</li>
+        <li><strong>冗余加载消除</strong> → 重写（用已知的SSA值替换加载操作）</li>
+        <li><strong>重物化 (Rematerialization)</strong> → 代码移动的一种形式</li>
+    </ul>
+
+    <h2>Sea-of-Nodes IR</h2>
+    
+    <p>作者提出：如果我们能消除计算"位置"的限制，会怎样？</p>
+    
+    <h3>核心思想</h3>
+    
+    <blockquote>
+        "在纯形式中，可以将每个IR转换表示为图重写，因为图就是一切。"
+    </blockquote>
+    
+    <p>这就是<a href="https://en.wikipedia.org/wiki/Sea_of_nodes">Sea-of-nodes IR</a>——一种消除指令"顺序"的表示方法，转而构建一个由操作符（节点）和边组成的图。</p>
+
+    <h3>aegraph 的设计</h3>
+    
+    <p>aegraph（无环e-graph）是Cranelift中端优化器的核心数据结构。它是e-graph的一种变体，专门设计用于：</p>
+    
+    <ul>
+        <li>避免全量e-graph的实用性陷阱</li>
+        <li>在生产环境中实现足够高效</li>
+        <li>支持"单一定点循环"进行细粒度优化</li>
+    </ul>
+
+    <h2>总结</h2>
+    
+    <p>这篇文章详细介绍了Cranelift团队如何解决编译器优化中的Pass-Ordering问题。通过引入aegraph数据结构，他们实现了：</p>
+    
+    <ul>
+        <li>细粒度的优化迭代（而非粗粒度的Pass循环）</li>
+        <li>统一框架下的多种优化（重写、代码移动、规范化）</li>
+        <li>生产级性能</li>
+    </ul>
+
+    <div class="tags">
+        <span class="tag">Compiler</span>
+        <span class="tag">Cranelift</span>
+        <span class="tag">e-graph</span>
+        <span class="tag">Optimizer</span>
+        <span class="tag">Rust</span>
+        <span class="tag">Wasmtime</span>
+    </div>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>macOS TCP 时间炸弹 - 49.7天周期Bug</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>macOS TCP 定时炸弹：49.7天后网络崩溃</h1>
+    <div class="meta">
+        <span class="tag">macOS</span>
+        <span class="tag">Networking</span>
+        <span class="tag">Bug</span>
+        <span>来源: Photon Codes | Lobste.rs 7 points</span>
+    </div>
+
+    <h2>问题描述</h2>
+    <p>Photon 团队发现 macOS TCP 栈中存在一个时间炸弹——运行约 49.7 天后，TCP 网络功能会完全停止工作。</p>
+
+    <div class="highlight">
+        <strong>根因：</strong> macOS 使用 <code>tv_sec</code> 变量存储时间戳，但在转换为 <code>unsigned int</code> 时发生整数溢出。每 2^32 秒（约 49.7 天）重置一次。
+    </div>
+
+    <h2>影响</h2>
+    <ul>
+        <li><strong>所有 macOS 版本：</strong> 影响包括 macOS 15 在内的所有版本</li>
+        <li><strong>所有 Intel 和 Apple Silicon Mac：</strong> 无一幸免</li>
+        <li><strong>症状：</strong> TCP 连接建立后无法传输数据</li>
+    </ul>
+
+    <h2>技术细节</h2>
+    <p>问题出在内核 TCP 层的某个部分，当系统运行时间超过 49.7 天（2^32 秒）后，定时器值溢出导致 TCP 功能失效。</p>
+
+    <blockquote>
+        这是一个经典的整数溢出问题，只是在操作系统层面较为罕见。
+    </blockquote>
+
+    <h2>发现过程</h2>
+    <p>Photon 团队在生产环境中遇到间歇性网络故障，通过深入调试发现了这个隐藏在内核中的时间炸弹。</p>
+
+    <h2>评价</h2>
+    <p>⭐⭐⭐⭐☆ (4/5) - 有趣的整数溢出案例，展示了看似简单的时间处理可能带来的严重后果</p>
+
+    <hr>
+    <p><a href="index.html">← 返回索引</a></p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

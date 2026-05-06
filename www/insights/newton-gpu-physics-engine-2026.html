@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newton: NVIDIA Warp GPU 物理模拟引擎</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="container">
+        <h1>⚙️ Newton: NVIDIA Warp GPU 物理模拟引擎</h1>
+        
+        <div style="margin: 15px 0;">
+            <span class="tag">物理模拟</span>
+            <span class="tag">GPU</span>
+            <span class="tag">机器人</span>
+            <span class="tag">NVIDIA</span>
+            <span class="rating">⭐⭐⭐⭐ 4星</span>
+        </div>
+
+        <div class="highlight">
+            <strong>摘要:</strong> 由 Disney Research、Google DeepMind、NVIDIA 联合开发的开源 GPU 加速物理模拟引擎，基于 NVIDIA Warp 构建
+        </div>
+
+        <h2>🏢 背景</h2>
+        <p>Newton 是由以下机构联合发起的 Linux Foundation 项目：</p>
+        <ul>
+            <li>Disney Research</li>
+            <li>Google DeepMind</li>
+            <li>NVIDIA</li>
+        </ul>
+
+        <h2>🚀 核心特性</h2>
+        <ul class="feature-list">
+            <li>基于 NVIDIA Warp 构建，扩展并通用化其 warp.sim 模块</li>
+            <li>集成 MuJoCo Warp 作为主要后端</li>
+            <li>支持 OpenUSD（通用场景描述）</li>
+            <li>完全可微分（Differentiable）</li>
+            <li>用户可扩展设计</li>
+            <li>支持 GPU 加速计算</li>
+        </ul>
+
+        <h2>🤖 支持的机器人</h2>
+        <div class="stats">
+            <div class="stat-box">
+                <div class="value">G1</div>
+                <div class="label">人形机器人</div>
+            </div>
+            <div class="stat-box">
+                <div class="value">H1</div>
+                <div class="label">全尺寸机器人</div>
+            </div>
+            <div class="stat-box">
+                <div class="value">Anymal</div>
+                <div class="label">四足机器人</div>
+            </div>
+        </div>
+
+        <p>此外还支持：UR10、Panda、Allegro Hand 等多种机器人</p>
+
+        <h2>🧪 支持的物理模拟</h2>
+        <ul>
+            <li><strong>刚体模拟</strong> - 基础物理模拟</li>
+            <li><strong>电缆模拟</strong> - 柔性电缆动力学</li>
+            <li><strong>布料模拟</strong> - 织物和柔性物体</li>
+            <li><strong>逆运动学 (IK)</strong> - 机器人关节控制</li>
+            <li><strong>夹持器</strong> - 机器人抓取</li>
+        </ul>
+
+        <h2>💻 安装</h2>
+        <pre><code># 安装（带示例）
+pip install "newton[examples]"
+
+# 运行示例
+python -m newton.examples basic_pendulum
+python -m newton.examples robot_g1</code></pre>
+
+        <h2>📋 系统要求</h2>
+        <ul>
+            <li>Python 3.10+</li>
+            <li>操作系统: Linux (x86-64, aarch64), Windows (x86-64), macOS (CPU only)</li>
+            <li>GPU: NVIDIA GPU (Maxwell 或更新), 驱动 545+ (CUDA 12)</li>
+            <li>macOS 仅支持 CPU</li>
+        </ul>
+
+        <div class="footer">
+            <p>来源: <a href="https://github.com/newton-physics/newton" target="_blank">GitHub - newton-physics/newton</a></p>
+            <p>许可证: Apache-2.0</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

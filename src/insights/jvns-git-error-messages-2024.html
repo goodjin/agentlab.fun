@@ -1,0 +1,77 @@
+---
+layout: article.njk
+title: "Julia Evans: Git 错误消息笔记 - 2024"
+tags: [insights]
+permalink: /insights/jvns-git-error-messages-2024.html
+---
+
+<h1>Notes on git's error messages</h1>
+    <p class="meta">来源: <a href="https://jvns.ca/blog/2024/04/10/notes-on-git-error-messages/" target="_blank">Julia Evans Blog</a> | 发布日期: 2024-04-10</p>
+    
+    <h2>概述</h2>
+    <p>Julia Evans 分析了 Git 常见错误消息为什么让人困惑，以及她面对这些错误时的处理策略。</p>
+    
+    <h2>核心要点</h2>
+    
+    <h3>改进错误消息的难点</h3>
+    <ul>
+        <li>很难判断一个新消息是否真的更好</li>
+        <li>这类工作通常没有资金支持</li>
+        <li>错误消息需要被翻译成 19 种语言</li>
+    </ul>
+    
+    <h3>常见困惑的错误消息</h3>
+    
+    <table>
+        <tr>
+            <th>错误类型</th>
+            <th>问题</th>
+            <th>解决策略</th>
+        </tr>
+        <tr>
+            <td>git push 拒绝 (non-fast-forward)</th>
+            <td>无法区分"behind"和"diverged"两种情况</td>
+            <td>运行 <code>git status</code> 查看状态</td>
+        </tr>
+        <tr>
+            <td>git pull 时的分支选项</td>
+            <td>选项太多，难以选择</td>
+            <td>通常用 <code>git pull --rebase</code></td>
+        </tr>
+        <tr>
+            <td>git checkout 不存在的分支</td>
+            <td>说的是"path"而你想要的是"branch"</td>
+            <td>理解为"branch 不存在"</td>
+        </tr>
+        <tr>
+            <td>git switch 无效引用</th>
+            <td>说"invalid reference"而非"invalid branch"</td>
+            <td>把"reference"理解为"branch"</td>
+        </tr>
+        <tr>
+            <td>detached HEAD</th>
+            <td>很多人对此感到困惑</td>
+            <td>依赖 shell prompt 提示</td>
+        </tr>
+        <tr>
+            <td>rebase 过程中的文件冲突</th>
+            <td>不知道 HEAD 指的是哪个分支</td>
+            <td>记住: rebase 时 HEAD 是"你的分支"</td>
+        </tr>
+        <tr>
+            <td>merge 冲突中的 "deleted by them"</td>
+            <td>"them" 取决于是 merge 还是 rebase</td>
+            <td>尝试记住做了什么操作</td>
+        </tr>
+    </table>
+    
+    <h3>实用技巧</h3>
+    <ul>
+        <li><strong>git status</strong>: 几乎总是第一步</li>
+        <li><strong>git log origin/main</strong>: 查看分叉的 commits</li>
+        <li><strong>shell prompt</strong>: 显示当前分支和 rebase 状态很有帮助</li>
+        <li><strong>git clean -i</strong>: 交互式清理未跟踪文件</li>
+    </ul>
+    
+    <hr>
+    <p><a href="/insights/index.html">← 返回索引</a></p>

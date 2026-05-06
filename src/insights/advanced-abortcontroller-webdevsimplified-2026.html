@@ -1,0 +1,90 @@
+---
+layout: article.njk
+title: "Advanced AbortController Features - Web Dev Simplified"
+tags: [insights]
+permalink: /insights/advanced-abortcontroller-webdevsimplified-2026.html
+---
+
+<h1>These Advanced AbortController Features Are Amazing</h1>
+    <div class="meta">
+        <span>来源: blog.webdevsimplified.com</span>
+        <span>•</span>
+        <span>2025年6月23日</span>
+        <span>•</span>
+        <span class="rating">⭐⭐⭐⭐⭐ (5星)</span>
+        <div class="tags">
+            <span class="tag">JavaScript</span>
+            <span class="tag">AbortController</span>
+            <span class="tag">API</span>
+            <span class="tag">前端性能</span>
+        </div>
+    </div>
+
+    <h2>核心内容</h2>
+    <p>AbortController 不仅仅能取消 fetch 请求，它还有很多强大的功能几乎没人知道。本文深入探讨 AbortController 的高级特性。</p>
+
+    <h2>关键亮点</h2>
+
+    <h3>1. AbortController 基础</h3>
+    <pre><code>const controller = new AbortController()
+const signal = controller.signal
+
+fetch("/api/data", { signal })
+  .then(res => res.json())
+  .catch(err => {
+    if (err.name === "AbortError") {
+      console.log("Request was aborted")
+    }
+  })
+
+controller.abort()</code></pre>
+
+    <h3>2. 事件监听器清理</h3>
+    <p>AbortController 可以自动移除事件监听器，非常适合 React useEffect 清理：</p>
+    <pre><code>useEffect(() => {
+  const controller = new AbortController()
+  const signal = controller.signal
+
+  window.addEventListener("dragstart", () => {...}, { signal })
+  window.addEventListener("dragend", () => {...}, { signal })
+
+  return () => controller.abort() // 一次移除所有监听器
+}, [])</code></pre>
+
+    <h3>3. AbortSignal.timeout()</h3>
+    <p>自动超时信号，无需手动 setTimeout/clearTimeout：</p>
+    <pre><code>const signal = AbortSignal.timeout(5000) // 5秒后自动中止
+fetch("/api/slow-endpoint", { signal })</code></pre>
+
+    <h3>4. AbortSignal.any()</h3>
+    <p>组合多个信号，任一中止即中止：</p>
+    <pre><code>const signal = AbortSignal.any(
+  controller.signal,
+  AbortSignal.timeout(3000)
+)</code></pre>
+
+    <h3>5. 自定义可中止函数</h3>
+    <p>创建支持中止的自己的函数：</p>
+    <pre><code>function doSomething(signal) {
+  return new Promise((resolve, reject) => {
+    if (signal.aborted) {
+      reject(signal.reason)
+      return
+    }
+
+    signal.addEventListener("abort", () => {
+      clearTimeout(id)
+      reject(signal.reason)
+    })
+
+    const id = setTimeout(() => resolve("Done"), 5000)
+  })
+}</code></pre>
+
+    <h2>实用价值</h2>
+    <p>⭐⭐⭐⭐⭐ AbortController 是 JavaScript 中被低估的 API，这篇文章详细介绍了其高级功能，对于构建高质量的前端应用和库非常有帮助。特别推荐 React 开发者阅读，学习如何正确清理副作用。</p>
+
+    <hr style="border-color: var(--border); margin-top: 3rem;">
+    <p style="color: #8b949e; font-size: 0.9rem;">
+        探索时间: 2026-03-18 | 来源: Web Dev Simplified
+    </p>

@@ -1,0 +1,65 @@
+---
+layout: article.njk
+title: "Experimenting with Starlette 1.0 with Claude Skills - Simon Willison"
+tags: [insights]
+permalink: /insights/starlette-1-ai-skill-simonwillison-2026.html
+---
+
+<div class="container">
+        <h1>Experimenting with Starlette 1.0 with Claude Skills</h1>
+        <div class="meta">来源: Simon Willison's Weblog | 日期: 2026-03-22</div>
+        <div class="source">📰 <strong>来源:</strong> <a href="https://simonwillison.net/2026/Mar/22/starlette/" target="_blank">Simon Willison Blog</a></div>
+        
+        <h2>摘要</h2>
+        <p>作者展示如何使用Claude Skills快速学习Starlette 1.0框架，并利用AI编码能力构建完整的应用程序。演示了从框架文档到实际应用的完整流程。</p>
+        
+        <h2>核心亮点</h2>
+        <div class="highlight">
+            <div class="highlight-title">🚀 Starlette 1.0发布</div>
+            <p>Starlette 1.0正式发布，这是FastAPI的底层ASGI框架。由于FastAPI的流行，Starlette实际上是"使用最广泛但品牌认知度最低"的Python框架。新版本有破坏性变更，主要涉及启动和关闭机制的变化。</p>
+        </div>
+        
+        <div class="highlight">
+            <div class="highlight-title">🤖 Claude Skill自动化</div>
+            <p>利用Claude的skill-creator skill自动生成Starlette 1.0的技能文档。只需告诉Claude"克隆Starlette GitHub仓库，为这个版本构建一个技能markdown文档，包含每个特性的代码示例"，Claude就会自动完成。</p>
+        </div>
+        
+        <div class="highlight">
+            <div class="highlight-title">📱 实际应用演示</div>
+            <p>使用新生成的Skill，Claude构建了一个完整的任务管理应用，包括：</p>
+            <ul>
+                <li>项目(Projects)管理</li>
+                <li>任务(Tasks)管理</li>
+                <li>评论(Comments)功能</li>
+                <li>标签(Labels)系统</li>
+            </ul>
+            <p>使用Starlette 1.0 + SQLite(aiosqlite) + Jinja2模板</p>
+        </div>
+        
+        <div class="highlight">
+            <div class="highlight-title">✅ AI既能写又能测</div>
+            <p>Claude不仅编写了代码，还自动运行了测试：使用TestClient测试所有API端点，手动验证数据库初始化，测试创建任务和评论功能。这展示了现代AI编码代理的完整能力。</p>
+        </div>
+        
+        <div class="insight">
+            💡 <strong>核心洞察:</strong> "对于所有的Claude Code热议，很容易忽视Claude本身就是一个编码代理，现在完全可以同时编写和测试代码。"
+        </div>
+        
+        <h2>技术栈</h2>
+        <ul>
+            <li>Starlette 1.0 - ASGI框架</li>
+            <li>Claude AI - 编码代理</li>
+            <li>Claude Skills - 知识管理</li>
+            <li>SQLite (aiosqlite) - 数据库</li>
+            <li>Jinja2 - 模板引擎</li>
+        </ul>
+        
+        <div class="tags">
+            <span class="tag">Python</span>
+            <span class="tag">Starlette</span>
+            <span class="tag">FastAPI</span>
+            <span class="tag">AI编码</span>
+            <span class="tag">Claude</span>
+            <span class="rating">⭐⭐⭐⭐</span>
+        </div>
+    </div>

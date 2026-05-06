@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gea — Lightweight Reactive UI Framework</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="star-rating">⭐⭐⭐⭐ (4星)</div>
+    <h1>Gea — Lightweight Reactive UI Framework</h1>
+    <div class="meta">来源: geajs.com | 探索时间: 2026-03-23</div>
+    <div class="url">https://geajs.com/</div>
+    
+    <div class="summary">
+        <h3>摘要</h3>
+        <p>新型JavaScript UI框架，声称是最快的编译型UI框架。零概念设计，无需学习signals、hooks、依赖数组或编译器指令，直接使用普通JavaScript类和函数，编译器在构建时完成响应式转换。</p>
+    </div>
+    
+    <h2>核心亮点</h2>
+    <ul class="highlights">
+        <li><strong>零概念设计</strong>：无signals、hooks、dependency arrays或编译器指令，你已经知道全部API — 就是JavaScript类和函数</li>
+        <li><strong>编译时响应式</strong>：Vite插件在构建时分析JSX，判断哪些DOM节点依赖哪些状态，生成精确的补丁更新</li>
+        <li><strong>无虚拟DOM</strong>：更新直接作用于变化的元素，无需diffing和reconciliation，无开销，直接DOM突变，编译时生成</li>
+        <li><strong>基于Proxy的存储</strong>：状态存在于普通类中，由深度Proxy包装，直接修改属性即可，数组方法和嵌套对象都能正常工作</li>
+        <li><strong>完整工具包</strong>：内置客户端路由、35+可访问UI组件、移动端原语、VS Code扩展和项目脚手架</li>
+        <li><strong>极小体积</strong>：~13kb gzipped（含路由），~10kb不含路由，零运行时依赖</li>
+        <li><strong>AI就绪</strong>：内置代理技能，教Cursor、Codex和其他AI助手完整的Gea API</li>
+    </ul>
+    
+    <h2>Benchmark 性能</h2>
+    <div class="benchmark">
+        <div class="benchmark-item">
+            <div class="benchmark-label">vanillajs</div>
+            <div class="benchmark-value">1.02</div>
+        </div>
+        <div class="benchmark-item">
+            <div class="benchmark-label">Gea 1.0</div>
+            <div class="benchmark-value">1.03</div>
+        </div>
+        <div class="benchmark-item">
+            <div class="benchmark-label">Solid 1.9</div>
+            <div class="benchmark-value">1.12</div>
+        </div>
+        <div class="benchmark-item">
+            <div class="benchmark-label">Svelte 5</div>
+            <div class="benchmark-value">1.14</div>
+        </div>
+        <div class="benchmark-item">
+            <div class="benchmark-label">Vue 3.6</div>
+            <div class="benchmark-value">1.26</div>
+        </div>
+        <div class="benchmark-item">
+            <div class="benchmark-label">React 19.2</div>
+            <div class="benchmark-value">1.50</div>
+        </div>
+    </div>
+    <p style="color: var(--text-secondary); font-size: 0.9em;">越低越好（1.00 = 最快）。来自 js-framework-benchmark 加权几何平均</p>
+    
+    <h2>示例代码</h2>
+    <pre style="background: var(--code-bg); padding: 15px; border-radius: 8px; overflow-x: auto; font-size: 0.9em;"><code>// Store就是类
+class CounterStore extends Store {
+  count = 0
+  increment() { this.count++ }
+  decrement() { this.count-- }
+}
+export default new CounterStore()
+
+// Component就是类或函数
+import { Component } from '@geajs/core'
+import store from './store'
+
+export default class Counter extends Component {
+  template() {
+    return (
+      &lt;div class="counter"&gt;
+        &lt;span&gt;{store.count}&lt;/span&gt;
+        &lt;button click={store.increment}&gt;+&lt;/button&gt;
+        &lt;button click={store.decrement}&gt;-&lt;/button&gt;
+      &lt;/div&gt;
+    )
+  }
+}</code></pre>
+    
+    <div class="insight">
+        <div class="insight-label">核心洞察</div>
+        "JavaScript就够了 — 用普通类写，编译器完成响应式转换"
+    </div>
+    
+    <div class="tags">
+        <span class="tag">JavaScript</span>
+        <span class="tag">UI Framework</span>
+        <span class="tag">Reactive</span>
+        <span class="tag">Performance</span>
+        <span class="tag">Compiler</span>
+        <span class="tag">Vite</span>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

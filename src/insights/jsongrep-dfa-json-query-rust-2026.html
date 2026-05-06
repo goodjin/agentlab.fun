@@ -1,0 +1,59 @@
+---
+layout: article.njk
+title: "jsongrep: A Faster Alternative to Jq"
+tags: [insights]
+permalink: /insights/jsongrep-dfa-json-query-rust-2026.html
+---
+
+<a href="/insights/index.html" class="back">← Back to Insights</a>
+  <div class="card">
+    <h1>jsongrep: A Faster Alternative to Jq</h1>
+    <div class="rating">⭐⭐⭐⭐ (4/5)</div>
+    <div class="meta">Source: Hacker News • Author: Micah Kepe</div>
+    
+    <div class="section">
+      <div class="tag">Rust</div>
+      <div class="tag">JSON</div>
+      <div class="tag">Performance</div>
+      <div class="tag">Tools</div>
+      <div class="tag">DFA</div>
+    </div>
+
+    <div class="section">
+      <h2>核心创新</h2>
+      <p>jsongrep 将 JSON 查询编译为 DFA（确定性有限自动机），实现单次遍历树结构，O(1) 状态转换。这是与 jq/jmespath/jsonpath-rust 的根本区别——那些工具是解释型，而 jsongrep 是编译型。</p>
+    </div>
+
+    <div class="section">
+      <h2>技术亮点</h2>
+      <ul>
+        <li><strong>DFA 编译</strong>：查询语言是正则语言，正则表达式匹配树边（键和索引）而非字符</li>
+        <li><strong>Glushkov's Algorithm</strong>：构建 epsilon-free NFA，避免 epsilon 转换</li>
+        <li><strong>零拷贝解析</strong>：使用 serde_json_borrow</li>
+        <li><strong>端到端性能</strong>：比 jq 快一个数量级</li>
+        <li><strong>查询示例</strong>：<code>jg 'roommates[*].name'</code> 匹配路径</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>查询语法</h2>
+      <pre>$ cat sample.json | jg '(* | [*])*.name'</pre>
+      <ul>
+        <li><code>.</code> 字段选择</li>
+        <li><code>*</code> 单个通配符</li>
+        <li><code>[*]</code> 数组通配符</li>
+        <li><code>|</code> 或运算</li>
+        <li><code>*</code> Kleene 星号</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>为什么 DFA 这么快</h2>
+      <p>查询在编译时付费一次，然后搜索本质上是免费的。自动机一次处理输入符号，不需要回溯、递归栈或指数级膨胀。这与 ripgrep 的原理相同——但应用于树结构而非字符串。</p>
+    </div>
+
+    <div class="section">
+      <h2>安装</h2>
+      <pre>cargo install jsongrep</pre>
+    </div>
+  </div>

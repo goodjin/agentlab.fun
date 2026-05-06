@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vercel 2026年4月安全事件深度分析</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>Vercel 2026年4月安全事件深度分析</h1>
+    
+    <div class="meta">
+        <span class="tag">安全</span>
+        <span class="tag">Vercel</span>
+        <span class="tag">供应链攻击</span>
+        <span class="tag">OAuth</span>
+        <span>来源: bleepingcomputer.com | 2026-04-19</span>
+    </div>
+
+    <div class="warning">
+        <strong>⚠️ 重要提醒：</strong>如果你是Vercel用户，请立即：
+        <ul>
+            <li>审查环境变量中是否有敏感信息</li>
+            <li>启用敏感环境变量功能</li>
+            <li>轮换所有密钥和 secrets</li>
+        </ul>
+    </div>
+
+    <h2>事件概述</h2>
+    
+    <p>云开发平台Vercel在威胁行为者声称已入侵其系统并试图出售被盗数据后，披露了一起安全事件。</p>
+    
+    <p>Vercel是一家云平台，提供面向JavaScript框架的托管和部署基础设施，以开发Next.js而闻名，并提供无服务器函数、边缘计算和CI/CD管道等服务。</p>
+
+    <h2>攻击路径分析</h2>
+
+    <h3>1. 初始入侵：第三方AI工具</h3>
+    <p>根据Vercel CEO Guillermo Rauch在X上的分享，初始访问发生在<strong>Vercel一名员工的Google Workspace账户被入侵</strong>，入侵源头是AI平台Context.ai的违规。</p>
+
+    <h3>2. 权限升级</h3>
+    <p>攻击者随后从被入侵的账户<strong>升级访问权限</strong>到Vercel环境，在那里他们能够访问<strong>未标记为敏感的环境变量</strong>，因此在静态时未加密。</p>
+
+    <h3>3. 深入渗透</h3>
+    <p>虽然这些变量本应只包含非敏感信息，但攻击者通过<strong>枚举这些变量获得了进一步访问权限</strong>。</p>
+
+    <blockquote>
+        <p>"Vercel将所有客户环境变量在静态时完全加密。我们有众多纵深防御机制来保护核心系统和客户数据，"Rauch说。"我们确实有能力将环境变量标记为'非敏感'。不幸的是，攻击者通过他们的枚举获得了进一步访问。"</p>
+    </blockquote>
+
+    <h2>技术细节</h2>
+
+    <h3>受影响的OAuth应用</h3>
+    <p>Vercel正在通知Google Workspace管理员和Google账户所有者检查以下应用程序：</p>
+    <pre><code>OAuth App: 110671459871-30f1spbu0hptbs60cb4vsmv79i7bbvqj.apps.googleusercontent.com</code></pre>
+
+    <h3>攻击者声称出售的数据</h3>
+    <p>威胁行为者（声称是"ShinyHunters"）在黑客论坛上发帖，声称已入侵Vercel并出售对公司数据的访问权限：</p>
+    <ul>
+        <li>访问密钥</li>
+        <li>源代码</li>
+        <li>数据库数据</li>
+        <li>内部部署访问权限</li>
+        <li>API密钥（包括一些NPM令牌和GitHub令牌）</li>
+    </ul>
+
+    <p>攻击者还分享了一个包含Vercel员工信息的文本文件，包含<strong>580条数据记录</strong>，包括姓名、Vercel电子邮件地址、账户状态和活动时间戳。</p>
+
+    <h3>勒索企图</h3>
+    <p>在Telegram上共享的消息中，攻击者还声称正在与Vercel联系，并讨论了<strong>200万美元的勒索要求</strong>。</p>
+
+    <h2>Vercel的回应</h2>
+
+    <ul>
+        <li>已通知受影响的客户</li>
+        <li>已通知执法部门</li>
+        <li>已聘请事件响应专家帮助调查和修复</li>
+        <li>已推出仪表板更新，包括环境变量概览页面和改进的敏感环境变量管理界面</li>
+        <li>确认Next.js、Turbopack和其他开源项目仍然安全</li>
+    </ul>
+
+    <h2>安全建议</h2>
+
+    <ol>
+        <li><strong>立即审查环境变量</strong>——检查是否有敏感信息暴露</li>
+        <li><strong>启用敏感变量功能</strong>——确保它们在静态时加密</li>
+        <li><strong>轮换所有密钥</strong>——包括API密钥、数据库凭证等</li>
+        <li><strong>检查OAuth应用</strong>——移除未知或可疑的第三方应用访问</li>
+    </ol>
+
+    <h2>教训</h2>
+
+    <blockquote>
+        <p>"你以为自己很安全，但供应链的任何一个环节都可能被突破。"</p>
+    </blockquote>
+
+    <p>这起事件揭示了几个关键问题：</p>
+    <ul>
+        <li><strong>第三方风险</strong>：即使是最安全的公司，也可能因为供应商的漏洞而被入侵</li>
+        <li><strong>默认不敏感</strong>：将环境变量标记为"非敏感"的便捷选项反而成为攻击者的突破口</li>
+        <li><strong>OAuth信任链</strong>：OAuth应用的广泛权限使其成为有价值的攻击目标</li>
+    </ul>
+
+    <hr>
+    <p><a href="index.html">← 返回首页</a></p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

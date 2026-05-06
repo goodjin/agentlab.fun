@@ -1,0 +1,62 @@
+---
+layout: article.njk
+title: "Microsoft GUI Strategy since Petzold - 進 Insights"
+tags: [insights]
+permalink: /insights/microsoft-gui-strategy-petzold-2026.html
+---
+
+<h1>Microsoft Hasn't Had a Coherent GUI Strategy Since Petzold</h1>
+    <p class="meta">Source: <a href="https://www.jsnover.com/blog/2026/03/13/microsoft-hasnt-had-a-coherent-gui-strategy-since-petzold/">jsnover.com</a> | Quality: <span class="star">★★★★☆</span> |HN: 297 points</p>
+    
+    <div class="insight-box">
+        <strong>核心洞见：</strong> 一个平台如果不能在10秒内回答"我该怎么构建一个UI？"，那它就失败了。Microsoft用了30多年也没能回答这个问题。
+    </div>
+
+    <h2>1988: 最后一次有明确答案</h2>
+    <p>1988年，Charles Petzold出版了《Programming Windows》，852页。这就是答案——一个单一、一致、权威的答案。一个API，一种语言，一本书。Win32消息循环、窗口过程、GDI，这就是"策略"。这是物理公式F=MA，简单、强大。</p>
+    <p><strong>接下来是30年的灾难。</strong></p>
+
+    <h2>1992-2000: 面向对象 fever dream</h2>
+    <p>Microsoft推出了MFC、COM、ActiveX——每个都声称是未来，但没有统一叙事。开发者被迫自己拼凑故事。这是"Conference Keynote Clusterf*ck"——执行层的演示令人印象深刻，但用户的成功被忽视了。</p>
+
+    <h2>2003: PDC & Longhorn 的陨落</h2>
+    <p>2003年PDC展示了一个令人窒息的技术愿景：WinFS、Indigo、Avalon（WPF）。开发者看到Avalon演示后疯了——这是正确的愿景。</p>
+    <p>然后呢？2004年1月Jim Allchin内部备忘录称之为"a pig"。8月完全重启，从Server 2003代码库重新开始。领导层下达命令：Windows里禁止托管代码。新代码必须用C++。</p>
+    <blockquote>Windows团队对.NET的 bitterness 创造了持续13年的内部战争，最终导致WPF被抛弃、Silverlight死亡、UWP失败。</blockquote>
+
+    <h2>2007-2010: Silverlight 的闹剧</h2>
+    <p>WPF 2006年出货，技术上很棒。如果Microsoft把它作为 definitive answer并持续投资，故事可能会不同。</p>
+    <p>但2007年他们推出了Silverlight——一个精简的浏览器插件来对抗Flash。2010年MIX大会上，Microsoft高管在Q&A中说Silverlight"不是跨平台策略"。Silverlight团队事先不知道。开发者从大会Q&A中得知他们押注的技术被判了死刑。</p>
+    <p><strong>这不是技术失败，是商业策略决策，开发者是最后知道的。</strong></p>
+
+    <h2>2012: Metro Panic & 双团队战争</h2>
+    <p>Apple卖了2亿台iPhone，iPad侵蚀PC销售。Microsoft的答案是Windows 8和Metro——一个故意不用.NET的原生C++运行时。</p>
+    <p>两个团队在同时讲不同的故事：</p>
+    <ul>
+        <li>Windows团队在构建WinRT</li>
+        <li>.NET团队还在推广WPF</li>
+    </ul>
+    <p>开发者在//Build 2012听到的是：未来是WinRT，HTML+JS是一等公民，.NET仍然能用，C++回归，你应该写Metro，WPF代码仍然能运行。</p>
+    <blockquote>这不是策略。这是 Hunger Games，六支团队在为你的注意力而战。</blockquote>
+
+    <h2>2015-至今: UWP 和 WinUI 蔓延</h2>
+    <p>Windows 10带来UWP——写一次，运行在PC、手机、Xbox、HoloLens。听起来不错。问题是：Windows Phone快死了，Microsoft自己的旗舰应用——Office、VS、Shell——都没用UWP。</p>
+    <p>当UWP停滞后，官方答案是"it depends"：</p>
+    <ul>
+        <li>新应用用UWP</li>
+        <li>现有的用WPF</li>
+        <li>通过XAML Islands添加现代API</li>
+        <li>等WinUI 3</li>
+        <li>但WinUI 2也存在...</li>
+        <li>Project Reunion会修复一切</li>
+        <li>现在叫Windows App SDK...仍然不能完全替代UWP</li>
+    </ul>
+
+    <h2>结论</h2>
+    <div class="highlight">
+        <p>Brilliant people doing stupid things. Technological Brownian motion.</p>
+        <p>当一个平台不能用10秒回答"我该怎么构建UI？"这个问题时，它就已经失败了。</p>
+    </div>
+
+    <hr>
+    <p><em>探索时间: 2026-04-06 12:57 | 来源: Hacker News Best</em></p>

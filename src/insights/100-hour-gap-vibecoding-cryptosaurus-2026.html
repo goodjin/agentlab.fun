@@ -1,0 +1,143 @@
+---
+layout: article.njk
+title: "The 100 Hour Gap - Vibecoding 现实检验"
+tags: [insights]
+permalink: /insights/100-hour-gap-vibecoding-cryptosaurus-2026.html
+---
+
+<div class="container">
+        
+        
+        <div class="content">
+            <h2>📊 核心数据</h2>
+            
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value">1小时</div>
+                    <div class="stat-label">原型完成</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">100小时</div>
+                    <div class="stat-label">生产版本</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">1000+</div>
+                    <div class="stat-label">下载量</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">180+</div>
+                    <div class="stat-label">付费用户</div>
+                </div>
+            </div>
+            
+            <p style="text-align: center; color: var(--text-muted);">
+                应用：Cryptosaurus - 将你的头像变成恐龙风格 NFT
+            </p>
+            
+            <h2>🎯 项目背景</h2>
+            
+            <p>上个月，我花了大约 <span class="highlight">100 小时</span>做 vibecoding。</p>
+            
+            <p>现在我很确定，那些说"30 分钟 vibecode 一个应用"的人，要么是在构建现有项目的简单复制品，要么是生产一些垃圾，或者只是在追求流量。</p>
+            
+            <p>这并不是因为我是一个 AI 怀疑者。恰恰相反。</p>
+            
+            <h2>🚀 开发时间线</h2>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-title">第 1 小时：工作原型</div>
+                    <p>用 ChatGPT (5.2 Thinking Extended) 讨论想法，发给 Opus 4.5，开启 Plan Mode。获得 API key，运行——1 小时完成原型。</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-title">第 2-10 小时：非垃圾原型</div>
+                    <p>不喜欢模板设计。调整颜色，改了又改。与 LLM 来回沟通修复 UI。发现一个边缘情况，修复；另一个边缘情况，再修复... 200 次迭代。</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-title">第 10-50 小时：基础设施</div>
+                    <p>在 Cloudflare 买域名，在 Vercel 部署。设置 AWS S3 + Lambda。遇到各种问题：bucket 权限、env 变量、自动创建新 bucket...</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-title">第 50-80 小时：Farcaster Mini App</div>
+                    <p>移动端 UI 在浏览器工作，但在 mini app 里出问题。添加 manifest，设置 noindex。解决测试账户问题。部署智能合约到 Base Mainnet。</p>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-title">第 80-100 小时：并发与上线</div>
+                    <p>准备流量峰值，处理 rate limits。但忘记了 nonces——两个人同时 mint 时付款成功但请求未到达 API。修复 bug，退款+补偿。上线！</p>
+                </div>
+            </div>
+            
+            <h2>🔧 关键挑战</h2>
+            
+            <ul>
+                <li><strong>274 行 prompt.ts</strong> - 仅用于处理边缘情况的提示词</li>
+                <li><strong>200+ 次 prompt 迭代</strong> - 优化 AI 图像输出</li>
+                <li><strong>AWS 基础设施</strong> - S3 + Lambda + Safe 智能合约</li>
+                <li><strong>并发 bug</strong> - nonce 冲突导致支付成功但mint失败</li>
+                <li><strong>Farcaster 集成</strong> - Mini App 开发/测试/发布流程</li>
+            </ul>
+            
+            <blockquote>
+                "前 90% 的代码用掉前 90% 的开发时间。剩下 10% 的代码用掉另外 90% 的开发时间。"
+                
+            </blockquote>
+            
+            <h2>💡 核心洞见</h2>
+            
+            <div class="lesson">
+                <h4>1. AI 更容易完成前 90%</h4>
+                <p>有了 AI，更容易把第一批 90% 完成。这意味着我们可以花更多时间在剩下的 10% 上，这代表着更多时间和工艺——以及弄清楚如何让用户开心。</p>
+            </div>
+            
+            <div class="lesson">
+                <h4>2. 最后的 10% 是区别垃圾和用户喜欢的东西的关键</h4>
+                <p>你可以在 30 分钟内构建一个天气应用。或者你可以构建 Windy（专业天气应用）。这是质量的差别。</p>
+            </div>
+            
+            <div class="lesson">
+                <h4>3. 工程经验仍然重要</h4>
+                <p>当 Brave 开始显示奇怪的颜色时，我想在应用中禁用它，试了 3 个不同的 LLM。一小时后什么都没改变。问了一个 senior design engineer 的朋友，他用一行代码就解决了。</p>
+            </div>
+            
+            <div class="lesson">
+                <h4>4. "Just Build" 需要平衡</h4>
+                <p>完全不做计划导致更多挫折。更好的方式：用 Figma 先做设计，与 LLM 讨论架构创建流程图，然后让 agent 执行计划。</p>
+            </div>
+            
+            <h2>📈 最终结果</h2>
+            
+            <ul>
+                <li>1000+ 人下载了应用</li>
+                <li>180+ 人付费 $2</li>
+                <li>首周进入 <span class="highlight">Farcaster Mini App Store TOP3</span></li>
+            </ul>
+            
+            <h2>🎯 经验教训</h2>
+            
+            <ol>
+                <li><strong>精心设计 agent 工作范围</strong> - 让多个 agent 同时工作而不互相干扰</li>
+                <li><strong>Codex 倾向于过度复杂</strong> - 在 agents.md 中要求始终寻找简单、优雅的方案</li>
+                <li><strong>先做架构</strong> - 让 LLM 创建流程图并迭代，然后再让 agent 执行</li>
+                <li><strong>不要完全放弃"只是构建"</strong> - 用 Figma 抛光设计，而不是等待 LLM</li>
+                <li><strong>仍然需要向资深工程师朋友求助</strong> - LLM 仍然有限制</li>
+            </ol>
+            
+            <blockquote>
+                " vibecoding 让编程的无趣部分消失，为工艺创造更多空间。我认为我们将看到更多很酷的数字体验。而创造这些很酷体验的能力正是让我们中许多人进入科技行业的原因。"
+            </blockquote>
+            
+            <h2>🔗 相关资源</h2>
+            
+            <ul>
+                <li><a href="https://paragraph.com/@macbudkowski" target="_blank">作者: Mac Budkowski</a></li>
+                <li><a href="https://cryptosaurus.app/" target="_blank">Cryptosaurus 应用</a></li>
+                <li><a href="https://farcaster.xyz/" target="_blank">Farcaster</a></li>
+            </ul>
+        </div>
+        
+        
+    </div>

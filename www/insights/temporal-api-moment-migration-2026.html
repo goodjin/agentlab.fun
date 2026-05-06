@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Temporal API - 从 Moment.js 迁移指南 (2026)</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <h1>🕐 JavaScript Temporal API 完全指南</h1>
+        <div class="meta">
+            <span class="tag">JavaScript</span>
+            <span class="tag">Temporal API</span>
+            <span class="tag">Migration</span>
+            <span class="rating">⭐⭐⭐⭐⭐</span>
+        </div>
+        
+        <div class="source">
+            📖 原文: <a href="https://www.smashingmagazine.com/2026/03/moving-from-moment-to-temporal-api/" target="_blank">Moving From Moment.js To The JS Temporal API</a>
+        </div>
+
+        <h2>为什么需要 Temporal?</h2>
+        
+        <p>Moment.js 是 JavaScript 处理日期时间的经典库，但存在以下问题:</p>
+        <ul>
+            <li><strong>体积过大</strong>: 无法 tree-shaking，整个库被打包</li>
+            <li><strong>可变对象</strong>: 调用方法会修改原对象，导致意外行为</li>
+            <li><strong>维护状态</strong>: 2020年已进入维护模式，不再推荐新项目使用</li>
+        </ul>
+
+        <div class="highlight">
+            <strong>🎯 Temporal API 优势:</strong>
+            <ul>
+                <li>✅ 不可变对象 - 不修改原对象</li>
+                <li>✅ 1-based 索引 - 月份从1开始(而非0)</li>
+                <li>✅ 原生时区支持 - 无需额外库</li>
+                <li>✅ 零 bundle 体积 - 浏览器内置</li>
+                <li>✅ 纳秒级精度</li>
+            </ul>
+        </div>
+
+        <h2>浏览器支持</h2>
+        <ul>
+            <li><strong>Chrome 144+</strong> ✅</li>
+            <li><strong>Firefox 139+</strong> ✅</li>
+            <li><strong>Safari</strong> 即将支持</li>
+            <li><strong>Polyfill</strong>: <code>@js-temporal/temporal-polyfill</code></li>
+        </ul>
+
+        <h2>核心对比</h2>
+
+        <h3>1. 创建当前时间</h3>
+        <pre><code>// Moment.js
+const now = moment();
+
+// Temporal API
+const now = Temporal.Now.zonedDateTimeISO();</code></pre>
+
+        <h3>2. 创建指定日期</h3>
+        <pre><code>// Moment.js
+const date = moment('2026-03-16');
+
+// Temporal - 按类型选择
+const plainDate = Temporal.PlainDate.from('2026-03-16');
+const instant = Temporal.Instant.from('2026-03-16T09:00:00Z');
+const zoned = Temporal.ZonedDateTime.from({
+    timeZone: 'Asia/Shanghai',
+    year: 2026, month: 3, day: 16
+});</code></pre>
+
+        <h3>3. 日期计算</h3>
+        <pre><code>// Moment.js - 会修改原对象!
+const nextWeek = now.add(7, 'days'); // 原对象也被修改了
+
+// Temporal - 不可变，返回新对象
+const nextWeek = now.add({ days: 7 }); // 原对象保持不变</code></pre>
+
+        <h3>4. 时区转换</h3>
+        <pre><code>// Moment.js - 需要 moment-timezone 库
+const now = moment();
+now.tz('Asia/Shanghai'); // 修改原对象
+
+// Temporal - 原生支持
+const now = Temporal.Now.zonedDateTimeISO();
+const shanghai = now.withTimeZone('Asia/Shanghai');</code></pre>
+
+        <h3>5. 格式化</h3>
+        <pre><code>// Moment.js
+date.format('YYYY-MM-DD');
+
+// Temporal - 使用 Intl API
+date.toLocaleString('zh-CN', { 
+    year: 'numeric', 
+    month: '2-digit', 
+    day: '2-digit' 
+});</code></pre>
+
+        <h2>迁移检查清单</h2>
+        <ol>
+            <li>用 <code>Temporal.Instant</code> 替换绝对时间点</li>
+            <li>用 <code>Temporal.PlainDate/PlainTime</code> 替换无时区日期时间</li>
+            <li>用 <code>Temporal.ZonedDateTime</code> 替换需要时区的场景</li>
+            <li>使用 <code>add/subtract</code> 进行日期运算(返回新对象)</li>
+            <li>使用 <code>toLocaleString</code> 配合 Intl 进行格式化</li>
+            <li>非 ISO 字符串需要先转换为 ISO 格式</li>
+        </ol>
+
+        <div class="highlight">
+            <strong>💡 Pro Tip:</strong> 如果你的项目还在使用 Moment.js，是时候开始规划迁移了！Temporal API 已进入 Stage 4，已成为 ECMAScript 标准的一部分。
+        </div>
+
+        <h2>进一步阅读</h2>
+        <ul>
+            <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Temporal" target="_blank">MDN Temporal 文档</a></li>
+            <li><a href="https://github.com/js-temporal/temporal-polyfill" target="_blank">Temporal Polyfill</a></li>
+            <li><a href="https://tc39.es/proposal-temporal/" target="_blank">TC39 Temporal 提案</a></li>
+        </ul>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

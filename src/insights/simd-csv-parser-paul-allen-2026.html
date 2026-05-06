@@ -1,0 +1,49 @@
+---
+layout: article.njk
+title: "Let's see Paul Allen's SIMD CSV parser - 技术洞察"
+tags: [insights]
+permalink: /insights/simd-csv-parser-paul-allen-2026.html
+---
+
+<div class="card">
+        <h1>Let's see Paul Allen's SIMD CSV parser</h1>
+        <div class="meta">
+            <span class="tag">SIMD</span>
+            <span class="tag">CSV</span>
+            <span class="tag">性能优化</span>
+            <span class="rating">⭐⭐⭐⭐⭐ (5星)</span>
+        </div>
+        <p class="source">来源: chunkofcoal.com | 作者: Matthew</p>
+        
+        <h2>核心内容</h2>
+        <p>本文深入解析了如何用 SIMD（单指令多数据）技术实现高性能 CSV 解析器，借鉴了著名的 simdjson 论文技术。</p>
+
+        <div class="highlight">
+            <strong>关键洞察：</strong> CPU 时钟速度在约 20 年前达到天花板，无法让核心运行得更快而不融化，因此改为在一个时钟周期内处理多个数据（更宽）。
+        </div>
+
+        <h2>技术要点</h2>
+        <ul>
+            <li><strong>SIMD 基础：</strong> 单指令多数据让您在处理单个字节的同一时间内，对固定批次数据（通常 16/32/64 字节）执行相同操作</li>
+            <li><strong>向量化代码：</strong> 无分支代码最有效，避免 if 语句、循环和函数调用，无论输入如何都执行相同操作</li>
+            <li><strong>Nibble 查找表：</strong> 将每个字节分成高低半字节，各用 16 项查找表，通过 AND 操作组合结果</li>
+            <li><strong>位掩码过滤：</strong> 将分类后的字节压缩为 3 个位掩码（逗号、引号、换行）</li>
+            <li><strong>引号内字符过滤：</strong> 通过追踪引号位置的奇偶校验来确定当前位置在引号内还是外</li>
+            <li><strong>前缀 XOR：</strong> 用 vmull_p64 指令（ARM）或移位链在 64 位上计算前缀 XOR</li>
+        </ul>
+
+        <h2>为什么重要</h2>
+        <p>CSV 解析是数据处理的基础操作。传统标量方法逐字节处理，而 SIMD 方法一次处理 64 字节，性能提升显著。这对大数据处理、ETL 管道等场景意义重大。</p>
+
+        <h2>代码示例</h2>
+        <pre>// 向量化实现 - 用 NEON intrinsic
+let lo_nibbles = vandq_u8(input, mask);
+let hi_nibbles = vandq_u8(vshrq_n_u8::<4>(input), mask);
+let lo_result = vqtbl1q_u8(lo_lut, lo_nibbles);
+let hi_result = vqtbl1q_u8(hi_lut, hi_nibbles);
+let classified = vandq_u8(lo_result, hi_result);</pre>
+
+        <p>本文是理解 SIMD 优化技术的优秀资源，适合想深入了解底层性能优化的开发者。</p>
+        
+        <p><a href="https://chunkofcoal.com/posts/simd-csv/" target="_blank">原文链接</a></p>
+    </div>

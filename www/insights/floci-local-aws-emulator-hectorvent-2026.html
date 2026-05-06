@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Floci: Free Open-Source Local AWS Emulator</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>Floci: Free Open-Source Local AWS Emulator</h1>
+    <div class="meta">
+        <span class="star">⭐⭐⭐⭐</span> 4 stars | 
+        Source: GitHub Trending | 
+        Date: 2026-03-22
+    </div>
+    
+    <h2>Summary</h2>
+    <p>Floci is a free, open-source local AWS emulator that emerged after LocalStack restricted their community edition in March 2026. It provides a no-strings-attached alternative with no auth tokens required, unlimited CI/CD support, and active security updates.</p>
+    
+    <h2>Key Features</h2>
+    <ul>
+        <li><strong>No account required</strong> - No auth tokens, no feature gates</li>
+        <li><strong>Free CI/CD support</strong> - No paid plan required</li>
+        <li><strong>Active security updates</strong> - Unlike LocalStack's frozen community edition</li>
+        <li><strong>Fast startup</strong> - ~24ms vs LocalStack's ~3.3s</li>
+        <li><strong>Low memory</strong> - ~13 MiB vs LocalStack's ~143 MiB</li>
+        <li><strong>Small footprint</strong> - ~90 MB vs LocalStack's ~1.0 GB</li>
+    </ul>
+    
+    <h2>Comparison with LocalStack</h2>
+    <div class="comparison">
+        <div>
+            <h3>Floci</h3>
+            <ul>
+                <li>No auth token required</li>
+                <li>Unlimited CI/CD support</li>
+                <li>Security updates: Yes</li>
+                <li>Startup: ~24 ms</li>
+                <li>Idle memory: ~13 MiB</li>
+                <li>Docker size: ~90 MB</li>
+                <li>License: MIT</li>
+            </ul>
+        </div>
+        <div>
+            <h3>LocalStack Community</h3>
+            <ul>
+                <li>Auth token required (since March 2026)</li>
+                <li>Requires paid plan</li>
+                <li>Security updates: Frozen</li>
+                <li>Startup: ~3.3 s</li>
+                <li>Idle memory: ~143 MiB</li>
+                <li>Docker size: ~1.0 GB</li>
+                <li>License: Restricted</li>
+            </ul>
+        </div>
+    </div>
+    
+    <h2>Supported Services</h2>
+    <table>
+        <tr><th>Service</th><th>Floci</th><th>LocalStack</th></tr>
+        <tr><td>API Gateway v2 / HTTP API</td><td>✅</td><td>❌</td></tr>
+        <tr><td>Cognito</td><td>✅</td><td>❌</td></tr>
+        <tr><td>ElastiCache (Redis + IAM auth)</td><td>✅</td><td>❌</td></tr>
+        <tr><td>RDS (PostgreSQL + MySQL + IAM auth)</td><td>✅</td><td>❌</td></tr>
+        <tr><td>S3 Object Lock</td><td>✅</td><td>⚠️ Partial</td></tr>
+        <tr><td>DynamoDB Streams</td><td>✅</td><td>⚠️ Partial</td></tr>
+        <tr><td>IAM</td><td>✅</td><td>⚠️ Partial</td></tr>
+        <tr><td>STS (all 7 operations)</td><td>✅</td><td>⚠️ Partial</td></tr>
+        <tr><td>Kinesis</td><td>✅</td><td>⚠️ Partial</td></tr>
+        <tr><td>KMS (sign, verify, re-encrypt)</td><td>✅</td><td>⚠️ Partial</td></tr>
+    </table>
+    
+    <h2>Quick Start</h2>
+    <div class="highlight">
+        <pre><code>docker-compose.yml
+services:
+  floci:
+    image: hectorvent/floci:latest
+    ports:
+      - "4566:4566"
+    volumes:
+      - ./data:/app/data
+
+docker compose up</code></pre>
+    </div>
+    
+    <p><strong>Source:</strong> <a href="https://github.com/hectorvent/floci">https://github.com/hectorvent/floci</a></p>
+    <p><strong>Insight:</strong> Floci represents a significant shift in the local AWS emulation landscape, filling the gap left by LocalStack's restrictions. With 20+ services and 408/408 SDK tests passing, it's becoming a viable alternative for developers who need free, unlimited AWS local development capabilities.</p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zalando 工程论文阅读小组 - 实践经验</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<a href="/insights/index.html" class="back-link">← 返回索引</a>
+    
+    <h1>📚 Running an Engineering Papers Reading Guild at Zalando</h1>
+    <div class="meta">
+        <span class="rating">⭐⭐⭐⭐ (4星)</span> | 
+        <span>2026-03-20</span> |
+        <span>来源: Lobste.rs</span>
+    </div>
+    
+    <h2>摘要</h2>
+    <p>Zalando 的工程师分享如何组织公司内部工程论文阅读小组，一周年经验总结。这是一个关于如何建立和运行公司内部技术学习社区的深度实践指南。</p>
+    
+    <h2>核心亮点</h2>
+    
+    <div class="highlight">
+        <h3>🎯 为什么读论文？</h3>
+        <ul>
+            <li><strong>揭开抽象的面纱</strong>：理解底层技术如何工作</li>
+            <li><strong>站在巨人肩膀上</strong>：了解技术历史和未来发展方向</li>
+            <li><strong>实践价值</strong>：论文中的思想可以直接应用到日常工作中</li>
+        </ul>
+    </div>
+    
+    <h3>📋 组织经验</h3>
+    <ul>
+        <li><strong>2人或以上组织者</strong>：独自一人会很快疲惫</li>
+        <li><strong>每月一次</strong>：给参与者足够时间准备</li>
+        <li><strong>一篇论文/次</strong>：确保深入讨论而非走马观花</li>
+    </ul>
+    
+    <h3>📖 论文选择标准</h3>
+    <p><strong>内容甜蜜点 = 相关性 + 兴趣</strong></p>
+    <ul>
+        <li>混合经典论文与前沿研究</li>
+        <li>选择与公司技术栈相关的论文</li>
+        <li>鼓励社区提案，增加多样性</li>
+    </ul>
+    
+    <h3>📣 市场营销很重要</h3>
+    <p>初始失败后学到的教训：</p>
+    <ul>
+        <li>彩色海报张贴在办公楼</li>
+        <li>公司范围内技术通讯</li>
+        <li>内部聊天群推广</li>
+    </ul>
+    
+    <h3>💡 实际案例</h3>
+    <div class="highlight">
+        <ul>
+            <li><strong>DynamoDB论文</strong>：帮助团队理解分区策略，解决写入失败问题</li>
+            <li><strong>分布式快照论文</strong>：帮助理解 Apache Flink 的 checkpoint 机制</li>
+            <li><strong>SQL编译论文</strong>：引发团队关于 WebAssembly 的讨论</li>
+        </ul>
+    </div>
+    
+    <h2>Blueprint 要点</h2>
+    <ol>
+        <li>至少两位组织者，轮流主持</li>
+        <li>选择与组织或参与者相关的论文</li>
+        <li>从每月一次开始，使用大量例子解释概念</li>
+        <li>收集反馈，让社区驱动话题</li>
+    </ol>
+    
+    <h2>原文链接</h2>
+    <p><a href="https://engineering.zalando.com/posts/2026/01/running-an-engineering-papers-reading-guild-at-zalando.html" target="_blank">Zalando Engineering Blog</a></p>
+    
+    <hr>
+    <p><small>🧬 探索于 2026-03-20 | 探索源: Lobste.rs</small></p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS corner-shape: 突破border-radius的下一代圆角方案</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<span class="rating">⭐⭐⭐⭐ 4星</span>
+    <h1>CSS corner-shape: 突破border-radius的下一代圆角方案</h1>
+    
+    <div class="meta">
+        <p><strong>来源:</strong> Smashing Magazine | <strong>日期:</strong> 2026-03-12</p>
+        <p><strong>作者:</strong> Brecht De Ruyte</p>
+        <p><strong>原文:</strong> <a href="https://www.smashingmagazine.com/2026/03/beyond-border-radius-css-corner-shape-property-ui/">Beyond border-radius: What The CSS corner-shape Property Unlocks For Everyday UI</a></p>
+    </div>
+    
+    <h2>摘要</h2>
+    <p>CSS <code>corner-shape</code> 属性是 <code>border-radius</code> 的配套属性，它不替换 <code>border-radius</code>，而是<strong>修饰</strong>由 <code>border-radius</code> 创建的曲线形状。多年以来，开发者只能通过 clip-path、SVG masks 和脆弱的变通方案来绕过 <code>border-radius</code> 的限制，只能获得圆角。现在，<code>corner-shape</code> 属性终于改变了这一现状，为斜切(scooped)、倒角(beveled)、squircle 等高级圆角形状打开了大门。边框、阴影、背景都能跟随形状，而不再被 clip-path 切断。</p>
+    
+    <div class="note">
+        <strong>💡 关键洞察：</strong> <code>corner-shape</code> 需要配合 <code>border-radius</code> 使用，单独使用无效。它们是一对强大的组合。
+    </div>
+    
+    <h2>核心概念</h2>
+    
+    <h3>1. companion 关系</h3>
+    <p><code>corner-shape</code> 是 <code>border-radius</code> 的 companion（配套）属性，不是替代品。没有 <code>border-radius</code>，<code>corner-shape</code> 什么都不做。</p>
+    
+    <h3>2. 渐进增强策略</h3>
+    <p>文章推荐使用 CSS @layer 实现渐进增强：</p>
+    <pre><code>@layer base, presentation, demo;
+
+/* base 层：标准 border-radius，所有浏览器支持 */
+.presentation 层包含完整的使用传统技术的 UI。
+.demo 层用 @supports 包裹，增强 corner-shape 支持。</code></pre>
+    
+    <h2>支持的形状值</h2>
+    
+    <ul>
+        <li><code>round</code> — 默认值，与传统 border-radius 相同</li>
+        <li><code>squircle</code> — 超椭圆(superellipse)，Apple 风格的圆角正方形</li>
+        <li><code>bevel</code> — 直线连接两个半径端点（斜切角）</li>
+        <li><code>scoop</code> — 反向曲线，创建凹角</li>
+        <li><code>notch</code> — sharp 向内切割</li>
+        <li><code>square</code> — 移除圆角，覆盖 border-radius</li>
+    </ul>
+    
+    <h3>每角独立设置</h3>
+    <p>可以像 border-radius 一样，每角设置不同值：</p>
+    <pre><code>corner-shape: bevel round scoop squircle; /* top-left, top-right, bottom-right, bottom-left */</code></pre>
+    
+    <h3>精细控制：superellipse()</h3>
+    <p>使用 <code>superellipse()</code> 函数提供数值参数进行精细控制：</p>
+    <pre><code>.element {
+    border-radius: 25px;
+    corner-shape: superellipse(0); /* 等同于 'bevel' */
+}</code></pre>
+    
+    <h2>浏览器支持</h2>
+    <div class="warning">
+        <strong>⚠️ 截至 2026年3月：</strong> 仅 Chrome 139+ 和基于 Chromium 的浏览器支持。需要 Firefox 和 Safari 支持才能广泛应用。
+    </div>
+    
+    <h2>实用 Demo 示例</h2>
+    
+    <h3>Demo 1: 产品卡片 Ribbon 徽章</h3>
+    <p>传统做法需要 clip-path 或旋转的伪元素。baseline 用普通圆角标签，增强后用 <code>corner-shape: round bevel bevel round</code> 创建方向感 ribbon。</p>
+    
+    <h3>Demo 2: 按钮与标签</h3>
+    <ul>
+        <li>Primary button: <code>corner-shape: bevel</code> → hover 时变为 <code>squircle</code></li>
+        <li>Secondary button: <code>superellipse(0.5)</code> 创建独特的药丸形状</li>
+        <li>状态标签: <code>corner-shape: notch</code> 打造机械感外观</li>
+    </ul>
+    
+    <h3>Demo 3: 推荐卡片</h3>
+    <p><code>corner-shape: scoop</code> 配合衬线字体和暖色调，创建有机的、几乎是手工制作的感觉。</p>
+    
+    <h3>Demo 4: 定价卡片</h3>
+    <p>形状层级映射内容层级：重点计划用 <code>scoop</code>，徽章用 <code>bevel</code>（宝石般切割感），其他用 <code>squircle</code>。形状成为视觉强调的工具。</p>
+    
+    <h3>Demo 5: 音乐播放器</h3>
+    <p>展示 <code>corner-shape</code> 在单一设计中跨多个元素类型的应用。</p>
+    
+    <h2>为何这很重要</h2>
+    <ol>
+        <li><strong>边框跟随形状</strong>：之前 clip-path 会切断边框和阴影，现在不会了</li>
+        <li><strong>减少变通代码</strong>：从 5 个背景图片 → border-radius → corner-shape</li>
+        <li><strong>形状即工具</strong>：形状成为视觉层次和强调的工具，而不仅仅是装饰</li>
+        <li><strong>平滑过渡</strong>：corner-shape 值之间可以通过 superellipse() 等价物平滑过渡动画</li>
+    </ol>
+    
+    <h2>分类标签</h2>
+    <p>
+        <span class="tag">CSS</span>
+        <span class="tag">UI</span>
+        <span class="tag">Web Design</span>
+        <span class="tag">Progressive Enhancement</span>
+    </p>
+    
+    <h2>延伸阅读</h2>
+    <ul>
+        <li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/corner-shape">corner-shape (MDN)</a></li>
+        <li><a href="https://css-tricks.com/what-can-we-actually-do-with-corner-shape/">"What Can We Actually Do With corner-shape?"</a></li>
+        <li><a href="https://drafts.csswg.org/css-borders/#propdef-corner-shape">CSS Borders and Box Decorations Module Level 4</a></li>
+    </ul>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

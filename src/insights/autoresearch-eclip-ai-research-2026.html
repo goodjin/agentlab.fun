@@ -1,0 +1,97 @@
+---
+layout: article.njk
+title: "Autoresearch on an Old Research Idea: AI-Driven ML Research"
+tags: [insights]
+permalink: /insights/autoresearch-eclip-ai-research-2026.html
+---
+
+<h1>🧪 Autoresearch on an Old Research Idea</h1>
+    <div class="meta">
+        <span class="rating">5 STAR</span>
+        <span> | Source: ykumar.me</span>
+        <span> | Date: 2026-03-24</span>
+    </div>
+
+    <h2>Summary</h2>
+    <p>Applying Andrej Karpathy's Autoresearch concept to a real ML research problem (eCLIP). The author used Claude Code as a research agent that iteratively improved an eval metric by modifying train.py, while reading instructions from program.md.</p>
+
+    <h2>Core Approach</h2>
+    <div class="highlight">
+        <strong>Autoresearch</strong> is a constrained optimization loop with an LLM agent in the middle:
+        <ol>
+            <li>Agent iteratively improves eval metric by modifying train.py</li>
+            <li>Reads instructions from program.md (split into "phases")</li>
+            <li>Uses scratchpad.md as working memory</li>
+        </ol>
+    </div>
+
+    <h3>Experiment Setup</h3>
+    <ul>
+        <li><strong>Eval Metric:</strong> Mean Rank of retrieved embeddings</li>
+        <li><strong>Dataset:</strong> Ukiyo-eVG (~11K Japanese woodblock prints with phrase→boundbox annotations)</li>
+        <li><strong>Model:</strong> CLIP ViT-Small (22M) + DistilBERT (66M) + HeatmapProcessor</li>
+        <li><strong>Training:</strong> 800 steps (~3 min per run on RTX 4090)</li>
+        <li><strong>Time Budget:</strong> ~5 minutes per experiment to encourage rapid iteration</li>
+    </ul>
+
+    <h3>Sandboxing</h3>
+    <ul>
+        <li>Containerized training loop with network access removed</li>
+        <li>Claude Code permissions restricted: only edit two files and run run.sh</li>
+        <li>No direct Python execution, no pip installs, no network access, no git push</li>
+    </ul>
+
+    <h2>Results</h2>
+    <table>
+        <tr><th>Metric</th><th>Baseline</th><th>After Autoresearch</th></tr>
+        <tr><td>Mean Rank</td><td>344.68</td><td>157.43 (54% reduction)</td></tr>
+        <tr><td>Experiments</td><td>-</td><td>42 total, 13 committed, 29 reverted</td></tr>
+    </table>
+
+    <h3>Final Test Results</h3>
+    <table>
+        <tr><th>Metric</th><th>Test Score</th></tr>
+        <tr><td>Mean Rank</td><td>34.30</td></tr>
+        <tr><td>img→txt R@5</td><td>53.0%</td></tr>
+        <tr><td>txt→img R@5</td><td>51.4%</td></tr>
+    </table>
+
+    <h2>Key Discoveries</h2>
+    <h3>🔴 Biggest Win: Temperature Clamp Bug</h3>
+    <p>Agent immediately found a bug in the code. The learnable temperature parameter was clamped at 2. Agent relaxed the limit and <strong>eval dropped by 113 points</strong> — the single biggest win, worth more than all architecture changes combined.</p>
+
+    <h3>🟡 Hyperparameter Tuning</h3>
+    <p>Further gains (-30 mean rank) came from hyperparameter tuning: increasing projection dimension and re-tuning learning rate. The agent acted like a hyperparameter optimization algorithm with reasoning.</p>
+
+    <h3>🟠 Diminishing Returns</h3>
+    <ul>
+        <li>Architecture changes to attention mechanism didn't work</li>
+        <li>"Moonshot" ideas in Phase 5 didn't stick</li>
+        <li>Agent was "throwing spaghetti at the wall"</li>
+    </ul>
+
+    <h2>Key Insights</h2>
+    <div class="highlight">
+        <p>When the search space is clearly defined, the commit-or-revert loop is a surprisingly effective search strategy. But when the agent ventured into "unknown unknowns", the optimization loop just exploded.</p>
+    </div>
+
+    <h3>Limitations</h3>
+    <ul>
+        <li>The "make only one change per experiment" constraint may have been too tight for moonshot ideas</li>
+        <li>Agent sometimes forgot permissions and made weird bash calls</li>
+        <li>Agent sometimes got tired of waiting and ended the conversation</li>
+        <li>Would not give it full autonomy just yet</li>
+    </ul>
+
+    <h2>Tags</h2>
+    <div>
+        <span class="tag">AI Research</span>
+        <span class="tag">Automation</span>
+        <span class="tag">Karpathy</span>
+        <span class="tag">Claude Code</span>
+        <span class="tag">Machine Learning</span>
+        <span class="tag">eCLIP</span>
+    </div>
+
+    <hr>
+    <p><a href="https://ykumar.me/blog/eclip-autoresearch/">🔗 Original Article</a> | <a href="https://github.com/karpathy/autoresearch">Karpathy's Autoresearch</a></p>

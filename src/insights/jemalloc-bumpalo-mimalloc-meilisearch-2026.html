@@ -1,0 +1,88 @@
+---
+layout: article.njk
+title: "The Good, the Bad, and the Leaky: jemalloc, bumpalo, and mimalloc - 2026 Insights"
+tags: [insights]
+permalink: /insights/jemalloc-bumpalo-mimalloc-meilisearch-2026.html
+---
+
+<h1>🎯 The Good, the Bad, and the Leaky: jemalloc, bumpalo, and mimalloc</h1>
+    
+    <div class="meta">
+        <span class="rating">⭐⭐⭐⭐ (4星)</span>
+        <span style="margin-left: 15px;">来源: Lobsters / blog.kerollmops.com</span>
+        <span style="margin-left: 15px;">分类: Rust / Memory Management / Systems Programming</span>
+    </div>
+
+    <h2>📝 摘要</h2>
+    <p>Meilisearch 开发团队详细记录内存泄漏调试过程，涉及三种不同的内存分配器：bumpalo、jemalloc 和 mimalloc。这是一个真实的生产环境内存问题排查案例。</p>
+
+    <h2>🔑 核心亮点</h2>
+    
+    <h3>1. bumpalo::Vec::into_bump_slice 陷阱</h3>
+    <div class="highlight">
+        <strong>根本原因：在 bumpalo::Vec 中存储了 std::Vec（使用全局分配器的数据结构）</strong>
+    </div>
+    <ul>
+        <li><code>bumpalo::Vec::into_bump_slice</code> 将分配的向量转换为底层 slice</li>
+        <li>这个 slice 不会运行 drop glue</li>
+        <li>当在 bumpalo::Vec 中存储 std::Vec 时，内存永远不会释放</li>
+        <li>这个 bug 从 v1.12 存在了约 1.5 年</li>
+    </ul>
+
+    <h3>2. LMDB 与自定义分配器不兼容</h3>
+    <ul>
+        <li><strong>问题</strong>：Meilisearch 使用 LMDB（内存映射 key-value 存储）+ mimalloc（全局分配器）</li>
+        <li><strong>冲突</strong>：LMDB 使用系统默认分配器，不使用 mimalloc</li>
+        <li><strong>结果</strong>：LMDB 分配和释放的页面无法被 Meilisearch 重用，因为两个分配器不协作</li>
+    </ul>
+
+    <h3>3. 统一分配器解决方案</h3>
+    <div class="highlight">
+        <strong>使用单一内存分配器对整个应用栈进行审计至关重要</strong>
+    </div>
+    <ul>
+        <li>移除自定义全局分配器，使用 jemalloc + LD_PRELOAD</li>
+        <li>启用 jemalloc 分析功能生成内存报告</li>
+        <li>解决了 LMDB 和应用之间的分配器隔离问题</li>
+        <li>使用 jemalloc 后，内存泄漏消失</li>
+    </ul>
+
+    <h3>4. AI 辅助调试</h3>
+    <ul>
+        <li>使用 jemalloc 生成堆分析报告</li>
+        <li>将报告提供给 Zed 中的 Claude Sonnet 4.5 Agent</li>
+        <li>AI 找到了约 4 个泄漏，其中 1 个是真实的</li>
+        <li>经验：AI 辅助可以加速调试，但需要人工验证</li>
+    </ul>
+
+    <h3>5. 分配器选择历程</h3>
+    <table style="width:100%; border-collapse: collapse; margin: 20px 0;">
+        <tr style="background: #e67e22; color: white;">
+            <th style="padding: 10px;">分配器</th>
+            <th style="padding: 10px;">原因</th>
+        </tr>
+        <tr style="background: #ecf0f1;">
+            <td style="padding: 10px;">jemalloc</td>
+            <td style="padding: 10px;">最初选择，性能好，有用的泄漏追踪工具</td>
+        </tr>
+        <tr style="background: #ecf0f1;">
+            <td style="padding: 10px;">mimalloc</td>
+            <td style="padding: 10px;">Windows/macOS 兼容性考虑（微软项目）</td>
+        </tr>
+        <tr style="background: #ecf0f1;">
+            <td style="padding: 10px;">jemalloc（回归）</td>
+            <td style="padding: 10px;">解决 LMDB 跨分配器内存审计问题</td>
+        </tr>
+    </table>
+
+    <div class="insight">
+        <h3>💡 核心洞察</h3>
+        <p><strong>"使用单一内存分配器对整个应用栈进行审计至关重要"</strong></p>
+        <p>当应用使用多个内存分配器时，不同分配器分配的内存无法相互复用，可能导致看似"泄漏"但实际是分配器隔离的问题。</p>
+    </div>
+
+    <h2>🔗 原文链接</h2>
+    <p><a href="https://blog.kerollmops.com/the-good-the-bad-and-the-leaky-jemalloc-bumpalo-and-mimalloc-in-meilisearch" target="_blank">The Good, the Bad, and the Leaky: jemalloc, bumpalo, and mimalloc in meilisearch</a></p>
+
+    <h2>📅 发现日期</h2>
+    <p>2026-03-21</p>

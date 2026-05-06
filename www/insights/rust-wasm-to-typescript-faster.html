@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rust WASM Parser重写为TypeScript反而快3倍</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <span class="rating">⭐⭐⭐⭐⭐ 5星</span>
+        <h1>Rust WASM Parser重写为TypeScript反而快3倍</h1>
+        <div class="meta">来源: Hacker News | 作者: OpenUI Engineering Team | 日期: 2026-03-13</div>
+        
+        <h2>摘要</h2>
+        <p>OpenUI团队将Rust WASM解析器重写为TypeScript，性能提升2.2x-4.6x。核心发现：WASM边界开销才是真正的瓶颈，而非Rust代码本身的执行速度。</p>
+        
+        <h2>核心亮点</h2>
+        <ul>
+            <li><strong>WASM边界税</strong> - 字符串复制进/出、JSON序列化/反序列化开销远超Rust解析本身</li>
+            <li><strong>serde-wasm-bindgen反而更慢30%</strong> - 试图跳过JSON往返反而因为跨边界细粒度转换更慢</li>
+            <li><strong>纯TypeScript方案</strong> - 消除边界后，contact-form从61.4µs降到13.4µs (4.6x)</li>
+            <li><strong>O(N²)流式问题</strong> - 每个LLM chunk重新解析整个字符串，后来用增量算法解决</li>
+        </ul>
+        
+        <div class="insight">
+            <strong>核心洞察:</strong> "Fewer, larger, and more optimized operations win over many small ones"
+        </div>
+        
+        <h2>性能对比</h2>
+        <table>
+            <tr>
+                <th>测试用例</th>
+                <th>WASM (µs)</th>
+                <th>TypeScript (µs)</th>
+                <th>加速比</th>
+            </tr>
+            <tr>
+                <td>simple-table</td>
+                <td>20.5</td>
+                <td>9.3</td>
+                <td><strong>2.2x</strong></td>
+            </tr>
+            <tr>
+                <td>contact-form</td>
+                <td>61.4</td>
+                <td>13.4</td>
+                <td><strong>4.6x</strong></td>
+            </tr>
+            <tr>
+                <td>dashboard</td>
+                <td>57.9</td>
+                <td>19.4</td>
+                <td><strong>3.0x</strong></td>
+            </tr>
+        </table>
+        
+        <h2>问题分析</h2>
+        
+        <div class="warning">
+            <strong>第一次尝试失败：</strong>使用serde-wasm-bindgen直接返回JS对象，反而比JSON方案慢30%。原因是JS无法直接读取Rust struct的字节，需要递归跨边界转换。
+        </div>
+        
+        <h3>WASM边界开销</h3>
+        <ul>
+            <li>JS → WASM：字符串复制 + 内存分配 + memcpy</li>
+            <li>WASM → JS：序列化 + 字符串复制 + 内存分配 + memcpy</li>
+            <li>JSON.parse：V8 C++优化，处理效率高</li>
+        </ul>
+        
+        <div class="success">
+            <strong>解决方案：</strong>消除WASM边界，完全在V8中运行。JSON序列化在纯Rust中完成，单次memcpy，V8的JSON.parse是高度优化的C++代码。
+        </div>
+        
+        <h2>流式解析优化</h2>
+        <p>第二个问题是流式场景下的O(N²)复杂度：每个LLM chunk都重新解析整个累积字符串。</p>
+        
+        <p>解决方案：<strong>语句级增量缓存</strong></p>
+        <ul>
+            <li>以depth-0换行符结束的语句是不可变的</li>
+            <li>缓存已完成语句的AST</li>
+            <li>只重算尾部进行中的语句</li>
+            <li>O(total_length)复杂度替代O(N²)</li>
+        </ul>
+        
+        <h2>教训</h2>
+        <p>团队最初优化了错误的东西（Rust解析速度），而忽略了真正的瓶颈（边界开销）。这个案例提醒我们：</p>
+        <ul>
+            <li>先测量，再优化</li>
+            <li>跨边界开销可能比预期大得多</li>
+            <li>V8的优化可能超出预期</li>
+        </ul>
+        
+        <h2>相关资源</h2>
+        <ul>
+            <li><a href="https://www.openui.com/blog/rust-wasm-parser" target="_blank">原文链接</a></li>
+        </ul>
+    </div>
+    
+    <div class="card">
+        <h2>标签</h2>
+        <span style="background: #e3f2fd; padding: 4px 8px; border-radius: 4px; margin: 2px; display: inline-block; font-size: 13px;">性能优化</span>
+        <span style="background: #e3f2fd; padding: 4px 8px; border-radius: 4px; margin: 2px; display: inline-block; font-size: 13px;">Rust</span>
+        <span style="background: #e3f2fd; padding: 4px 8px; border-radius: 4px; margin: 2px; display: inline-block; font-size: 13px;">TypeScript</span>
+        <span style="background: #e3f2fd; padding: 4px 8px; border-radius: 4px; margin: 2px; display: inline-block; font-size: 13px;">WASM</span>
+        <span style="background: #e3f2fd; padding: 4px 8px; border-radius: 4px; margin: 2px; display: inline-block; font-size: 13px;">V8</span>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profiling Hacker News Users - Simon Willison</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="container">
+        <h1>Profiling Hacker News Users Based on Their Comments</h1>
+        <div class="meta">来源: Simon Willison's Weblog | 日期: 2026-03-21</div>
+        <div class="source">📰 <strong>来源:</strong> <a href="https://simonwillison.net/2026/Mar/21/profiling-hacker-news-users/" target="_blank">Simon Willison Blog</a></div>
+        
+        <h2>摘要</h2>
+        <p>作者展示了一种利用LLM分析Hacker News用户历史评论并构建用户画像的方法。这种技术可以仅根据用户在HN上的1000条评论推断出其身份、职业、技术偏好等详细信息。</p>
+        
+        <h2>核心亮点</h2>
+        <div class="highlight">
+            <div class="highlight-title">📊 数据获取方法</div>
+            <p>使用Algolia Hacker News API可以轻松获取任意用户的评论数据。只需访问特定URL并加上用户标签即可获取最近1000条评论。API支持CORS，可以从任何网页直接调用。</p>
+        </div>
+        
+        <div class="highlight">
+            <div class="highlight-title">🧠 LLM分析能力</div>
+            <p>将用户评论粘贴到LLM（如Claude Opus 4.6）中，使用"profile this user"提示词，模型能够准确推断出：</p>
+            <ul>
+                <li>专业身份（如独立开发者、某公司员工）</li>
+                <li>核心技术观点和工作风格</li>
+                <li>关注的技术领域</li>
+                <li>个人兴趣和生活细节</li>
+            </ul>
+        </div>
+        
+        <div class="highlight">
+            <div class="highlight-title">👤 自我实验结果</div>
+            <p>作者让自己的评论被分析，结果准确得惊人：识别出是Django联创、Datasette创建者、关注AI编码工具、关注安全（提出"prompt injection"术语）、从iPhone编程等细节。</p>
+        </div>
+        
+        <div class="highlight">
+            <div class="highlight-title">🔒 隐私担忧</div>
+            <p>作者承认这种分析能力"令人毛骨悚然"——仅凭公开可用的评论数据就能推断出如此多的个人信息。主要用途是检测争论者的历史背景，但这种能力本身引发了严重的隐私问题。</p>
+        </div>
+        
+        <div class="insight">
+            💡 <strong>核心洞察:</strong> "能够如此容易地从公开数据中推断出这么多信息，这有点令人不安。"
+        </div>
+        
+        <h2>技术栈</h2>
+        <ul>
+            <li>Algolia HN API - 数据源</li>
+            <li>Claude Opus 4.6 - LLM分析</li>
+            <li>Hacker News - 社区平台</li>
+        </ul>
+        
+        <div class="tags">
+            <span class="tag">AI</span>
+            <span class="tag">隐私</span>
+            <span class="tag">数据分析</span>
+            <span class="tag">Hacker News</span>
+            <span class="tag">LLM应用</span>
+            <span class="rating">⭐⭐⭐⭐</span>
+        </div>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

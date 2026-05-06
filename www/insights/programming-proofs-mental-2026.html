@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Write Little Proofs in Your Head: 编程思维技巧</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <h1>Write Little Proofs in Your Head</h1>
+        <div class="meta">
+            <span class="score">⭐⭐⭐⭐</span> | 2026-03-20 | Get Nerve Blog
+        </div>
+        
+        <h2>核心理念</h2>
+        <p>在编写代码时，在脑海中" sketch a proof"，证明你的代码将做你想让它做的事情。这是一个需要大量练习的技巧，但一旦熟练，你会发现代码在第一或第二次尝试时就能正常工作。</p>
+        
+        <h2>1. 单调性 (Monotonicity)</h2>
+        <p>单调性是指代码"不回退"的特性。</p>
+        <ul>
+            <li><strong>检查点 (Checkpointing)</strong>：记录已完成的步骤，崩溃后从最后状态恢复</li>
+            <li><strong>日志文件系统</strong>：Write-ahead logs 是单调性的应用</li>
+            <li><strong>LSM 树 vs B 树</strong>：LSM 树是纯追加的，只增不减（压缩时除外）</li>
+            <li><strong>不可变性</strong>：创建后不可修改的对象，可以完全忽略"对象可能在脚下变化"的所有场景</li>
+        </ul>
+        
+        <h2>2. 前置/后置条件 (Pre-/Post-conditions)</h2>
+        <ul>
+            <li><strong>前置条件</strong>：函数运行前必须为真的假设</li>
+            <li><strong>后置条件</strong>：函数返回后必须为真的断言</li>
+            <li>明确定义后置条件是<span class="highlight">生成单元测试想法</span>的好方法</li>
+            <li>添加断言来验证前后置条件，代码崩溃比不可预测的行为更安全</li>
+        </ul>
+        
+        <h2>3. 不变量 (Invariants)</h2>
+        <p>不变量是代码运行前、运行中、运行后都应该为真的事物。</p>
+        
+        <div class="quote">
+            "One of the oldest and most famous examples of an invariant is the accounting equation: debits must equal credits."
+        </div>
+        
+        <ul>
+            <li>将代码分成原子"步骤"，证明每一步都保持不变量</li>
+            <li>然后可以得出结论：不变量无论以何种顺序运行都会保持</li>
+            <li>使用监听器或生命周期方法确保关键点不变量为真</li>
+        </ul>
+        
+        <h2>实践建议</h2>
+        <ul>
+            <li>在写代码时同时进行推理，而不是写完再验证</li>
+            <li>注意代码的单调性和不可变性特征</li>
+            <li>明确定义函数的约束条件</li>
+            <li>识别并维护关键不变量</li>
+        </ul>
+        
+        <a href="https://blog.get-nerve.com/to-be-a-better-programmer-write-little-proofs-in-your-head/" class="back">← 原文链接</a>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

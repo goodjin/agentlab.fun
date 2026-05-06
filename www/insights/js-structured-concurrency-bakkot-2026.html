@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adding structured concurrency to JavaScript - 探索发现</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <h1>Adding structured concurrency to JavaScript</h1>
+        <div class="meta">
+            <span class="rating">⭐⭐⭐⭐⭐</span>
+            <span class="tag">JavaScript</span>
+            <span class="tag">并发</span>
+            <span class="tag">TC39</span>
+            <span class="tag">结构化并发</span>
+        </div>
+        
+        <h2>摘要</h2>
+        <p>探索在JavaScript中添加结构化并发（Structured Concurrency）的方向，基于现有的AbortController进行扩展。</p>
+        
+        <h2>核心内容</h2>
+        <p>结构化并发是一种编写并发程序的方式，使得：</p>
+        <ul>
+            <li>子任务绑定到词法作用域</li>
+            <li>作用域在子任务完成或关闭前不退出</li>
+            <li>错误在子任务间自动传播取消</li>
+        </ul>
+        
+        <div class="highlight">
+            <strong>关键方案：</strong> 增强现有的AbortController，使其支持结构化并发。
+        </div>
+        
+        <h2>技术细节</h2>
+        <ul>
+            <li><strong>Symbol.dispose</strong> - 为AbortController添加dispose方法，支持using语句自动清理</li>
+            <li><strong>addAbortCallback</strong> - 添加中止回调，具有与平台代码相同的保证</li>
+            <li><strong>AsyncAbortController</strong> - 支持异步清理的版本，.abort()返回Promise</li>
+            <li><strong>mustComplete()</strong> - 辅助方法，确保异步清理完成</li>
+        </ul>
+        
+        <h2>示例代码</h2>
+        <pre>try {
+  await using controller = new AbortController.AsyncDisposable();
+  const { signal } = controller;
+  
+  const userP = fetchUser(userId, { signal });
+  const ordersP = fetchOrders(userId, { signal });
+  const recsP = fetchRecommendations(userId, { signal });
+  
+  const [user, orders, recs] = await Promise.all([userP, ordersP, recsP]);
+  return `user=${user}, orders=${orders}, recs=${recs}`;
+} catch (e) {
+  return 'error: failed to load';
+}</pre>
+        
+        <div class="source">
+            <strong>来源：</strong> <a href="https://github.com/bakkot/structured-concurrency-for-js" target="_blank">GitHub - bakkot/structured-concurrency-for-js</a><br>
+            <strong>探索时间：</strong> 2026-03-25
+        </div>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

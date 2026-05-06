@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java性能优化: 5倍吞吐量提升 - 8大反模式</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>🚀 Java性能优化: 5倍吞吐量提升</h1>
+    
+    <p><span class="tag">Java</span><span class="tag">性能优化</span><span class="tag">JFR</span><span class="tag">JVM</span></p>
+    
+    <p>作者: Jonathan Vogel | 来源: <a href="https://jvogel.me/posts/2026/java-is-fast-your-code-might-not-be/" target="_blank">jvogel.me</a></p>
+    
+    <h2>📊 性能提升结果</h2>
+    
+    <div class="stats">
+        <div class="stat-card">
+            <div class="stat-value">5x</div>
+            <div class="stat-label">吞吐量提升</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">87%</div>
+            <div class="stat-label">堆内存减少</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">79%</div>
+            <div class="stat-label">GC暂停减少</div>
+        </div>
+    </div>
+    
+    <div class="comparison">
+        <div class="before">
+            <h3>优化前</h3>
+            <p>⏱️ 1198ms 延迟</p>
+            <p>📈 85,000 orders/s</p>
+            <p>💾 1GB+ heap</p>
+            <p>🔄 19 GC pauses</p>
+        </div>
+        <div class="after">
+            <h3>优化后</h3>
+            <p>⏱️ 239ms 延迟</p>
+            <p>📈 419,000 orders/s</p>
+            <p>💾 139MB heap</p>
+            <p>🔄 4 GC pauses</p>
+        </div>
+    </div>
+    
+    <p><em>相同应用、相同测试、相同JDK、无架构改动</em></p>
+    
+    <h2>⚠️ 8大性能反模式</h2>
+    
+    <div class="antipattern">
+        <h3><span class="antipattern-number">1</span>String Concatenation in Loops</h3>
+        <p><strong>问题:</strong> 循环内使用 <code>+</code> 连接字符串导致 O(n²) 复杂度</p>
+        <pre>// ❌ 每次迭代都创建新String对象
+String report = "";
+for (String line : logLines) {
+    report = report + line + "\n";
+}</pre>
+        <p><strong>修复:</strong> 使用 StringBuilder</p>
+        <pre>// ✅ 单一可变缓冲区，一次分配
+StringBuilder sb = new StringBuilder();
+for (String line : logLines) {
+    sb.append(line).append("\n");
+}
+String report = sb.toString();</pre>
+    </div>
+    
+    <div class="antipattern">
+        <h3><span class="antipattern-number">2</span>O(n²) Stream Inside Loops</h3>
+        <p><strong>问题:</strong> 循环内对整个列表stream，10,000订单 = 1亿次比较</p>
+        <pre>// ❌ 每个订单都遍历整个列表
+for (Order order : orders) {
+    long countForHour = orders.stream()
+        .filter(o -> ...)
+        .count(); // 71% CPU hotspot!
+}</pre>
+        <p><strong>修复:</strong> 单次遍历</p>
+        <pre>// ✅ O(n) 复杂度
+for (Order order : orders) {
+    ordersByHour.merge(hour, 1L, Long::sum);
+}</pre>
+    </div>
+    
+    <div class="antipattern">
+        <h3><span class="antipattern-number">3</span>String.format() in Hot Paths</h3>
+        <p><strong>问题:</strong> 每次调用都解析格式字符串，最慢的字符串构建方式</p>
+        <pre>// ❌ 每次调用都解析格式
+return String.format("Order %s: $%.2f", id, amount);</pre>
+        <p><strong>修复:</strong> 仅在需要格式化数字时使用</p>
+        <pre>// ✅ 编译器优化单行连接
+return "Order " + id + ": $" + String.format("%.2f", amount);</pre>
+    </div>
+    
+    <div class="antipattern">
+        <h3><span class="antipattern-number">4</span>Autoboxing in Hot Paths</h3>
+        <p><strong>问题:</strong> 每次运算创建大量包装对象，100万元素 = 16MB堆开销</p>
+        <pre>// ❌ Long包装类开销
+Long sum = 0L;
+for (Long value : values) {
+    sum += value; // 自动装箱/拆箱
+}</pre>
+        <p><strong>修复:</strong> 使用原始类型</p>
+        <pre>// ✅ 原始类型，无装箱
+long sum = 0L;
+for (long value : values) {
+    sum += value;
+}</pre>
+    </div>
+    
+    <div class="antipattern">
+        <h3><span class="antipattern-number">5</span>Exceptions for Control Flow</h3>
+        <p><strong>问题:</strong> fillInStackTrace() 遍历整个调用栈</p>
+        <pre>// ❌ 异常处理开销巨大
+try {
+    return Integer.parseInt(str);
+} catch (NumberFormatException e) {
+    return defaultValue;
+}</pre>
+    </div>
+    
+    <div class="antipattern">
+        <h3><span class="antipattern-number">6</span>Too-Broad Synchronization</h3>
+        <p><strong>问题:</strong> 一个锁成为整个系统瓶颈</p>
+    </div>
+    
+    <div class="antipattern">
+        <h3><span class="antipattern-number">7</span>Recreating Reusable Objects</h3>
+        <p><strong>问题:</strong> 每次调用创建ObjectMapper/DateTimeFormatter</p>
+        <pre>// ❌ 每次调用新建
+public String parse(String json) {
+    ObjectMapper mapper = new ObjectMapper();
+    return mapper.readValue(json, MyClass.class);
+}</pre>
+    </div>
+    
+    <div class="antipattern">
+        <h3><span class="antipattern-number">8</span>Virtual Thread Pinning (JDK 21-23)</h3>
+        <p><strong>问题:</strong> synchronized + blocking I/O 导致线程钉在carrier上</p>
+    </div>
+    
+    <h2>💡 核心洞察</h2>
+    <blockquote>
+        <p>"Java很快，但你的代码可能不是。"</p>
+    </blockquote>
+    
+    <p>这些反模式在真实代码库中很常见：编译通过、代码审查难以发现、必须有性能分析数据才能定位。</p>
+    
+    <h2>🔧 工具推荐</h2>
+    <ul>
+        <li><strong>Java Flight Recorder (JFR)</strong> - JVM性能录制</li>
+        <li><strong>JMH</strong> - Java微基准测试</li>
+        <li><strong>Flame Graph</strong> - CPU热点可视化</li>
+    </ul>
+    
+    <hr>
+    <p><small>探索时间: 2026-03-20 | 评分: ⭐⭐⭐⭐⭐ (5星)</small></p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

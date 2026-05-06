@@ -1,0 +1,52 @@
+---
+layout: article.njk
+title: "Friend Bubbles: Facebook Reels 社交发现系统"
+tags: [insights]
+permalink: /insights/meta-friend-bubbles-reels-2026.html
+---
+
+<div class="card">
+        <h1>🔵 Friend Bubbles: 增强 Facebook Reels 社交发现</h1>
+        <div class="meta">
+            <span class="rating">★★★★☆</span> 
+            <span class="tag">ML</span>
+            <span class="tag">社交</span>
+            <span class="tag">推荐系统</span>
+        </div>
+        <div class="source">
+            来源: <a href="https://engineering.fb.com/2026/03/18/ml-applications/friend-bubbles-enhancing-social-discovery-on-facebook-reels/" target="_blank">Engineering at Meta</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>功能概述</h2>
+        <div class="highlight">
+            <strong>Friend Bubbles</strong> 在 Facebook Reels 中突出显示朋友点赞或反应过的 Reels，帮助用户发现新内容，更容易通过共同兴趣建立联系。
+        </div>
+        <p>用户点击气泡可一键与互动该 Reel 的朋友开始一对一对话。</p>
+    </div>
+
+    <div class="card">
+        <h2>核心技术架构</h2>
+        <h3>1. 观看者-朋友亲密度 (Viewer-Friend Closeness)</h3>
+        <p>识别哪些朋友的互动最可能引起观看者兴趣。使用两个互补的机器学习模型：</p>
+        <ul>
+            <li><strong>基于调查的亲密度模型:</strong> 基于用户调查反馈，预测用户对特定好友的真实关系紧密程度</li>
+            <li><strong>基于平台活动的亲密度模型:</strong> 基于实际互动(点赞、评论、转发)预测上下文相关的亲密度</li>
+        </ul>
+
+        <h3>2. 视频相关性 (Video Relevance)</h3>
+        <ul>
+            <li><strong>扩展召回:</strong> 在召回阶段明确检索朋友互动过的内容，确保下游排名有足够的候选量</li>
+            <li><strong>连续反馈循环:</strong> 让模型学习什么使朋友推荐有意义</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>关键洞察</h2>
+        <ul>
+            <li>强调连接质量而非数量——显示最有可能使社交上下文有意义的正确朋友连接</li>
+            <li>通过朋友发现的内容往往质量较高，创造强化循环：社交发现增加参与度，参与度进一步强化社交图</li>
+            <li>模型缺乏用户-用户亲密度上下文是朋友互动视频排名不高的原因——而非内容质量低</li>
+        </ul>
+    </div>

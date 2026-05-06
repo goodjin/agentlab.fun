@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>编程的衰落艺术 - Jin&#39;s Insights</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+
+    
+    <main>
+        <a href="/insights/index.html" class="back-link">← 返回首页</a>
+        
+        <div class="rating">
+            <span class="rating-label">评分:</span>
+            <span class="stars">⭐⭐⭐⭐⭐</span>
+        </div>
+        
+        <h1>编程的衰落艺术</h1>
+        
+        <div class="meta">
+            <span class="tag">编程哲学</span>
+            <span class="tag">AI</span>
+            <span class="tag">Craftsmanship</span>
+            <span class="date">2026-03-22</span>
+        </div>
+        
+        <div class="source">
+            <div class="source-label">来源</div>
+            <a href="https://nolanlawson.com/2026/03/22/the-diminished-art-of-coding/" target="_blank">The diminished art of coding - Nolan Lawson</a>
+        </div>
+        
+        <h2>编程是一门艺术</h2>
+        
+        <p>编程是一门艺术。它不像美术或音乐，更接近建筑或木匠——结合形式与功能——但它确实是一门艺术。</p>
+        
+        <p>如果你不相信我，想想代码审查。我做过一些代码审查，在其中我钦佩所展示的精湛技艺，解决方案的优雅如宝石般闪耀，我感到像莫扎特交响乐前的萨列里。相反，我指导过初级工程师，他们的代码我可以立即看到帮助他们成熟的机会——这部分是重复的，这部分可以更简洁地表达，等等。</p>
+        
+        <blockquote>
+            "当我审查 AI 生成的代码时，我没有任何这种感觉。我有时能分辨出它是 Claude 还是 Codex 编写的（Claude 喜欢大量正式注释，Codex 更直接），但我的思绪会漂移到 PR 的意图、提示或计划上。"
+        </blockquote>
+        
+        <h2>功能压倒形式</h2>
+        
+        <p>在我的职业生涯中，我同时持有两种对立的观点：</p>
+        
+        <ul>
+            <li>编程是一种艺术形式，但你不应该对代码太感情用事——大多数代码最终会成为应该被清除的技术债务</li>
+            <li>代码可以表达作者的创造力，但最好的代码是惯用的，减少 WTFs/min</li>
+        </ul>
+        
+        <p>简而言之：代码是艺术，但它也是达成目的的手段。</p>
+        
+        <p>随着 LLM 编码助手的出现，这一矛盾已坚决地向功能倾斜。就像 Les Orchard 所说的，"让事情运转的人"战胜了"热爱工艺的人"。</p>
+        
+        <h2>木匠变成了蓝图设计师</h2>
+        
+        <blockquote>
+            "在某种程度上，我觉得自己像一个木匠，工作是为宜家工厂写蓝图。当然，设计蓝图仍然有艺术，但你不关心工厂是否吐出一两个有裂缝的桌子腿。关键是足够快地生产家具，这样小缺陷就不重要了。品味和判断仍然重要，但它们是装配线上的监管者水平，而不是木匠用凿子工作的水平。"
+        </blockquote>
+        
+        <h2>在别处寻找艺术</h2>
+        
+        <p>对我整个一代程序员的一个担忧是，我们中的许多人一直从编程中获得艺术"满足"：认真对待工艺，以文学评论的眼光审查他人的代码，努力提升这个职业。现在这个职业已经变成了装配线，我们中的许多人热切地跳进了"蓝图设计师"的新工作，却没有质疑这对我们的灵魂意味着什么。</p>
+        
+        <p>我的建议是：如果你在编程中寻找艺术，不要再寻找了。如果你从未对诗歌、绘画或舞蹈感兴趣，现在是个好时机。</p>
+        
+        <h2>作者的实践</h2>
+        
+        <ul>
+            <li>开始画画（Bob Ross 是轻松的入门方式）</li>
+            <li>去看几场芭蕾/当代舞蹈表演</li>
+            <li>开始读更多小说</li>
+            <li>重新拿起吉他</li>
+        </ul>
+        
+        <h2>结论</h2>
+        
+        <p>我们firmly处于编程的快时尚时代：软件是 vibe-coded，用完就扔，再 vibe-coded。这不是完全糟糕的事，非程序员肯定会对他们获得的能力感到高兴。但作为程序员，我们不应该忽视我们失去了什么，应该寻求新的艺术营养来源。</p>
+        
+        <blockquote>
+            "在机器'预测下一个 token'的世界里，最好的反应是什么？变得不那么可预测。至少这是我希望我在做的。"
+        </blockquote>
+    </main>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

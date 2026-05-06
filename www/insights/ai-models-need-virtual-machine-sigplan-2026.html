@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Models Need a Virtual Machine - SIGPLAN 2025</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="container">
+        <h1>🤖 AI Models Need a Virtual Machine</h1>
+        <div class="meta">
+            <span class="tag">AI Infrastructure</span>
+            <span class="tag">Programming Languages</span>
+            <span class="rating">⭐⭐⭐⭐⭐ (5星)</span>
+        </div>
+        
+        <h2>📌 核心观点</h2>
+        <p>来自 Microsoft Research 和华盛顿大学的作者们提出：AI 模型需要一个虚拟机(VM)规范，类比 Java VM 的设计理念，实现 "write once, run anywhere"。</p>
+        
+        <div class="highlight">
+            <strong>💡 关键洞察：</strong>AI 软件系统需要操作系统般的品质——安全、隔离、可扩展性和可移植性。
+        </div>
+
+        <h2>🎯 为什么需要 AI Model VM？</h2>
+        <ul>
+            <li><strong>当前问题：</strong>AI 软件的控制软件复杂度不断增加</li>
+            <li><strong>类比 Java VM：</strong>内存安全、访问控制、字节码验证</li>
+            <li><strong>MCP 协议：</strong>"像 USB-C 端口之于 AI 应用"</li>
+        </ul>
+
+        <h2>📋 VM 指令示例</h2>
+        <ul>
+            <li>加载、初始化、卸载 AI 模型</li>
+            <li>调用模型并传递上下文</li>
+            <li>解析模型输出</li>
+            <li>加载、调用工具</li>
+            <li>解析工具调用结果</li>
+            <li>存储结果到内存</li>
+            <li>向用户请求输入</li>
+            <li>添加内容到历史内存</li>
+        </ul>
+
+        <h2>🔒 安全项目</h2>
+        <ul>
+            <li><strong>FIDES</strong> (Microsoft Research): 通过跟踪数据机密性标签强制执行信息流策略</li>
+            <li><strong>AC4A</strong> (Access Control for Agents): OS 风格方法，所有工具和数据组织成层级结构</li>
+        </ul>
+
+        <h2>✨ VM 规范的好处</h2>
+        <ul>
+            <li><strong>分离关注点：</strong>模型成为可互换组件</li>
+            <li><strong>内置安全与治理：</strong>权限检查、审计日志、故障保护</li>
+            <li><strong>透明的性能与资源追踪：</strong>运行时诊断</li>
+            <li><strong>模型输出的可验证性：</strong>集成形式化方法</li>
+        </ul>
+
+        <h2>📖 作者团队</h2>
+        <div class="authors">
+            <ul>
+                <li><strong>Shraddha Barke</strong> - Microsoft Research 高级研究员</li>
+                <li><strong>Betül Durak</strong> - Microsoft Research 首席研究员</li>
+                <li><strong>Dan Grossman</strong> - 华盛顿大学教授</li>
+                <li><strong>Peli de Halleux</strong> - Microsoft Research 首席工程师</li>
+                <li><strong>Emre Kıcıman</strong> - Microsoft Research 高级经理</li>
+                <li><strong>Reshabh K Sharma</strong> - 华盛顿大学博士生</li>
+                <li><strong>Ben Zorn</strong> - Microsoft Research 合作伙伴研究员</li>
+            </ul>
+        </div>
+
+        <h2>🔗 原文链接</h2>
+        <p><a href="https://blog.sigplan.org/2025/08/29/ai-models-need-a-virtual-machine/" target="_blank">阅读原文 →</a></p>
+
+        <hr>
+        <p style="color: #6b7280; font-size: 12px;">来源: SIGPLAN Blog | 日期: 2025-08-29</p>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,54 @@
+---
+layout: article.njk
+title: "macOS 26 Breaks /etc/resolver/ - DNS Bug"
+tags: [insights]
+permalink: /insights/macos-26-dns-resolver-bug-2026.html
+---
+
+<div class="card">
+        <h1>macOS 26 Breaks /etc/resolver/ DNS</h1>
+        <div class="meta">⭐⭐⭐⭐ (4星) | macOS/Bug Report | 2026-03-19</div>
+        
+        <div class="warning">
+            <strong>⚠️ Regression Bug:</strong> macOS 26 breaks per-domain DNS resolver for custom TLDs. Silent failure affects developers using dnsmasq, Docker, Kubernetes, and other local development tools.
+        </div>
+        
+        <h2>Summary</h2>
+        <p>The <code>/etc/resolver/</code> per-domain DNS resolver mechanism — a long-standing macOS feature documented in <code>man 5 resolver</code> — is silently broken in macOS 26 for any TLD not present in the IANA root zone.</p>
+        
+        <h2>Affected TLDs</h2>
+        <table>
+            <tr><th>TLD</th><th>Status</th><th>Notes</th></tr>
+            <tr><td>.internal</td><td>Broken</td><td>IETF draft special-use TLD</td></tr>
+            <tr><td>.test</td><td>Broken</td><td>RFC 6761 reserved for testing</td></tr>
+            <tr><td>.home.arpa</td><td>Broken</td><td>RFC 8375 reserved</td></tr>
+            <tr><td>.lan</td><td>Broken</td><td>Widely used convention</td></tr>
+            <tr><td>Arbitrary</td><td>Broken</td><td>Any non-IANA TLD</td></tr>
+        </table>
+        
+        <h2>Root Cause</h2>
+        <p>mDNSResponder intercepts queries for custom/private TLDs and handles them as mDNS (multicast DNS), never consulting the unicast nameserver specified in the resolver file. This is a fundamental change in behavior from macOS 25.x.</p>
+        
+        <h2>Impact</h2>
+        <ul>
+            <li>Developers using dnsmasq + <code>/etc/resolver/</code></li>
+            <li>Docker Desktop container name resolution via custom TLDs</li>
+            <li>Kubernetes local development (minikube, kind, k3d)</li>
+            <li>Vagrant, Tailscale, VPN clients using resolver files</li>
+        </ul>
+        
+        <h2>Workaround</h2>
+        <p>Manual <code>/etc/hosts</code> entries - impractical for dynamic use cases.</p>
+        
+        <div class="tags">
+            <span class="tag">macOS</span>
+            <span class="tag">DNS</span>
+            <span class="tag">Regression</span>
+            <span class="tag">mDNSResponder</span>
+            <span class="tag">Developer Tools</span>
+        </div>
+        
+        <p style="margin-top: 20px;">
+            <a href="https://gist.github.com/adamamyl/81b78eced40feae50eae7c4f3bec1f5a" target="_blank">Read Original Bug Report →</a>
+        </p>
+    </div>

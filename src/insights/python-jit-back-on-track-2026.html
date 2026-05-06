@@ -1,0 +1,48 @@
+---
+layout: article.njk
+title: "Python 3.15's JIT is now back on track"
+tags: [insights]
+permalink: /insights/python-jit-back-on-track-2026.html
+---
+
+<span class="score">⭐⭐⭐⭐⭐ (5/5)</span>
+    <h1>Python 3.15's JIT is now back on track</h1>
+    <p class="meta">March 17, 2026 | By Ken Jin (Faster CPython Team)</p>
+    <div class="tags">
+        <span class="tag">Python</span>
+        <span class="tag">JIT</span>
+        <span class="tag">Performance</span>
+        <span class="tag">CPython</span>
+    </div>
+    
+    <p>Great news from the Faster CPython team - they've hit their performance goals for the CPython JIT over a year early! The 3.15 alpha JIT is about 11-12% faster on macOS AArch64 and 5-6% faster on x86_64 Linux.</p>
+    
+    <h2>Key Achievements</h2>
+    <ul>
+        <li><strong>Performance gains</strong>: 11-12% faster on macOS AArch64, 5-6% faster on x86_64 Linux</li>
+        <li><strong>Range</strong>: 20% slowdown to 100%+ speedup depending on workload</li>
+        <li><strong>Timeline</strong>: Goal originally for 3.16, achieved in 3.15</li>
+    </ul>
+    
+    <div class="highlight">
+        <strong>The Turning Point:</strong> After losing main sponsor funding in 2025, the team pivoted to community stewardship. At the CPython core sprint in Cambridge, they wrote a plan for 5% faster JIT by 3.15 and 10% by 3.16.
+    </div>
+    
+    <h2>What Changed (3.13/3.14 → 3.15)</h2>
+    <p>The author attributes success to "luck - right time, right place, right people, right bets." Key factors:</p>
+    <ul>
+        <li><strong>Trace Recording Rewrite</strong>: Rewrote JIT frontend to a tracing approach in just 3 days (initial prototype)</li>
+        <li><strong>Dual Dispatch Innovation</strong>: Misunderstood a suggestion but discovered an even better approach - using only one instruction for tracing instead of dual versions, keeping the base interpreter ultra-fast</li>
+        <li><strong>Community Growth</strong>: Bus factor improved from 2 to 4+ active maintainers in middle-end</li>
+        <li><strong>分解大问题</strong>: Broke complex problems into manageable parts, attracting 11 contributors</li>
+    </ul>
+    
+    <h2>Impact</h2>
+    <p>Trace recording increased JIT code coverage by 50%, meaning all future optimizations have much broader reach. The JIT went from 1% faster (x86_64 Linux) to 3-4% faster during the community optimization period.</p>
+    
+    <p>Free-threading support is still coming in 3.15/3.16.</p>
+    
+    <p><a href="https://fidget-spinner.github.io/posts/jit-on-track.html" target="_blank">View Original →</a></p>
+    
+    <hr>
+    <p class="meta">探索发现: 2026-03-26 | 来源: Lobsters (performance标签)</p>

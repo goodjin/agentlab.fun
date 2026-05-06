@@ -1,0 +1,83 @@
+---
+layout: article.njk
+title: "WebAssembly: From Second-Class to First-Class Citizen - Mozilla Hacks 2026"
+tags: [insights]
+permalink: /insights/webassembly-first-class-citizen-mozilla-2026.html
+---
+
+<div class="container">
+        <h1>WebAssembly: 从二等公民到一等公民 🚀</h1>
+        <p class="source">来源: <a href="https://hacks.mozilla.org/2026/02/making-webassembly-a-first-class-language-on-the-web/">Mozilla Hacks</a> | 评分: <span class="rating">⭐⭐⭐⭐⭐ 5星</span></p>
+        
+        <div style="margin: 20px 0;">
+            <span class="tag">WebAssembly</span>
+            <span class="tag">WASM</span>
+            <span class="tag">前端</span>
+            <span class="tag">Mozilla</span>
+        </div>
+
+        <h2>核心问题：WebAssembly 仍是二等公民</h2>
+        
+        <p>WebAssembly 自 2017 年发布以来取得了巨大进步，新增了共享内存、SIMD、异常处理、尾调用、64位内存、GC 支持等特性。但核心问题仍然是：<strong>WebAssembly 在 Web 平台上仍是二等公民</strong>。</p>
+
+        <div class="highlight">
+            <strong>关键洞察：</strong>WebAssembly 无法直接与 Web API 交互，必须通过 JavaScript "胶水代码" 桥接。这导致了糟糕的开发者体验。
+        </div>
+
+        <h2>问题一：代码加载</h2>
+        
+        <p>JavaScript 加载只需一行：</p>
+        <pre><code>&lt;script src="script.js"&gt;&lt;/script&gt;</code></pre>
+        
+        <p>WebAssembly 需要复杂的 API 调用：</p>
+        <pre><code>let bytecode = fetch(import.meta.resolve('./module.wasm'));
+let imports = { ... };
+let { exports } = await WebAssembly.instantiateStreaming(bytecode, imports);</code></pre>
+
+        <h2>问题二：使用 Web API</h2>
+        
+        <p>JavaScript 调用 console.log 只需：</p>
+        <pre><code>console.log("hello, world");</code></pre>
+        
+        <p>WebAssembly 需要大量胶水代码来处理内存转换和 API 调用。</p>
+
+        <h2>实验数据：45% 性能损失</h2>
+        
+        <p>Mozilla 实验显示：移除 JS 胶水代码后，DOM 操作性能提升 <strong>45%</strong>。这意味着 WebAssembly 用户在 DOM 操作上支付了约 2 倍的性能税。</p>
+
+        <h2>解决方案：WebAssembly Components</h2>
+        
+        <p>WebAssembly Component Model 提供了一种理想方案：</p>
+        <ul>
+            <li>标准化的自包含可执行工件</li>
+            <li>多语言和工具链支持</li>
+            <li>内置加载和链接功能</li>
+            <li><strong>直接支持 Web API 调用</strong></li>
+        </ul>
+
+        <h3>使用 WIT 定义接口</h3>
+        <pre><code>component {
+  import std:web/console;
+}</code></pre>
+
+        <h3>未来加载方式</h3>
+        <pre><code>&lt;script type="module" src="component.wasm"&gt;&lt;/script&gt;</code></pre>
+        
+        <p>浏览器将自动加载组件，直接绑定原生 Web API，无需任何 JS 胶水代码！</p>
+
+        <h2>为什么这很重要</h2>
+        
+        <ul>
+            <li><strong>降低门槛</strong>：普通开发者无需了解复杂工具链</li>
+            <li><strong>性能提升</strong>：消除 JS/Wasm 边界开销</li>
+            <li><strong>统一生态</strong>：不同语言共享同一套 Web 平台集成</li>
+            <li><strong>上游友好</strong>：标准编译器可原生支持</li>
+        </ul>
+
+        <h2>总结</h2>
+        
+        <p>WebAssembly Components 可能是 WebAssembly 在 Web 平台上获得"一等公民"地位的关键。它将改变我们构建 Web 应用的方式，让非 JavaScript 语言也能原生使用 Web API。</p>
+        
+        <hr>
+        <p style="color: #666; font-size: 14px;">🕐 最后更新: 2026-03-18 | 来源: Mozilla Hacks</p>
+    </div>

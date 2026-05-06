@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Components of A Coding Agent - Sebastian Raschka</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>Components of A Coding Agent</h1>
+    <div class="meta">
+        <strong>作者:</strong> Sebastian Raschka | 
+        <strong>来源:</strong> Sebastian Raschka's Blog | 
+        <strong>日期:</strong> 2026-04-05
+    </div>
+
+    <h2>核心观点</h2>
+    <p>这篇文章系统性地解释了coding agent的六大核心组件。对于理解LLM如何在真实编码环境中工作，这篇文章提供了权威的参考框架。</p>
+
+    <div class="key-insight">
+        <strong>关键洞见：</strong> 当前的LLM（如GPT-5.4、Claude Opus 4.6、GLM-5）在基础能力上已经非常接近，真正的差异化往往在于agent harness——即围绕模型的外层软件架构。
+    </div>
+
+    <h2>LLM vs Reasoning Model vs Agent vs Harness</h2>
+    <ul>
+        <li><strong>LLM:</strong> 核心的next-token模型</li>
+        <li><strong>Reasoning Model:</strong> 经过训练/提示优化，在推理时投入更多计算资源进行中间推理、验证或搜索</li>
+        <li><strong>Agent:</strong> 模型外层的控制循环，决定下一步检查什么、调用什么工具、如何更新状态、何时停止</li>
+        <li><strong>Agent Harness:</strong> 管理context、tool use、prompts、state和control flow的软件脚手架</li>
+        <li><strong>Coding Harness:</strong> 针对软件工程的特定harness，管理代码context、tools、执行和迭代反馈</li>
+    </ul>
+
+    <h2>六大核心组件</h2>
+
+    <h3>1. Live Repo Context (WorkspaceContext)</h3>
+    <p>当用户说"修复测试"或"实现XYZ"时，模型需要知道：</p>
+    <ul>
+        <li>是否在Git仓库中</li>
+        <li>当前在哪个分支</li>
+        <li>项目文档在哪里</li>
+        <li>仓库根目录和布局</li>
+    </ul>
+    <p>Agent在开始工作前收集这些"稳定事实"作为workspace summary，而不是每次都从零开始。</p>
+
+    <h3>2. Prompt Shape And Cache Reuse</h3>
+    <p>Coding sessions是重复性的：</p>
+    <ul>
+        <li>Agent规则通常不变</li>
+        <li>Tool描述通常不变</li>
+        <li>Workspace summary也基本不变</li>
+    </ul>
+    <p>智能的runtime不会在每个turn重建所有内容，而是构建稳定的prompt prefix，只在需要时添加变化的部分。</p>
+
+    <h3>3. Structured Tools, Validation, And Permissions</h3>
+    <p>工具是agent能力的延伸：</p>
+    <ul>
+        <li>Shell命令执行</li>
+        <li>文件读写编辑</li>
+        <li>Git操作</li>
+        <li>搜索和导航</li>
+        <li>测试运行</li>
+    </ul>
+    <p>关键：需要对危险操作进行权限控制和验证。</p>
+
+    <h3>4. Context Reduction And Output Management</h3>
+    <p>随着对话进行，context会增长。需要：</p>
+    <ul>
+        <li>上下文裁剪/压缩</li>
+        <li>历史消息管理</li>
+        <li>输出格式化</li>
+    </ul>
+
+    <h3>5. Transcripts, Memory, And Resumption</h3>
+    <p>会话持久化能力：</p>
+    <ul>
+        <li>保存会话transcript</li>
+        <li>蒸馏session memory</li>
+        <li>恢复历史会话</li>
+    </ul>
+
+    <h3>6. Delegation And Bounded Subagents</h3>
+    <p>子代理委托能力，让agent可以调用其他agent完成子任务。</p>
+
+    <h2>实践示例: Mini Coding Agent</h2>
+    <p>Sebastian Raschka提供了一个极简的<a href="https://github.com/rasbt/mini-coding-agent">开源实现</a>，用纯Python实现，包含约400行代码，展示了所有6个核心组件。</p>
+    
+    <div class="source">
+        <strong>GitHub:</strong> <a href="https://github.com/rasbt/mini-coding-agent">https://github.com/rasbt/mini-coding-agent</a><br>
+        <strong>特性:</strong> Workspace snapshot collection, stable prompt + turn state, structured tools, approval handling, transcript/memory persistence, bounded delegation
+    </div>
+
+    <h2>为什么这很重要</h2>
+    <p>文章指出一个重要观点：</p>
+    <div class="key-insight">
+        如果把最新的开源LLM（如GLM-5）放入类似的harness中，它很可能在Codex或Claude Code中与GPT-5.4或Claude Opus 4.6性能相当。虽然这只是推测，但说明harness可能是区分不同LLM系统的关键因素。
+    </div>
+
+    <p>换句话说：<strong>模型是引擎，harness帮助模型发挥最大潜力</strong>。这解释了为什么Claude Code或Codex能够比相同模型在普通聊天界面中表现更强。</p>
+
+    <h2>相关资源</h2>
+    <ul>
+        <li><a href="https://github.com/rasbt/mini-coding-agent">Mini Coding Agent GitHub</a></li>
+        <li><a href="https://magazine.sebastianraschka.com/">Sebastian Raschka's Blog</a></li>
+    </ul>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

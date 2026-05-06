@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meta&#39;s Renewed Commitment to jemalloc</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <span class="rating">⭐⭐⭐⭐</span>
+        <h1>Meta's Renewed Commitment to jemalloc</h1>
+        <div class="meta">Source: engineering.fb.com | Date: March 2, 2026</div>
+        <div class="tags">
+            <span class="tag">jemalloc</span>
+            <span class="tag">Memory Allocator</span>
+            <span class="tag">Meta</span>
+            <span class="tag">AArch64</span>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>Summary</h2>
+        <p>Meta announces renewed focus on jemalloc, the high-performance memory allocator. After years of internal forks and technical debt, they're reinvesting in the open source project.</p>
+    </div>
+
+    <div class="card">
+        <h2>Background</h2>
+        <p>jemalloc has been a foundational component in Meta's infrastructure alongside the Linux kernel and compilers. However, in recent years, there was a gradual shift away from core engineering principles, leading to technical debt.</p>
+        
+        <p>Meta took community feedback to heart and had discussions with the original founder Jason Evans.</p>
+    </div>
+
+    <div class="card">
+        <h2>What's Changing</h2>
+        <ul>
+            <li><strong>Repository Unarchived:</strong> The original jemalloc GitHub repo has been re-opened</li>
+            <li><strong>Technical Debt Removal:</strong> Focused cleanup and refactoring</li>
+            <li><strong>Community Collaboration:</strong> Welcome contributions from the open source community</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>Future Roadmap</h2>
+        <h3>1. Technical Debt Reduction</h3>
+        <p>Cleaning up the codebase to ensure jemalloc remains efficient, reliable, and easy to use.</p>
+        
+        <h3>2. Huge-Page Allocator (HPA)</h3>
+        <p>Improving utilization of transparent huge pages (THP) for better CPU efficiency.</p>
+        
+        <h3>3. Memory Efficiency</h3>
+        <p>Better packing, caching, and purging mechanisms.</p>
+        
+        <h3>4. AArch64 Optimizations</h3>
+        <p>Ensuring good out-of-the-box performance for ARM64 platform (Apple Silicon, AWS Graviton, etc.)</p>
+    </div>
+
+    <div class="card">
+        <h2>Why This Matters</h2>
+        <ul>
+            <li>jemalloc is used by many large-scale systems (Discord, Cassandra, etc.)</li>
+            <li>Modern hardware (especially Apple Silicon) benefits from allocator tuning</li>
+            <li>Community-driven development ensures long-term health</li>
+            <li>Foundation for future memory management innovations</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>Links</h2>
+        <p><a href="https://engineering.fb.com/2026/03/02/data-infrastructure/investing-in-infrastructure-metas-renewed-commitment-to-jemalloc/" target="_blank">Original Article →</a></p>
+        <p><a href="https://github.com/jemalloc/jemalloc" target="_blank">jemalloc on GitHub →</a></p>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

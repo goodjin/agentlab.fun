@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LPG: LLM辅助泛化编译器窥孔优化 - arXiv 2026</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <h1>⚙️ LPG: LLM辅助泛化编译器窥孔优化</h1>
+        <div class="meta">
+            <span class="tag">arXiv</span>
+            <span class="tag">编译器</span>
+            <span class="tag">LLM</span>
+            <span class="tag">编程语言</span>
+            <span class="star">⭐⭐⭐⭐</span>
+        </div>
+        
+        <h2>论文信息</h2>
+        <ul>
+            <li><strong>标题:</strong> Leveraging Large Language Models for Generalizing Peephole Optimizations</li>
+            <li><strong>作者:</strong> Chunhao Liao 等</li>
+            <li><strong>arXiv:</strong> <a href="https://arxiv.org/abs/2603.18477">2603.18477</a></li>
+            <li><strong>领域:</strong> 编程语言 / 编译器</li>
+        </ul>
+
+        <h2>背景：窥孔优化</h2>
+        <div class="highlight">
+            <strong>窥孔优化 (Peephole Optimization)</strong> 是现代优化编译器的核心组件，将特定指令重写为语义等价但更高效的形式。
+        </div>
+
+        <h2>问题：泛化的挑战</h2>
+        <ul>
+            <li>创建一个新的窥孔优化通常从具体实例开始</li>
+            <li>需要将其<strong>提升</strong>为更通用的重写规则</li>
+            <li>这个泛化步骤既<strong>关键</strong>又<strong>困难</strong></li>
+            <li>现有方法（如Hydra）受限于搜索空间爆炸、泛化不足</li>
+        </ul>
+
+        <h2>LPG框架</h2>
+        <p>LPG (LLM-aided Peephole optimization Generalization) 采用闭环工作流程：</p>
+        <ul>
+            <li><strong>LLM驱动的符号常量泛化</strong></li>
+            <li><strong>结构泛化</strong></li>
+            <li><strong>约束放松</strong></li>
+            <li><strong>位宽/精度泛化</strong></li>
+            <li>结合<strong>句法验证</strong>、<strong>语义验证</strong>和<strong>收益检查</strong></li>
+        </ul>
+
+        <h2>实验结果</h2>
+        <div class="comparison">
+            <div>
+                <div class="big">90/102</div>
+                <div>总泛化成功率</div>
+            </div>
+            <div>
+                <div class="big">74/81</div>
+                <div>整数优化 (vs Hydra 35/81)</div>
+            </div>
+        </div>
+
+        <h2>核心洞察</h2>
+        <ul>
+            <li>LLM在<strong>语义抽象</strong>和<strong>探索性推理</strong>方面有效</li>
+            <li><strong>形式分析</strong>对确保规则的<strong>正确性</strong>和<strong>收益</strong>必要</li>
+            <li>LPG显著优于传统的程序合成方法 (Hydra)</li>
+        </ul>
+
+        <h2>意义</h2>
+        <p>这是LLM在编译器优化领域的重要应用，展示了如何结合LLM的推理能力与形式化方法的严格验证。随着LLM能力的提升，编译器优化的自动化程度将进一步提高。</p>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

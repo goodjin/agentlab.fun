@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qwen 397B 本地运行 - Apple LLM in Flash - Simon Willison</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <h1>Qwen 397B 在 MacBook 本地运行 - Apple LLM in Flash 技术</h1>
+        <div class="meta">⭐⭐⭐⭐⭐ (5星) | 来源: Simon Willison | 2026-03-18</div>
+        
+        <div class="summary">
+            <strong>摘要：</strong>Dan Woods 利用 Apple 2023 年论文 "LLM in a Flash" 中的技术，通过 SSD streaming 成功在 48GB MacBook Pro M3 上运行 397B 参数的 Qwen3.5 MoE 模型，达到 5.5+ tokens/s。
+        </div>
+
+        <h2>技术细节</h2>
+        <ul>
+            <li><strong>硬件</strong>：48GB MacBook Pro M3 Max</li>
+            <li><strong>模型</strong>：Qwen3.5-397B-A17B (MoE 模型)</li>
+            <li><strong>模型大小</strong>：209GB（量化后 120GB）</li>
+            <li><strong>推理速度</strong>：5.5+ tokens/秒</li>
+            <li><strong>量化</strong>：专家权重 2-bit 量化，非专家部分（embedding table、路由矩阵）保持原始精度</li>
+            <li><strong>内存占用</strong>：5.5GB 常驻内存</li>
+        </ul>
+
+        <h2>核心技术</h2>
+        <p><strong>LLM in a Flash</strong>：Apple 2023 年论文提出的技术，解决 LLM 推理时内存不足的问题。核心思路：</p>
+        <ul>
+            <li>将模型参数存储在 flash 内存中，按需加载到 DRAM</li>
+            <li>构建推理成本模型，针对 flash 特性优化</li>
+            <li>减少从 flash 传输的数据量</li>
+            <li>以更大、更连续的方式读取数据</li>
+        </ul>
+
+        <h2>MoE 优势</h2>
+        <p>Qwen3.5-397B-A17B 是 Mixture-of-Experts（混合专家）模型，每个 token 只需激活部分专家权重。这使得可以通过 SSD streaming 按需加载专家权重，无需将整个模型加载到 RAM。</p>
+        
+        <p>正常情况下 Qwen 3.5 每个 token 激活 10 个专家，但该设置降至 4 个，声称最大质量下降发生在 3 个专家时。</p>
+
+        <h2>实验方法</h2>
+        <p>Dan Woods 将 Apple 论文提供给 Claude Code，使用 Andrej Karpathy 的 autoresearch 模式，让 Claude 运行 90 个实验，最终生成优化的 MLX Objective-C 和 Metal 代码。</p>
+
+        <h2>原始链接</h2>
+        <p><a href="https://simonwillison.net/2026/Mar/18/llm-in-a-flash/" target="_blank">https://simonwillison.net/2026/Mar/18/llm-in-a-flash/</a></p>
+        <p><a href="https://arxiv.org/abs/2312.11514" target="_blank">Apple LLM in a Flash 论文</a></p>
+        <p><a href="https://github.com/danveloper/flash-moe" target="_blank">GitHub: danveloper/flash-moe</a></p>
+
+        <div class="tags">
+            <span class="tag">Apple</span>
+            <span class="tag">LLM in Flash</span>
+            <span class="tag">Qwen</span>
+            <span class="tag">MoE</span>
+            <span class="tag">本地运行</span>
+            <span class="tag">MLX</span>
+        </div>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

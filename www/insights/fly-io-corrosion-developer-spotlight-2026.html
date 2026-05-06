@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fly.io 开发者访谈：分布式系统实战 - Insight</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="container">
+        
+        
+        <div class="score">
+            <span class="stars">★★★★</span>
+            <span class="label">4 星 - 高质量技术内容</span>
+        </div>
+        
+        <div class="card">
+            <h2>内容概述</h2>
+            <p>这是一篇来自 The Consensus 的开发者访谈，介绍了 Fly.io 的开发者 Somtochi Onyekwere 以及她负责的 Corrosion 分布式 SQLite 系统。</p>
+            
+            <div class="highlight">
+                <strong>核心亮点：</strong> Corrosion 是 Fly.io 的多写入器分布式 SQLite 系统，与 LiteFS（单写入器）有本质区别。该项目成功将数据库大小减少 50%，同时提高了变更处理速度。
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>关键技术点</h2>
+            <ul>
+                <li><strong>Corrosion vs LiteFS：</strong> Corrosion 支持多写入器（每个节点都可以接受写入），而 LiteFS 只有一个主节点接收写入</li>
+                <li><strong>优化经验：</strong> 2025年7月的更新将两个内部表合并，成功将数据库大小减少近 50%</li>
+                <li><strong>技术栈：</strong> 使用 CR-SQLite（Conflict-free Replicated SQLite）管理元数据表</li>
+                <li><strong>测试基础设施：</strong> 使用 Antithesis 设置测试基础设施确保新方法不会引入微妙的致性问题</li>
+            </ul>
+        </div>
+        
+        <div class="card">
+            <h2>有趣的见解</h2>
+            <div class="quote">
+                "我实际上因为 Corrosion 学习了 Rust。Corrosion 的目标是让数据无处不在且快速获取，它很好地服务于这些用例。"
+            </div>
+            
+            <div class="quote">
+                "现在我凌晨 2 点还在努力创建索引和调整代码。这教会了我关于依赖不经常运行的系统部分进行灾难恢复的重要性。"
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>技术标签</h2>
+            <div>
+                <span class="tech-tag">分布式系统</span>
+                <span class="tech-tag">SQLite</span>
+                <span class="tech-tag">Rust</span>
+                <span class="tech-tag">Fly.io</span>
+                <span class="tech-tag">CR-SQLite</span>
+                <span class="tech-tag">多写入器</span>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>相关链接</h2>
+            <p class="source">
+                原文链接：<a href="https://theconsensus.dev/p/2026/03/19/developer-spotlight-somtochi-onyekwere.html" target="_blank">Developer Spotlight: Somtochi Onyekwere from Fly.io</a>
+            </p>
+            <p class="source">
+                Corrosion 项目：<a href="https://github.com/superfly/corrosion" target="_blank">GitHub - superfly/corrosion</a>
+            </p>
+            <p class="source">
+                Fly.io：<a href="https://fly.io" target="_blank">fly.io</a>
+            </p>
+        </div>
+        
+        
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>White House App Network Traffic Analysis - 隐私真相</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <h1>白宫App网络流量分析：隐私标签 vs 现实</h1>
+        <div class="meta">
+            <span class="tag">隐私</span>
+            <span class="tag">安全</span>
+            <span class="tag">MITM分析</span>
+            <span class="tag">OneSignal</span>
+            <span class="tag">Elfsight</span>
+            | 来源: Atomic Computer | 2026-04-01
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>核心发现</h2>
+        <div class="warning">
+            <strong>📊 统计数据：</strong><br>
+            <span class="stat">31个第三方域名</span>
+            <span class="stat">77%流量去第三方</span>
+            <span class="stat">仅23%到whitehouse.gov</span>
+        </div>
+        <p>Atomic Computer团队使用MITM代理对白宫iOS App (v47.0.4)进行网络流量分析，揭示了隐私标签与实际行为之间的巨大差异。</p>
+    </div>
+
+    <div class="card">
+        <h2>OneSignal 收到的数据</h2>
+        <div class="danger">
+            <strong>⚠️ 单次启动即收集：</strong>
+        </div>
+        <ul>
+            <li>语言和时区（定位到具体区域）</li>
+            <li>国家</li>
+            <li>IP地址（IPv4/IPv6）</li>
+            <li>首次/最后活跃时间戳</li>
+            <li>设备型号和OS版本（设备指纹）</li>
+            <li>WiFi/蜂窝网络类型</li>
+            <li>运营商信息</li>
+            <li>是否越狱</li>
+            <li>应用开启次数</li>
+            <li>每次会话时长</li>
+            <li>持久唯一标识符（跨会话追踪）</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>Elfsight widgets - 13个域名</h2>
+        <p>发现两个阶段的JavaScript加载器：服务器决定加载什么代码。</p>
+        <ul>
+            <li>elfsightcdn.com - platform.js CDN</li>
+            <li>core.service.elfsight.com - boot API</li>
+            <li>static.elfsight.com - 静态资源</li>
+            <li>storage.elfsight.com - 文件存储</li>
+            <li>video-proxy.wu.elfsightcompute.com - 视频代理</li>
+            <li>cors-proxy.utils.elfsightcdn.com - CORS代理</li>
+            <li>以及更多...</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>Google DoubleClick 广告追踪</h2>
+        <div class="danger">
+            <strong>🚨 隐私标签未披露：</strong>
+        </div>
+        <p>YouTube嵌入加载了Google广告基础设施：</p>
+        <ul>
+            <li>googleads.g.doubleclick.net</li>
+            <li>static.doubleclick.net</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>隐私标签 vs 现实</h2>
+        <table>
+            <tr>
+                <th>声明</th>
+                <th>实际</th>
+            </tr>
+            <tr>
+                <td>NSPrivacyCollectedDataTypes: []</td>
+                <td>见上文详细列表</td>
+            </tr>
+            <tr>
+                <td>NSPrivacyTracking: false</td>
+                <td>发送到31个第三方域名</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>研究方法</h2>
+        <ul>
+            <li>代理: mitmproxy on macOS</li>
+            <li>设备: iPhone (iOS)</li>
+            <li>证书: mitmproxy CA已信任</li>
+            <li>捕获: 完整HTTPS解密</li>
+            <li>浏览: 所有5个标签页</li>
+        </ul>
+    </div>
+
+    <div class="conclusion">
+        <h3>🔍 结论</h3>
+        <p>隐私标签声明"无数据收集"，但实际上：</p>
+        <ul>
+            <li>OneSignal收集设备指纹和IP</li>
+            <li>13个Elfsight域名注入脚本</li>
+            <li>Google DoubleClick广告追踪</li>
+            <li>Facebook、Twitter CDN调用</li>
+        </ul>
+        <p><strong>这是"联邦监视器"(Fedware)概念的实证。</strong></p>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

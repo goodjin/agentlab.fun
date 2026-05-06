@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI网络安全的山脊线：Mythos之后的现实 — AISLE</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>AI网络安全的山脊线：Mythos之后的现实</h1>
+    <div class="meta">
+        <span class="rating">★★★★★</span> AISLE | 2026-04-11 | HN 744 points
+    </div>
+
+    <h2>核心发现：护城河是系统，不是模型</h2>
+    
+    <div class="highlight">
+        <strong>TL;DR:</strong> 测试Anthropic Mythos展示的漏洞时，使用小而便宜的开放权重模型。它们恢复了大部分相同分析。AI网络安全能力是"山脊状"的：不会随着模型大小平滑扩展，真正的护城河是构建了深度安全专业知识的系统，而非模型本身。
+    </div>
+
+    <h2>背景</h2>
+    <p>AISLE自2025年中期以来一直在运行针对真实目标的发现和修复系统：</p>
+    <ul>
+        <li>OpenSSL中的15个CVE（包括一个安全发布中的12/12，CVSS 9.8 Critical）</li>
+        <li>curl中的5个CVE</li>
+        <li>30+项目中180+个外部验证的CVE</li>
+    </ul>
+    <p>"当OpenSSL CTO说'我们感谢报告的高质量和整个修复过程中的建设性合作'时，这就是信号：闭环从发现到接受的补丁，赢得信任。"</p>
+
+    <h2>分解pipeline</h2>
+    <p>AI网络安全实际上是一个模块化的pipeline，每个任务有不同的扩展属性：</p>
+    <ul>
+        <li><strong>广谱扫描：</strong>导航大型代码库，识别哪些函数值得检查</li>
+        <li><strong>漏洞检测：</strong>给定正确代码，发现问题</li>
+        <li><strong>分类和验证：</strong>区分真阳性和假阳性，评估严重性和可利用性</li>
+        <li><strong>补丁生成：</strong>正确修复漏洞</li>
+        <li><strong>（可能的）漏洞利用构建：</strong>将漏洞转化为可用的攻击</li>
+    </ul>
+
+    <h2>证据：网络安全能力惊人地山脊状</h2>
+    
+    <h3>测试1：模型能否区分真实漏洞和误报？</h3>
+    <p>OWASP基准测试中的一个trivial snippet——一个看起来像SQL注入但实际不是的Java servlet。结果显示接近<strong>反向扩展</strong>：小而便宜的模型优于大型前沿模型。</p>
+    
+    <p><strong>正确的模型：</strong></p>
+    <ul>
+        <li>GPT-OSS-20b（3.6B活跃参数，$0.11/M tokens）："没有用户输入到达SQL语句...可能误导静态分析工具"</li>
+        <li>DeepSeek R1（开放权重）："当前逻辑将参数掩盖在最终丢弃它的列表操作之后"</li>
+        <li>OpenAI o3："意外安全；一次重构就会变得可利用。通过bug的安全，脆弱。"</li>
+    </ul>
+    
+    <p><strong>失败的模型：</strong>包括Claude Sonnet 4.5、每个GPT-4.1、每个GPT-5.4（除了o3和pro）、每个Anthropic模型（直到Opus 4.6）。</p>
+
+    <h3>测试2：FreeBSD NFS漏洞，Mythos的旗舰结果</h3>
+    <p>8个模型中<strong>8个都检测到</strong>这个17年的bug，包括一个只有3.6B活跃参数、成本$0.11/M tokens的模型。</p>
+
+    <table>
+        <tr><th>模型</th><th>大小</th><th>检测到溢出</th><th>严重性</th></tr>
+        <tr><td>GPT-OSS-20b</td><td>3.6B活跃</td><td>✓</td><td>Critical, RCE</td></tr>
+        <tr><td>DeepSeek R1</td><td>37B活跃</td><td>✓</td><td>Critical, kernel RCE</td></tr>
+        <tr><td>Qwen3 32B</td><td>32B dense</td><td>✓</td><td>Critical 9.8</td></tr>
+    </table>
+
+    <h2>实践意义</h2>
+    <div class="highlight">
+        <p>"一千个 adequate 的侦探四处搜索，比一个 brilliant 的侦探必须猜测在哪里寻找更能发现bug。小模型已经提供了足够的提升，在专家编排下产生生态系统认真对待的结果。这改变了整个防御pipeline的经济学。"</p>
+    </div>
+    
+    <p>Anthropic正在证明这个类别是真正的。公开的问题是：<strong>在生产中、规模化地、赢得维护者信任地让它工作需要什么？</strong>这才是他们和该领域其他人正在解决的问题。</p>
+
+    <hr>
+    <p><em>来源: <a href="https://aisle.com/blog/ai-cybersecurity-after-mythos-the-jagged-frontier">aisle.com</a></em></p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

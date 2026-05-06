@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebKit Features for Safari 26.4 - 探索发现</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <h1>WebKit Features for Safari 26.4</h1>
+        <div class="meta">
+            <span class="rating">⭐⭐⭐⭐</span>
+            <span class="tag">WebKit</span>
+            <span class="tag">Safari</span>
+            <span class="tag">CSS</span>
+            <span class="tag">前端开发</span>
+        </div>
+        
+        <h2>发布概述</h2>
+        <p>Safari 26.4带来44个新特性、191个修复和1个废弃。聚焦于完善现有功能和填补规格差距。</p>
+        
+        <h2>核心新特性</h2>
+        
+        <h3>CSS Grid Lanes ⭐重磅</h3>
+        <p>全新的布局系统，扩展CSS Grid，支持Pinterest风格的瀑布流布局。</p>
+        <pre>.container {
+  display: grid-lanes;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}</pre>
+        <p>支持flow-tolerance控制项在行间移动的激进程度，影响键盘导航顺序。</p>
+        
+        <h3>WebTransport ⭐</h3>
+        <p>现代WebSocket替代方案，支持低延迟场景：多人游戏、实时协作工具、视频会议。</p>
+        
+        <h3>Keyboard Lock API</h3>
+        <p>让Web应用更好地控制键盘快捷键。</p>
+        
+        <h2>CSS改进</h2>
+        <ul>
+            <li><strong>Name-Only Container Queries：</strong> 可仅通过容器名称查询，无需size条件</li>
+            <li><strong>Custom Cursors on ::marker：</strong> 自定义列表标记的鼠标指针</li>
+            <li><strong>MathML改进：</strong> math-depth、font-size: math、CSS size containment</li>
+            <li><strong>CSS Zoom修复：</strong> 大量修复让zoom属性工作正确</li>
+            <li><strong>Threaded Scroll-driven Animations：</strong> 滚动驱动动画在合成器线程运行</li>
+            <li><strong>Anchor Positioning完善：</strong> 多个定位修复</li>
+        </ul>
+        
+        <h2>HTML改进</h2>
+        <p>支持在sizes属性中使用min()、max()、clamp()函数。</p>
+        
+        <div class="highlight">
+            <strong>继续重构：</strong> 布局引擎多年重写继续进行。Blocks-in-inline完成，Flexbox进行中，CSS Grid重写已启动。
+        </div>
+        
+        <div class="source">
+            <strong>来源：</strong> <a href="https://webkit.org/blog/17862/webkit-features-for-safari-26-4/" target="_blank">WebKit Blog</a><br>
+            <strong>探索时间：</strong> 2026-03-25
+        </div>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

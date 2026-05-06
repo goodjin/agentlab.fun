@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloudflare后量子安全时间线2029：Q-Day比你想象更近</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>Cloudflare后量子安全时间线2029：Q-Day比你想象更近</h1>
+    <div class="meta">
+        <span class="tag">安全</span>
+        <span class="tag">密码学</span>
+        <span class="tag">量子计算</span>
+        <span>来源: Cloudflare Blog | 2026-04-07</span>
+    </div>
+
+    <h2>核心发现</h2>
+    <p>Cloudflare将完全后量子安全（包括认证）的目标时间从2030年提前到<strong>2029年</strong>。这一重大转变源于Google和Oratomic近期的突破性研究，大幅缩短了量子计算机破解现有加密的时间预期。</p>
+
+    <div class="highlight">
+        <strong>关键数据：</strong>Oratomic研究发现，仅需<strong>10,000个量子比特</strong>就能破解P-256椭圆曲线加密——这在此前被认为需要数百万量子比特。这一突破使得Q-Day从"遥远的未来"变为"几年内可能的现实"。
+    </div>
+
+    <h2>技术突破详情</h2>
+    <ul>
+        <li><strong>Google的算法改进：</strong>大幅加速了破解椭圆曲线密码学的量子算法</li>
+        <li><strong>Oratomic的中性原子架构：</strong>仅需3-4个物理量子比特即可实现1个逻辑量子比特（vs超导架构的1000:1）</li>
+        <li><strong>硬件路线图：</strong>中性原子和超导量子计算机都在快速逼近实用门槛</li>
+    </ul>
+
+    <h2>从加密到认证的优先级转移</h2>
+    <p>历史上行业关注点一直是<strong>后量子加密</strong>（防止"现在收集，以后解密"攻击）。但Cloudflare指出：</p>
+    <div class="quote">
+        "数据泄露严重，但认证被破解是灾难性的。任何被忽视的量子脆弱远程登录密钥都是攻击者的入口点。一旦量子攻击者成功，他们可以无限期保持访问权限，直到被发现或密钥被撤销。"
+    </div>
+
+    <h2>为什么认证更紧迫？</h2>
+    <ul>
+        <li><strong>单点突破：</strong>攻击者只需找到一个量子脆弱的信任密钥即可进入系统</li>
+        <li><strong>持久访问：</strong>一旦渗透成功，攻击者可长期保持存在</li>
+        <li><strong>软件更新成为攻击向量：</strong>自动软件更新机制可被量子伪造的签名利用</li>
+        <li><strong>依赖链复杂：</strong>升级到后量子认证需要多年，不只是几个月</li>
+    </ul>
+
+    <h2>时间线对比</h2>
+    <table style="width:100%; border-collapse: collapse; margin: 1em 0;">
+        <tr style="background:#f5f5f5;"><th style="padding:8px; border:1px solid #ddd;">时间</th><th style="padding:8px; border:1px solid #ddd;">预期</th></tr>
+        <tr><td style="padding:8px; border:1px solid #ddd;">2022</td><td style="padding:8px; border:1px solid #ddd;">Cloudflare为所有网站启用后量子加密</td></tr>
+        <tr><td style="padding:8px; border:1px solid #ddd;">现在</td><td style="padding:8px; border:1px solid #ddd;">65%+的人类流量已后量子加密</td></tr>
+        <tr><td style="padding:8px; border:1px solid #ddd;">2029</td><td style="padding:8px; border:1px solid #ddd;"><strong>Cloudflare目标：完全后量子安全（包括认证）</strong></td></tr>
+        <tr><td style="padding:8px; border:1px solid #ddd;">2030</td><td style="padding:8px; border:1px solid #ddd;">Google researcher: 10%概率CRQC存在</td></tr>
+    </table>
+
+    <h2>给企业的建议</h2>
+    <ul>
+        <li><strong>采购要求：</strong>将后量子支持作为任何采购的必备要求</li>
+        <li><strong>长期密钥优先：</strong>优先升级长期密钥（如root证书、API密钥、代码签名证书）</li>
+        <li><strong>评估供应商：</strong>尽早评估关键供应商的行动意愿和时间表</li>
+        <li><strong>不只是升级：</strong>必须禁用量子脆弱的加密协议，防止降级攻击</li>
+    </ul>
+
+    <h2>核心洞见</h2>
+    <div class="highlight">
+        <strong>"Q-Day不再是'我们的加密数据何时有风险'，而是'攻击者多久能用量子伪造的密钥走进前门'——问题从被动防御转向主动准入控制。"</strong>
+    </div>
+
+    <h2>延伸阅读</h2>
+    <ul>
+        <li><a href="https://words.filippo.io/crqc-timeline/">Filippo io: 密码学工程师的量子计算时间线</a></li>
+        <li><a href="https://blog.cloudflare.com/post-quantum-for-all/">Cloudflare: 面向所有人的后量子加密</a></li>
+    </ul>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

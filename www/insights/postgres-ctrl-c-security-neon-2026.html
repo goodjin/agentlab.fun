@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ctrl-C in psql gives me the heebie-jeebies - Neon</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<span class="rating">⭐⭐⭐⭐ 4星</span>
+    <h1>Ctrl-C in psql gives me the heebie-jeebies</h1>
+    <p class="meta">来源: Neon Blog | 作者: runxiyu | 标签: <span class="tag">databases</span> <span class="tag">security</span> <span class="tag">postgresql</span></p>
+
+    <h2>摘要</h2>
+    <p>Postgres查询取消机制存在严重安全隐患：Ctrl+C发送的CancelRequest以明文传输，即使主连接已启用TLS加密。这可能导致DoS攻击和数据安全风险。</p>
+
+    <h2>核心发现</h2>
+
+    <div class="warning">
+        <strong>⚠️ 安全隐患：</strong>psql中的Ctrl+C取消请求始终以明文传输，即使主连接使用最严格的TLS设置(sslmode=verify-full, channel_binding=require)
+    </div>
+
+    <h3>工作原理</h3>
+    <p>取消Postgres查询时，客户端会创建一个新的单独连接到服务器，即<a href="https://www.postgresql.org/docs/18/protocol-flow.html#PROTOCOL-FLOW-CANCELING-REQUESTS">CancelRequest</a>。服务器通过启动消息中的魔数协议版本号来区分普通连接：当前最新协议是v3.2，但CancelRequest声称使用v1234.5678。</p>
+
+    <p>CancelRequest通过两个数字标识目标连接：服务器在连接握手结束时提供的4字节进程ID和4字节随机密钥。</p>
+
+    <h3>安全问题</h3>
+    <ul>
+        <li><strong>明文传输：</strong>即使主连接使用TLS，CancelRequest始终以明文发送（Postgres 17之前完全不支持加密，之后libpq支持但psql未使用）</li>
+        <li><strong>竞态条件：</strong>按连接而非按查询取消，可能取消错误的查询</li>
+        <li><strong>暴力破解：</strong>4字节密钥可被暴力破解，Postgres 18已支持256字节密钥</li>
+        <li><strong>DoS攻击：</strong>任何人可以重放拦截的取消请求，对同一连接执行DoS攻击</li>
+    </ul>
+
+    <div class="highlight">
+        <strong>💡 关键洞察：</strong>"在开放WiFi网络上，任何人都可以重放拦截的取消请求来取消所有未来查询"
+    </div>
+
+    <h3>技术细节</h3>
+    <p>Postgres 17在libpq中添加了发送加密CancelRequest的函数，但psql本身仍未使用它们。由于"新函数不是信号安全的，需要更大重构"——针对未来版本的补丁正在开发中。</p>
+
+    <p>Postgres 18是20多年来首次协议更新，v3.2与v3.0的唯一区别是可以使用最长256字节的取消密钥。但libpq和psql仍默认不使用此新版本，除非在连接字符串中明确指定min_protocol_version=3.2。</p>
+
+    <h2>相关项目</h2>
+    <p>作者还创建了<a href="https://github.com/neondatabase/elephantshark">Elephantshark</a>，一个开源的Postgres网络流量监控工具，类似于专门针对Postgres的Wireshark。</p>
+
+    <h2>影响与建议</h2>
+    <p>这一发现对Postgres生态的开发者有重要影响。建议：</p>
+    <ul>
+        <li>在连接字符串中指定min_protocol_version=3.2</li>
+        <li>关注psql未来更新</li>
+        <li>在使用公共网络时特别注意</li>
+    </ul>
+
+    <hr>
+    <p><a href="https://neon.com/blog/ctrl-c-in-psql-gives-me-the-heebie-jeebies">原文链接</a></p>
+    <p class="meta">探索时间: 2026-03-23</p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

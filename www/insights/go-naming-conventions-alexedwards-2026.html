@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Go命名约定实用指南</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <span class="rating">★★★★☆</span>
+        <h1>Go命名约定实用指南</h1>
+        <div class="meta">
+            <span>来源: alexedwards.net</span> •
+            <span>日期: 2026-03-25</span> •
+            <span>评分: 4星</span>
+        </div>
+        <div class="tags">
+            <span class="tag">Go</span>
+            <span class="tag">编程规范</span>
+            <span class="tag">最佳实践</span>
+            <span class="tag">代码风格</span>
+        </div>
+
+        <h2>核心摘要</h2>
+        <p>选择正确的名称是Go编程的重要（有时困难！）部分。好名称使代码更清晰、更可预测、更易导航；坏名称则相反。Go有相当强的约定和一些硬规则。</p>
+
+        <h2>标识符规则</h2>
+        <h3>硬规则</h3>
+        <ul>
+            <li>可包含：Unicode字母、数字、下划线</li>
+            <li>不能以数字开头</li>
+            <li>不能使用Go关键字（如func, struct, if, for等）</li>
+        </ul>
+
+        <h3>命名风格</h3>
+        <table>
+            <tr><th>类型</th><th>规则</th><th>示例</th></tr>
+            <tr><td>非导出标识符</td><td class="good">camelCase</td><td><code>orderTotal</code></td></tr>
+            <tr><td>导出标识符</td><td class="good">PascalCase</td><td><code>FetchUser</code></td></tr>
+            <tr><td class="bad">避免</td><td>snake_case, SCREAMING_SNAKE</td><td>-</td></tr>
+        </table>
+
+        <h3>缩写词规则</h3>
+        <ul>
+            <li>缩写词（API, URL, HTTP, ID）保持大小写一致</li>
+            <li><code class="good">apiKey</code> 或 <code class="good">APIKey</code> ✓</li>
+            <li><code class="bad">ApiKey</code> ✗</li>
+            <li>ID作为"identity/identifier"缩写时用全大写：<code>userID</code></li>
+        </ul>
+
+        <h3>避免冲突</h3>
+        <ul>
+            <li>避免与内置类型冲突：int, bool, any</li>
+            <li>避免与内置函数冲突：min, max, len, clear</li>
+            <li>避免与标准库包名冲突：json, url, log, time等</li>
+            <li>避免在标识符中包含类型名（除非需要区分转换后的变量）</li>
+        </ul>
+
+        <h2>导出与隐藏</h2>
+        <ul>
+            <li>首字母大写 = 导出（对包外可见）</li>
+            <li>首字母小写 = 非导出（仅包内可见）</li>
+            <li><strong>默认不导出</strong>，只在需要时导出</li>
+            <li>main包的标识符通常应全部非导出</li>
+            <li>引用The Pragmatic Programmer："写害羞的代码"</li>
+        </ul>
+
+        <h2>标识符长度</h2>
+        <ul>
+            <li>作用域小（短函数、循环内）：可用短名如<code>i</code>, <code>p</code></li>
+            <li>作用域大（跨函数使用）：用描述性名称如<code>count</code>, <code>sum</code></li>
+            <li>原则：离声明越远，越需要描述性名称</li>
+        </ul>
+
+        <h2>包命名</h2>
+        <table>
+            <tr><th>规则</th><th>示例</th></tr>
+            <tr><td class="good">小写ASCII字母+数字</td><td><code>orders</code>, <code>customer</code></td></tr>
+            <tr><td class="good">短而好打</td><td><code>slug</code>, <code>http</code></td></tr>
+            <tr><td class="bad">避免</td><td>common, util, helpers, types</td></tr>
+            <tr><td class="bad">避免</td><td>vendor, testdata, internal（特殊目录名）</td></tr>
+        </table>
+
+        <h2>文件命名</h2>
+        <ul>
+            <li>理想：一个词、小写、总结文件内容</li>
+            <li>两词可用<code>routingindex.go</code>或<code>routing_index.go</code></li>
+            <li>保持一致即可，个人偏好无下划线</li>
+            <li>特殊后缀：_test.go, _linux.go, _darwin.go, _windows.go</li>
+        </ul>
+
+        <h2>避免冗余</h2>
+        <p>导出函数时，避免重复包名。如<code>orders.NewOrder()</code>而非<code>orders.NewOrders()</code></p>
+
+        <p><a href="https://www.alexedwards.net/blog/go-naming-conventions" target="_blank">访问原文 →</a></p>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

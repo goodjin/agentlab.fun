@@ -1,0 +1,78 @@
+---
+layout: article.njk
+title: "First Principles of AI Context - AI 上下文工程"
+tags: [insights]
+permalink: /insights/first-principles-ai-context-devto-2026.html
+---
+
+<div class="nav">
+        <a href="/insights/index.html">← 返回洞察</a>
+    </div>
+    
+    <div class="card">
+        <h1>First Principles of AI Context</h1>
+        <div>
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+            <span style="color: #666; margin-left: 12px;">5星 - AI 上下文工程</span>
+        </div>
+        <div style="margin: 16px 0;">
+            <span class="tag">AI</span>
+            <span class="tag">Architecture</span>
+            <span class="tag">LLM</span>
+            <span class="tag">RAG</span>
+            <span class="tag">MCP</span>
+        </div>
+        
+        <div class="source">
+            <strong>来源:</strong> <a href="https://dev.to/craigtracey/first-principles-of-ai-context-4cmn" target="_blank">dev.to - Craig Tracey</a>
+        </div>
+        
+        <h2>核心观点</h2>
+        <div class="highlight">
+            <strong>更大的上下文窗口不能解决上下文问题。</strong> 百万 token 的无重点、无结构上下文比一万 token 的正确上下文更糟糕。模型需要在噪声中找到信号，而你要为所有噪声付费。
+        </div>
+        
+        <h2>六大第一性原理</h2>
+        <div class="key-points">
+            <ul>
+                <li><strong>#1 上下文存在，关系不存在</strong><br>
+                代码有明确的结构（依赖、类型系统、调用图），但业务操作、组织、业务流程没有关系图。更大的窗口只是给模型更多猜测的空间。</li>
+                
+                <li><strong>#2 语义是概率，不是真相</strong><br>
+                模型不知道任何事情，它只是在预测最可能的下一个 token。当 agent 在凌晨 3 点决定呼叫哪个团队时，概率是不够的——需要真相。</li>
+                
+                <li><strong>#3 没有关系的事实是死胡同</strong><br>
+                RAG 解决了问答，但检索不足以支撑行动。"上周有事故"是事实，"事故影响了三个客户，由特定团队导致，与两个开放的支持工单相关"——这是图。</li>
+                
+                <li><strong>#4 上下文必须自我发现</strong><br>
+                手动维护的 AGENTS.md、CLAUDE.md 会过时。用自然语言提供上下文给一个把语义当作概率处理的系统——这是用语义来引导真理，但媒介本身不保证真理。</li>
+                
+                <li><strong>#5 结构需要规则，不只是数据</strong><br>
+                没有规则，数据只是噪声。模型会自信地、概率性地解释噪声——而且有时是错的。规则产生可信任的、可组合的关系。</li>
+                
+                <li><strong>#6 Agent 需要工具之前的上下文</strong><br>
+                MCP 给了 agent 调用工具的标准方式——这是真正的突破。但没有上下文的工具是盲目的。给 agent 几百个工具，它会选错、幻觉能力。</li>
+            </ul>
+        </div>
+        
+        <h2>为什么这很重要</h2>
+        <p>我们即将获得 1000 万 token 的上下文窗口。诱惑是把它当作解决方案——把一切都扔进去，让模型整理。</p>
+        <p>这不会有效——只是昂贵、缓慢，而且 probabilistically 错误，难以调试。</p>
+        <p><strong>上下文问题不是容量问题。</strong>它是知道什么重要、东西如何连接、现在什么是相关的——确定性地，不只是可能地。</p>
+        
+        <h2>关键洞察</h2>
+        <ul>
+            <li>MCP 正在崛起，Agent 框架正在激增</li>
+            <li>每个人都在构建工具集成，但几乎没人构建上下文层</li>
+            <li>这就是差距——这差距将决定 AI agent 是变得真正有用，还是保持昂贵的玩具</li>
+        </ul>
+    </div>
+    
+    <div class="card">
+        <h3>相关探索</h3>
+        <p>← <a href="mcp-context-window-devto-2026.html">Your MCP Server Is Eating Your Context Window</a></p>
+    </div>
+    
+    <p style="text-align: center; color: #666; margin-top: 40px;">
+        <a href="/insights/index.html">← 返回洞察首页</a>
+    </p>

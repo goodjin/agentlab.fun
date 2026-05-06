@@ -1,0 +1,64 @@
+---
+layout: article.njk
+title: "Building a C Compiler with a Team of Parallel Claudes - Anthropic"
+tags: [insights]
+permalink: /insights/building-c-compiler-claude-team-anthropic-2026.html
+---
+
+<div class="content">
+        <h1>Building a C Compiler with a Team of Parallel Claudes</h1>
+        <p class="meta">Source: Anthropic Engineering | Date: February 2026 | Rating: <span class="star">★★★★★</span></p>
+        
+        <h2>Summary</h2>
+        <p>本文介绍了一种称为"agent teams"的新方法：多个Claude实例在共享代码库上并行工作，无需人工干预。通过用16个agent团队从零开始构建一个能够编译Linux内核的Rust-based C编译器，Anthropic展示了这种方法的强大潜力。</p>
+        
+        <div class="highlight">
+            <strong>成果：</strong> 100,000行代码的编译器，可构建Linux 6.9在x86、ARM和RISC-V上运行，编译QEMU、FFmpeg、SQLite、Postgres、Redis，通过GCC torture test suite 99%通过率——成本仅约$20,000。
+        </div>
+
+        <h2>Key Technical Details</h2>
+        
+        <h3>1. Agent Team架构</h3>
+        <p>系统使用简单的循环结构运行Claude：当一个任务完成时，它立即选择下一个。通过git锁机制防止agent竞争同一任务：agent通过写入当前任务目录来"获取锁"，git的同步机制强制处理冲突。</p>
+
+        <h3>2. 关键设计原则</h3>
+        <ul>
+            <li><strong>高质量测试：</strong> 测试验证器必须接近完美，否则Claude会解决错误的问题</li>
+            <li><strong>站在Claude角度：</strong> 每个agent被放入一个全新的容器，没有上下文，需要维护README和进度文件</li>
+            <li><strong>上下文窗口保护：</strong> 测试 harness不应打印数千字节无用内容，重要信息应写入文件</li>
+            <li><strong>时间盲性处理：</strong> Claude无法判断时间，需要提供默认的--fast选项运行1%或10%的随机样本</li>
+        </ul>
+
+        <h3>3. 并行化策略</h3>
+        <p>当测试套件达到99%通过率后，每个agent尝试让不同的开源项目(SQLite、Redis、libjpeg、MQuickJS、Lua)编译。但当agent开始编译Linux内核时，它们卡住了——不像有数百个独立测试的测试套件，编译Linux是一个巨大任务。</p>
+        
+        <p>解决方案：使用GCC作为已知良好的编译器oracle。随机编译大部分内核使用GCC，只用Claude的C编译器编译剩余文件。如果内核工作正常，问题不在Claude的子集中。</p>
+
+        <h3>4. 多个Agent角色</h3>
+        <p>并行化还支持专业化：</p>
+        <ul>
+            <li>一个agent负责合并任何重复代码</li>
+            <li>另一个负责改进编译器本身的性能</li>
+            <li>第三个负责输出高效的编译代码</li>
+            <li>一个agent从Rust开发者的角度批评项目设计</li>
+            <li>一个负责文档</li>
+        </ul>
+
+        <h3>5. 当前限制</h3>
+        <ul>
+            <li>缺少引导Linux退出实模式所需的16位x86编译器</li>
+            <li>没有自己的汇编器和链接器</li>
+            <li>无法编译所有项目，还不能完全替代真实编译器</li>
+            <li>生成的代码效率不高，即使开启所有优化，输出也比GCC关闭所有优化时效率低</li>
+            <li>Rust代码质量合理但远非专家Rust程序员水平</li>
+        </ul>
+
+        <h2>核心洞察</h2>
+        <p>实验表明，即使没有互联网访问，Opus 4.6也能构建一个功能完整的编译器。但新功能和bug修复经常破坏现有功能——这表明AI团队已经接近其能力极限。</p>
+
+        <p>这个实验既令人兴奋又令人不安。当人类与Claude一起开发时，他们可以确保一致的质量并实时 catch errors。对于自主系统，很容易看到测试通过并假设工作完成，但实际上很少是这样。</p>
+
+        <p><em>Written by Nicholas Carlini, researcher on Anthropic's Safeguards team.</em></p>
+        
+        <p><a href="https://www.anthropic.com/engineering/building-c-compiler">Original Article</a> | <a href="https://github.com/anthropics/claudes-c-compiler">GitHub Repository</a></p>
+    </div>

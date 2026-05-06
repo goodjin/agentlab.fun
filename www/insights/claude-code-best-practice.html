@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Code 最佳实践终极指南 - Insights</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <h1>Claude Code 最佳实践终极指南</h1>
+        <div class="meta">来源: GitHub Trending · 发现时间: 2026-04-01 · 评分: ★★★★★★</div>
+        
+        <div class="tag">Claude Code</div>
+        <div class="tag">AI编程</div>
+        <div class="tag">最佳实践</div>
+        <div class="tag">工作流</div>
+        
+        <div class="stats">
+            <div class="stat"><strong>⭐ 29.9k</strong> Stars (今日 +2.4k)</div>
+            <div class="stat"><strong>🍴 2.6k</strong> Forks</div>
+            <div class="stat"><strong>👁️ 276</strong> Watching</div>
+        </div>
+        
+        <p>这是 GitHub 上最全面的 Claude Code 学习资源，涵盖 14 个核心概念、20+ 热门功能、8 种开发工作流范式和 87 个技巧窍门。</p>
+    </div>
+
+    <div class="card">
+        <h2>📚 核心概念</h2>
+        <ul>
+            <li><strong>Subagents (子代理)</strong> - 独立上下文中自主执行任务的代理</li>
+            <li><strong>Commands (命令)</strong> - 用户调用的提示模板，工作流编排</li>
+            <li><strong>Skills (技能)</strong> - 可配置、可预加载、可发现的上下文模块</li>
+            <li><strong>Hooks (钩子)</strong> - 在特定事件时运行的脚本/HTTP/提示/代理</li>
+            <li><strong>MCP Servers</strong> - 与外部工具、数据库、API 的连接</li>
+            <li><strong>Settings</strong> - 层级配置系统（权限、模型、输出样式等）</li>
+            <li><strong>Memory</strong> - 通过 CLAUDE.md 文件持久化上下文</li>
+            <li><strong>Checkpointing</strong> - Git 自动追踪，Esc Esc 或 /rewind 撤销</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>🔥 热门功能</h2>
+        <ul>
+            <li><strong>Fullscreen Rendering (Beta)</strong> - 无闪烁全屏渲染，CLAUDE_CODE_NO_FLICKER=1 启用</li>
+            <li><strong>Computer Use (Beta)</strong> - 控制屏幕，打开应用、点击、输入、截图 (macOS)</li>
+            <li><strong>Auto Mode (Beta)</strong> - Claude 决定什么安全，阻止提示注入和风险升级</li>
+            <li><strong>Channels (Beta)</strong> - 推送 Telegram、Discord、webhook 事件到运行中的会话</li>
+            <li><strong>Code Review (Beta)</strong> - 多代理 PR 分析，捕获 bug、安全漏洞和回归</li>
+            <li><strong>Chrome (Beta)</strong> - 浏览器自动化，测试 Web 应用、调试控制台</li>
+            <li><strong>Scheduled Tasks</strong> - /loop (本地，3天) /schedule (云端，机器关闭也运行)</li>
+            <li><strong>Voice Dictation (Beta)</strong> - 20 语言支持的语音输入</li>
+            <li><strong>Agent Teams (Beta)</strong> - 多代理并行开发，共享任务协调</li>
+            <li><strong>Remote Control</strong> - 从任何设备继续本地会话</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>💡 关键技巧 (来自 Boris 等专家)</h2>
+        <ul>
+            <li>✅ 始终从 plan mode 开始</li>
+            <li>✅ 提交前让 Claude "grill me on these changes"</li>
+            <li>✅ 使用 /model 选择模型，Sonnet 写代码，Opus 做计划</li>
+            <li>✅ 每天更新 Claude Code 并阅读 changelog</li>
+            <li>✅ 一旦完成就提交，争取每小时至少一次</li>
+            <li>✅ 使用 /code-review 进行多代理 PR 分析</li>
+            <li>✅ 保持 PR 小而专注 (中位数 118 行)</li>
+            <li>✅ 始终 squash merge PRs</li>
+            <li>✅ CLAUDE.md 目标每文件 <200 行</li>
+            <li>✅ 用 .claude/rules/ 拆分大型指令</li>
+            <li>✅ 每天做一次以上的事情 → 变成技能或命令</li>
+            <li>✅ 使用 Esc Esc 或 /rewind 在 Claude 偏离时撤销</li>
+            <li>✅ 用 subagents 卸载任务，保持主上下文干净专注</li>
+            <li>✅ 技能是文件夹，不是文件 - 用 references/, scripts/, examples/ 子目录</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>🔗 资源链接</h2>
+        <ul>
+            <li><a href="https://github.com/shanraisshan/claude-code-best-practice" target="_blank">GitHub 仓库</a></li>
+            <li><a href="https://code.claude.com/docs/en/sub-agents" target="_blank">官方文档 - Subagents</a></li>
+            <li><a href="https://code.claude.com/docs/en/skills" target="_blank">官方文档 - Skills</a></li>
+            <li><a href="https://code.claude.com/docs/en/hooks" target="_blank">官方文档 - Hooks</a></li>
+            <li><a href="https://github.com/anthropics/claude-code/blob/main/CHANGELOG.md" target="_blank">Changelog</a></li>
+        </ul>
+    </div>
+    
+    <div style="text-align: center; margin-top: 20px; color: #666; font-size: 12px;">
+        <a href="../index.html">← 返回索引</a>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,65 @@
+---
+layout: article.njk
+title: "Let's see Paul Allen's SIMD CSV parser - 2026"
+tags: [insights]
+permalink: /insights/simd-csv-parser-lobsters-2026.html
+---
+
+<div class="card">
+        <h1>Let's see Paul Allen's SIMD CSV parser</h1>
+        <div class="meta">
+            <span class="star">⭐⭐⭐⭐⭐</span>
+            <span>5星</span>
+            <span>·</span>
+            <span>Lobsters</span>
+            <span>·</span>
+            <span>2026-03-24</span>
+        </div>
+        <p class="url"><a href="https://chunkofcoal.com/posts/simd-csv/" target="_blank">https://chunkofcoal.com/posts/simd-csv/</a></p>
+        
+        <h2>摘要</h2>
+        <p>深度解析SIMD技术在CSV解析中的应用，参考simdjson论文，展示了如何使用ARM NEON intrinsics实现64字节并行处理。</p>
+        
+        <h2>核心亮点</h2>
+        <ul>
+            <li><strong>SIMD背景</strong>：CPU时钟频率在20年前遇到天花板，无法通过提升单核频率提速，转而采用SIMD（单指令多数据）技术并行处理多个数据</li>
+            <li><strong>Vectorized Classification</strong>：使用两个lookup table（高nibble + 低nibble）来分类字节，比标量方法快16/32/64倍</li>
+            <li><strong>ARM NEON intrinsics</strong>：展示了vqtbl1q_u8、vmull_p64等指令的用法</li>
+            <li><strong>Bitmask压缩</strong>：将分类结果压缩成3个位掩码（逗号、引号、换行）</li>
+            <li><strong>引号过滤</strong>：使用prefix XOR确定是否在引号内，vmull_p64单指令完成计算</li>
+        </ul>
+
+        <h2>关键技术点</h2>
+        <h3>1. Nibble Lookup Table</h3>
+        <pre><code>// 高位和低位nibble分别查表
+// 0x2C (逗号) -> 高位0x2返回COMMA|QUOTE，低位0xC返回COMMA
+// AND后只剩下COMMA</code></pre>
+
+        <h3>2. Branchless Processing</h3>
+        <pre><code>// SIMD代码最有效的是无分支代码
+// 不使用if语句，循环和函数调用
+// 无论输入如何都执行相同的操作</code></pre>
+
+        <h3>3. Prefix XOR for Quote Tracking</h3>
+        <pre><code>// 使用prefix XOR计算当前位置前的引号数量
+// 偶数个引号 = 在引号外
+// 奇数个引号 = 在引号内
+vmull_p64 // ARM单指令完成</code></pre>
+
+        <h2>相关资源</h2>
+        <ul>
+            <li><a href="https://arxiv.org/pdf/1902.08318">simdjson论文</a> - JSON解析的SIMD技术</li>
+            <li><a href="https://mcyoung.xyz/2023/11/27/simd-base64">SIMD Base64介绍</a></li>
+            <li><a href="https://github.com/friendlymatthew/simdcsv">作者的实现</a></li>
+        </ul>
+        
+        <h2>标签</h2>
+        <div>
+            <span class="tag">SIMD</span>
+            <span class="tag">CSV解析</span>
+            <span class="tag">Rust</span>
+            <span class="tag">性能优化</span>
+            <span class="tag">ARM NEON</span>
+            <span class="tag">底层系统</span>
+        </div>
+    </div>

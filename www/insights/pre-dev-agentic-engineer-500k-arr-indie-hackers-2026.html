@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pre.dev - 构建完全自主的 AI 软件工程师 ($500k ARR)</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>🤖 pre.dev - 构建完全自主的 AI 软件工程师</h1>
+    <p><span class="rating">⭐⭐⭐⭐⭐</span> <strong>5星</strong> | 来源: Indie Hackers | 2026-03-17</p>
+    
+    <div>
+        <span class="tag">AI Agent</span>
+        <span class="tag">SaaS</span>
+        <span class="tag">创业</span>
+        <span class="tag">$500k ARR</span>
+    </div>
+
+    <div style="margin: 20px 0;">
+        <span class="stat">📈 $500k ARR</span>
+        <span class="stat">👥 10,000+ founders</span>
+        <span class="stat">🏢 数百家开发机构</span>
+        <span class="stat">🚀 NVIDIA, YC 背景</span>
+    </div>
+
+    <h2>什么是 pre.dev？</h2>
+    <p>pre.dev 是一个<strong>完全自主的软件工程师</strong>，不是 copilot、不是自动补全、不是聊天机器人生成代码片段。它是一个真正的自主软件工程师，从想法到部署的生产级代码。</p>
+
+    <div class="highlight">
+        <strong>💡 核心能力：</strong><br>
+        你描述想要构建的东西 → agent 研究问题 → 生成完整架构和路线图（含里程碑和用户故事）→ 自主编写和发布代码。任务按任务、分支、PR 推进。每个任务在隔离沙箱中运行，进行类型检查、linting 和无头浏览器视觉验证。
+    </div>
+
+    <h2>关键洞察</h2>
+    <ul>
+        <li><strong>瓶颈不是代码生成，而是规划</strong> — Andrej Karpathy 提到的从"vibe coding"到"agentic engineering"的转变</li>
+        <li><strong> specs 就像编译器通道</strong> — 不直接从想法到代码（有中间表示：详细架构包含节点、边、依赖和用户故事）</li>
+        <li><strong>多模型架构</strong> — Claude, Gemini, GPT, MiniMax, Qwen, GLM 等，还针对自己的数据集微调模型</li>
+        <li><strong>隔离任务上下文系统</strong> — 不把整个代码库放入一个上下文窗口（这是大多数 AI 工具在大项目上失败的原因）</li>
+    </ul>
+
+    <h2>技术栈</h2>
+    <ul>
+        <li><strong>前端：</strong> React 18 + Vite, Redux Toolkit, Radix UI + Tailwind</li>
+        <li><strong>后端：</strong> Node.js + Express + GraphQL (Apollo Server), Redis, WebSocket, Bun</li>
+        <li><strong>数据库：</strong> MongoDB Atlas</li>
+        <li><strong>AI 层：</strong> 多模型 + 微调</li>
+        <li><strong>Agent 基础设施：</strong> Kubernetes (GCP), Docker 隔离, Playwright 视觉验证, gRPC</li>
+    </ul>
+
+    <h2>三阶段增长</h2>
+    <ol>
+        <li><strong>阶段一：</strong> 规划和 spec 引擎（架构部分）</li>
+        <li><strong>阶段二：</strong> 自主编码 agent，大幅扩展价值主张</li>
+        <li><strong>阶段三（当前）：</strong> 完全自主 agentic 工程师 — 规划、编码、验证、部署，全部自主</li>
+    </ol>
+
+    <h2>定价</h2>
+    <ul>
+        <li><strong>免费：</strong> 100 credits 试用</li>
+        <li><strong>Plus：</strong> $25/月</li>
+        <li><strong>Premium：</strong> $49/月</li>
+        <li><strong>Pro：</strong> $199/月（Deep Spec，详细自主规划模式）</li>
+        <li><strong>Enterprise：</strong> 自定义价格，无限 credits + 专属解决方案工程师</li>
+    </ul>
+
+    <div class="highlight">
+        <strong>💰 定价策略：</strong><br>
+        "不要在便宜上竞争。我们不是在和廉价的 AI 编码工具竞争。我们在取代 $50k+ 的开发工作。当创始人可以花 $49/月 验证和构建想法，而不是花费数月和数万美元时，ROI 是惊人的。"
+    </div>
+
+    <h2>创始人的建议</h2>
+    <ul>
+        <li>让人们付费 — 不是"我完全会付这个"，而是真正掏出信用卡</li>
+        <li>选择一个尴尬地具体的小众市场</li>
+        <li>几周内发货，不是几个月</li>
+        <li>不要藏在产品工作背后 — 参加销售电话</li>
+        <li>构建你真正使用的东西</li>
+    </ul>
+
+    <h2>未来展望</h2>
+    <p>让 agent 处理越来越复杂、长时间运行的工程工作。当前可以自主工作数小时或数天，目标是数周。拥有整个产品生命周期的 agent — 规划、构建、基于用户反馈迭代、发布更新。</p>
+
+    <hr>
+    <p><strong>来源：</strong> <a href="https://www.indiehackers.com/post/tech/building-a-fully-agentic-engineer-and-growing-it-to-500k-arr-AmXRemXjPfYkTFGSUUy1" target="_blank">Indie Hackers</a></p>
+    <p><strong>探索时间：</strong> 2026-03-17 11:32</p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

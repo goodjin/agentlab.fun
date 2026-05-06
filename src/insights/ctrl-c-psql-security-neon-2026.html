@@ -1,0 +1,115 @@
+---
+layout: article.njk
+title: "Ctrl-C in psql - PostgreSQL取消请求的安全隐患"
+tags: [insights]
+permalink: /insights/ctrl-c-psql-security-neon-2026.html
+---
+
+<div class="container">
+        <h1>Ctrl-C in psql gives me the heebie-jeebies</h1>
+        <div class="meta">
+            <span class="rating"><span class="star">★★★★★</span> 5星</span> | 
+            <span class="tag">PostgreSQL</span>
+            <span class="tag">安全</span>
+            <span class="tag">数据库</span>
+            <span class="tag">网络协议</span>
+        </div>
+        <div class="url">URL: https://neon.com/blog/ctrl-c-in-psql-gives-me-the-heebie-jeebies</div>
+        
+        <div class="section">
+            <h2>摘要</h2>
+            <p>深度分析PostgreSQL查询取消机制的安全漏洞，揭示psql中Ctrl-C处理的历史性安全隐患。</p>
+        </div>
+        
+        <div class="section">
+            <h2>核心发现</h2>
+            <ul>
+                <li><strong>取消请求明文发送</strong>：即使主连接使用最严格的TLS设置，CancelRequest始终明文发送</li>
+                <li><strong>Postgres 17才支持加密</strong>：直到2025年才在libpq中添加加密CancelRequest的功能</li>
+                <li><strong>psql仍未使用加密</strong>：需要大型重构才能调用非信号安全的加密函数</li>
+                <li><strong>协议v3.2支持长密钥</strong>：secret key可长达256字节，但默认不使用</li>
+                <li><strong>DoS攻击风险</strong>：窃听者可重放取消请求进行拒绝服务攻击</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>CancelRequest机制原理</h2>
+            <p>要取消Postgres查询，Postgres客户端通过新的额外连接连接到服务器，形式为<a href="https://www.postgresql.org/docs/18/protocol-flow.html#PROTOCOL-FLOW-CANCELING-REQUESTS">CancelRequest</a>。服务器通过启动消息开头的魔数协议版本号区分普通客户端连接：</p>
+            
+            <div class="highlight">
+                <strong>协议版本号：</strong><br>
+                最新Postgres协议是v3.2 (0x00030002)<br>
+                CancelRequest声称是v1234.5678 (0x04d2162e)
+            </div>
+            
+            <p>CancelRequest针对连接而非特定查询。目标连接由服务器在连接握手结束时最初提供给客户端的两个数字标识（通过BackendKeyData消息）：</p>
+            
+            <ul>
+                <li>4字节进程ID (process ID)</li>
+                <li>4字节随机密钥 (secret key)</li>
+            </ul>
+            
+            <p>除消息长度初始值外，客户端只发送这些。没有凭据要求，除了那个4字节密钥。</p>
+        </div>
+        
+        <div class="section">
+            <h2>安全漏洞详解</h2>
+            
+            <h3>1. 明文发送的取消请求</h3>
+            <p>psql始终发送明文CancelRequest。即使连接携带查询使用最严格的TLS设置(sslmode=verify-full, channel_binding=require)，psql仍然以明文方式取消。</p>
+            
+            <div class="warning">
+                <strong>注意：</strong>Postgres服务器自支持TLS以来就接受TLS上的CancelRequest。但直到Postgres 17（不到18个月前），libpq才有了发送加密CancelRequest的函数。
+            </div>
+            
+            <h3>2. psql仍未使用加密函数</h3>
+            <p>Postgres 17之后，许多基于libpq的驱动（如ruby-pg）现在使用新的加密函数。但psql本身仍然不使用它们。</p>
+            
+            <p>Postgres开发者并非不知道这个问题。存在架构原因导致psql尚未使用libpq的加密取消函数（需要大型重构以调用非信号安全的新函数）。但针对未来某些版本的补丁正在开发中。</p>
+            
+            <h3>3. 暴力破解密钥风险</h3>
+            <p>4字节密钥可能被暴力破解的风险导致二十多年来第一次Postgres协议更新。协议v3.2与v3.0的唯一区别是取消的密钥可以长达256字节。</p>
+            
+            <p>但libpq和psql仍然不使用这个新版本，除非你在连接字符串末尾明确指定min_protocol_version=3.2。</p>
+            
+            <h3>4. 重放攻击风险</h3>
+            <div class="highlight">
+                <strong>关键发现：</strong><br>
+                使用最新psql并指定protocol 3.2获得无法暴力破解的密钥后，一旦你取消查询，任何能看到你网络流量的人（如同一开放WiFi网络上的任何人）可以对你的同一连接发起拒绝服务攻击，只需反复重放拦截的取消请求。
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Elephantshark案例</h2>
+            <p>作者创建并维护<a href="https://github.com/neondatabase/elephantshark">Elephantshark</a>，一个开源Postgres网络流量监控工具，类似Wireshark但专门用于Postgres，作为代理实现。</p>
+            
+            <p>CancelRequest未加密导致了实际问题：当通过Elephantshark连接Postgres over TLS时，Elephantshark通常使用TLS的SNI (Server Name Indication) 扩展加上可自定义后缀来确定目标服务器。</p>
+            
+            <p>例如：监控到ep-adj-noun-abc1234.region.aws.neon.tech的连接，运行elephantshark然后连接到ep-adj-noun-abc1234.region.aws.neon.tech.local.neon.build。任何.local.neon.build子域名解析到127.0.0.1，Elephantshark就在那里运行。</p>
+            
+            <p>但当你按下查询的"刹车"时，你的CancelRequest以明文发送，没有SNI，意味着没有目标主机的记录。Elephantshark需要识别何时被要求从和到localhost转发，这会导致无限循环。</p>
+            
+            <p>解决方案：接收普通客户端连接时，更新将(process ID, secret key)值映射到目标主机的数据结构。随后收到没有SNI的CancelRequest时，使用它指定的(process ID, secret key)查找目标主机。</p>
+        </div>
+        
+        <div class="section">
+            <h2>安全建议</h2>
+            <p>如果你非常关心安全，请执行以下部分或全部操作：</p>
+            
+            <ol>
+                <li>使用Postgres 18和min_protocol_version=3.2</li>
+                <li>使用VPN</li>
+                <li>不要在psql中使用Ctrl-C</li>
+                <li>检查你使用的任何其他Postgres客户端或驱动是否在加密它们的CancelRequest</li>
+            </ol>
+            
+            <p>Elephantshark可以帮助检查最后一点。作者计划在未来使这类检查更容易。</p>
+        </div>
+        
+        <div class="section">
+            <h2>核心洞察</h2>
+            <blockquote>"Anyone who can see your network traffic (e.g. anyone on the same open WiFi network) can mount a Denial of Service attack. Specifically, they can cancel any and all future queries on the same connection, just by repeatedly replaying the intercepted cancellation request."</blockquote>
+            
+            <p>这揭示了一个历史悠久但被忽视的安全隐患。在网络安全日益重要的今天，这个"不起眼"的细节可能成为攻击向量。</p>
+        </div>
+    </div>

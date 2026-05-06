@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The quadratic problem nobody fixed - 正则表达式性能深度分析</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <h1>🦁 The quadratic problem nobody fixed</h1>
+        <div class="meta">
+            <span class="rating">⭐⭐⭐⭐⭐</span> 5星 | 
+            <span>作者: iev (iev.ee)</span> | 
+            <span>来源: Hacker News</span>
+        </div>
+        <div>
+            <span class="tag">正则表达式</span>
+            <span class="tag">性能优化</span>
+            <span class="tag">算法</span>
+            <span class="tag">编译器</span>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>核心问题</h2>
+        <p>搜索一个文档需要一个小时。搜索一个大100倍的文档不是需要100小时——而是接近<strong>3个小时</strong>。每个正则表达式引擎，从1970年代起就存在这个问题，至今无人解决。</p>
+        
+        <div class="highlight">
+            <strong>关键发现：</strong>所有标榜线性时间匹配的引擎（RE2、Go regexp、rust regex、.NET NonBacktracking），在调用 find_iter/FindAll 时保证立即失效。最坏情况复杂度是 O(m × n²)
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>问题根源</h2>
+        <p>以模式 <code>.*a|b</code> 和 n 个 'b' 的输入为例：</p>
+        <div class="code">
+在每个位置，引擎先尝试 .*a - 扫描整个剩余输入寻找 'a'，找不到，失败
+然后 b 分支匹配单个字符
+前进一个位置，重复
+总共 n + (n-1) + (n-2) + ... = O(n²) 工作
+        </div>
+        <p>教科书式的三角和。</p>
+    </div>
+
+    <div class="card">
+        <h2>学术界的盲点</h2>
+        <p>几乎所有正则论文都只关注单匹配问题，然后用"只需迭代"一笔带过。理论把正则简化成"匹配或不匹配"这个二元问题——这适合证明定理，但丢弃了实践中几乎所有重要信息：</p>
+        <ul>
+            <li>匹配在哪里？</li>
+            <li>匹配多长？</li>
+            <li>有多少匹配？</li>
+        </ul>
+        <p>一旦简化，正则的"全部匹配"问题就消失了。</p>
+    </div>
+
+    <div class="card">
+        <h2>历史解决方案</h2>
+        <h3>Aho-Corasick (1975)</h3>
+        <p>为固定字符串解决了这个问题。在一次 O(n) 扫描中找到多个固定字符串的所有匹配。但它只适用于字面字符串列表，不支持正则。</p>
+        
+        <h3>Hyperscan/Vectorscan</h3>
+        <p>真正的线性时间全匹配引擎。使用"最早匹配"语义——一进入匹配状态就报告，而非继续找最长匹配。这改变了结果。</p>
+    </div>
+
+    <div class="card">
+        <h2>RE# 的两遍解决方案</h2>
+        <p>RE# 是第一个能在两遍扫描中找到所有匹配的引擎，无论模式和输入如何，且不改变语义：</p>
+        <ol>
+            <li><strong>反向 DFA</strong> 标记所有可能匹配开始的位置</li>
+            <li><strong>正向 DFA</strong> 在每个标记位置解析最长匹配</li>
+        </ol>
+        <p>一个匹配或一万个匹配，都是同样的两遍扫描。</p>
+        
+        <h3>Hardened 模式</h3>
+        <p>可选模式，保证线性时间，即使在对抗性输入上：</p>
+        <table>
+            <tr><th>输入大小</th><th>正常模式</th><th>Hardened</th><th>加速比</th></tr>
+            <tr><td>1,000</td><td>0.7ms</td><td>28μs</td><td>25x</td></tr>
+            <tr><td>10,000</td><td>73ms</td><td>303μs</td><td>241x</td></tr>
+            <tr><td>50,000</td><td>1.8s</td><td>1.6ms</td><td>1,125x</td></tr>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>性能对比</h2>
+        <p>2663个单词的字典作为模式，匹配 ~900KB 英文散文：</p>
+        <table>
+            <tr><th>引擎</th><th>吞吐量</th></tr>
+            <tr><td>RE#</td><td>627 MiB/s</td></tr>
+            <tr><td>RE# (hardened)</td><td>163 MiB/s (3.85x)</td></tr>
+            <tr><td>rust/regex</td><td>535 MiB/s (1.17x)</td></tr>
+            <tr><td>Aho-Corasick</td><td>155 MiB/s (4.05x)</td></tr>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>结论</h2>
+        <div class="highlight">
+            "一旦把正则简化为'匹配或不匹配'，全部匹配问题就消失了——被塞进一个与实际使用方式几乎无关的框架中。"
+        </div>
+        <p>RE# 证明了这个问题可以被解决——但需要全新的算法思路。</p>
+    </div>
+
+    <div class="card">
+        <p><a href="https://iev.ee/blog/the-quadratic-problem-nobody-fixed/">原文 →</a></p>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

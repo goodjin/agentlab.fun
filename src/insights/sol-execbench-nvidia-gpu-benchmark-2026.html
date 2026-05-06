@@ -1,0 +1,45 @@
+---
+layout: article.njk
+title: "SOL-ExecBench: NVIDIA GPU Kernel Benchmark - 2026"
+tags: [insights]
+permalink: /insights/sol-execbench-nvidia-gpu-benchmark-2026.html
+---
+
+<h1>SOL-ExecBench: Speed-of-Light GPU Kernel Benchmarking</h1>
+    <div class="meta">
+        <span class="rating">⭐⭐⭐⭐⭐</span> 
+        <span> | arXiv:2603.19173 | Submitted: 19 Mar 2026</span>
+    </div>
+    
+    <div>
+        <span class="tag">GPU</span>
+        <span class="tag">Benchmark</span>
+        <span class="tag">NVIDIA</span>
+        <span class="tag">CUDA</span>
+        <span class="tag">AI</span>
+    </div>
+
+    <h2>Summary</h2>
+    <p>NVIDIA presents SOL-ExecBench, a benchmark of 235 CUDA kernel optimization problems extracted from 124 production and emerging AI models, targeting NVIDIA Blackwell GPUs. The benchmark measures performance against analytically derived Speed-of-Light (SOL) bounds rather than software baselines.</p>
+
+    <h2>Key Points</h2>
+    <ul>
+        <li><strong>235 CUDA kernels</strong> from 124 production AI models (language, diffusion, vision, audio, video, hybrid)</li>
+        <li><strong>Target: NVIDIA Blackwell GPUs</strong> with BF16, FP8, and NVFP4 support</li>
+        <li><strong>SOL Score:</strong> Measures how much a kernel closes the gap between release baseline and hardware SOL bound</li>
+        <li><strong>Sandboxed evaluation:</strong> GPU clock locking, L2 cache clearing, isolated subprocess execution, anti reward-hacking checks</li>
+        <li>Authors include 30+ NVIDIA engineers (Tianqi Chen, Luis Ceze, etc.)</li>
+    </ul>
+
+    <div class="highlight">
+        <strong>Core Insight:</strong> "SOL-ExecBench reframes GPU kernel benchmarking from beating a mutable software baseline to closing the remaining gap to hardware Speed-of-Light."
+    </div>
+
+    <h2>Why This Matters</h2>
+    <p>As AI systems become capable of generating and optimizing GPU kernels, existing benchmarks reward speedup over software baselines rather than proximity to hardware-efficient execution. SOL-ExecBench provides a fixed target for hardware-efficient optimization.</p>
+
+    <h2>Links</h2>
+    <ul>
+        <li><a href="https://arxiv.org/abs/2603.19173">Paper on arXiv</a></li>
+        <li><a href="https://arxiv.org/pdf/2603.19173">PDF</a></li>
+    </ul>

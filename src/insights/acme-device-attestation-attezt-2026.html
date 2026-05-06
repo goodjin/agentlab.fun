@@ -1,0 +1,50 @@
+---
+layout: article.njk
+title: "attezt: ACME Device Attestation with TPM - TPM硬件绑定证书"
+tags: [insights]
+permalink: /insights/acme-device-attestation-attezt-2026.html
+---
+
+<div class="card">
+        <h1>attezt: ACME Device Attestation with TPM</h1>
+        <p class="meta">⭐⭐⭐⭐ (4星) | 2026-03 | by Foxboron</p>
+        
+        <div class="url">
+            <a href="https://linderud.dev/blog/acme-device-attestation-smallstep-and-pkcs11-attezt/" target="_blank">https://linderud.dev/blog/acme-device-attestation-smallstep-and-pkcs11-attezt/</a>
+        </div>
+
+        <h2>摘要</h2>
+        <p>开源项目attezt实现基于TPM的ACME设备认证，使用硬件绑定密钥保护TLS证书安全。</p>
+
+        <h2>亮点</h2>
+        <ul>
+            <li><strong>device-attest-01：</strong>使用TPM证明设备身份的新ACME挑战类型</li>
+            <li><strong>与smallstep CA集成：</strong>颁发短效（24小时）设备证书</li>
+            <li><strong>PKCS11支持：</strong>通过p11-kit提供密钥给应用程序</li>
+            <li><strong>TPM EK标识：</strong>通过Endorsement Key唯一标识设备</li>
+            <li><strong>attezt-agent：</strong>管理设备证书并提供p11-kit socket</li>
+        </ul>
+
+        <div class="insight">
+            <strong>核心洞察：</strong>"硬件绑定密钥即使被提取也无效，因为没有硬件就无法使用"
+        </div>
+
+        <div class="highlight">
+            <strong>技术细节：</strong>
+            <ul>
+                <li>device-attest-01依赖"attestation CA"验证设备</li>
+                <li>TPM EK公钥哈希可唯一标识设备</li>
+                <li>使用Attestation Key (AK) 而非直接用EK签名（保护隐私）</li>
+                <li>支持TPM 2.0，Nuvoton NPCT75x等常见TPM</li>
+                <li>短效证书降低泄露风险</li>
+            </ul>
+        </div>
+
+        <div class="tags">
+            <span class="tag">安全</span>
+            <span class="tag">TPM</span>
+            <span class="tag">ACME</span>
+            <span class="tag">证书</span>
+            <span class="tag">硬件</span>
+        </div>
+    </div>

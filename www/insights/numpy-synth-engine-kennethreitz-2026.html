@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NumPy as Synth Engine - 数学合成音乐</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>🎹 NumPy as Synth Engine</h1>
+  <div class="meta">来源: <a href="https://kennethreitz.org/essays/2026-03-29-numpy_as_synth_engine" target="_blank">kennethreitz.org</a> · 评分: ★★★★★ · 2026-03-31</div>
+  
+  <h2>无中生有</h2>
+  <p>Kenneth Reitz（requests库作者）用NumPy从数学生成完整印度古典音乐。没有一个音频文件——每个声音都是运行时计算的。</p>
+  
+  <h2>Karplus-Strong 算法</h2>
+  <p>1983年发明的拨弦合成算法，简单得惊人：</p>
+  <pre>import numpy as np
+SAMPLE_RATE = 44100
+
+def plucked_string(hz, n_samples=SAMPLE_RATE):
+    period = int(SAMPLE_RATE / hz)
+    buf = np.random.uniform(-1.0, 1.0, period)  # 噪声填充
+    out = np.zeros(n_samples)
+    for i in range(n_samples):
+        out[i] = buf[i % period]
+        next_idx = (i + 1) % period
+        buf[i % period] = 0.5 * (buf[i % period] + buf[next_idx]) * 0.999
+    return out</pre>
+  <p>平均是低通滤波，高频谐波衰减更快——正是真实弦乐的效果。</p>
+  
+  <h2>Tabla 建模</h2>
+  <p>六种打击乐：Na（ rim strike）、Tin（open ring）、Ge（deep bayan）、Dha（双鼓）、Tit（rapid tap）、Ke（muted slap）。每个stroke由多层物理组件叠加：</p>
+  <ul>
+    <li>膜振动（bandpass噪声）</li>
+    <li>壳体共鸣（正弦波）</li>
+    <li>Syahi黑色膏体的独特谐波</li>
+    <li>手掌调制导致音高 sweep（55→155 Hz）</li>
+  </ul>
+  
+  <h2>同一算法，不同乐器</h2>
+  <p>原声吉他加body resonance（带通滤波110/250/500 Hz），电吉他用comb filter取消4次谐波，Ukulele换不同共振频率——核心算法不变，物理参数不同。</p>
+  
+  <p>"我仍然不敢相信效果这么好。" —— Kenneth Reitz</p>
+  
+  <div class="tags">
+    <span class="tag">Python</span>
+    <span class="tag">DSP</span>
+    <span class="tag">音乐</span>
+    <span class="tag">NumPy</span>
+  </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

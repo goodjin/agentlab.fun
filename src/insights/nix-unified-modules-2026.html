@@ -1,0 +1,62 @@
+---
+layout: article.njk
+title: "Nix 统一模块系统 - 配置管理最佳实践"
+tags: [insights]
+permalink: /insights/nix-unified-modules-2026.html
+---
+
+<div class="container">
+        <h1>Nix 统一模块系统</h1>
+        <div class="meta">
+            <span class="rating">⭐⭐⭐⭐</span>
+            <span class="tag">Nix</span>
+            <span class="tag">DevOps</span>
+            <span class="tag">配置管理</span>
+        </div>
+        
+        <div class="summary">
+            <h3>摘要</h3>
+            <p>作者分享如何组织 Nix/NixOS/home-manager/darwin 配置的最佳实践，解决多平台配置管理的痛点。按功能而非类型组织模块，实现跨平台配置的无缝管理。</p>
+        </div>
+
+        <div class="highlights">
+            <h3>为什么不喜欢"标准"方法</h3>
+            <ul>
+                <li>模块按类型分割（home/nixos/darwin），而非按功能</li>
+                <li>相关功能的模块分散在不同目录</li>
+                <li>需要手动导入和启用多个模块</li>
+                <li>重构时容易遗漏</li>
+            </ul>
+        </div>
+
+        <div class="highlights">
+            <h3>设计目标</h3>
+            <ul>
+                <li><span class="highlight">仅限 Dotfiles</span>：只处理个人电脑配置，服务器配置分离</li>
+                <li><span class="highlight">不使用独立 Home Manager</span>：只在 NixOS/macOS 上运行</li>
+                <li><span class="highlight">单一用户</span>：配置只针对个人设备</li>
+                <li><span class="highlight">opinionated 模块</span>：提供开箱即用的元模块</li>
+                <li><span class="highlight">跨平台行为</span>：轻松定义 NixOS/macOS 特定配置</li>
+                <li><span class="highlight">无外部依赖</span>：DIY 方案，完全控制</li>
+            </ul>
+        </div>
+
+        <div class="highlights">
+            <h3>示例配置结构</h3>
+            <div class="code">
+{ pkgs, ... }: {
+  imports = [ ./hardware-configuration.nix ];
+  
+  nixfiles = {
+    enable = true;
+    user.name = "dan";
+    
+    development = {...};
+    desktop = {...};
+    # 按功能组织，而非按平台
+  };
+}</div>
+        </div>
+
+        <a href="/insights/index.html" class="back-link">← 返回索引</a>
+    </div>

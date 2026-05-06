@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sashiko: Agentic Linux Kernel Code Review</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>🤖 Sashiko: Agentic Linux Kernel Code Review</h1>
+    <div class="meta">
+        <span class="star">⭐⭐⭐⭐⭐</span> 5 stars | Source: <a href="https://news.ycombinator.com/">Hacker News</a> | Date: 2026-03-22
+    </div>
+    
+    <div class="url">
+        <a href="https://sashiko.dev/" target="_blank">https://sashiko.dev/</a>
+    </div>
+
+    <h2>Summary</h2>
+    <p>Sashiko (刺し子, "little stabs") is an <strong>agentic Linux kernel code review system</strong> developed by Google. It monitors public mailing lists to thoroughly evaluate proposed Linux kernel changes using AI, acting like a team of specialized reviewers covering domains from high-level architecture verification to low-level concurrency analysis.</p>
+
+    <h2>Key Features</h2>
+    <ul>
+        <li><strong>Multi-domain review:</strong> Covers architecture verification, security audits, resource management, and concurrency analysis</li>
+        <li><strong>Open-source prompts:</strong> Uses per-subsystem and generic prompts created by Chris Mason</li>
+        <li><strong>Google-funded:</strong> All compute resources and LLM tokens provided by Google</li>
+        <li><strong>Real-world results:</strong> Successfully identified <strong>53.6% of bugs</strong> based on historical commits with "Fixed:" tags</li>
+        <li><strong>Human complement:</strong> 100% of these historical bugs had previously made it through human-driven code reviews</li>
+    </ul>
+
+    <div class="highlight">
+        <strong>🔑 Key Insight:</strong> Sashiko proves AI can find bugs that human reviewers missed. It's designed to augment and assist human reviewers, not replace them.
+    </div>
+
+    <h2>Technical Details</h2>
+    <p>The system relies on:</p>
+    <ul>
+        <li>An open-source set of <a href="https://github.com/masoncl/review-prompts">per-subsystem and generic prompts</a></li>
+        <li>A custom multi-stage review protocol to maximize accuracy and minimize false positives</li>
+        <li>Gemini 3.1 Pro as the underlying LLM</li>
+    </ul>
+
+    <h2>Related Projects</h2>
+    <p>The review-prompts repository includes specialized prompts for:</p>
+    <ul>
+        <li><strong>Linux Kernel:</strong> /kreview, /kdebug, /kverify</li>
+        <li><strong>systemd:</strong> /systemd-review, /systemd-debug, /systemd-verify</li>
+        <li><strong>iproute:</strong> /iproute-review, /iproute-debug, /iproute-verify</li>
+    </ul>
+
+    <h2>Implications</h2>
+    <p>This represents a significant step in AI-assisted software engineering. While AI won't replace human reviewers, it can catch bugs that slip through traditional review processes. The fact that 100% of identified bugs had passed human review highlights the potential value of AI augmentation.</p>
+
+    <hr>
+    <p><em>探索于 2026-03-22 | Hacker News</em></p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,48 @@
+---
+layout: article.njk
+title: "Fast regex search: indexing text for agent tools - Cursor"
+tags: [insights]
+permalink: /insights/cursor-fast-regex-search-indexing-2026.html
+---
+
+<div class="content">
+        <span class="rating">⭐⭐⭐⭐ (4星)</span>
+        <h1>Fast regex search: indexing text for agent tools</h1>
+        <div class="meta">
+            来源: <a href="https://cursor.com/blog/fast-regex-search">Cursor Blog</a> | 分类: <span class="tag">performance</span><span class="tag">programming</span><span class="tag">AI</span><span class="tag">indexing</span>
+        </div>
+
+        <h2>核心亮点</h2>
+        <ul>
+            <li><strong>问题背景</strong>: AI Agent工具需要使用正则表达式搜索代码库，但ripgrep在大型monorepo中搜索超过15秒，严重影响工作流</li>
+            <li><strong>经典算法</strong>: 介绍1993年Zobel, Moffat, Sacks-Davis发表的经典方法，使用n-gram创建倒排索引</li>
+            <li><strong>Trigram分解</strong>: 选择3字符分词的原因——bigram posting list太大，quadgram索引键太多，trigram是最佳平衡</li>
+            <li><strong>技术深度</strong>: 详细解释倒排索引结构、正则表达式分解为trigram树、查询优化</li>
+            <li><strong>应用场景</strong>: 类似IDE的语法索引，为现代AI Agent构建文本搜索索引</li>
+        </ul>
+
+        <h2>关键内容</h2>
+        <h3>倒排索引基础</h3>
+        <p>倒排索引是搜索引擎的核心数据结构。文档被分解为token，每个token映射到包含该token的文档列表(posting list)。搜索时加载posting list并取交集。</p>
+
+        <h3>为什么源代码需要特殊处理</h3>
+        <p>自然语言的tokenization对源代码不适用。GitHub早期Code Search使用复杂tokenizer效果很差——可以搜索标识符但无法匹配正则表达式。</p>
+
+        <h3>Trigram分解</h3>
+        <p>将每个文档分解为重叠的3字符序列作为token。regex查询时也分解为trigram树，在索引中查找匹配的文档。</p>
+
+        <h3>技术价值</h3>
+        <div class="highlight">
+            这篇文章展示了Cursor如何将传统信息检索技术(1993年算法)应用到现代AI Agent工具中，是理论与实践结合的典范。对于构建高性能代码搜索工具的开发者有重要参考价值。
+        </div>
+
+        <h2>相关信息</h2>
+        <ul>
+            <li>参考论文: <a href="https://www.vldb.org/conf/1993/P290.PDF">"Searching Large Lexicons for Partially Specified Terms using Compressed Inverted Files"</a> (1993)</li>
+            <li>相关概念: Russ Cox的<a href="https://swtch.com/~rsc/regexp/regexp4.html">正则表达式索引</a>博客</li>
+            <li>相关工具: ripgrep, 语言服务器协议(LSP)</li>
+        </ul>
+
+        <hr>
+        <p><small>探索时间: 2026-03-27 | 来源: Lobsters</small></p>
+    </div>

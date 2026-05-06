@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>比特币与量子计算：存在性威胁</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>比特币与量子计算：存在性威胁</h1>
+    <div class="meta">
+        <span class="tag">比特币</span>
+        <span class="tag">加密货币</span>
+        <span class="tag">量子安全</span>
+        <span>来源: nehanarula.org | 2026-04-03</span>
+    </div>
+
+    <h2>核心问题</h2>
+    <p>如果明天出现密码学相关量子计算机（CRQC），比特币的签名将被破解。比特币需要修改代码和所有人的钱包（至少一次软分叉+大量用户转移代币）才能在CRQC存在下保持安全。</p>
+
+    <div class="highlight">
+        <strong>不确定性核心：</strong>
+        <ul style="margin-top:10px;">
+            <li>A = CRQC在某时间出现的概率</li>
+            <li>B = 比特币在该时间前成功升级的概率</li>
+        </ul>
+        <p style="margin-top:10px;">你应预期比特币无法工作的概率 = A × B</p>
+    </div>
+
+    <h2>风险计算</h2>
+    <ul>
+        <li><strong>Google量子时间线：</strong>2029年转向PQC</li>
+        <li><strong>Craig Gidney</strong>（Google量子论文合著者）：<strong>2030年10%概率</strong>存在CRQC (A=0.1)</li>
+        <li><strong>比特币升级历史：</strong>Taproot软分叉用<strong>3年10个月</strong>从提案到激活</li>
+        <li><strong>钱包支持：</strong>又花了数月甚至数年才被广泛采用</li>
+        <li><strong>作者估计：</strong>2029年前成功部署某种PQ方案的概率约50% (B=0.5)</li>
+    </ul>
+
+    <div class="formula">
+        2030年比特币无法工作的概率 = 0.1 × 0.5 = <strong>5%</strong>
+    </div>
+
+    <h2>作为投资者的思考</h2>
+    <p>如果相信以上估计，比特币无法工作的概率是<strong>0%价格的底线</strong>。这应该与以下不确定性叠加：</p>
+    <ul>
+        <li>密钥可能被窃取（自己的或交易所的）</li>
+        <li>以太坊可能取代比特币"数字黄金"叙事</li>
+        <li>网络分割和双花攻击</li>
+        <li>2140年后区块奖励归零的经济安全问题</li>
+    </ul>
+
+    <h2>作为用户的思考</h2>
+    <p>一些密码学家已表示不再愿意从事非后量子密码学工作。很难说服人们参与一个可能在几年内完全被破解的项目。</p>
+
+    <h2>技术挑战</h2>
+    <ul>
+        <li><strong>签名方案选择：</strong>PQ签名更大、验证更慢，可能影响TPS、区块空间、节点成本</li>
+        <li><strong>共识决策困难：</strong>如何处理未升级的UTXO？选择不当可能违反比特币核心原则</li>
+        <li><strong>时间窗口：</strong>太早可能选到非最优密码原语，太晚可能被破解</li>
+        <li><strong>生态协调：</strong>钱包、交易所、托管商都需要升级，然后用户必须真正移动代币</li>
+        <li><strong>Satoshi的硬币：</strong>P2PK代币无法移动，永远脆弱</li>
+    </ul>
+
+    <h2>与中心化系统的对比</h2>
+    <div class="quote">
+        "银行软件、军事通信、互联网也需要升级。我高度相信它们会成功升级——我愿把B_{HTTPS}设为接近1。不幸的是，我对比特币成功升级的信心较低，因为升级一个像蜂蜜獾一样分散参与者的去中心化系统更具挑战性。"
+    </div>
+
+    <h2>常见反驳与回应</h2>
+    <ul>
+        <li><strong>"量子计算机摧毁比特币是FUD"</strong>→确实有很多不实说法，但也有真相。需要过滤两边</li>
+        <li><strong>"CRQC可能永远不会存在"</strong>→是的，但"可能"一词分量很重。Google研究者认为2030年10%概率</li>
+        <li><strong>"他们连21都分解不了，为什么现在要行动？"</strong>→直觉在量子计算领域不适用。问"什么时候用Shor算法分解35"就像问1943年的曼哈顿计划物理学家"什么时候制造小型核爆炸"</li>
+        <li><strong>"CRQC也会破坏银行业、军事通信、互联网！"</strong>→是的，但那些会成功升级。比特币是去中心化的，更难</li>
+        <li><strong>"Google想摧毁比特币"</strong>→"Google想摧毁比特币"和"Google论文技术上正确"可以同时为真</li>
+    </ul>
+
+    <h2>核心洞见</h2>
+    <div class="highlight">
+        <strong>"即使相信A=0，如果你在乎比特币中期价格，最好让B=0。投资者可能会倾听专家意见并将风险定价——所以要么说服专家他们错了，要么说服所有其他投资者不要听专家的，否则就加入让B=0的努力。"</strong>
+    </div>
+
+    <h2>延伸阅读</h2>
+    <ul>
+        <li><a href="https://blog.cloudflare.com/post-quantum-roadmap/">Cloudflare: 后量子安全路线图2029</a></li>
+        <li><a href="https://words.filippo.io/crqc-timeline/">Filippo io: 密码学工程师的量子计算时间线</a></li>
+    </ul>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Native Instant Space Switching on MacOS - 即时空间切换</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="container">
+        <h1>🎯 Native Instant Space Switching on MacOS</h1>
+        <div class="meta">
+            <span class="score">⭐⭐⭐⭐⭐ 5星</span>
+            <span> | 77票 | Lobsters</span>
+        </div>
+        
+        <div class="content">
+            <h2>核心发现</h2>
+            <p>作者发现了无需禁用System Integrity Protection即可实现macOS即时空间切换的方法：<strong>InstantSpaceSwitcher</strong>。</p>
+            
+            <div class="highlight">
+                <strong>解决方案：</strong>通过模拟高速度 trackpad swipe 手势来实现即时切换，无需修改系统文件
+            </div>
+
+            <h2>现有方案的问题</h2>
+            <ul>
+                <li><strong>Reduce Motion</strong>: 只替换为同样无用的淡入动画，还会触发网页的 prefers-reduced-motion</li>
+                <li><strong>yabai</strong>: 需要禁用SIP并作为tiling window manager使用，与其他window manager不兼容</li>
+                <li><strong>FlashSpace/AeroSpace</strong>: 非原生实现，只是模拟</li>
+                <li><strong>BetterTouchTool</strong>: 需要付费</li>
+            </ul>
+
+            <h2>InstantSpaceSwitcher 优势</h2>
+            <ul>
+                <li>✅ 无需禁用System Integrity Protection</li>
+                <li>✅ 无需作为tiling window manager</li>
+                <li>✅ 免费开源</li>
+                <li>✅ 支持CLI操作</li>
+                <li>✅ 支持直接跳转到指定空间号</li>
+            </ul>
+
+            <h2>安装方法</h2>
+            <pre><code>git clone https://github.com/jurplel/InstantSpaceSwitcher
+cd InstantSpaceSwitcher
+./build.sh</code></pre>
+
+            <h2>CLI用法</h2>
+            <pre><code>.build/release/ISSCli --help
+# 使用: ISSCli [left|right|index &lt;n&gt;]</code></pre>
+
+            <div class="tags">
+                <span class="tag">macOS</span>
+                <span class="tag">空间切换</span>
+                <span class="tag">窗口管理</span>
+                <span class="tag">开源</span>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

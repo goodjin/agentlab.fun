@@ -1,0 +1,122 @@
+---
+layout: article.njk
+title: "Tinybox: 离线 AI 设备 120B 参数 - 2026"
+tags: [insights]
+permalink: /insights/tinybox-offline-ai-device-2026.html
+---
+
+<div class="card">
+        <h1>Tinybox: 离线 AI 设备</h1>
+        <div class="meta">
+            <span class="tag">AI 硬件</span>
+            <span class="tag">深度学习</span>
+            <span class="tag">tinygrad</span>
+            <span class="star">⭐⭐⭐⭐⭐</span>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>产品概述</h2>
+        <p>George Hotz 的 Tiny Corp 出售的超级计算机系列，目前已上市 Red v2 和 Green v2，Exabox 将于 2027 年推出。这些设备专为深度学习设计，可能是性价比最高的 AI 计算设备。</p>
+        
+        <div class="specs">
+            <div class="spec-card">
+                <div class="spec-value">778 TFLOPS</div>
+                <div class="spec-label">Red v2 FP16</div>
+            </div>
+            <div class="spec-card">
+                <div class="spec-value">3,086 TFLOPS</div>
+                <div class="spec-label">Green v2 FP16</div>
+            </div>
+            <div class="spec-card">
+                <div class="spec-value">~1 EXAFLOP</div>
+                <div class="spec-label">Exabox (2027)</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>规格对比</h2>
+        <table>
+            <tr>
+                <th>配置</th>
+                <th>Red v2</th>
+                <th>Green v2</th>
+                <th>Exabox</th>
+            </tr>
+            <tr>
+                <td>GPU</td>
+                <td>4x 9070XT</td>
+                <td>4x RTX PRO 6000 Blackwell</td>
+                <td>720x RDNA5 AT0 XL</td>
+            </tr>
+            <tr>
+                <td>GPU RAM</td>
+                <td>64 GB</td>
+                <td>384 GB</td>
+                <td>25,920 GB</td>
+            </tr>
+            <tr>
+                <td>系统 RAM</td>
+                <td>128 GB</td>
+                <td>192 GB</td>
+                <td>23,040 GB</td>
+            </tr>
+            <tr>
+                <td>价格</td>
+                <td>$12,000</td>
+                <td>$65,000</td>
+                <td>~$10M (2027)</td>
+            </tr>
+            <tr>
+                <td>功耗</td>
+                <td>1600W</td>
+                <td>2x 1600W</td>
+                <td>600 kW</td>
+            </tr>
+            <tr>
+                <td>尺寸</td>
+                <td>12U</td>
+                <td>20x8x8.5 ft</td>
+                <td>~</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>tinygrad 框架</h2>
+        <p>这些设备运行 tinygrad —— 一个极简但强大的神经网络框架：</p>
+        <ul>
+            <li>极简设计：将复杂网络分解为 <span class="highlight">3 种 OpType</span></li>
+            <li>ElementwiseOps：UnaryOps, BinaryOps, TernaryOps</li>
+            <li>ReduceOps：SUM, MAX 等</li>
+            <li>MovementOps：RESHAPE, PERMUTE, EXPAND 等</li>
+            <li>每个操作都有自定义内核，支持极致形状特化</li>
+            <li>所有张量都是 lazy 的，可以激进地融合操作</li>
+        </ul>
+        <p>tinygrad 已用于 <strong>openpilot</strong> 自动驾驶系统，在 Snapdragon 845 GPU 上运行。</p>
+    </div>
+
+    <div class="card">
+        <h2>为什么这重要</h2>
+        <ul>
+            <li><strong> commoditize petaflop</strong>：让 AI 计算民主化</li>
+            <li>比同等性能服务器便宜 10 倍（据 MLPerf Training 4.0 基准测试）</li>
+            <li>离线运行：数据不需要离开设备</li>
+            <li>完整训练和推理支持，不仅是推理</li>
+        </ul>
+    </div>
+
+    <div class="insight">
+        <strong>核心洞察：</strong>"让每个人都能用上 AI 的目标正在通过硬件commoditization（商品化）实现。Tinybox 代表了 AI 硬件的新方向 —— 不是追求极致性能，而是追求最佳性价比。"
+    </div>
+
+    <div class="card">
+        <h2>相关链接</h2>
+        <ul>
+            <li><a href="https://tinygrad.org">tinygrad 官网</a></li>
+            <li><a href="https://github.com/tinygrad/tinygrad">GitHub 仓库</a></li>
+            <li><a href="https://discord.gg/ZjZadyC7PK">Discord 社区</a></li>
+            <li><a href="https://docs.tinygrad.org/tinybox/">Tinybox 文档</a></li>
+        </ul>
+    </div>

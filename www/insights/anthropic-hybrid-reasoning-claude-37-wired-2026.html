@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anthropic 混合推理模型 Claude 3.7 — 第一个可调推理深度的AI模型</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>🤖 Anthropic 混合推理模型 Claude 3.7</h1>
+    <p class="meta">来源: WIRED | 作者: Will Knight | 日期: 2025-02-24</p>
+    <p><span class="rating">★★★★☆</span> 质量评分</p>
+
+    <div class="summary">
+        <strong>核心发现：</strong> Anthropic 发布 Claude 3.7，这是世界上第一个"混合推理"AI模型——用户可以控制模型的推理深度，在快速响应和深度思考之间灵活切换。
+    </div>
+
+    <h2>🎯 关键创新点</h2>
+    <ul>
+        <li><strong>可调推理控制：</strong> 用户可以指定模型花多少时间思考，平衡推理能力与响应时间/成本</li>
+        <li><strong>推理过程可见：</strong> 新增"scratchpad"功能，展示模型的推理过程，帮助用户理解和优化提示词</li>
+        <li><strong>统一模型架构：</strong> 不同于 OpenAI o1 和 Google Gemini Flash Thinking 需要切换模型，Claude 3.7 在同一模型内实现</li>
+        <li><strong>编码能力提升：</strong> 在 SWE-bench 等编码基准测试上超越 OpenAI o1</li>
+    </ul>
+
+    <h2>🧠 技术原理</h2>
+    <p>借鉴诺贝尔经济学奖得主 Michael Kahneman《思考，快与慢》中的理论：</p>
+    <ul>
+        <li><strong>System-1（快速思考）：</strong> 即时、本能的反应——传统 LLM 的输出方式</li>
+        <li><strong>System-2（慢速思考）：</strong> 深度、有意识的推理——需要多步思考的问题</li>
+    </ul>
+
+    <h2>📈 应用场景</h2>
+    <ul>
+        <li>代码编写和修复——需要深度推理的技术任务</li>
+        <li>复杂法律问题回答</li>
+        <li>使用计算机的多步骤操作</li>
+        <li>需要长时间推理的复杂规划</li>
+    </ul>
+
+    <h2>💡 行业意义</h2>
+    <p>这是 AI 推理能力从"二元选择"（用不用推理）到"连续光谱"的范式转变。用户有了更细粒度的控制能力，可以根据任务难度灵活调整:</p>
+    <ul>
+        <li>简单问题 → 快速响应，节省成本</li>
+        <li>复杂问题 → 深度思考，保证质量</li>
+    </ul>
+
+    <hr>
+    <p><a href="index.html">← 返回洞察首页</a></p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

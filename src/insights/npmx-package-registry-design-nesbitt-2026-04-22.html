@@ -1,0 +1,68 @@
+---
+layout: article.njk
+title: "npmx: 现代包注册表设计典范 - 探索发现"
+tags: [insights]
+permalink: /insights/npmx-package-registry-design-nesbitt-2026-04-22.html
+---
+
+<h1>npmx: 现代包注册表设计典范</h1>
+    <div class="meta">
+        <span class="score">4.5★</span>
+        来源：Lobsters · 探索时间：2026-04-22 08:00
+    </div>
+
+    <p>2026年1月，Daniel Roe 创建了 <a href="https://npmx.dev">npmx.dev</a> 作为 npmjs.com 的替代前端。这个项目在两周内获得了数千个issue和pull request，成为包注册网站设计的优秀参考。</p>
+
+    <h2>核心亮点</h2>
+
+    <div class="card">
+        <h3>📦 可传递安装大小</h3>
+        <p>显示包及其所有依赖的未压缩大小（实际落地磁盘大小），而非单个tarball大小。这是JavaScript开发者通过 bundlephobia 和 packagephobia 早已获得的信息。</p>
+    </div>
+
+    <div class="card">
+        <h3>🔍 安装脚本披露</h3>
+        <p>任何 preinstall/install/postinstall 脚本都会在包页面渲染，并显示这些脚本会用 npx 获取的包。这是一个重要的供应链安全功能。</p>
+    </div>
+
+    <div class="card">
+        <h3>🌳 依赖树过时与漏洞标注</h3>
+        <p>展示可展开的依赖树，每个节点标注其落后最新版本多少，以及是否出现在 OSV 漏洞数据库中，递归遍历所有传递依赖。</p>
+    </div>
+
+    <div class="card">
+        <h3>🔄 版本范围解析</h3>
+        <p>任何 semver 范围（如 ^1.0.0）旁边显示其当前解析到的具体版本，无需CLI往返。</p>
+    </div>
+
+    <h2>更多实用功能</h2>
+
+    <ul>
+        <li><strong>模块格式与类型徽章</strong> — ESM、CJS或双模式，TypeScript类型是否内置或需单独安装，Node引擎版本要求</li>
+        <li><strong>多平台仓库统计</strong> — 从GitHub、GitLab、Bitbucket、Codeberg等获取star和fork数</li>
+        <li><strong>跨注册表可用性</strong> — 标记同时存在于JSR等其他注册表的包</li>
+        <li><strong>包对比视图</strong> — 最多10个包并排比较，另有散点图展示"牵引力"vs"人体工程学"</li>
+        <li><strong>版本差异对比</strong> — 任意两个版本可在浏览器中逐文件diff</li>
+        <li><strong>发布timeline与大小标注</strong> — 每个版本在timeline上标记，size大幅变化处特别标注</li>
+        <li><strong>命令面板</strong> — ⌘K打开当前页面所有操作+全局导航</li>
+        <li><strong>国际化</strong> — 界面支持30+ locale，包括RTL语言</li>
+        <li><strong>AT Protocol社交功能</strong> — 包"点赞"存储在Bluesky网络上而非私有数据库</li>
+    </ul>
+
+    <h2>设计哲学</h2>
+
+    <p>npmx的核心创新在于：<strong>竞争驱动改进</strong>。通过创建npmjs.com的直接替代品，它展示了"如果有竞争，用户会用脚投票"的道理。</p>
+
+    <p>项目采用MIT许可证开源，这意味着每个功能都有可工作的参考实现，而非空谈设计理念。</p>
+
+    <h2>意义</h2>
+
+    <p>npmx 不仅是一个npm替代品，更是<strong>包注册表设计的最佳实践指南</strong>。它的许多功能（如安装脚本警告、传递大小、依赖树漏洞可视化）对任何包管理器都有参考价值。</p>
+
+    <p>有趣的是，npmjs.com 在压力下终于推出了暗色模式——这是其issue追踪器上最热门的功能请求，被搁置了五年。</p>
+
+    <hr style="margin: 2rem 0; border: none; border-top: 1px solid var(--border);">
+    <p style="color: var(--muted); font-size: 0.85rem;">
+        来源：<a href="https://nesbitt.io/2026/04/16/features-everyone-should-steal-from-npmx.html">nesbitt.io</a>
+        · 标签：Open Source / Package Management / UX Design
+    </p>

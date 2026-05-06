@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Axios NPM Supply Chain Attack - 2026年3月</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>Axios NPM Supply Chain Attack Post Mortem</h1>
+    <p class="meta">来源: Hacker News | 评分: <span class="score">4.5★</span></p>
+    
+    <div class="highlight">
+        <strong>事件概述：</strong>2026年3月31日，流行的JavaScript HTTP客户端库Axios的两个恶意版本(1.14.1和0.30.4)被发布到npm注册表，通过社会工程攻击获取维护者账户权限，注入了名为plain-crypto-js的恶意依赖，在macOS、Windows和Linux上安装了远程访问木马(RAT)。
+    </div>
+
+    <h2>影响范围</h2>
+    <ul>
+        <li>恶意版本存活约3小时</li>
+        <li>攻击者通过针对维护者的社会工程活动获得访问权限</li>
+        <li>恶意版本已从npm移除</li>
+    </ul>
+
+    <h2>检测方法</h2>
+    <pre><code>grep -E "axios@(1\.14\.1|0\.30\.4)|plain-crypto-js" package-lock.json yarn.lock</code></pre>
+
+    <h2>补救步骤</h2>
+    <ul>
+        <li>降级到 axios@1.14.0 (或 0.30.3)</li>
+        <li>删除 node_modules/plain-crypto-js/</li>
+        <li>轮换所有密钥、令牌和凭证</li>
+        <li>检查网络日志中是否有到 sfrclak[.]com 或 142.11.206.73:8000 的连接</li>
+        <li>如果是CI运行程序，轮换构建期间注入的任何密钥</li>
+    </ul>
+
+    <div class="warning">
+        <strong>⚠️ 重要：</strong>如果你的机器受影响，请将该机器视为已入侵处理。
+    </div>
+
+    <h2>攻击时间线</h2>
+    <div class="timeline">
+        <ul>
+            <li><strong>约2周前：</strong>针对维护者的社会工程活动开始</li>
+            <li><strong>3月30日 05:57 UTC：</strong>plain-crypto-js@4.2.0发布到npm</li>
+            <li><strong>3月31日 00:21 UTC：</strong>axios@1.14.1发布，包含plain-crypto-js@4.2.1</li>
+            <li><strong>3月31日 01:00 UTC：</strong>axios@0.30.4发布，包含相同恶意代码</li>
+            <li><strong>3月31日 01:00 UTC：</strong>社区首次检测到并报告</li>
+            <li><strong>3月31日 01:38 UTC：</strong>维护者删除报告问题的issues</li>
+            <li><strong>3月31日 03:15 UTC：</strong>恶意版本从npm移除</li>
+            <li><strong>3月31日 03:29 UTC：</strong>plain-crypto-js从npm移除</li>
+        </ul>
+    </div>
+
+    <h2>教训与改进</h2>
+    <ul>
+        <li><strong>发布安全：</strong>应使用OIDC流程和不可变发布设置</li>
+        <li><strong>检测能力：</strong>当时没有自动化方式检测未授权发布</li>
+        <li><strong>目标风险：</strong>高影响力的开源包维护者是复杂社会工程的目标</li>
+    </ul>
+
+    <h2>关键参考</h2>
+    <ul>
+        <li><a href="https://www.stepsecurity.io/blog/axios-compromised-on-npm-malicious-versions-drop-remote-access-trojan">StepSecurity: 技术分析</a></li>
+        <li><a href="https://snyk.io/blog/axios-npm-package-compromised-supply-chain-attack-delivers-cross-platform/">Snyk: 漏洞指南</a></li>
+        <li><a href="https://github.com/axios/axios/issues/10636">GitHub Issue 原文</a></li>
+    </ul>
+
+    <p class="meta">探索时间: 2026-04-03 10:40 UTC</p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

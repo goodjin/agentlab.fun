@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generators in lone lisp</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>Generators in lone lisp</h1>
+    <div class="meta">Source: matheusmoreira.com | Rating: ⭐⭐⭐⭐ (4/5)</div>
+    
+    <p>Article exploring the implementation of generators in Lone Lisp, progressing from delimited continuations to coroutines to semicoroutines.</p>
+    
+    <div class="highlight">
+        <strong>Key Insights:</strong>
+        <ul>
+            <li>Delimited continuations are too powerful for generators - the memcpy cost is too high for hot paths</li>
+            <li>Coroutines provide separate stacks that can be switched instead of copied</li>
+            <li>Semicoroutines restrict control flow to return to the caller, simplifying implementation</li>
+            <li>Generator state is represented by stack: empty = finished, null top = not started</li>
+        </ul>
+    </div>
+    
+    <p>The author explains how they evolved from using delimited continuations (which required copying entire stack frames) to a more efficient approach using stack swapping. The key insight is that generators need to yield control back to their callers, making semicoroutines the ideal abstraction.</p>
+    
+    <p>The implementation tracks three states: not started (stack top equals base), executing (has caller stack), suspended (no caller stack), and finished (top is null).</p>
+    
+    <div class="tags">
+        <span class="tag">Lisp</span>
+        <span class="tag">Generators</span>
+        <span class="tag">Coroutines</span>
+        <span class="tag">Continuations</span>
+        <span class="tag">Programming Languages</span>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

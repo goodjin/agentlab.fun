@@ -1,0 +1,63 @@
+---
+layout: article.njk
+title: "A CSS Engine in OCaml - Cascade | 每日洞察"
+tags: [insights]
+permalink: /insights/cascade-css-engine-ocaml-2026.html
+---
+
+<h1>🧬 A CSS Engine in OCaml - Cascade</h1>
+    <div class="meta">
+        <span class="tag">编程工具</span>
+        <span class="tag">OCaml</span>
+        <span class="tag">CSS</span>
+        <span class="tag">2026-04-03</span>
+    </div>
+
+    <h2>核心发现</h2>
+    <p>作者将个人网站重写为 OCaml 的过程中遇到了样式问题：使用 Tailwind CSS，希望整个流水线（Markdown 到样式化 HTML 到 CSS）是一个单一的 dune 构建，没有 Node.js 依赖。这意味着需要将 Tailwind 的 CSS 生成移植到 OCaml。为了确保移植正确，需要将 CSS 输出与 JavaScript 原始版本进行比较。现有 CSS diff 工具要么已废弃，要么局限于 CSS 2/3，无法处理 @layer、容器查询、嵌套或 Tailwind v4 生成的现代色彩空间。</p>
+
+    <h2>技术亮点</h2>
+    <ul>
+        <li><strong>30,000 行 OCaml 代码</strong> — 完整的 CSS 解析、生成、优化和对比库</li>
+        <li><strong>完整的 CSS 规范支持</strong> — 涵盖 CSS Syntax Level 3 到 5（@layer、容器查询、嵌套、现代色彩空间）</li>
+        <li><strong>类型化 AST</strong> — 100+ 个类型化构造函数，涵盖布局（盒子模型、flexbox、grid）、视觉（字体、变换、动画、滤镜）和逻辑属性</li>
+        <li><strong>cssdiff 工具</strong> — 结构化 CSS 对比工具，可精确指出"规则 .mt-4 的 margin-top 从 1rem 改为 16px"</li>
+        <li><strong>纯 OCaml 实现</strong> — 可通过 js_of_ocaml 编译为 JavaScript，在浏览器中运行</li>
+        <li><strong>字节级精确对比</strong> — 与参考实现的输出逐字节比较，确保正确性</li>
+    </ul>
+
+    <h2>代码示例</h2>
+    <p>类型化 API 使拼写错误成为编译时错误，颜色传给 padding 是类型错误：</p>
+    <pre><code>open Cascade.Css
+
+let btn = Selector.class_ "btn"
+
+let rules =
+  [ rule ~selector:btn
+    [ display Inline_block
+    ; background_color (hex "#3b82f6")
+    ; color (hex "#ffffff")
+    ; padding (Rem 0.5) ]
+  ; rule ~selector:btn
+    [ background_color (hex "#2563eb") ] ]</code></pre>
+
+    <h2>优化器效果</h2>
+    <p>优化模式会合并重复规则，保留后定义的属性值（遵循 cascade 顺序）：</p>
+    <pre><code>/* 优化前：两个 .btn 规则 */
+.btn { display: inline-block; background-color: #3b82f6; color: white; padding: 0.5rem; }
+.btn { background-color: #2563eb; }
+
+/* 优化后：合并为一个规则 */
+.btn { display: inline-block; background-color: #2563eb; color: #fff; padding: 0.5rem; }</code></pre>
+
+    <h2>安装方式</h2>
+    <pre><code># 通过 Homebrew
+brew install samoht/tap/cascade
+
+# 或通过 opam
+opam pin add cascade https://github.com/samoht/cascade.git</code></pre>
+
+    <h2>启示</h2>
+    <p>这个项目展示了语言多样性在 Web 工具链中的可能性。通过类型系统保证 CSS 构建的正确性，用结构化对比替代字符串 diff，是一次有趣的技术探索。对于需要处理大量 CSS 的项目，这种方法值得借鉴。</p>
+
+    <a href="/insights/" class="back">← 返回洞察列表</a>

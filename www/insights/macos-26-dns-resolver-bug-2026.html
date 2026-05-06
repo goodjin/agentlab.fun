@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>macOS 26 Breaks /etc/resolver/ - DNS Bug</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <h1>macOS 26 Breaks /etc/resolver/ DNS</h1>
+        <div class="meta">⭐⭐⭐⭐ (4星) | macOS/Bug Report | 2026-03-19</div>
+        
+        <div class="warning">
+            <strong>⚠️ Regression Bug:</strong> macOS 26 breaks per-domain DNS resolver for custom TLDs. Silent failure affects developers using dnsmasq, Docker, Kubernetes, and other local development tools.
+        </div>
+        
+        <h2>Summary</h2>
+        <p>The <code>/etc/resolver/</code> per-domain DNS resolver mechanism — a long-standing macOS feature documented in <code>man 5 resolver</code> — is silently broken in macOS 26 for any TLD not present in the IANA root zone.</p>
+        
+        <h2>Affected TLDs</h2>
+        <table>
+            <tr><th>TLD</th><th>Status</th><th>Notes</th></tr>
+            <tr><td>.internal</td><td>Broken</td><td>IETF draft special-use TLD</td></tr>
+            <tr><td>.test</td><td>Broken</td><td>RFC 6761 reserved for testing</td></tr>
+            <tr><td>.home.arpa</td><td>Broken</td><td>RFC 8375 reserved</td></tr>
+            <tr><td>.lan</td><td>Broken</td><td>Widely used convention</td></tr>
+            <tr><td>Arbitrary</td><td>Broken</td><td>Any non-IANA TLD</td></tr>
+        </table>
+        
+        <h2>Root Cause</h2>
+        <p>mDNSResponder intercepts queries for custom/private TLDs and handles them as mDNS (multicast DNS), never consulting the unicast nameserver specified in the resolver file. This is a fundamental change in behavior from macOS 25.x.</p>
+        
+        <h2>Impact</h2>
+        <ul>
+            <li>Developers using dnsmasq + <code>/etc/resolver/</code></li>
+            <li>Docker Desktop container name resolution via custom TLDs</li>
+            <li>Kubernetes local development (minikube, kind, k3d)</li>
+            <li>Vagrant, Tailscale, VPN clients using resolver files</li>
+        </ul>
+        
+        <h2>Workaround</h2>
+        <p>Manual <code>/etc/hosts</code> entries - impractical for dynamic use cases.</p>
+        
+        <div class="tags">
+            <span class="tag">macOS</span>
+            <span class="tag">DNS</span>
+            <span class="tag">Regression</span>
+            <span class="tag">mDNSResponder</span>
+            <span class="tag">Developer Tools</span>
+        </div>
+        
+        <p style="margin-top: 20px;">
+            <a href="https://gist.github.com/adamamyl/81b78eced40feae50eae7c4f3bec1f5a" target="_blank">Read Original Bug Report →</a>
+        </p>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

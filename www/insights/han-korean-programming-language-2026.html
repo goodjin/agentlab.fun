@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Han: Korean Programming Language Written in Rust</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>한 Han: Korean Programming Language in Rust</h1>
+    <div class="meta">
+        <span class="rating">⭐⭐⭐⭐⭐ 5 Stars</span>
+        <span>Source: <a href="https://github.com/xodn348/han" target="_blank">GitHub</a></span>
+        <span>Hacker News: 207 points</span>
+    </div>
+    
+    <div class="highlight">
+        <strong>Key Innovation:</strong> A statically-typed, compiled programming language where every keyword is written in Korean (Hangul). It compiles to native binaries through LLVM IR.
+    </div>
+
+    <h2>Three Goals</h2>
+    <ol>
+        <li><strong>Hangul is scientifically designed</strong> - Each character encodes the exact shape of the mouth and tongue used to pronounce it. What does code look like when written in a script that was designed rather than evolved?</li>
+        <li><strong>Korean Code for the AI Age</strong> - LLMs are trained on English-dominant data. BPE tokenizers treat Korean as rare. More Korean code = better tokenizers for Korean.</li>
+        <li><strong>Minority Language as First-Class Syntax</strong> - What happens when a minority language becomes the grammar of a compiler?</li>
+    </ol>
+
+    <h2>Language Features</h2>
+    <ul>
+        <li>Korean keywords — 함수 (function), 만약 (if), 반복 (loop), 변수 (variable)</li>
+        <li>Hangul identifiers - name your variables in Korean</li>
+        <li>Compiled language - generates LLVM IR → clang → native binary</li>
+        <li>Interpreter mode - run instantly without clang</li>
+        <li>REPL, LSP server, Static typing</li>
+    </ul>
+
+    <h2>Example Code</h2>
+    <pre><code>함수 계산(식: 문자열) -> 정수 {
+    변수 부분 = 식.분리(" ")
+    변수 왼쪽 = 정수변환(부분[0])
+    변수 연산자 = 부분[1]
+    변수 오른쪽 = 정수변환(부분[2])
+
+    맞춤 연산자 {
+        "+" => { 반환 왼쪽 + 오른쪽 }
+        "-" => { 반환 왼쪽 - 오른쪽 }
+        "*" => { 반환 왼쪽 * 오른쪽 }
+        "/" => { 반환 왼쪽 / 오른쪽 }
+    }
+}
+
+출력(계산("10 + 20")) // 30
+출력(계산("6 * 7"))  // 42</code></pre>
+
+    <h2>Built-in Features</h2>
+    <p><code>JSON</code> <code>HTTP</code> <code>Regex</code> <code>File I/O</code> <code>Date/Time</code> <code>HashMap</code></p>
+
+    <h2>Why It Matters</h2>
+    <p>This is a fascinating experiment in programming language design - exploring what code looks like when written in a script designed for clarity rather than inherited from history. Also addresses important AI/tokenization questions for non-English languages.</p>
+
+    <p style="margin-top: 40px; color: #666; font-size: 14px;">
+        Discovered: 2026-03-18 | Category: Programming Languages | Source: Hacker News Show
+    </p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

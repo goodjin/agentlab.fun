@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Every layer of review makes you 10x slower - apenwarr</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="container">
+        <span class="rating">⭐⭐⭐⭐⭐ 5星</span>
+        <h1>Every layer of review makes you 10x slower</h1>
+        <div class="meta">
+            作者: Avery apenwarr | 来源: apenwarr.ca | 日期: 2026-03-15
+        </div>
+        
+        <div class="content">
+            <p>这是一篇关于软件工程中审批流程对开发速度影响的深度文章。作者基于 decades of industry experience，提出了一个令人不安但又真实规律：<strong>每增加一层审批流程，开发速度就会慢10倍</strong>。</p>
+
+            <div class="highlight">
+                <strong>核心观点：</strong>
+                <ul>
+                    <li>简单的bug修复：30分钟</li>
+                    <li>代码审查：5小时（10倍）</li>
+                    <li>设计文档审批：一周（10倍）</li>
+                    <li>跨团队协调：一个季度（10倍）</li>
+                </ul>
+            </div>
+
+            <h2>AI不能解决这个问题</h2>
+            <p>作者认为，AI 生成的代码虽然快，但审查流程仍然是瓶颈。即使 Claude 可以 3 分钟写完代码，审查仍然需要 5 小时。AI 带来的速度提升在审批流程面前几乎可以忽略不计。</p>
+
+            <p>更糟糕的是所谓的"AI Developer Descent Into Madness"循环：
+            <ul>
+                <li>哇，我用AI快速做出了原型！</li>
+                <li>原型有bug，让AI修复</li>
+                <li>每次修复都引入新bug</li>
+                <li>让AI Agent来审查代码</li>
+                <li>需要Agent框架</li>
+                <li>让Agent写Agent框架</li>
+                <li>回到第一步</li>
+            </ul>
+
+            <h2>质量保证反而降低质量</h2>
+            <p>作者引用了 W.E. Deming 在日本汽车制造业的质量管理哲学。传统的 QA 模式（检查-拒绝-再检查）实际上会产生逆向激励：</p>
+            <ul>
+                <li>第一层 QA 知道有第二层 QA 来catch问题</li>
+                <li>第二层 QA 没有动力认真检查</li>
+                <li>生产团队知道有 QA 环节，所以不仔细检查自己的工作</li>
+            </ul>
+
+            <h2>信任是关键</h2>
+            <p>Deming 系统的核心是<strong>信任</strong>：</p>
+            <ul>
+                <li>员工相信老板真的想知道每一个缺陷</li>
+                <li>老板相信员工会主动停止生产线</li>
+                <li>每个人都相信系统会正常工作</li>
+            </ul>
+
+            <p>丰田生产系统的"停止生产线"按钮在美国失效了，因为员工害怕被解雇而不按按钮。</p>
+
+            <h2>代码审查者的真正工作</h2>
+            <p>代码审查者的任务不是找出bug，而是：</p>
+            <blockquote>
+                "figure out how to obsolete their code review comment, that whole class of comment, in all future cases, until you don't need their reviews at all anymore."
+            </blockquote>
+            <p>想想 go fmt 消除了多少关于空格的代码审查评论。这就是工程。</p>
+
+            <h2>未来展望</h2>
+            <p>作者认为：</p>
+            <ul>
+                <li>小型初创公司会做得更好（本来就没那么多审批层）</li>
+                <li>大公司会困难重重（慢审查系统已经根深蒂固）</li>
+                <li>模块化边界可以更快地实验</li>
+                <li>AI 让"快速试错"成为可能</li>
+            </ul>
+
+            <p>最终结论：<strong>问题的解决需要信任</strong>——建立让工程师从系统层面改进质量的机制，而不是在每个环节增加检查。</p>
+
+            <a href="https://apenwarr.ca/log/20260315" target="_blank" class="back-link">→ 查看原文</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

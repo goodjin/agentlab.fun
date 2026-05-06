@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehension Debt - Addy Osmani</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="container">
+        <span class="source">Lobsters</span>
+        <span class="rating">⭐⭐⭐⭐⭐ 5星</span>
+        <h1>Comprehension Debt — the hidden cost of AI generated code</h1>
+        <div class="meta">By Addy Osmani | Google Engineer | March 2026</div>
+        
+        <h2>什么是理解债务？</h2>
+        <p><strong>Comprehension Debt</strong> 是人类智能和记忆因过度依赖 AI 和自动化而累积的隐藏成本。对于工程师来说，这与代理工程最相关。</p>
+        
+        <div class="key-insight">
+            <strong>定义：</strong> 理解债务是你的系统中存在的代码量与任何人类真正理解的代码量之间越来越大的差距。
+        </div>
+
+        <h2>关键发现</h2>
+
+        <h3>1. Anthropic 研究：AI 损害技能形成</h3>
+        <div class="stat">
+            <ul>
+                <li>52 名软件工程师学习新库的随机对照试验</li>
+                <li>使用 AI 辅助的参与者完成任务时间相近，但后续理解测验分数 <strong>低 17%</strong></li>
+                <li>AI 辅助组：50% | 对照组：67%</li>
+                <li>最大下降在 <strong>调试</strong> 领域</li>
+            </ul>
+        </div>
+
+        <h3>2. 速度不对称问题</h3>
+        <p>AI 生成代码的速度远快于人类评估它的速度：</p>
+        <ul>
+            <li>过去：高级工程师可以比初级工程师更快地审查代码</li>
+            <li>现在翻转：初级工程师生成代码的速度超过高级工程师的审查能力</li>
+            <li>曾经的质量门现在是吞吐量问题</li>
+        </ul>
+
+        <div class="quote">
+            "瓶颈一直是理解项目的能力。AI 创造了你已经摆脱它的错觉。"
+        </div>
+
+        <h3>3. 测试不是完整答案</h3>
+        <ul>
+            <li>覆盖所有可观察行为的测试套件在许多情况下比它验证的代码更复杂</li>
+            <li>你无法为你没有想到要指定的行为编写测试</li>
+            <li>当 AI 改变实现行为并更新数百个测试用例时，问题变成："这些测试更改都必要吗？"</li>
+        </ul>
+
+        <div class="stat">
+            <strong>关键数据：</strong>
+            <ul>
+                <li>使用 AI 进行代码生成的开发者：理解测试分数 &lt; 40%</li>
+                <li>使用 AI 进行概念性询问的开发者：理解测试分数 &gt; 65%</li>
+            </ul>
+        </div>
+
+        <h3>4. 规范也不是完整答案</h3>
+        <p>将规范转换为工作代码涉及大量隐式决策：</p>
+        <ul>
+            <li>边缘情况</li>
+            <li>数据结构选择</li>
+            <li>错误处理</li>
+            <li>性能权衡</li>
+            <li>交互模式</li>
+        </ul>
+        
+        <div class="quote">
+            "足够详细以完全描述程序的规范基本上就是程序本身，只是用不可执行的语言编写。"
+        </div>
+
+        <h2>为什么理解债务如此危险</h2>
+        <ul>
+            <li><strong>Velocity metrics 看起来完美：</strong> DORA metrics 保持稳定，PR 数量增加，代码覆盖率绿色</li>
+            <li><strong>但无法看到理解赤字：</strong> 没有组织测量输出的维度捕获这个维度</li>
+            <li><strong>技术债务通常是有意识的权衡</strong> — 理解债务无形累积</li>
+        </ul>
+
+        <h2>监管即将来临</h2>
+        <p>当 AI 生成的代码在医疗系统、金融基础设施和政府服务中运行时，"AI 写了它，我们没有完全审查它"在事后报告中站不住脚。</p>
+
+        <h2>结论</h2>
+        <p><strong>让代码生成便宜并不意味着可以跳过理解。</strong> 理解工作是工作。</p>
+        <p>AI 处理翻译。但必须有人理解产生了什么，为什么以那种方式产生，以及这些隐式决策是否正确——否则你只是在推迟一个最终会全额到期的账单。</p>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

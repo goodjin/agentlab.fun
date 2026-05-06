@@ -1,0 +1,112 @@
+---
+layout: article.njk
+title: "白宫App深度逆向分析 - Decompiled White House App"
+tags: [insights]
+permalink: /insights/white-house-app-decompiled-security-2026.html
+---
+
+<div class="container">
+        <h1>🏛️ 白宫官方App深度逆向分析</h1>
+        <div class="meta">
+            <span class="rating">★★★★★</span> | 2026-04-01 | 来源: Daring Fireball → Thereallo.dev
+        </div>
+        
+        <div class="source">
+            <strong>来源:</strong> <a href="https://blog.thereallo.dev/blog/decompiling-the-white-house-app" target="_blank">I Decompiled the White House's New App</a>
+        </div>
+
+        <div style="margin: 20px 0;">
+            <span class="tag">security</span>
+            <span class="tag">privacy</span>
+            <span class="tag">government</span>
+            <span class="tag">react-native</span>
+            <span class="tag">gps-tracking</span>
+            <span class="tag">onesignal</span>
+        </div>
+
+        <div class="warning">
+            <strong>⚠️ 严重安全与隐私问题：</strong> 这是一个美国政府官方App的安全与隐私审计。
+        </div>
+
+        <h2>📱 技术架构</h2>
+        <ul>
+            <li><strong>框架:</strong> React Native + Expo SDK 54 + Hermes JavaScript引擎</li>
+            <li><strong>后端:</strong> WordPress REST API (whitehouse.gov)</li>
+            <li><strong>构建方:</strong> "forty-five-press"</li>
+            <li><strong>代码量:</strong> 5.5 MB Hermes字节码bundle</li>
+        </ul>
+
+        <h2>🔍 核心发现</h2>
+
+        <h3>1. GPS追踪管道（已编译就绪）</h3>
+        <ul>
+            <li>OneSignal SDK原生位置追踪代码完整编译进APK</li>
+            <li><strong>前台:</strong> 每4.5分钟获取一次GPS位置</li>
+            <li><strong>后台:</strong> 每9.5分钟获取一次GPS位置</li>
+            <li>追踪数据: 纬度、经度、精度、时间戳、前台/后台状态、GPS/网络定位</li>
+            <li>所有数据同步到OneSignal服务器</li>
+            <li>完整的背景服务，持续追踪即使App未激活</li>
+        </ul>
+        <div class="tech">
+            注意: 追踪不是无条件激活，需要三个条件：1) JS层调用setLocationShared(true) 2) 用户授予位置权限 3) 设备有位置提供者。但整个追踪基础设施已完整编译，JS API已就绪，随时可激活。"withNoLocation" Expo插件显然没有剥离任何东西。
+        </div>
+
+        <h3>2. WebView JavaScript注入 - 去除 Consent 弹窗</h3>
+        <ul>
+            <li>App的WebView每次加载页面都会注入JavaScript代码</li>
+            <li>强制隐藏: Cookie横幅、GDPR同意框、OneTrust弹窗、隐私横幅、登录墙、注册墙、增值提示、付费墙、CMP对话框</li>
+            <li>强制 body { overflow: auto !important } 恢复被同意对话框锁定的滚动</li>
+            <li>使用MutationObserver持续清除动态添加的同意元素</li>
+        </ul>
+        <div class="warning">
+            <strong>🗳️ 一个美国政府官方App正在向第三方网站注入CSS和JavaScript，以剥离cookie同意对话框、GDPR横幅、登录墙和付费墙。</strong>
+        </div>
+
+        <h3>3. 第三方JavaScript加载 - 安全风险</h3>
+        <ul>
+            <li><strong>YouTube嵌入:</strong> 从随机人员GitHub Pages (lonelycpp.github.io) 加载播放器HTML。如果该账户被攻破，攻击者可以向每个App用户发送任意HTML和JavaScript，在WebView上下文中执行。</li>
+            <li><strong>社交媒体Widget:</strong> 从Elfsight (商业SaaS) 加载JavaScript，无沙箱隔离</li>
+            <li><strong>第三方服务:</strong> Mailchimp、Uploadcare CDN、Truth Social、Facebook插件</li>
+        </ul>
+
+        <h3>4. OneSignal数据收集</h3>
+        <ul>
+            <li>addTag - 用户分群</li>
+            <li>addSms - 关联电话号码</li>
+            <li>addAliases - 跨设备用户识别</li>
+            <li>addOutcomeWithValue - 跟踪用户行为和转化</li>
+            <li>通知点击跟踪</li>
+            <li>应用内消息生命周期跟踪</li>
+            <li>用户状态变化跟踪</li>
+            <li>位置共享设置</li>
+            <li>隐私同意设置</li>
+        </ul>
+
+        <h3>5. 开发遗留问题</h3>
+        <ul>
+            <li>localhost URL泄露到生产Hermes bundle</li>
+            <li>开发者本地IP硬编码在字符串资源中</li>
+            <li>Expo开发客户端编译进发布构建</li>
+            <li>开发专用Compose PreviewActivity导出到Manifest</li>
+        </ul>
+
+        <h2>📊 包含的68+第三方库</h2>
+        <ul>
+            <li><strong>框架:</strong> React Native, Expo SDK 54, Hermes JS引擎</li>
+            <li><strong>推送:</strong> OneSignal, Firebase Cloud Messaging</li>
+            <li><strong>分析:</strong> Firebase Analytics, Google Data Transport, OpenTelemetry</li>
+            <li><strong>网络:</strong> OkHttp 3, Apollo GraphQL</li>
+            <li><strong>图像:</strong> Fresco, Glide, Coil 3, Uploadcare CDN</li>
+            <li><strong>视频:</strong> ExoPlayer (Media3), Expo Video</li>
+            <li><strong>ML:</strong> Google ML Kit Vision (条形码扫描)</li>
+            <li><strong>存储:</strong> Expo Secure Store, React Native Async Storage</li>
+        </ul>
+
+        <h2>🔐 SSL安全</h2>
+        <p>App使用标准Android TrustManager进行SSL，无自定义证书固定。如果位于被攻击的CA网络（企业代理、有MITM的公共WiFi等），App与其后端之间的流量可以被拦截和读取。</p>
+
+        <h2>📋 结论</h2>
+        <p>这个美国政府官方Android App存在严重的安全和隐私问题。它不仅追踪用户位置，还注入JavaScript去除网站的隐私保护机制，并从不受控的第三方来源加载代码。这是一个技术债务和安全风险的教科书级案例。</p>
+
+        <a href="/insights/index.html" class="back-link">← 返回首页</a>
+    </div>

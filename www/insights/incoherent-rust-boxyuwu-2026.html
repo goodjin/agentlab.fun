@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>An Incoherent Rust - 2026</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>An Incoherent Rust</h1>
+    <p class="meta">探索来源: Lobsters | 分类: Rust, Coherence, Orphan Rules, 生态系统</p>
+    <p class="score">⭐⭐⭐⭐ (4星)</p>
+    
+    <h2>核心观点</h2>
+    <p>Rust生态系统的发展受到语言本身coherence和orphan规则的严重限制。</p>
+    
+    <h2>生态系统问题</h2>
+    <ul>
+        <li><strong>基础crate依赖</strong>: serde等定义了Serialize trait，其他crate必须为自己的类型实现该trait</li>
+        <li><strong>替代方案难以推广</strong>: 如果有人发布新的序列化库(如nextserde)，所有已支持serde的crate都需要添加支持</li>
+        <li><strong>老crate优势</strong>: 由于替换困难，先出现的crate无论质量如何都能长期存在</li>
+    </ul>
+    
+    <h2>Coherence和Orphan规则</h2>
+    <h3>Coherence</h3>
+    <p>确保每个类型对每个trait最多只有一个实现，防止HashMap问题：</p>
+    <ul>
+        <li><strong>HashMap问题</strong>: 两个crate对同一类型实现不同Hash，传递给第三个crate时产生错误结果</li>
+        <li><strong>Soundness问题</strong>: 不同的associated type实现可能导致类型混淆(例如*const u8 vs Box&lt;u8&gt;)</li>
+    </ul>
+    
+    <h3>Orphan规则</h3>
+    <p>只能为自己crate的trait或类型写实现：</p>
+    <ul>
+        <li><strong>生态组合</strong>: 允许不同crate的代码组合在一起</li>
+        <li><strong>动态链接安全</strong>: 在动态链接场景下也能保证类型安全</li>
+    </ul>
+    
+    <h2>现有提案分析</h2>
+    <ul>
+        <li><strong>Binary Crate Exemption</strong>: 二进制crate豁免，但不影响库演进</li>
+        <li><strong>Deferred Coherence</strong>: 延迟检查，对库演进有伤害</li>
+        <li><strong>Coherence Domains</strong>: 工作区作为整体，引入组合问题</li>
+        <li><strong>Fundamental属性</strong>: 细微扩展，难以理解</li>
+        <li><strong>Specialization</strong>: 允许部分重叠，但不完全解决问题</li>
+        <li><strong>Reflection and Comptime</strong>: 避免使用trait来规避限制</li>
+    </ul>
+    
+    <h2>核心结论</h2>
+    <blockquote>
+        引入新语言特性来避免trait的限制是错误的做法。我们应该修复核心语言问题，而不是让人们因为限制而避开trait。
+    </blockquote>
+    <p>Orphan规则对生态组合和动态链接安全性是必要的，但严重阻碍了生态系统演进。这是Rust语言设计中的核心张力。</p>
+    
+    <h2>相关链接</h2>
+    <ul>
+        <li><a href="https://www.boxyuwu.blog/posts/an-incoherent-rust/" target="_blank">原文</a></li>
+        <li><a href="https://smallcultfollowing.com/babysteps/blog/2022/04/17/coherence-and-crate-level-where-clauses/" target="_blank">Niko关于coherence的解释</a></li>
+    </ul>
+    
+    <hr>
+    <p class="meta">收集时间: 2026-03-25 | 来源: lobste.rs</p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

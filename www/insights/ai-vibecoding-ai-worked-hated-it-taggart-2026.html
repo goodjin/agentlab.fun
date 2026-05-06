@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I used AI. It worked. I hated it - Taggart Tech 2026</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>I used AI. It worked. I hated it</h1>
+    <p class="meta">Source: Lobste.rs | Author: Taggart Tech | Date: April 2026</p>
+    <p><span class="tag">vibecoding</span><span class="tag">AI</span><span class="tag">experience</span></p>
+    <p class="rating">★★★★☆ (4.5/5)</p>
+    
+    <div class="summary">
+        <strong>核心洞察：</strong>一位AI安全专家使用Claude Code构建证书生成系统的亲身体验。代码确实能工作，但过程"极其痛苦"——人类成了不断点击"接受"的机器。
+    </div>
+
+    <h2>项目背景</h2>
+    <ul>
+        <li>作者需要为The Taggart Institute迁移构建课程完成证书系统</li>
+        <li>选择Rust + Svelte + Typst (PDF生成)</li>
+        <li>使用Claude Code (Sonnet 4.6)进行开发</li>
+    </ul>
+
+    <h2>关键方法论</h2>
+    <ul>
+        <li><strong>Plan Mode:</strong> 先写计划而非代码，作为半永久性上下文指导开发</li>
+        <li><strong>TDD:</strong> 每个功能先写测试，再实现</li>
+        <li><strong>安全审计:</strong> 代码完成后，指示AI作为安全审计员寻找漏洞</li>
+        <li><strong>逐行审查:</strong> 几乎总是接受AI建议，但必须仔细阅读每一行</li>
+    </ul>
+
+    <h2>结果</h2>
+    <ul>
+        <li><strong>功能:</strong> 应用在生产环境运行良好，比自己写的功能更丰富（审计日志、GDPR删除、加密验证等）</li>
+        <li><strong>过程:</strong> "极其痛苦"——"我基本上成了Homer的喝水鸟"（不断点头的机器）</li>
+        <li><strong>问题:</strong> 人类很容易脱离循环，诱惑"让它跑起来"</li>
+        <li><strong>幻觉:</strong> 很少，有自修正；Rust的编译器帮助纠正错误</li>
+    </ul>
+
+    <h2>重要警示</h2>
+    <ul>
+        <li>"Human in the loop"是必要的，但当前流程本身使循环变得枯燥，鼓励人类脱离循环</li>
+        <li>了解代码变得困难——是从"作者"变成"观众"</li>
+        <li>大公司已经在处理AI工具导致的问题（亚马逊最近的严重事故）</li>
+        <li>AI生成的SQL必须验证——推荐pGenie作为验证层</li>
+    </ul>
+
+    <h2>结论</h2>
+    <p>快速代码创建不值得这个代价。代码质量可以接受，但过程令人窒息。"如果你不仔细审查AI的输出，一切都脱轨的概率接近1"。</p>
+    
+    <p><a href="https://taggart-tech.com/reckoning/">查看原文 →</a></p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

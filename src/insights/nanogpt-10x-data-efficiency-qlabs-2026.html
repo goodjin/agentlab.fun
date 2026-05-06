@@ -1,0 +1,76 @@
+---
+layout: article.njk
+title: "NanoGPT 10x Data Efficiency - qlabs.sh"
+tags: [insights]
+permalink: /insights/nanogpt-10x-data-efficiency-qlabs-2026.html
+---
+
+<div class="container">
+        <span class="tag">AI</span>
+        <span class="tag">Machine Learning</span>
+        <span class="tag">NLP</span>
+        <h1>NanoGPT 10x Data Efficiency - 链式蒸馏与集成学习</h1>
+        <p class="rating">⭐⭐⭐⭐⭐ (5星)</p>
+        
+        <h2>摘要</h2>
+        <p>NanoGPT Slowrun 实现 10x 数据效率，180亿参数 ensemble 模型在 1亿 tokens 上训练达到 10亿 tokens 效果。数据效率很重要，因为计算增长比数据快得多。当前缩放定律需要在两者上成比例增长，智能最终会受到数据而非计算的瓶颈限制。</p>
+        
+        <div class="highlight">
+            <strong>核心成果：</strong>
+            <div class="metric">10x 数据效率</div>
+            <div class="metric">1.8B 参数 ensemble</div>
+            <div class="metric">100M tokens</div>
+        </div>
+
+        <h2>核心技术</h2>
+        
+        <h3>1. Ensemble（集成学习）</h3>
+        <p>集成学习可能是预训练中最被低估的缩放轴。关键洞察：</p>
+        <ul>
+            <li>单个模型过拟合时，ensemble 反而受益于更多训练 epochs</li>
+            <li>从 12 epochs 扩展到 18 epochs：单模型 loss 从 3.295 变差到 3.310，但 ensemble loss 从 3.185 降到 3.166</li>
+            <li>模型学习不同知识，ensemble 受益</li>
+        </ul>
+
+        <h3>2. Chain Distillation（链式蒸馏）</h3>
+        <p>灵感来自 Born-Again Neural Networks，顺序训练模型，每个模型从前一个蒸馏：</p>
+        <pre><code>L = (1 - α) · CE(M_k(x), y) + α · T² · KL(M_k(x)/T ‖ M_{k-1}(x)/T)
+其中 α = 0.5, T = 1.0</code></pre>
+        <p>8 模型链式蒸馏：单模型 loss 稳定在 3.20，ensemble loss 达到 3.126（7x → 8x 数据效率）</p>
+
+        <h3>3. Regularization（正则化）</h3>
+        <ul>
+            <li><strong>Weight decay:</strong> 1.6（标准 0.1 的 <strong>16 倍</strong>）</li>
+            <li><strong>Dropout:</strong> 0.1</li>
+            <li>大规模过参数化：2.7B 模型在 100M tokens 上训练（Chinchilla 说应该用 5M 参数）</li>
+        </ul>
+
+        <h3>4. Looping（循环 transformer）</h3>
+        <p>循环 transformer 有更好的归纳偏置：</p>
+        <ul>
+            <li>30 层 transformer，训练中期将 layers 15-24 循环 4 次</li>
+            <li>即：先跑 0-24 层，然后 15-24 循环 4 次，最后跑 25-29 层</li>
+            <li>不要循环最后几层</li>
+        </ul>
+
+        <h3>5. Architectural Changes（架构改动）</h3>
+        <ul>
+            <li><strong>XSA (Exclusive Self Attention):</strong> 移除 self-value projection</li>
+            <li><strong>EMA:</strong> 指数移动平均权重</li>
+            <li><strong>U-Net skip connections:</strong> 层 0-14 连接到层 29-15</li>
+            <li><strong>SwiGLU:</strong> 替换 squared ReLU</li>
+            <li><strong>Value embeddings:</strong> 从输入 embeddings 学习投影</li>
+        </ul>
+
+        <h2>下一步目标</h2>
+        <div class="highlight">
+            <strong>100x 数据效率</strong> - 可能在一年内实现，需要几个新突破
+        </div>
+
+        <h2>URL</h2>
+        <div class="url"><a href="https://qlabs.sh/10x" target="_blank">https://qlabs.sh/10x</a></div>
+        
+        <p style="margin-top: 30px; color: #6b7280; font-size: 14px;">
+            来源: Hacker News | 发现日期: 2026-03-20
+        </p>
+    </div>

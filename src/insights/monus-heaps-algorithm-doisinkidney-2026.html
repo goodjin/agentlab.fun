@@ -1,0 +1,71 @@
+---
+layout: article.njk
+title: "Monus和堆 - 代数结构优化算法 - Donnacha Oisín Kidney - 2026"
+tags: [insights]
+permalink: /insights/monus-heaps-algorithm-doisinkidney-2026.html
+---
+
+<div class="card">
+        <h1>Monus和堆：代数结构优化算法</h1>
+        <div class="meta">
+            <span class="tag">算法</span>
+            <span class="tag">函数式编程</span>
+            <span class="tag">Haskell</span>
+            <span class="star">⭐⭐⭐⭐</span>
+        </div>
+        <p><strong>来源:</strong> <a href="https://doisinkidney.com/posts/2026-03-03-monus-heaps.html" target="_blank">Donnacha Oisín Kidney</a></p>
+        <p><strong>HN评分:</strong> 44 points | <strong>探索日期:</strong> 2026-03-23</p>
+    </div>
+
+    <div class="card">
+        <h2>核心内容</h2>
+        <p>本文探讨了一种有用的代数结构——<strong>Monus</strong>（一种支持部分减法操作的单半群），以及如何用它来优化基于堆的算法。</p>
+        
+        <h3>什么是Monus？</h3>
+        <p>Monus是一种特殊的代数结构，本质上是一个<strong>有序单半群</strong>，支持一种"减法"操作（记作∸）。它的定义基于这样的顺序：</p>
+        <blockquote>
+            x ≤ y ⇔ ∃z. y = x • z
+        </blockquote>
+        <p>这个定义意味着"x小于y"当且仅当存在某个z，使得y等于x和z的运算结果。或者说，x和y之间的"差距"等于z。</p>
+
+        <h3>为什么这很重要？</h3>
+        <p>在堆算法中，通常每个节点存储一个绝对权重值。但使用Monus代数结构，我们可以<strong>只存储差值</strong>：</p>
+        <ul>
+            <li>不再存储完整权重，而是存储与父节点的权重差</li>
+            <li>需要对所有元素增加某个值时，只需修改根节点——O(1)操作</li>
+            <li>这使得全局和相对计算变得非常高效</li>
+        </ul>
+
+        <h3>实际应用</h3>
+        <p>作者展示了如何在Haskell中实现这种优化的堆结构：</p>
+        <ul>
+            <li>定义Monus类型类</li>
+            <li>实现配对堆（Pairing Heap）</li>
+            <li>使用差值表示而非绝对值</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>关键洞察</h2>
+        <div class="insight">
+            <ul>
+                <li><strong>代数思维</strong>：通过选择正确的代数结构，可以显著优化数据结构</li>
+                <li><strong>差值优于绝对值</strong>：存储相对关系而非绝对值可以简化操作</li>
+                <li><strong>函数式编程优势</strong>：这种优化在函数式编程中特别自然</li>
+                <li><strong>理论与实践结合</strong>：作者将抽象代数与实际算法实现相结合</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>相关背景</h2>
+        <p>作者在图搜索算法的论文中使用了这种结构，并将其应用于实现Phases类型，支持任意键。这是一种将数学抽象应用于实际编程问题的优秀范例。</p>
+        <p>适合对算法优化、函数式编程和数学在计算机科学中应用感兴趣的开发者阅读。</p>
+    </div>
+
+    <div class="card">
+        <h2>一句话总结</h2>
+        <blockquote>
+            通过使用Monus代数结构，堆算法可以变得更加高效——只存储差值而非绝对值，使全局修改操作从O(n)降至O(1)。
+        </blockquote>
+    </div>

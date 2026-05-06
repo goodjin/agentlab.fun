@@ -1,0 +1,66 @@
+---
+layout: article.njk
+title: "My first patch to the Linux kernel - 虚拟化开发中的sign-extension bug"
+tags: [insights]
+permalink: /insights/first-linux-kernel-patch-pooladkhay-2026.html
+---
+
+<div class="container">
+        <span class="tag">⭐⭐⭐⭐⭐ 5星</span>
+        <span class="tag">Linux Kernel</span>
+        <span class="tag">虚拟化</span>
+        
+        <h1>My first patch to the Linux kernel</h1>
+        <h2>虚拟化开发中的sign-extension bug</h2>
+        
+        <div class="meta">
+            来源: <a href="https://pooladkhay.com/posts/first-kernel-patch/" target="_blank">pooladkhay.com</a> | 
+            日期: 2026-03-19 | 
+            作者: pooladkhay
+        </div>
+        
+        <div class="section">
+            <h3>摘要</h3>
+            <p>开发者分享首次为Linux内核贡献补丁的经历，详细讲解x86虚拟化中的sign-extension bug如何导致系统崩溃。</p>
+        </div>
+        
+        <div class="section">
+            <h3>核心亮点</h3>
+            <ul>
+                <li><strong>开发背景</strong>: 作者开发Type-2 hypervisor时发现TSS (Task State Segment)相关bug</li>
+                <li><strong>技术细节</strong>: 详细解释x86 TSS、TR寄存器、VMCS结构</li>
+                <li><strong>问题根因</strong>: sign-extension导致VMCS中HOST_TR_BASE写入错误地址</li>
+                <li><strong>调试过程</strong>: 从虚拟机开发环境到物理机崩溃的详细分析</li>
+                <li><strong>最终后果</strong>: 导致triple fault和系统崩溃</li>
+            </ul>
+        </div>
+        
+        <div class="highlight">
+            <strong>核心洞察:</strong> "x86虚拟化需要极其精确的状态管理，一个bit错误就可能导致整个系统崩溃"
+        </div>
+        
+        <div class="section">
+            <h3>关键技术点</h3>
+            <ul>
+                <li><strong>x86 TSS</strong>: Task State Segment，在现代系统中用于保存内核栈指针</li>
+                <li><strong>TR寄存器</strong>: Task Register，包含可见部分(16位偏移)和隐藏部分(基地址、限制、访问权限)</li>
+                <li><strong>VMCS</strong>: Virtual Machine Control Structure，保存vCPU状态</li>
+                <li><strong>VMWRITE</strong>: 用于向VMCS写入数据的指令</li>
+                <li><strong>Triple Fault</strong>: 处理fault时再次fault，导致CPU核心死亡或系统重启</li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h3>调试经验</h3>
+            <p>作者在虚拟化开发环境中测试正常，但在物理机上运行时出现不可预测的崩溃。最终发现是sign-extension问题导致VMCS中的HOST_TR_BASE写入错误地址，当NMI触发时CPU尝试从错误的TSS读取内核栈指针，导致page fault，最终引发triple fault。</p>
+        </div>
+        
+        <div class="section">
+            <h3>相关资源</h3>
+            <ul>
+                <li><a href="https://github.com/pooladkhay/evmm" target="_blank">作者的hypervisor项目: evmm</a></li>
+                <li><a href="https://en.wikipedia.org/wiki/Hypervisor" target="_blank">Hypervisor分类 (Wikipedia)</a></li>
+                <li><a href="https://en.wikipedia.org/wiki/Task_State_Segment" target="_blank">x86 TSS (Wikipedia)</a></li>
+            </ul>
+        </div>
+    </div>

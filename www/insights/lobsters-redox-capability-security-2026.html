@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capability-based Security for Redox - 探索发现</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <h1>Capability-based Security for Redox: Namespace and CWD as capabilities</h1>
+        <div class="meta">
+            <span class="tag">osdev</span>
+            <span class="tag">rust</span>
+            <span class="tag">security</span>
+            <span class="rating">★★★★★</span>
+        </div>
+        
+        <div class="summary">
+            <strong>核心理念：</strong>Redox OS 将 namespace 和 CWD 抽象为 capability，namespace manager 从内核移至用户空间，用 openat 实现沙箱。
+        </div>
+
+        <h3>关键要点</h3>
+        <ul class="key-points">
+            <li><strong>Scheme-rooted Path:</strong> 所有资源通过 /scheme/{scheme-name}/{resource-name} 访问，如 /scheme/file/home/user/file.txt</li>
+            <li><strong>Namespace 用户空间化:</strong> 原来内核管理的 namespace 现在由用户空间的 nsmgr daemon 管理，通过 openat 的 dir_fd 实现访问控制</li>
+            <li><strong>CWD as Capability:</strong> CWD 不再是字符串路径，而是文件描述符，支持 O_RESOLVE_BENEATH 防止 ../ 逃逸沙箱</li>
+            <li><strong>内核简化:</strong> 内核不再需要解析路径或知道 scheme 名称，只负责分发系统调用</li>
+        </ul>
+
+        <p>
+            <a href="https://www.redox-os.org/news/nlnet-cap-nsmgr-cwd/" target="_blank">阅读原文 →</a>
+        </p>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,72 @@
+---
+layout: article.njk
+title: "Apfel — 释放 Mac 设备端 AI | Insights"
+tags: [insights]
+permalink: /insights/apfel-mac-on-device-llm-2026.html
+---
+
+<h1>Apfel — 释放 Mac 设备端 AI</h1>
+    <p class="meta">来源: franzai.com | 发布时间: 2026-04-03 | Hacker News: 556 points</p>
+    
+    <p>
+        <span class="tag">AI</span>
+        <span class="tag">macOS</span>
+        <span class="tag">设备端</span>
+        <span class="tag">开源</span>
+    </p>
+
+    <div class="highlight">
+        <strong>一句话总结：</strong> Apfel 将 Apple 隐藏在 Siri 后面的设备端 LLM 释放出来，让每个 Apple Silicon Mac 都能免费使用本地 AI。
+    </div>
+
+    <div class="stats">
+        <div class="stat">
+            <div class="stat-value">$0</div>
+            <div class="stat-label">Token 费用</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">100%</div>
+            <div class="stat-label">本地运行</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">4096</div>
+            <div class="stat-label">Tokens 上下文</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">~3B</div>
+            <div class="stat-label">参数数量</div>
+        </div>
+    </div>
+
+    <h2>核心功能</h2>
+    <ul>
+        <li><strong>UNIX 工具</strong> - 管道友好，支持 jq、xargs 和 shell 脚本，stdin/stdout、JSON 输出、文件附件、正确的退出码</li>
+        <li><strong>OpenAI 兼容服务器</strong> - 位于 localhost:11434 的 drop-in 替代品，支持任何 OpenAI SDK，Streaming、函数调用、CORS</li>
+        <li><strong>交互式聊天</strong> - 多轮对话，自动上下文管理，五种修剪策略，系统提示支持</li>
+    </ul>
+
+    <h2>技术原理</h2>
+    <p>从 macOS 26 (Tahoe) 开始，每个 Apple Silicon Mac 都包含一个语言模型作为 Apple Intelligence 的一部分。Apple 通过 FoundationModels framework 暴露它 —— 一个让应用访问 SystemLanguageModel 的 Swift API。所有推理在 Neural Engine 和 GPU 上运行，无网络调用，无云，无 API key。</p>
+
+    <p>但 Apple 只将其用于 Siri、写作工具和系统功能。没有终端命令，没有 HTTP 端点。Apfel 是一个 Swift 6.3 二进制文件，包装 LanguageModelSession 并以三种方式暴露它：UNIX 命令行工具、OpenAI 兼容 HTTP 服务器（基于 Hummingbird）和带上下文管理的交互式聊天。</p>
+
+    <h2>使用方法</h2>
+    <pre><code># 安装
+$ brew install Arthur-Ficial/tap/apfel
+
+# CLI 使用
+$ apfel "What is the capital of Austria?"
+
+# OpenAI 兼容服务器
+$ apfel --serve
+# Server running on http://127.0.0.1:11434
+
+# 交互式聊天
+$ apfel --chat -s "You are a coding assistant"</code></pre>
+
+    <h2>为什么重要</h2>
+    <p>这是 Apple 设备端 LLM 首次作为命令行工具公开可用。在 AI 时代，这意味着每个 Apple Silicon Mac 用户都可以免费使用本地 AI，无需 API key，无需支付任何费用。虽然上下文窗口只有 4096 tokens，但对于大多数单轮任务和短对话已经足够。</p>
+
+    <p>4月3日该项目突然爆火，一天内获得 295 stars，展示了对本地、隐私优先 AI 的强烈需求。</p>
+
+    <p class="meta"><a href="https://apfel.franzai.com">原文链接</a> | <a href="https://github.com/Arthur-Ficial/apfel">GitHub</a></p>

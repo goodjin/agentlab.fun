@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreeBSD 笔记本兼容性与开源硬件生态</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>FreeBSD 笔记本兼容性：开源硬件生态的新进展</h1>
+    <p class="meta">来源: Hacker News (268 points) | 2026-04-10</p>
+    <p><span class="score">★ 4.0</span></p>
+
+    <h2>核心发现</h2>
+    
+    <p>FreeBSD 基金会近期发布了其官方笔记本兼容性测试结果，覆盖了从 2016 年 MacBook Pro 到最新的 Framework Laptop 16 等多种机型。这个项目揭示了现代开源操作系统在硬件驱动支持方面的真实状态。</p>
+
+    <h2>高分机型 (8/8 完全兼容)</h2>
+    
+    <ul>
+        <li><strong>Lenovo ThinkPad X270</strong> —经典商务本，HD Graphics 620 + Ethernet + Wireless 8265</li>
+        <li><strong>ASUS TUF Gaming F15 FX507VU</strong> —游戏本，RTX 4050 + Raptor Lake PCH</li>
+        <li><strong>Framework Laptop 13 (13th Gen)</strong> —模块化笔记本，Iris Xe + Thunderbolt 4</li>
+        <li><strong>Framework Laptop 13 (AMD Ryzen 7040)</strong> —AMDPhoenix1 + Wi-Fi 6E</li>
+        <li><strong>Framework Laptop 16 (AMD Ryzen 7040)</strong> —AMDPhoenix1 + USB4</li>
+        <li><strong>Lenovo ThinkPad T490</strong> —RX 6700 XT 独显 + Thunderbolt 3</li>
+        <li><strong>Aspire A315-24PT</strong> —AMD Mendocino + Wi-Fi 6E</li>
+    </ul>
+
+    <h2>关键观察</h2>
+    
+    <ul>
+        <li><strong>Framework 系列表现出色</strong> —作为模块化开源友好笔记本，Framework 在 FreeBSD 上的兼容性堪称典范</li>
+        <li><strong>Wi-Fi 驱动仍是最大挑战</strong> —大多数评分较低的机型都败在无线网卡上</li>
+        <li><strong>Intel 平台兼容性更好</strong> —相比 AMD，Intel 平台的驱动开源社区更成熟</li>
+        <li><strong>ThinkPad 商务本有优势</strong> —经典的 Ethernet 控制器在 Linux/FreeBSD 上驱动更完善</li>
+    </ul>
+
+    <h2>评分细节分析</h2>
+    
+    <p>每项测试满分 2 分，总分 8 分：</p>
+    <ul>
+        <li>显卡得分 2/2：几乎所有机型都能获得</li>
+        <li>Wi-Fi 得分 1.5/2 以上：需要 Intel AX210/AX1675 或特定�</li>
+        <li>音频得分 2/2：开源驱动支持良好</li>
+        <li>USB/Thunderbolt：近年芯片组的兼容性显著提升</li>
+    </ul>
+
+    <h2>选择一个 FreeBSD 笔记本的建议</h2>
+    
+    <h3>首选方案</h3>
+    <ul>
+        <li><strong>Framework Laptop 13</strong> —开源友好，可维修，可升级，FreeBSD 支持完善</li>
+        <li><strong>Lenovo ThinkPad T490</strong> —商务级耐用性，完整驱动支持</li>
+    </ul>
+
+    <h3>备选方案</h3>
+    <ul>
+        <li><strong>MacBook Pro 2016</strong> —7/8（Wi-Fi 略弱，但可用）</li>
+        <li><strong>Beelink SER8</strong> —迷你主机思路，7.5/8</li>
+    </ul>
+
+    <h2>背后更大的图景</h2>
+    
+    <blockquote>这次测试揭示的不仅是驱动兼容性，更是开放生态系统的健康度。当 Linux 和 FreeBSD 能在现代硬件上良好运行时，说明厂商对开源社区的态度在转变——从封闭转为有限开放。</blockquote>
+    
+    <p>Framework 的出现代表了硬件领域的一个新趋势：<span class="highlight">开源友好的硬件设计</span>。它们不仅提供可维修性文档，还积极与开源社区合作。这种"设计即开放"的理念正在重塑硬件与软件的关系。</p>
+
+    <p>参考：<a href="https://freebsdfoundation.github.io/freebsd-laptop-testing/" target="_blank">FreeBSD Foundation Laptop Testing</a></p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

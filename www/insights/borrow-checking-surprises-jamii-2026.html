@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>借用检查器的惊喜 - Rust</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<p class="meta">来源: scattered-thoughts.net | Lobsters: 51 points | 标签: Rust/Programming Language Theory</p>
+    <h1>借用检查器的惊喜</h1>
+    <p><span class="rating">★★★★☆</span> 4星 - Rust借用检查器的5个令人困惑的行为</p>
+
+    <hr>
+
+    <p>作者在编写借用检查器的过程中发现，Rust的实际行为经常与他的心智模型不符。他发现很多有经验的Rust开发者也对这些细节感到困惑。</p>
+
+    <h2>一、表达式求值顺序</h2>
+
+    <pre><code>fn main() {
+    let mut x = 0;
+    let y = &mut x;
+    *y = *y + 1;
+}</code></pre>
+
+    <p>这个代码居然能编译通过！直觉上，我们认为左侧赋值表达式会先产生一个可变引用，然后右侧读取 x，这应该是不允许的。</p>
+
+    <div class="reveal">
+        <strong>答案：</strong> 右侧表达式<a href="https://internals.rust-lang.org/t/rust-expression-order-of-evaluation/2605">先求值</a>，所以右侧先读取 x，然后左侧才产生可变引用。
+    </div>
+
+    <h2>二、双阶段借用（Two-Phase Borrows）</h2>
+
+    <pre><code>use std::ops::AddAssign;
+
+fn main() {
+    let mut x = 0;
+    x += x;  // OK
+}</code></pre>
+
+    <p>这没问题。但如果我们反糖化（desugar）：</p>
+
+    <pre><code>use std::ops::AddAssign;
+
+fn main() {
+    let mut x = 0;
+    AddAssign::add_assign(&mut x, x);  // Error!
+}</code></pre>
+
+    <div class="reveal">
+        <p>Rust有一个名为<a href="https://rustc-dev-guide.rust-lang.org/borrow-check/two-phase-borrows.html">双阶段借用</a>的特性，只在特定情况下激活——比如 . 方法调用语法。</p>
+        <p>第一个 x 最初被当作不可变引用，然后其他参数被求值，最后"激活"为可变引用。这个特性在反糖化版本中不会激活。</p>
+    </div>
+
+    <h2>三、隐式重借用（Implicit Reborrow）</h2>
+
+    <pre><code>fn id(y: &mut usize) -> &mut usize {
+    y
+}
+
+fn main() {
+    let mut x = 0;
+    let y = &mut x;
+    let z = id(y);
+    *y = 1;  // 竟然可以！
+}</code></pre>
+
+    <div class="reveal">
+        <p>id(y) 实际上被反糖化为隐式重借用 id(&mut *y)。所以 y 本身没有被移动，z 包含一个从 y 重借用的新引用。z 从未被使用，所以这个引用立即被销毁，y 再次可用。</p>
+    </div>
+
+    <h2>四、返回借用与生命周期</h2>
+
+    <pre><code>fn foo(a: &mut usize) -> &mut usize {
+    let b = &mut *a;
+    let c = &mut *b;
+    return c  // 这居然是合法的！
+}</code></pre>
+
+    <p>c 的生命周期与 a 相同，所以可以从函数返回，即使它派生自 b 而 b 会在作用域结束时被销毁。</p>
+
+    <p>但如果我们显式调用 drop：</p>
+
+    <pre><code>fn foo(a: &mut usize) -> &mut usize {
+    let b = &mut *a;
+    let c = &mut *b;
+    drop(b);  // Error!
+    return c
+}</code></div>
+
+    <div class="reveal">
+        <p>显式调用 drop 被当作普通函数处理，不会获得与隐式相同的特殊处理。</p>
+    </div>
+
+    <h2>五、运算符重载与求值顺序</h2>
+
+    <pre><code>fn foo(x: &mut usize, y: usize) {
+    *x += y
+}
+
+fn bar<T: std::ops::AddAssign>(x: &mut T, y: T) {
+    *x += y
+}</code></pre>
+
+    <p>这两个函数看起来相同，但求值顺序不同：</p>
+    <ul>
+        <li>foo: rhs → lhs</li>
+        <li>bar: lhs → rhs</li>
+    </ul>
+
+    <div class="reveal">
+        <p>差异来自 . 方法调用语法和泛型函数的不同处理方式。这是 Rust 难以学习的部分原因：核心借用检查规则很简单，但因为人体工程学原因有太多例外。</p>
+    </div>
+
+    <hr>
+
+    <h2>总结</h2>
+    <p>虽然核心借用检查规则很简单，但 Rust 有很多特殊情况和例外，这使得开发者很容易内化错误的规则。这些细节对于深入理解 Rust 至关重要。</p>
+
+    <p class="meta">作者: jamii | 来源: <a href="https://www.scattered-thoughts.net/writing/borrow-checking-surprises/">scattered-thoughts.net</a></p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

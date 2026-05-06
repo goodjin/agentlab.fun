@@ -1,0 +1,53 @@
+---
+layout: article.njk
+title: "Whistler: Live eBPF Programming from the Common Lisp REPL"
+tags: [insights]
+permalink: /insights/whistler-ebpf-common-lisp-atgreen-2026.html
+---
+
+<div class="card">
+        <h1>Whistler: Live eBPF Programming from the Common Lisp REPL</h1>
+        <div class="meta">
+            <span class="rating">⭐⭐⭐⭐⭐</span> · 
+            <span>2026-03-23</span> ·
+            <span class="tag">eBPF</span>
+            <span class="tag">Common Lisp</span>
+            <span class="tag">Compiler</span>
+        </div>
+        
+        <p>Whistler是一个用Common Lisp编写的eBPF DSL和优化编译器，允许开发者直接在REPL中编写、编译和加载eBPF程序。</p>
+        
+        <h2>核心亮点</h2>
+        <ul>
+            <li><strong>直接在REPL中开发</strong>：修改probe后重新eval即可立即看到结果，反馈循环是即时的</li>
+            <li><strong>完整的优化编译器</strong>：生成高度优化的eBPF字节码，效果等同于或优于clang编译的C代码</li>
+            <li><strong>无需工具链</strong>：直接生成ELF eBPF文件，不需要clang+llvm工具链</li>
+            <li><strong>零C依赖的loader</strong>：whistler/loader是完全用Common Lisp编写的BPF用户空间加载器</li>
+            <li><strong>跨语言支持</strong>：可以生成匹配的C、Go、Rust、Python结构体定义</li>
+        </ul>
+        
+        <h2>技术细节</h2>
+        <p>Whistler编译器在宏展开时运行。当SBCL编译with-bpf-session表单时，eBPF字节码已经是一个常量——作为字面字节数组嵌入在展开式中。运行时代码只是创建maps、patch FD重定位，并调用bpf(BPF_PROG_LOAD, ...)。</p>
+        
+        <div class="highlight">
+            <strong>关键创新</strong>：whistler:defstruct为BPF和CL两边生成访问器。一次定义同时服务于内核和用户空间，无需手动解析字节偏移。
+        </div>
+        
+        <h2>示例代码</h2>
+        <pre>(with-bpf-session ()
+  (bpf:map counter :type :hash :key-size 4 :value-size 8 :max-entries 1)
+  (bpf:prog trace (:type :kprobe
+    :section "kprobe/__x64_sys_execve"
+    :license "GPL")
+    (incf (getmap counter 0))
+    0)
+  (bpf:attach trace "__x64_sys_execve")
+  (loop (sleep 1)
+    (format t "execve count: ~d~%" (bpf:map-ref counter 0))))</pre>
+        
+        <h2>为什么这很重要</h2>
+        <p>传统的eBPF工作流程是：为BPF端写C，用clang编译，然后为用户空间端写Go/Rust/Python。两门语言、单独的构建步骤、多个进程。</p>
+        <p>使用Whistler 1.0，工作流程是：写Lisp。编译器、加载器和用户空间应用程序共享一个进程。</p>
+        
+        <p><a href="https://atgreen.github.io/repl-yell/posts/whistler/">原文链接</a></p>
+    </div>

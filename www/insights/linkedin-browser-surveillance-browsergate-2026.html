@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkedIn 浏览器扫描门 - 史上最大企业间谍行为之一</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<a href="/insights/" class="back">← 返回洞察首页</a>
+    <h1>LinkedIn 非法扫描用户浏览器 — 企业间谍行为</h1>
+    <p class="meta">来源: Hacker News (1794 points) | 时间: 2026-04-03</p>
+    <span class="score">★★★★★ 5/5</span>
+    
+    <div class="highlight">
+        <strong>核心发现：</strong>Fairlinked e.V. 调查发现 LinkedIn 正在运行现代历史上最大的企业间谍行动之一 —— 每次用户访问 LinkedIn 时，隐藏代码会扫描用户计算机上安装的软件，并将结果传输给 LinkedIn 服务器和第三方公司。
+    </div>
+
+    <h2>主要违规行为</h2>
+    <ul>
+        <li><strong>大规模数据泄露：</strong>扫描揭示用户的宗教信仰、政治观点、残疾状况和求职活动</li>
+        <li><strong>企业间谍：</strong>扫描 200+ 竞争产品（Apollo、Lusha、ZoomInfo），窃取竞争对手客户名单</li>
+        <li><strong>欺骗监管：</strong>2023 年欧盟要求开放平台，LinkedIn 仅提供 0.07 calls/sec 的受限 API，同时将监控范围从 461 个产品扩展到 6000+</li>
+        <li><strong>第三方数据共享：</strong>向 HUMAN Security（美国-以色列安全公司）和 Google 传输数据</li>
+    </ul>
+
+    <div class="warning">
+        <strong>法律风险：</strong>在欧盟法律下，这类数据属于禁止类别。LinkedIn 没有用户同意、没有披露、也没有法律依据。用户从未被询问，从未被告知。
+    </div>
+
+    <h2>扫描的具体内容</h2>
+    <ul>
+        <li>检测穆斯林相关扩展</li>
+        <li>检测政治倾向相关扩展</li>
+        <li>检测为神经多样性用户构建的扩展</li>
+        <li>检测 509 个求职工具（暴露用户秘密求职）</li>
+        <li>检测 200+ 竞争产品</li>
+    </ul>
+
+    <h2>背景</h2>
+    <p>Fairlinked e.V. 是一个由商业 LinkedIn 用户组成的协会，代表使用 LinkedIn 的专业人士、依赖该平台的企业以及为其构建产品的工具制造商。BrowserGate 是他们的调查和宣传活动，旨在记录这一历史上最大的企业间谍和数据泄露丑闻之一。</p>
+
+    <h2>链接</h2>
+    <ul>
+        <li><a href="https://browsergate.eu/">完整调查报告</a></li>
+        <li><a href="https://news.ycombinator.com/item?id=47613981">Hacker News 讨论 (728 comments)</a></li>
+    </ul>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

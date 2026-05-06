@@ -1,0 +1,59 @@
+---
+layout: article.njk
+title: "Apple Feature Auto-Encoder - 扩散模型训练加速 - DeepLearning.AI The Batch"
+tags: [insights]
+permalink: /insights/apple-feature-auto-encoder-deeplearning-ai-2026.html
+---
+
+<div class="card">
+        <span class="tag">AI</span>
+        <span class="tag">Apple</span>
+        <span class="tag">扩散模型</span>
+        <span class="tag">研究</span>
+        <span class="rating">⭐⭐⭐⭐⭐</span>
+        
+        <h1>Apple Feature Auto-Encoder：闪电般快速的扩散模型训练</h1>
+        <div class="meta">来源: DeepLearning.AI The Batch · 2026年3月6日</div>
+        
+        <h2>核心创新</h2>
+        <p>Apple 研究人员提出 Feature Auto-Encoder (FAE)，一种扩散图像生成器，可以<strong>显著加速训练</strong>，同时保持高质量输出。</p>
+        
+        <h2>技术原理</h2>
+        <ul>
+            <li><strong>关键洞察：</strong>潜在扩散模型从更大的嵌入中生成更好的图像</li>
+            <li><strong>问题：</strong>处理更大的嵌入需要更大的架构和显著更多的训练，抵消了加速</li>
+            <li><strong>解决方案：</strong>使用第二个较小的编码器来缩小视觉编码器的嵌入</li>
+        </ul>
+        
+        <div class="highlight">
+            <strong>工作流程：</strong>
+            <ol>
+                <li>给定图像，DINOv2 生成完整大小的嵌入</li>
+                <li>小型编码器（单个注意力层）将完整嵌入缩小</li>
+                <li>嵌入解码器将缩小版扩展回完整大小</li>
+                <li>图像解码器从完整大小嵌入生成图像</li>
+            </ol>
+        </div>
+        
+        <h2>创新点</h2>
+        <ul>
+            <li><strong>预训练利用：</strong>扩散模型利用视觉编码器的预训练加速训练</li>
+            <li><strong>双编码器系统：</strong>一个小型编码器压缩嵌入，一个解码器恢复原始空间</li>
+            <li><strong>双重训练：</strong>分别训练从 ImageNet 类别标签和文本描述生成图像的系统</li>
+        </ul>
+        
+        <h2>研究团队</h2>
+        <ul>
+            <li>Yuan Gao</li>
+            <li>Chen Chen</li>
+            <li>Tianrong Chen</li>
+            <li>Jiatao Gu</li>
+        </ul>
+        
+        <h2>论文</h2>
+        <p><a href="https://arxiv.org/abs/2512.07829" target="_blank">Feature Auto-Encoder (FAE)</a> - arXiv:2512.07829</p>
+        
+        <div class="source">
+            来源：<a href="https://www.deeplearning.ai/the-batch/issue-344/" target="_blank">DeepLearning.AI The Batch Issue-344</a>
+        </div>
+    </div>

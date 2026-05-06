@@ -1,0 +1,86 @@
+---
+layout: article.njk
+title: "Debunking zswap and zram myths"
+tags: [insights]
+permalink: /insights/zswap-zram-myths-chrisdown-2026.html
+---
+
+<div class="container">
+        <h1>💾 Debunking zswap and zram myths</h1>
+        <div class="meta">
+            <span class="tag">Linux内核</span>
+            <span class="tag">内存管理</span>
+            <span class="tag">zswap</span>
+            <span class="tag">zram</span>
+            <span class="tag">性能优化</span>
+            <br><br>
+            ⭐⭐⭐⭐ (4星) · Source: lobste.rs
+        </div>
+
+        <h2>摘要</h2>
+        <p>内核内存管理专家Chris Down澄清了关于zswap和zram的常见误解，并给出了实用的架构建议。</p>
+
+        <div class="highlight">
+            <strong>📌 核心建议：</strong>如果不确定，首选zswap。只有在有非常特定的原因时才使用zram。在大多数有磁盘存储的系统中，使用zram会让情况变得更糟。
+        </div>
+
+        <h2>架构差异</h2>
+        <p>两者在内核存储层次结构中的位置有根本性差异：</p>
+
+        <h3>zram：块设备架构</h3>
+        <ul>
+            <li>创建一个压缩RAM块设备，本质上是RAM中的虚拟磁盘</li>
+            <li>当进程需要swap时，内核像对待任何其他块设备一样对待zram</li>
+            <li><strong>关键问题：zram填满后没有自动驱逐机制</strong></li>
+            <li>冷页被锁定在快速RAM中，无法逐出</li>
+            <li>适合：嵌入式系统、Raspberry Pi、磁盘less系统</li>
+        </ul>
+
+        <h3>zswap：内存管理集成</h3>
+        <ul>
+            <li>不创建块设备，而是集成到内核内存管理子系统</li>
+            <li>作为压缩层位于磁盘swap前面</li>
+            <li>当内存池填满时，使用自己的启发式方法将LRU页面逐出到磁盘</li>
+            <li><strong>关键优势：自动在快速压缩RAM和较慢swap之间分层</strong></li>
+            <li>优雅降级：随着内存压力增加，性能逐渐下降</li>
+        </ul>
+
+        <div class="warning">
+            <h3>⚠️ 不要同时运行zram和磁盘swap</h3>
+            <p>在这种设置中，zram会迅速填满快速RAM中的冷、陈旧页面，同时将活动工作集推送到慢速磁盘，使得情况比没有压缩swap时更糟。</p>
+        </div>
+
+        <h2>zram的技术问题</h2>
+        <ul>
+            <li><strong>vm.page-cluster问题</strong>：内核将zram视为普通块设备，应用磁盘导向的默认设置。zram中压缩页面没有局部性，但内核仍然读取8个swap-in而不是1个</li>
+            <li><strong>服务器问题</strong>：zram的内存使用与系统其他部分完全隔离，不会计入任何cgroup，破坏隔离语义</li>
+            <li><strong>无OOM管理</strong>：内核的OOM killer可能在hung几分钟后才行动</li>
+            <li><strong>上游不支持</strong>：swap on zram在上游越来越不受支持</li>
+        </ul>
+
+        <h2>zswap的工作原理</h2>
+        <p>当内核需要swap出一个页面时，调用swap_writeout()，zswap首先拦截：</p>
+        <pre><code>int swap_writeout(struct folio *folio, struct swap_iocb **swap_plug)
+{
+    if (zswap_store(folio)) { // zswap获取了页面
+        count_mthp_stat(folio_order(folio), MTHP_STAT_ZSWPOUT);
+        goto out_unlock;
+    }
+    // 只有zswap拒绝时才回退到磁盘
+    __swap_writepage(folio, swap_plug);
+}</code></pre>
+
+        <p>当zswap池满时，会自动触发shrink worker将冷页面逐出到磁盘。</p>
+
+        <h2>使用建议</h2>
+        <div class="highlight">
+            <ul>
+                <li><strong>桌面用户(32GB+ RAM)</strong>：使用zswap，不要用zram</li>
+                <li><strong>如果必须用zram</strong>：配合systemd-oomd或earlyoom等userspace OOM管理器</li>
+                <li><strong>服务器</strong>：zram有额外的cgroup问题，尽量避免</li>
+            </ul>
+        </div>
+
+        <hr>
+        <p><small>探索时间: 2026-03-24 · 来源: Lobsters</small></p>
+    </div>

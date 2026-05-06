@@ -1,0 +1,176 @@
+---
+layout: article.njk
+title: "If DSPy is So Great, Why Isn't Anyone Using It?"
+tags: [insights]
+permalink: /insights/dspy-engineering-patterns-skylarpayne-2026.html
+---
+
+<div class="card">
+        <h1>🤖 If DSPy is So Great, Why Isn't Anyone Using It?</h1>
+        <div class="meta">
+            <span class="rating">⭐⭐⭐⭐⭐</span> 5星 | 
+            <span>作者: Skylar Payne</span> | 
+            <span>来源: Hacker News</span>
+        </div>
+        <div>
+            <span class="tag">AI工程</span>
+            <span class="tag">DSPy</span>
+            <span class="tag">框架设计</span>
+            <span class="tag">工程实践</span>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="stats">
+            <strong>下载量对比：</strong><br>
+            DSPy: 470万/月<br>
+            LangChain: 2.22亿/月
+        </div>
+        <p>对于一个承诺解决 AI 工程最大挑战的框架，这个差距令人生疑。尽管使用 DSPy 的公司一致报告相同的好处：</p>
+        <ul>
+            <li>可以快速测试新模型，即使当前 prompt 转移效果不佳</li>
+            <li>系统更可维护</li>
+            <li>更关注上下文而非基础设施</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>核心问题</h2>
+        <div class="highlight">
+            DSPy 的问题不是它错了，而是它太难。抽象不熟悉，迫使你稍微不同的思考。而你现在想要的不是不同思考——只是让痛苦消失。
+        </div>
+        <p>但我一直在观察同样的事情发生：人们最终会实现一个更糟糕的 DSPy 版本。</p>
+        
+        <div class="highlight">
+            <strong>Khattab 定律：</strong> 任何足够复杂的 AI 系统都包含一个 bug 频发的、 informally-specified 的、半 DSPy 实现。
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>每个 AI 系统的自然演化</h2>
+        
+        <h3>阶段 1：直接 API</h3>
+        <div class="code">
+client = OpenAI()
+response = client.chat.completions.create(
+    model="gpt-5.2",
+    messages=[{"role": "user", "content": f"Extract: {text}"}]
+)
+        </div>
+
+        <h3>阶段 2：配置化 Prompt</h3>
+        <p>产品想要更快迭代。重新部署每个 prompt 变更太麻烦。于是把 prompt 存入数据库...</p>
+
+        <h3>阶段 3：结构化输出</h3>
+        <p>模型有时返回 "Company: Acme Corp" 而非纯 "Acme Corp"。于是添加 Pydantic 验证...</p>
+
+        <h3>阶段 4：重试机制</h3>
+        <p>添加 transient failure 处理和重试逻辑...</p>
+
+        <h3>阶段 5：RAG</h3>
+        <p>需要添加知识库来帮助改进提取...</p>
+
+        <h3>阶段 6：评估基础设施</h3>
+        <p>添加 evals 来衡量是否变好...</p>
+
+        <h3>阶段 7：抽象层</h3>
+        <div class="code">
+class LLMModule:
+    def __init__(self, signature, prompt_key):
+        ...
+
+extract_company = LLMModule(
+    signature=CompanyExtraction,
+    prompt_key="extract_company_v3"
+)
+        </div>
+        <p>恭喜！你刚刚构建了一个更糟糕的 DSPy 版本。</p>
+    </div>
+
+    <div class="card">
+        <h2>DSPy 解决方案</h2>
+        <div class="code">
+import dspy
+
+# 一行配置模型，随时切换
+lm = dspy.LM("openai/gpt-5.2")
+dspy.configure(lm=lm)
+
+# Signature 定义类型化 I/O，无需 prompt 模板
+class CompanyExtraction(dspy.Signature):
+    text: str = dspy.InputField()
+    company_name: str = dspy.OutputField()
+    confidence: float = dspy.OutputField()
+
+# 模块将 signature 组合成管道
+class CompanyExtractor(dspy.Module):
+    def __init__(self):
+        self.retrieve = dspy.Retrieve(k=5)
+        self.extract = dspy.ChainOfThought(CompanyExtraction)
+    
+    def forward(self, text):
+        context = self.retrieve(text).passages
+        return self.extract(text=text, context=context)
+        </div>
+        <p>一行切换模型：</p>
+        <div class="code">
+dspy.configure(lm=dspy.LM("anthropic/claude-sonnet-4-20250514"))
+evaluate(optimized)  # 相同管道，不同模型
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>核心模式</h2>
+        <table>
+            <tr>
+                <th>Signatures</th>
+                <td>类型化输入输出。什么进，什么出，带 schema。</td>
+            </tr>
+            <tr>
+                <th>Modules</th>
+                <td>可组合单元，可独立测试、mock、链式调用。</td>
+            </tr>
+            <tr>
+                <th>Optimizers</th>
+                <td>改进 prompt 的逻辑，与运行它们的逻辑分离。</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>为什么好工程师写糟糕的 AI 代码</h2>
+        <ul>
+            <li><strong>奇怪的反馈循环</strong>：无法单步调试 prompt，输出是概率性的</li>
+            <li><strong>交付压力</strong>：让 LLM 工作像成就，干净架构像奢侈品</li>
+            <li><strong>边界不清</strong>：prompt 既是代码又是数据</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>你应该怎么做</h2>
+        
+        <h3>选项 1：使用 DSPy</h3>
+        <p>接受学习曲线。读文档。构建一些玩具项目直到抽象 clicked。</p>
+        
+        <h3>选项 2：偷想法</h3>
+        <p>不用 DSPy，但从第一天就按它的模式构建：</p>
+        <ul>
+            <li>✓ 每个 LLM 调用都用类型化 I/O (Pydantic)</li>
+            <li>✓ 把 prompt 与代码分离</li>
+            <li>✓ 可组合单元：每个 LLM 调用都可测试、mock、链式</li>
+            <li>✓ 尽早建立评估基础设施</li>
+            <li>✓ 抽象模型调用：换 GPT-4 为 Claude 是一行代码改变</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>结论</h2>
+        <div class="highlight">
+            DSPy 模式不是可选的。如果你的 AI 系统足够复杂，你会重新发明它们。唯一问题是你故意还是偶然去做。
+        </div>
+        <p>你不必使用 DSPy。但你应该像理解它为什么存在那样去构建。</p>
+    </div>
+
+    <div class="card">
+        <p><a href="https://skylarbpayne.com/posts/dspy-engineering-patterns/">原文 →</a></p>
+    </div>

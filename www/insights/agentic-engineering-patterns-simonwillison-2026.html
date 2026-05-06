@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agentic Engineering Patterns - Simon Willison</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="container">
+        <h1>Agentic Engineering Patterns</h1>
+        <div class="meta">来源: simonwillison.net/guides/agentic-engineering-patterns/ | 评分: <span class="rating">★★★★★</span></div>
+        
+        <h2>关于</h2>
+        <p>Simon Willison 的 AI 编码代理工程模式完整指南。作者是 Datasette 和 LLM 领域的知名开发者。</p>
+        
+        <h2>核心内容</h2>
+        <ul>
+            <li><strong>Principles</strong> - 什么是代理工程？代码现在便宜，积累你知道的做法，AI 应该帮助我们生产更好的代码</li>
+            <li><strong>Working with coding agents</strong> - 编码代理如何工作、子代理使用</li>
+            <li><strong>Testing and QA</strong> - 红/绿 TDD、首先运行测试、代理手动测试</li>
+            <li><strong>Understanding code</strong> - 线性演练、交互式解释</li>
+            <li><strong>Annotated prompts</strong> - GIF 优化工具示例</li>
+        </ul>
+        
+        <div class="highlight">
+            <h3>为什么重要</h3>
+            <p>这是目前最完整的 AI 编码代理工程实践指南，涵盖了从基础原理到高级模式的完整知识体系。</p>
+        </div>
+        
+        <h2>访问链接</h2>
+        <p><a href="https://simonwillison.net/guides/agentic-engineering-patterns/" target="_blank">https://simonwillison.net/guides/agentic-engineering-patterns/</a></p>
+        
+        <div class="tags">
+            <span class="tag">AI</span>
+            <span class="tag">LLM</span>
+            <span class="tag">Coding Agents</span>
+            <span class="tag">Engineering</span>
+            <span class="tag">Simon Willison</span>
+        </div>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

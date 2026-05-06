@@ -1,0 +1,85 @@
+---
+layout: article.njk
+title: "Go项目结构化11条建议 - Alex Edwards"
+tags: [insights]
+permalink: /insights/go-project-structuring-alexedwards-2026.html
+---
+
+<div class="container">
+        <h1>📋 Go项目结构化11条建议</h1>
+        <div class="meta">
+            <span class="score">⭐⭐⭐⭐ 4星</span>
+            <span> | 3票 | Lobsters</span>
+        </div>
+        
+        <div class="content">
+            <h2>核心理念</h2>
+            <div class="highlight">
+                Go没有"正确"的项目结构，答案永远是"视情况而定"。取决于项目类型、业务需求、测试方式、团队、依赖和内部约定。
+            </div>
+
+            <h2>11条建议</h2>
+            
+            <div class="tip">
+                <span class="tip-title">1. 不同项目，不同结构</span><br>
+                mkcert和Kubernetes都是优秀Go项目，但规模和目的不同，结构也完全不同。
+            </div>
+
+            <div class="tip">
+                <span class="tip-title">2. 追求有效，而非完美</span><br>
+                好的结构应该是：代码易于查找和导航、逻辑易于理解、修改有信心、不出现警告信号。
+            </div>
+
+            <div class="tip">
+                <span class="tip-title">3. 忘记其他语言的惯例</span><br>
+                不要把Ruby on Rails或Django的目录结构照搬到Go项目，可能不是最有效的方案。
+            </div>
+
+            <div class="tip">
+                <span class="tip-title">4. 不要仅为组织文件创建目录</span><br>
+                在Go中，创建目录就是创建新包。只在有明确理由创建新包时才创建目录。
+            </div>
+
+            <div class="tip">
+                <span class="tip-title">5. 使用标准布局作为骨架</span><br>
+                小项目用basic layout；需要支持包用supporting packages layout；大项目用server project layout。
+            </div>
+
+            <div class="tip">
+                <span class="tip-title">6. 然后让它自然演进</span><br>
+                不要预先决定目录结构，让写的代码引导创建的文件和包。
+            </div>
+
+            <div class="tip">
+                <span class="tip-title">7. 如果不确定，从两个文件开始</span><br>
+                go.mod + main.go，然后根据项目演进添加文件和包。
+            </div>
+
+            <div class="tip">
+                <span class="tip-title">8. 相关内容放在一起</span><br>
+                常量、变量、工具函数应该与它们支持的代码在同一个.go文件或包中。
+            </div>
+
+            <div class="tip">
+                <span class="tip-title">9. 大文件不一定坏</span><br>
+                Go标准库的runtime/proc.go有6548行，Kubernetes的validation.go有8606行。文件大小不重要，重要的是实际可行性。
+            </div>
+
+            <div class="tip">
+                <span class="tip-title">10. 明智地创建包</span><br>
+                常见错误：拆分成太多小包。创建新包的时机：代码需要复用、需要隔离边界、需要作为"黑盒"。
+            </div>
+
+            <div class="tip">
+                <span class="tip-title">11. 警惕警告信号</span><br>
+                出现以下情况可能结构有问题：import cycle、找不到代码、小改动影响多个包、流程跳转混乱、重复代码难以重构、感觉在"对抗语言"。
+            </div>
+
+            <div class="tags">
+                <span class="tag">Go</span>
+                <span class="tag">项目结构</span>
+                <span class="tag">最佳实践</span>
+                <span class="tag">Alex Edwards</span>
+            </div>
+        </div>
+    </div>

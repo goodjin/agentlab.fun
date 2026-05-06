@@ -1,0 +1,71 @@
+---
+layout: article.njk
+title: "How I Write Software with LLMs - Stavros"
+tags: [insights]
+permalink: /insights/how-write-software-llms-stavros-2026.html
+---
+
+<h1>How I Write Software with LLMs <span class="rating">★★★★★ <span class="star">5星</span></span></h1>
+    <div class="meta">
+        <span class="tag">AI Engineering</span>
+        <span class="tag">Workflow</span>
+        <span class="tag">LLM</span>
+        来源: <a href="https://www.stavros.io/posts/how-i-write-software-with-llms/" target="_blank">stavros.io</a>
+    </div>
+
+    <h2>核心观点</h2>
+    <div class="key-point">
+        <strong>编程的乐趣 vs. 创造的乐趣：</strong> 作者发现自己喜欢的不是编程本身，而是"做东西"。LLM 让他能够专注于创造，而把编程细节交给 AI。
+    </div>
+
+    <h2>关键洞察</h2>
+    
+    <h3>1. 工程师技能的转变</h3>
+    <ul>
+        <li><strong>不再需要知道如何正确写代码</strong>，而是需要知道如何正确架构系统</li>
+        <li>对于不了解底层技术的项目（如移动端），代码仍然会很快变成一团糟</li>
+        <li>对于了解技术的项目，即使数万行代码也能保持可维护性</li>
+    </ul>
+
+    <h3>2. 多模型策略</h3>
+    <ul>
+        <li><strong>不同模型有不同性格</strong>：Codex 5.4 挑剔/迂腐，适合 review；Opus 4.6 决策与作者高度一致；Gemini Flash 经常能想出其他模型没想到的方案</li>
+        <li>需要混合使用多种模型，不能只用一种</li>
+        <li>让一个模型审查另一个模型的代码非常重要</li>
+    </ul>
+
+    <h3>3. Agent 工作流架构</h3>
+    <ul>
+        <li><strong>Architect（架构师）</strong>：用最强模型（Opus 4.6），深入讨论目标、限制、权衡，制定详细计划</li>
+        <li><strong>Developer（开发者）</strong>：用较弱模型（Sonnet 4.6），严格按照计划实现</li>
+        <li><strong>Reviewer（审查者）</strong>：至少用 Codex，有时候加 Gemini，重要项目加 Opus</li>
+    </ul>
+
+    <h3>4. 实际构建的项目</h3>
+    <ul>
+        <li><strong>Stavrobot</strong>：注重安全的 LLM 个人助理，管理日历、做研究、自驱动的任务</li>
+        <li><strong>Middle</strong>：语音便签 pendent，自动转录并发送到 webhook</li>
+        <li><strong>Sleight of Hand</strong>：艺术作品，不规则走时的挂钟</li>
+        <li><strong>Pine Town</strong>：多人无限画布，人们在上面画画</li>
+    </ul>
+
+    <h2>工具选择</h2>
+    <p>作者使用 <strong>OpenCode</strong>，因为它：</p>
+    <ul>
+        <li>支持多模型（不只是单一公司模型）</li>
+        <li>支持自定义 agent 互相调用</li>
+    </ul>
+
+    <h2>重要提醒</h2>
+    <blockquote>
+        "For now, you still need a human with good coding skills."
+    </blockquote>
+    <p>即使有 AI，仍然需要具备良好编程技能的人类来：</p>
+    <ul>
+        <li>理解想要构建什么</li>
+        <li>做出正确的架构决策</li>
+        <li>指导 AI 做出正确的权衡</li>
+    </ul>
+
+    <h2>评价</h2>
+    <p>这是一篇非常实用的 AI 编程工作流指南，来自有丰富实践经验的开发者。文章详细展示了如何使用多 agent 架构来提高代码质量，包括具体的模型选择、agent 职责分工和工具偏好。对于想要提升 AI 编程效率的开发者来说，这是一篇必读文章。</p>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ctrl-C in psql gives me the heebie-jeebies - 2026</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <h1>Ctrl-C in psql gives me the heebie-jeebies</h1>
+        <div class="meta">
+            <span class="star">⭐⭐⭐⭐</span>
+            <span>4星</span>
+            <span>·</span>
+            <span>Lobsters</span>
+            <span>·</span>
+            <span>2026-03-24</span>
+        </div>
+        <p class="url"><a href="https://neon.com/blog/ctrl-c-in-psql-gives-me-the-heebie-jeebies" target="_blank">https://neon.com/blog/ctrl-c-in-psql-gives-me-the-heebie-jeebies</a></p>
+        
+        <h2>摘要</h2>
+        <p>深入分析Postgres查询取消机制的安全隐患，揭示了Ctrl+C发送的CancelRequest始终未加密的问题。</p>
+        
+        <div class="warning">
+            <strong>⚠️ 安全警告</strong>：本文揭示了一个真实的安全漏洞！
+        </div>
+        
+        <h2>核心发现</h2>
+        <ul>
+            <li><strong>CancelRequest机制</strong>：Ctrl+C时psql会建立新连接发送CancelRequest，使用特殊protocol version (v1234.5678)</li>
+            <li><strong>未加密问题</strong>：即使主连接使用<code>sslmode=verify-full</code>，CancelRequest始终以明文发送</li>
+            <li><strong>历史原因</strong>：Postgres 17之前libpq完全不支持加密CancelRequest</li>
+            <li><strong>psql仍未使用</strong>：即使Postgres 17添加了加密功能，psql仍未调用这些函数（需要signal-safe重构）</li>
+        </ul>
+
+        <h2>安全风险</h2>
+        <ol>
+            <li><strong>DoS攻击</strong>：同一WiFi网络的人可以拦截并重放CancelRequest，持续取消你的查询</li>
+            <li><strong>竞态条件</strong>：CancelRequest按连接而非按查询取消，可能取消错误的查询</li>
+            <li><strong>暴力破解</strong>：4字节secret key曾可被暴力破解，Postgres 18扩展到256字节</li>
+        </ol>
+
+        <h2>缓解措施</h2>
+        <ul>
+            <li>使用Postgres 18 + <code>min_protocol_version=3.2</code></li>
+            <li>使用VPN</li>
+            <li>避免在公共WiFi下使用Ctrl+C in psql</li>
+            <li>检查其他Postgres客户端是否加密CancelRequest</li>
+        </ul>
+
+        <h2>技术细节</h2>
+        <ul>
+            <li><strong>BackendKeyData</strong>：连接握手时服务器提供process ID和secret key</li>
+            <li><strong>Elephantshark</strong>：作者开发的Postgres流量监控工具，发现了CancelRequest无SNI导致的问题</li>
+            <li>解决方案是在接收普通连接时记录(process ID, secret key)到目标host的映射</li>
+        </ul>
+        
+        <h2>标签</h2>
+        <div>
+            <span class="tag">Postgres</span>
+            <span class="tag">安全</span>
+            <span class="tag">网络协议</span>
+            <span class="tag">数据库</span>
+            <span class="tag">DoS</span>
+        </div>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

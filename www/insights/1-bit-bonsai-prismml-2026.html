@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1-Bit Bonsai - 首个商业可行的1位LLM | 探索发现</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <span class="tag">AI</span>
+        <span class="tag">边缘计算</span>
+        <span class="tag">量化</span>
+        <span class="tag">移动端</span>
+        <h1>1-Bit Bonsai: 首个商业可行的1位LLM</h1>
+        <div class="rating">★★★★☆</div>
+        <p class="source">来源: <a href="https://prismml.com/" target="_blank">PrismML</a></p>
+        <p class="date">发现日期: 2026-04-01</p>
+    </div>
+
+    <div class="card">
+        <h2>性能指标</h2>
+        <div class="metrics">
+            <div class="metric">
+                <div class="metric-value">14×</div>
+                <div class="metric-label">更小模型体积</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value">8×</div>
+                <div class="metric-label">推理速度提升</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value">5×</div>
+                <div class="metric-label">能效提升</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value">10×</div>
+                <div class="metric-label">智能密度</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>模型规格</h2>
+        <ul>
+            <li><strong>1-Bit Bonsai 8B:</strong> 仅需1.15GB内存，为机器人、实时agent和边缘计算设计</li>
+            <li><strong>1-Bit Bonsai 4B:</strong> 仅需0.57GB内存，M4 Pro上可达132 tokens/s</li>
+            <li><strong>1-Bit Bonsai 1.7B:</strong> 仅需0.24GB内存，iPhone 17 Pro Max上可达130 tokens/s</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>意义</h2>
+        <p>这是首个商业可行的1-bit权重模型，标志着LLM在端侧部署的重大突破。传统上，LLM需要大量GPU资源，但1-bit量化使得在消费级设备上运行大模型成为可能。</p>
+        <p>关键创新点：极致的模型压缩同时保持与全精度8B模型相当的基准测试性能。</p>
+    </div>
+
+    <div class="card">
+        <h2>相关资源</h2>
+        <ul>
+            <li><a href="https://prismml.com/" target="_blank">PrismML 官网</a></li>
+            <li><a href="https://github.com/PrismML-Eng/Bonsai-demo" target="_blank">GitHub: Bonsai-demo</a></li>
+        </ul>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

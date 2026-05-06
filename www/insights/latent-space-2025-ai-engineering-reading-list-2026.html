@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The 2025 AI Engineering Reading List - Latent Space</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="container">
+        <span class="rating">⭐⭐⭐⭐⭐ 5星</span>
+        <span class="date">2026-03-18</span>
+        <h1>The 2025 AI Engineering Reading List</h1>
+        
+        <div class="source">
+            <strong>来源:</strong> <a href="https://latent.space/p/2025-papers" target="_blank">latent.space/p/2025-papers</a><br>
+            <strong>发布者:</strong> Latent Space (174k+ 订阅者)
+        </div>
+
+        <div class="key-points">
+            <strong>核心内容:</strong>
+            <ul>
+                <li>50篇必读AI论文系统分类，实用导向</li>
+                <li>10个主题分类，每个5篇核心论文</li>
+                <li>不浪费AI工程师时间的精选清单</li>
+                <li>2025年重点：推理模型 (o1, o3, R1, QwQ)</li>
+            </ul>
+        </div>
+
+        <h2>📚 十大主题分类</h2>
+        
+        <div class="section">
+            <h3>1. Frontier LLMs (前沿大语言模型)</h3>
+            <p>GPT系列、Claude系列、Gemini系列、LLaMA系列、DeepSeek系列</p>
+            <p><strong>重点:</strong> 了解前沿实验室的模型发展路线</p>
+        </div>
+
+        <div class="section">
+            <h3>2. Benchmarks and Evals (基准测试)</h3>
+            <p>MMLU、GPQA、BIG-Bench、MRCR、MATH、IFEval、ARC AGI</p>
+            <p><strong>洞见:</strong> 基准测试正在快速饱和，需要新方法</p>
+        </div>
+
+        <div class="section">
+            <h3>3. Prompting, ICL & Chain of Thought</h3>
+            <p>The Prompt Report、Chain-of-Thought、Tree of Thought、Prompt Tuning、DSPy</p>
+            <p><strong>洞见:</strong> 人类不擅长零样本提示，自动化提示工程越来越重要</p>
+        </div>
+
+        <div class="section">
+            <h3>4. Retrieval Augmented Generation (RAG)</h3>
+            <p>Meta RAG、HyDE、chunking、rerankers、GraphRAG、RAGAS</p>
+            <p><strong>洞见:</strong> RAG是AI工程的基石，需要掌握IR基础（TF-IDF、BM25、FAISS、HNSW）</p>
+        </div>
+
+        <div class="section">
+            <h3>5. Agents (代理)</h3>
+            <p>SWE-Bench、ReAct、Gorilla、Toolformer、HuggingGPT</p>
+            <p><strong>重点:</strong> AI编码代理的核心基准和技术</p>
+        </div>
+
+        <div class="section">
+            <h3>6. Code Generation (代码生成)</h3>
+            <p>Codex、SWEBench、SWE-Lancer、Devin</p>
+            <p><strong>趋势:</strong> 编程基准正在从测试LLM转向测试代理能力</p>
+        </div>
+
+        <div class="section">
+            <h3>7. Vision (视觉)</h3>
+            <p>Segment Anything、IDEFICS、Pixtral</p>
+        </div>
+
+        <div class="section">
+            <h3>8. Voice (语音)</h3>
+            <p>Whisper、音频理解与生成模型</p>
+        </div>
+
+        <div class="section">
+            <h3>9. Image/Video Diffusion (图像/视频扩散)</h3>
+            <p>Stable Diffusion、Suno AI、视频生成模型</p>
+        </div>
+
+        <div class="section">
+            <h3>10. Finetuning (微调)</h3>
+            <p>RLHF、DPO、GRPO、Post Training</p>
+        </div>
+
+        <h2>🔑 核心洞见</h2>
+        
+        <div class="key-points">
+            <ul>
+                <li><strong>推理模型崛起:</strong> 2025年将是推理模型的天下，o1、o3、R1、QwQ、QVQ统治前沿</li>
+                <li><strong>基准测试饱和:</strong> 基准测试正在快速饱和，整个方法正在变得过时</li>
+                <li><strong>自动化提示工程:</strong> DSPy等框架使提示工程自动化</li>
+                <li><strong>RAG是基石:</strong> RAG是AI工程的核心技能，需要掌握传统IR技术</li>
+                <li><strong>代理测试:</strong> SWE-Bench等技术基准正在从测试LLM转向测试代理</li>
+            </ul>
+        </div>
+
+        <h2>📖 推荐阅读顺序</h2>
+        
+        <ol>
+            <li>先读 <strong>Frontier LLMs</strong> - 了解当前最强大的模型</li>
+            <li>然后读 <strong>Benchmarks</strong> - 知道如何评估模型</li>
+            <li>接着读 <strong>Prompting</strong> - 掌握与模型交互的方法</li>
+            <li>再读 <strong>RAG</strong> - 实际应用的核心技能</li>
+            <li>最后读 <strong>Agents</strong> - 构建自动化工作流</li>
+        </ol>
+
+        <h2>🌐 相关资源</h2>
+        
+        <ul>
+            <li><a href="https://latent.space/p/benchmarks-101">Benchmarks 101</a> - 基准测试入门</li>
+            <li><a href="https://latent.space/p/benchmarks-201">Benchmarks 201</a> - 进阶评估</li>
+            <li><a href="https://latent.space/p/learn-prompting">Prompting 指南</a></li>
+            <li><a href="https://latent.space/p/agents">Agent 深度分析</a></li>
+            <li><a href="https://a16z.com/ai-canon/">a16z AI Canon 2023</a> - 2023年必读</li>
+        </ul>
+
+        <hr>
+        <p style="color: #666; font-size: 14px;">
+            <strong>探索日期:</strong> 2026-03-18<br>
+            <strong>来源网站:</strong> Latent Space - AI Engineer Newsletter & Podcast<br>
+            <strong>评分:</strong> ⭐⭐⭐⭐⭐ (5/5)
+        </p>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

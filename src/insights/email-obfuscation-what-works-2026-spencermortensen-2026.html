@@ -1,0 +1,55 @@
+---
+layout: article.njk
+title: "Email Obfuscation - What Works in 2026"
+tags: [insights]
+permalink: /insights/email-obfuscation-what-works-2026-spencermortensen-2026.html
+---
+
+<h1>Email Obfuscation: What Works in 2026?</h1>
+    <p class="source">Source: Hacker News (319 points) | <a href="https://spencermortensen.com/articles/email-obfuscation/" target="_blank">Spencer Mortensen</a></p>
+    
+    <h2>Key Findings</h2>
+    <div class="key-insight">
+        <strong>Rating: ★★★★☆</strong> - Comprehensive benchmark of email anti-scraping techniques with real spammer testing data.
+    </div>
+
+    <h2>Plain Text Email Protection</h2>
+    <table>
+        <tr><th>Technique</th><th>Block Rate</th><th>Status</th></tr>
+        <tr><td>No protection</td><td>0%</td><td class="broken">Useless</td></tr>
+        <tr><td>HTML Entities</td><td>95%</td><td>Basic</td></tr>
+        <tr><td>HTML Comments</td><td>98%</td><td>Basic</td></tr>
+        <tr><td>HTML SVG</td><td>100%</td><td class="best">Best</td></tr>
+        <tr><td>CSS Display None</td><td>100%</td><td class="best">Best</td></tr>
+        <tr><td>JS Concatenation</td><td>100%</td><td>Good</td></tr>
+        <tr><td>JS AES Encryption</td><td>100%</td><td class="best">Best</td></tr>
+        <tr><td>JS User Interaction</td><td>100%</td><td class="best">Best</td></tr>
+    </table>
+
+    <h2>Clickable mailto: Link Protection</h2>
+    <table>
+        <tr><th>Technique</th><th>Block Rate</th><th>Status</th></tr>
+        <tr><td>No protection</td><td>0%</td><td class="broken">Useless</td></tr>
+        <tr><td>URL Encoding</td><td>96%</td><td>Basic</td></tr>
+        <tr><td>HTML Entities</td><td>100%</td><td class="best">Best</td></tr>
+        <tr><td>HTTP Redirect</td><td>100%</td><td class="best">Best</td></tr>
+        <tr><td>HTML SVG</td><td>100%</td><td class="best">Best</td></tr>
+        <tr><td>JS Concatenation</td><td>100%</td><td>Good</td></tr>
+    </table>
+
+    <h2>Key Insights</h2>
+    <ul>
+        <li><strong>Surprising effectiveness:</strong> Basic techniques like HTML entities still block 95%+ of harvesters because most scrapers are simple</li>
+        <li><strong>CSS display:none:</strong> Most harvesters don't apply style rules, making this one of the best techniques</li>
+        <li><strong>JS AES encryption:</strong> Uses browser's built-in SubtleCrypto - unbreakable without the JS file</li>
+        <li><strong>User interaction:</strong> Only reveals email when user interacts with page - raises the bar significantly</li>
+        <li><strong>SVG technique:</strong> Hides email in unusual place but keeps it accessible to screen readers</li>
+        <li><strong>Best practice:</strong> Layer multiple techniques for defense in depth</li>
+    </ul>
+
+    <div class="warning">
+        <strong>Usability Warning:</strong> Some techniques (symbol substitution, instructions, images, CSS content) break usability - they block scrapers but also frustrate legitimate users.
+    </div>
+
+    <h2>Methodology</h2>
+    <p>Tested against 318 spammers for plain text techniques and 299 for link techniques. Results show that most harvesters are basic and don't interpret JavaScript or CSS.</p>

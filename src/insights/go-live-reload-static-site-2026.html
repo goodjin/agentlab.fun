@@ -1,0 +1,105 @@
+---
+layout: article.njk
+title: "Go 静态站点 Live Reload 实战 - 从零实现开发服务器热重载"
+tags: [insights]
+permalink: /insights/go-live-reload-static-site-2026.html
+---
+
+<div class="card">
+        <h1>Go 静态站点 Live Reload 实战</h1>
+        <p><span class="rating">⭐⭐⭐⭐ (4星)</span> <span class="tag">Go</span> <span class="tag">教程</span> <span class="tag">开发工具</span></p>
+        
+        <div class="url">
+            <a href="https://jon.chrt.dev/2026/03/20/adding-live-reload-to-a-static-site-generator-written-in-go.html" target="_blank">https://jon.chrt.dev/2026/03/20/adding-live-reload-to-a-static-site-generator-written-in-go.html</a>
+        </div>
+        
+        <h2>摘要</h2>
+        <p>详细教程教你如何用 Go 为静态站点生成器实现 live reload 功能，监控文件变化自动重建并刷新浏览器。</p>
+        
+        <h2>实现步骤</h2>
+        
+        <div class="highlight">
+            <h3>1. 文件监听 (File Watcher)</h3>
+            <p>使用 <code>fsnotify</code> 库监听文件变化：</p>
+            <pre><code>watcher, err := fsnotify.NewWatcher()
+defer watcher.Close()
+
+// 遍历目录并添加监听
+filepath.WalkDir(root, func(path string, d os.DirEntry, err error) error {
+    if d.IsDir() {
+        err := watcher.Add(path)
+        // ...
+    }
+    return nil
+})
+
+// 事件循环处理创建/修改/删除/重命名
+for {
+    select {
+    case event, ok := <-watcher.Events:
+        if event.Has(fsnotify.Create) || event.Has(fsnotify.Remove) || 
+           event.Has(fsnotify.Rename) || event.Has(fsnotify.Write) {
+            builder.Build()
+        }
+    // ...
+    }
+}</code></pre>
+        </div>
+        
+        <div class="highlight">
+            <h3>2. Debouncing 防抖</h3>
+            <p>文本编辑器保存文件会触发多个事件，需要防抖机制避免重复构建：</p>
+            <pre><code>timer := time.NewTimer(math.MaxInt64)
+timer.Stop()
+
+for {
+    select {
+    case event := <-watcher.Events:
+        if event.Has(fsnotify.Create) || event.Has(fsnotify.Write) {
+            timer.Reset(200 * time.Millisecond)  // 200ms 延迟
+        }
+    case <-timer.C:
+        builder.Build()  // 延迟后才执行构建
+    }
+}</code></pre>
+        <p>编辑器保存文件的典型流程：创建临时文件 → 写入 → 重命名 → 删除备份，多个事件会被防抖机制合并。</p>
+        </div>
+        
+        <div class="highlight">
+            <h3>3. Server-Sent Events (SSE)</h3>
+            <p>用 SSE 替代 WebSocket 实现服务器推送，更轻量：</p>
+            <pre><code>type SSEBroker struct {
+    mu      sync.Mutex
+    clients map[chan string]struct{}
+}
+
+func (b *SSEBroker) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+    w.Header().Set("Content-Type", "text/event-stream")
+    ch := b.Subscribe()
+    defer b.Unsubscribe(ch)
+    
+    for {
+        select {
+        case msg := <-ch:
+            fmt.Fprintf(w, "data: %s\n\n", msg)
+            flusher.Flush()
+        case <-r.Context().Done():
+            return
+        }
+    }
+}</code></pre>
+        <p>文件变化后调用 <code>broker.Broadcast("reload")</code> 通知客户端。</p>
+        </div>
+        
+        <div class="highlight">
+            <h3>4. JavaScript 注入中间件</h3>
+            <p>通过中间件在 HTML 页面注入 SSE 客户端脚本：</p>
+            <pre><code>func withLiveReload(next http.Handler) http.Handler {
+    return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+        buf := &bufferedHTTPWriter{ResponseWriter: w, status: 200}
+        next.ServeHTTP(buf, r)
+        
+        body := buf.buf.String()
+        if strings.Contains(buf.Header().Get("Content-Type"), "text/html") {
+            script := `<script>new EventSource("/events").onmessage = () => location.reload();</script>`
+            body = strings.Replace(body, "

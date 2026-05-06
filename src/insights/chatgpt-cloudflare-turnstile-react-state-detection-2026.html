@@ -1,0 +1,111 @@
+---
+layout: article.njk
+title: "ChatGPT Cloudflare Turnstile React State Detection — buchodi 2026"
+tags: [insights]
+permalink: /insights/chatgpt-cloudflare-turnstile-react-state-detection-2026.html
+---
+
+<div class="header">
+    <h1>ChatGPT Won't Let You Type Until Cloudflare Reads Your React State</h1>
+    <div class="meta">Source: <a href="https://www.buchodi.com/chatgpt-wont-let-you-type-until-cloudflare-reads-your-react-state-i-decrypted-the-program-that-does-it/" style="color:#7cb3ff">buchodi.com</a> — Hacker News, 376 points, 281 comments · 2026-03-30</div>
+    <div class="tags">
+      <span class="tag">security</span><span class="tag">cloudflare</span><span class="tag">anti-bot</span><span class="tag">reverse-engineering</span><span class="tag">react</span>
+      <span class="rating">★★★★★</span>
+    </div>
+  </div>
+
+  <h2>核心发现</h2>
+  <div class="insight">
+    <div class="insight-title">🏆 三层指纹检测机制</div>
+    <p>Cloudflare Turnstile 不只是验证真实浏览器，而是验证真实浏览器已完全启动 ChatGPT React 应用。55个属性分三层：</p>
+  </div>
+
+  <h2>解密方法</h2>
+  <p>Turnstile bytecode 加密到达。服务器在 prepare 响应中发送 <code>turnstile.dx</code>：28,000个 base64 字符，每次请求都变化。</p>
+  <p>外层用 prepare 请求中的 <code>p token</code> 进行 XOR 解密，得到 89 条 VM 指令。</p>
+  <p>这 89 条指令内含 19KB 加密 blob，使用不同的 XOR key——不是 p token。</p>
+  <p>关键发现：key 就藏在指令中！</p>
+  <pre><code>[41.02, 0.3, 22.58, 12.96, 97.35]
+# 最后一个参数 97.35 就是 XOR key
+# 一个浮点字面量，服务器生成的，嵌入在发送给浏览器的 bytecode 中
+# 跨 50 次请求验证：100% 命中</code></pre>
+  <p>完整解密链只需 HTTP 请求和响应，无需外部信息：</p>
+  <pre><code>1. 从 prepare 请求读取 p
+2. 从 prepare 响应读取 turnstile.dx
+3. XOR(base64decode(dx), p) → outer bytecode
+4. 在 19KB blob 后的 5 参数指令 → 最后一个参数是 key
+5. XOR(base64decode(blob), str(key)) → inner program (417-580 VM 指令)</code></pre>
+
+  <h2>55 个检测属性</h2>
+
+  <h3>Layer 1: 浏览器指纹 (30 properties)</h3>
+  <ul>
+    <li><strong>WebGL (8)</strong>: UNMASKED_VENDOR_WEBGL, UNMASKED_RENDERER_WEBGL, WEBGL_debug_renderer_info, getExtension, getParameter, getContext, canvas, webgl</li>
+    <li><strong>屏幕 (8)</strong>: colorDepth, pixelDepth, width, height, availWidth, availHeight, availLeft, availTop</li>
+    <li><strong>硬件 (5)</strong>: hardwareConcurrency, deviceMemory, maxTouchPoints, platform, vendor</li>
+    <li><strong>字体测量 (4)</strong>: fontFamily, fontSize, getBoundingClientRect, innerText。创建隐藏 div，设置字体，测量渲染尺寸后移除元素</li>
+    <li><strong>DOM探测 (8)</strong>: createElement, appendChild, removeChild, div, style, position, visibility, ariaHidden</li>
+    <li><strong>存储 (5)</strong>: storage, quota, estimate, setItem, usage。还把指纹写入 localStorage 的 <code>6f376b6560133c2c</code> key 实现跨页面持久化</li>
+  </ul>
+
+  <h3>Layer 2: Cloudflare 网络层 (5 properties)</h3>
+  <p>Edge 头注入（服务器端由 Cloudflare edge 添加）：</p>
+  <ul>
+    <li><code>cfIpCity</code></li>
+    <li><code>cfIpLatitude</code></li>
+    <li><code>cfIpLongitude</code></li>
+    <li><code>cfConnectingIp</code></li>
+    <li><code>userRegion</code></li>
+  </ul>
+  <div class="highlight">
+    <strong>关键点：</strong>这些头只有请求通过 Cloudflare 网络才会存在。直接请求源服务器或通过非 Cloudflare 代理的 bot 会产生缺失或不一致的值。
+  </div>
+
+  <h3>Layer 3: 应用状态 (3 properties) — 核心部分</h3>
+  <ul>
+    <li><strong>__reactRouterContext</strong>: React Router v6+ 附加到 DOM 的内部数据结构</li>
+    <li><strong>loaderData</strong>: 路由 loader 结果</li>
+    <li><strong>clientBootstrap</strong>: ChatGPT SSR 水合特有</li>
+  </ul>
+  <div class="highlight">
+    <strong>这是 bot 检测的应用程序层，不是浏览器层！</strong><br>
+    没有执行 JavaScript 的 headless 浏览器不会有这些属性。<br>
+    没有实际运行 React 的 bot 框架不会有这些属性。<br>
+    即使用 headless Chrome，JS bundle 没执行完也不会有。
+  </div>
+
+  <h2>Token 生成过程</h2>
+  <p>收集完 55 个属性后，程序命中 116 字节加密 blob，解密为 4 条最终指令：</p>
+  <pre><code>[
+ [96.05, 3.99, 3.99], // JSON.stringify(fingerprint)
+ [22.58, 46.15, 57.34], // store
+ [33.34, 3.99, 74.43], // XOR(json, key)
+ [1.51, 56.88, 3.99]  // RESOLVE → become the token
+]
+# 指纹 JSON.stringify → XOR → 变为 OpenAI-Sentinel-Turnstile-Token header</code></pre>
+
+  <h2>其他 Challenge: Signal Orchestrator</h2>
+  <p>Turnstile 是三个 challenge 之一。另一个是 Signal Orchestrator（271 条指令）：安装 keydown、pointermove、click 等事件监听器，记录用户交互模式，生成"真人信号"token。</p>
+
+  <h2>技术细节</h2>
+  <ul>
+    <li>自定义 VM：28 个操作码（ADD, XOR, CALL, BTOA, RESOLVE, BIND_METHOD, JSON_STRINGIFY 等）</li>
+    <li>浮点寄存器地址每次请求随机变化</li>
+    <li>操作码从 SDK 源码映射（sdk.js, 1,411 行，已去混淆）</li>
+    <li>所有 55 个属性跨 377 个样本零变化，每次必检</li>
+  </ul>
+
+  <h2>关键洞察</h2>
+  <div class="insight">
+    <div class="insight-title">💡 为什么这很重要</div>
+    <p>传统的 bot 检测基于浏览器指纹（UA、WebGL、字体）。这种绕过方案：伪造浏览器指纹但不渲染实际 ChatGPT SPA 的 bot 将会失败。</p>
+    <p>Turnstile 的检测深入到 React 应用的内部状态——这意味着攻击者必须完整执行 ChatGPT 的前端代码栈，而不只是模拟浏览器环境。</p>
+    <p>这代表了 bot 检测从"验证你是人"到"验证你正在使用特定应用"的范式转变。</p>
+  </div>
+
+  <h2>意义</h2>
+  <p>作者解密了 377 个 Turnstile 程序样本，发现加密密钥直接藏在 payload 中（而非服务端临时生成），且 55 个属性检测跨越三个层级（浏览器层→网络层→应用层），形成了一个几乎无法绕过的 bot 检测体系。</p>
+  <p>这不只是安全研究——它揭示了 AI 服务商如何通过应用层指纹来对抗自动化访问，同时暗示了"真正的反自动化"需要模拟整个应用栈，而不只是浏览器环境。</p>
+
+  <hr style="border-color:#333;margin-top:30px;">
+  <p style="color:#666;font-size:0.8em">📅 探索时间: 2026-03-30 | 🧬 by 進</p>

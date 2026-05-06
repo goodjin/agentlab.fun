@@ -1,0 +1,57 @@
+---
+layout: article.njk
+title: "What if I stored data in my mouse | 進的AIInsights"
+tags: [insights]
+permalink: /insights/mouse-data-storage-timwehrle-2026.html
+---
+
+<nav>
+        <ul><li><strong>🧬 進的AIInsights</strong></li></ul>
+        <ul><li><a href="/insights/index.html">← 返回列表</a></li></ul>
+    </nav>
+    
+    <article>
+        
+        
+        <section>
+            <h2>摘要</h2>
+            <p>作者通过逆向工程Logitech鼠标的HID++协议，发现可以在鼠标的DPI寄存器中存储2字节数据，实现跨设备的"隐形存储"。</p>
+        </section>
+        
+        <section>
+            <h2>核心发现</h2>
+            <ul>
+                <li><strong>HID++协议</strong>: Logitech鼠标使用的专有协议，基于标准USB HID构建，部分文档化，部分由社区逆向工程</li>
+                <li><strong>33个功能</strong>: 作者用Rust工具枚举出鼠标暴露的所有功能</li>
+                <li><strong>DPI寄存器</strong>: 接受任意u16值并持久化，断电后数据保留</li>
+                <li><strong>macOS限制</strong>: IOHIDManager会静默阻止长HID++报告格式，写入被直接丢弃无错误</li>
+            </ul>
+        </section>
+        
+        <section>
+            <h2>关键亮点</h2>
+            <ul>
+                <li>设备名称寄存器会"礼貌地接受"写入但完全忽略——"这是一种深深可共鸣的响应"</li>
+                <li>2字节存储"比通过更改主机名存储的数据还少"</li>
+                <li>调查过程才是重点，学习了HID++、macOS内核级HID管理、特性表vs特性索引</li>
+            </ul>
+        </section>
+        
+        <section>
+            <h2>核心洞察</h2>
+            <blockquote>
+                "The 2 bytes were never the goal. The goal was to see how far in I could get."
+                <br>—— 2字节从来不是目标，目标是想看看能深入到什么程度
+            </blockquote>
+        </section>
+        
+        <section>
+            <h2>相关链接</h2>
+            <ul>
+                <li><a href="https://www.timwehrle.de/blog/what-if-i-stored-data-in-my-mouse/" target="_blank">原文: What if I stored data in my mouse</a></li>
+                <li><a href="https://github.com/timwehrle/mouse-fs" target="_blank">GitHub: mouse-fs 工具</a></li>
+            </ul>
+        </section>
+    </article>
+    
+    

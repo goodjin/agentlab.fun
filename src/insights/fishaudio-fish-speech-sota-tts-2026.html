@@ -1,0 +1,100 @@
+---
+layout: article.njk
+title: "Fish Audio S2 - SOTA 开源 TTS | 高质量发现"
+tags: [insights]
+permalink: /insights/fishaudio-fish-speech-sota-tts-2026.html
+---
+
+<div class="header">
+        <span class="badge">⭐ 5星 - 必读</span>
+        <h1>Fish Audio S2</h1>
+        <p class="date">发现于 2026-03-16 | 来源: GitHub Trending</p>
+    </div>
+
+    <div class="card">
+        <h2>是什么</h2>
+        <p><strong>Fish Audio S2</strong> 是目前<strong>开源和闭源领域最先进 (SOTA) 的文本转语音 (TTS) 系统</strong>。由 Fish Audio 开发，基于 1000 万小时音频数据训练，支持 50 种语言。</p>
+    </div>
+
+    <div class="card">
+        <h2>训练规模</h2>
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value">1000万+</div>
+                <div class="stat-label">小时音频</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">50</div>
+                <div class="stat-label">支持语言</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">4B</div>
+                <div class="stat-label">S2-Pro 参数</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>性能基准测试</h2>
+        <table class="benchmark-table">
+            <tr><th>测试</th><th>Fish Audio S2</th><th>对比最佳</th></tr>
+            <tr><td>Seed-TTS WER (中文)</td><td class="best">0.54%</td><td>Qwen3-TTS: 0.77%</td></tr>
+            <tr><td>Seed-TTS WER (英文)</td><td class="best">0.99%</td><td>Qwen3-TTS: 1.24%</td></tr>
+            <tr><td>Audio Turing Test</td><td class="best">0.515</td><td>Seed-TTS: 0.417 (+24%)</td></tr>
+            <tr><td>EmergentTTS Win Rate</td><td class="best">81.88%</td><td>最高整体</td></tr>
+            <tr><td>Instruction Quality</td><td class="best">4.51/5.0</td><td>最高</td></tr>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>核心亮点</h2>
+        <ul>
+            <li><span class="highlight">SOTA 性能</span>：在所有基准测试中取得最佳成绩</li>
+            <li><span class="highlight">细粒度控制</span>：支持自然语言标签控制情感和语调</li>
+            <li><span class="highlight">情感标签</span>：如 [laugh], [whisper], [super happy]</li>
+            <li><span class="highlight">音高控制</span>：支持 [pitch up], [pitch down] 等</li>
+            <li><span class="highlight">多说话人</span>：原生支持多说话人和多轮对话</li>
+            <li><span class="highlight">双自回归架构</span>：Dual-AR 实现高质量输出</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>技术架构</h2>
+        <ul>
+            <li>基于解码器-only Transformer</li>
+            <li>RVQ 音频编解码器 (10 个码本, ~21 Hz 帧率)</li>
+            <li>双自回归架构 (Dual-AR)：
+                <ul>
+                    <li>慢速自回归：沿时间轴预测</li>
+                    <li>快速自回归：预测音频码本</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>相关资源</h2>
+        <a href="https://github.com/fishaudio/fish-speech" class="repo-link" target="_blank">
+            📂 GitHub 仓库
+        </a>
+        <a href="https://huggingface.co/fishaudio/s2-pro" class="repo-link" target="_blank">
+            🤗 HuggingFace S2-Pro 模型
+        </a>
+        <a href="https://fish.audio/" class="repo-link" target="_blank">
+            🎮 在线 Demo
+        </a>
+        <a href="https://arxiv.org/abs/2411.01156" class="repo-link" target="_blank">
+            📄 技术报告 (arXiv)
+        </a>
+    </div>
+
+    <div class="tags">
+        <span class="tag">TTS</span>
+        <span class="tag">语音合成</span>
+        <span class="tag">开源</span>
+        <span class="tag">SOTA</span>
+        <span class="tag">多语言</span>
+        <span class="tag">情感控制</span>
+    </div>
+
+    <a href="../../../www/insights/" class="back-link">← 返回发现列表</a>

@@ -1,0 +1,94 @@
+---
+layout: article.njk
+title: "Rust WASM Parser 重写为 TypeScript 反而快3倍 - OpenUI 技术博客"
+tags: [insights]
+permalink: /insights/rust-wasm-parser-typescript-3x-faster-openui-2026.html
+---
+
+<div class="card">
+        <span class="rating">⭐⭐⭐⭐⭐ 5星</span>
+        <h1>Rust WASM Parser 重写为 TypeScript 反而快3倍</h1>
+        <p class="meta">来源: OpenUI 技术博客 | 日期: 2026-03-13</p>
+        
+        <p>OpenUI 团队将 Rust WASM 解析器重写为 TypeScript，性能提升 <strong>2.2x-4.6x</strong>。这是一个令人深思的性能优化案例，核心发现是：<strong>WASM 边界开销才是真正的瓶颈</strong>。</p>
+
+        <div class="highlight">
+            <strong>核心教训：</strong> 优化错误的东西而忽略了真正瓶颈，是常见的性能优化误区。
+        </div>
+
+        <h2>问题的本质：WASM 边界税</h2>
+        
+        <p>团队最初的想法很合理：Rust 很快，WASM 让代码在浏览器中接近原生速度。但实际测试发现，每次调用 WASM 解析器都要支付固定开销：</p>
+        
+        <pre>JS world        WASM world
+────────────────────────────────────────────────────────
+wasmParse(input)
+│
+├─ copy string: JS heap → WASM linear memory (allocation + memcpy)
+│
+│ Rust parses ✓ fast
+│ serde_json::to_string() ← serialize result
+│
+├─ copy JSON string: WASM → JS heap (allocation + memcpy)
+│
+JSON.parse(jsonString) ← deserialize result
+│
+return ParseResult</pre>
+
+        <p><strong>Rust 解析本身从来不是慢的部分。</strong> 开销完全在边界：字符串复制进、序列化结果为 JSON、字符串复制出、然后 V8 反序列化为 JS 对象。</p>
+
+        <h2>失败的尝试：跳过 JSON 往返</h2>
+        
+        <div class="warning">
+            <strong>结果：反而慢了 30%！</strong>
+        </div>
+
+        <p>团队尝试使用 <code>serde-wasm-bindgen</code> 让 WASM 直接返回 JS 对象，跳过 JSON 序列化。但事实证明这是错误的方向。</p>
+
+        <p>原因：JS 无法直接读取 WASM 线性内存中的 Rust 结构体。<code>serde-wasm-bindgen</code> 必须递归地将 Rust 数据物化为真实的 JS 数组和对象，这涉及每次 <code>parse()</code> 调用期间许多细粒度的跨运行时边界转换。</p>
+
+        <p>相比之下，JSON 方案中 <code>serde_json::to_string()</code> 在纯 Rust 中运行，零边界穿越，产生一个字符串，一次 <code>memcpy</code> 复制到 JS 堆，然后 V8 的原生 C++ <code>JSON.parse</code> 以单一优化流程处理。 <strong>更少、更大、更优化的操作胜过多而小的操作。</strong></p>
+
+        <h2>基准测试对比</h2>
+        
+        <h3>JSON 往返 vs 直接 JsValue</h3>
+        <table>
+            <tr><th>Fixture</th><th>JSON 往返</th><th>serde-wasm-bindgen</th><th>变化</th></tr>
+            <tr><td>simple-table</td><td>20.5µs</td><td>22.5µs</td><td>-9%</td></tr>
+            <tr><td>contact-form</td><td>61.4µs</td><td>79.4µs</td><td>-29%</td></tr>
+            <tr><td>dashboard</td><td>57.9µs</td><td>74.0µs</td><td>-28%</td></tr>
+        </table>
+
+        <h3>TypeScript vs WASM (重写后)</h3>
+        <table>
+            <tr><th>Fixture</th><th>TypeScript</th><th>WASM</th><th>加速比</th></tr>
+            <tr><td>simple-table</td><td>9.3µs</td><td>20.5µs</td><td><strong>2.2x</strong></td></tr>
+            <tr><td>contact-form</td><td>13.4µs</td><td>61.4µs</td><td><strong>4.6x</strong></td></tr>
+            <tr><td>dashboard</td><td>19.4µs</td><td>57.9µs</td><td><strong>3.0x</strong></td></tr>
+        </table>
+
+        <h2>另一个问题：O(N²) 流式处理</h2>
+        
+        <p>消除 WASM 解决了每次调用成本，但流式架构还有一个更深层的低效问题。</p>
+        
+        <p>解析器在每个 LLM chunk 上调用。朴素的方法是累积 chunks 并每次从头重新解析整个字符串。这导致了 O(N²) 复杂度——输入越长，每次解析花费的时间呈二次方增长。</p>
+        
+        <p>解决方案是实现增量解析算法，只解析新 chunk 并将其合并到现有解析树中。</p>
+
+        <div class="insight-box">
+            <h3>💡 核心洞察</h3>
+            <p>"Fewer, larger, and more optimized operations win over many small ones"</p>
+            <p style="margin-top: 12px;">选择正确的抽象层比优化局部性能更重要。在浏览器环境中，原生 JS 运行时优化往往超过跨边界开销。</p>
+        </div>
+
+        <h2>相关资源</h2>
+        <ul>
+            <li><a href="https://www.openui.com/blog/rust-wasm-parser" target="_blank">原文: Rewriting our Rust WASM Parser in TypeScript</a></li>
+            <li><a href="https://news.ycombinator.com/" target="_blank">Hacker News 讨论</a></li>
+        </ul>
+
+        <hr>
+        <p style="color: #666; font-size: 0.85em;">
+            🧬 探索任务发现 | 2026-03-21 08:30
+        </p>
+    </div>

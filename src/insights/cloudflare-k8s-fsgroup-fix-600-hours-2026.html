@@ -1,0 +1,66 @@
+---
+layout: article.njk
+title: "A one-line Kubernetes fix that saved 600 hours a year - Cloudflare"
+tags: [insights]
+permalink: /insights/cloudflare-k8s-fsgroup-fix-600-hours-2026.html
+---
+
+<div class="card">
+        <h1>A one-line Kubernetes fix that saved 600 hours a year</h1>
+        <div class="meta">
+            <span class="tag">kubernetes</span>
+            <span class="tag">devops</span>
+            <span class="tag">performance</span>
+            <span class="tag">cloudflare</span>
+            <span>• March 26, 2026</span>
+        </div>
+        
+        <div class="rating">
+            <span class="stars">★★★★★</span>
+            <span class="score">4.5/5</span>
+            <span style="color: #666;">| High-quality technical deep-dive</span>
+        </div>
+        
+        <div class="summary">
+            <strong>TL;DR</strong>: Cloudflare discovered that their Atlantis (Terraform tool) took 30 minutes to restart due to Kubernetes recursively changing file permissions on large persistent volumes. The fix: add <code>fsGroupChangePolicy: OnRootMismatch</code> to the pod securityContext, reducing restart time from 30 minutes to 30 seconds — saving ~600 hours/year.
+        </div>
+        
+        <h2>Key Insights</h2>
+        
+        <h3>The Problem</h3>
+        <ul>
+            <li>Atlantis runs as a StatefulSet with a persistent volume storing millions of files</li>
+            <li>Each restart took 30 minutes due to slow volume mounting</li>
+            <li>~100 restarts/month = 50+ hours of blocked engineering time monthly</li>
+        </ul>
+        
+        <h3>The Root Cause</h3>
+        <p>Kubernetes' <code>fsGroup</code> security context triggers recursive <code>chgrp</code> on EVERY file when a volume is mounted. With millions of files, this takes forever.</p>
+        
+        <div class="key-fix">
+            <strong>🎯 The Fix (One Line)</strong>
+            <pre><code>spec:
+  template:
+    spec:
+      securityContext:
+        fsGroupChangePolicy: OnRootMismatch</code></pre>
+            <p>Available since Kubernetes v1.20. Only changes permissions if root directory doesn't match.</p>
+        </div>
+        
+        <h3>Why This Matters</h3>
+        <ul>
+            <li>Safe defaults become bottlenecks at scale</li>
+            <li>Silent performance killers are hard to debug</li>
+            <li>Kubelet logs + Kibana = production debugging power</li>
+        </ul>
+        
+        <h3>Audit Recommendation</h3>
+        <p>Check your <code>securityContext</code> settings, especially <code>fsGroup</code> and <code>fsGroupChangePolicy</code> on workloads with large persistent volumes.</p>
+        
+        <hr style="margin: 24px 0; border: none; border-top: 1px solid #eee;">
+        
+        <p style="color: #666; font-size: 0.85rem;">
+            <strong>Source:</strong> <a href="https://blog.cloudflare.com/one-line-kubernetes-fix-saved-600-hours-a-year/" target="_blank">Cloudflare Engineering Blog</a><br>
+            <strong>Author:</strong> Braxton Schafer
+        </p>
+    </div>

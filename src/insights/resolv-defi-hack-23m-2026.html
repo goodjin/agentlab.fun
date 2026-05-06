@@ -1,0 +1,56 @@
+---
+layout: article.njk
+title: "The Resolv Hack: How One Compromised Key Printed $23 Million"
+tags: [insights]
+permalink: /insights/resolv-defi-hack-23m-2026.html
+---
+
+<h1>💰 The Resolv Hack: $23 Million Lost</h1>
+    <p class="rating">⭐⭐⭐⭐</p>
+    <p><strong>Source:</strong> <a href="https://www.chainalysis.com/blog/lessons-from-the-resolv-hack/">chainalysis.com</a> | Hacker News</p>
+    <p><strong>Tags:</strong> <span class="tag">DeFi</span> <span class="tag">Security</span> <span class="tag">Blockchain</span> <span class="tag">Cryptocurrency</span></p>
+
+    <div class="highlight">
+        <strong>核心洞察:</strong> 2026年3月22日，攻击者通过入侵 Resolv 的 AWS KMS 环境获取特权私钥，在几分钟内铸造了 8000 万枚无抵押的 USR 稳定币，获利约 2300 万美元——智能合约代码本身没有问题，问题出在链下基础设施
+    </div>
+
+    <h2>What Happened</h2>
+    <p>On March 22, 2026, the Resolv DeFi protocol became the latest example of how quickly things can unravel in DeFi when security assumptions fail. In a matter of minutes, an attacker minted tens of millions of Resolv's unbacked stablecoins (USR) and extracted roughly <strong>$23 million</strong> in value.</p>
+
+    <p><em>"At first glance, this might look like another smart contract exploit. But it wasn't. The code worked exactly as intended. Instead, it was a case of overly trusting off-chain infrastructure."</em></p>
+
+    <h2>Attack Timeline</h2>
+    <div class="timeline">
+        <ol>
+            <li><strong>Step 1:</strong> Attacker compromised Resolv's AWS KMS environment to gain access to the privileged signing key</li>
+            <li><strong>Step 2:</strong> Made two swap requests with modest USDC deposits (~$100K-200K), then used the SERVICE_ROLE key to authorize 80 million USR minting</li>
+            <li><strong>Step 3:</strong> Converted USR into wstUSR (wrapped staked USR) to bypass liquidity issues</li>
+            <li><strong>Step 4:</strong> Swapped into stablecoins, then ETH, extracting ~$25 million</li>
+        </ol>
+    </div>
+
+    <h2>Root Cause</h2>
+    <p>The minting design had a critical flaw:</p>
+    <ul>
+        <li>Users deposit USDC and submit a minting request</li>
+        <li>An off-chain service with a privileged private key signs off on how much USR to mint</li>
+        <li>The contract enforces a <strong>minimum</strong> USR output—but critically, <strong>no maximum</strong></li>
+        <li>No on-chain ratio check, no price oracle, no cap</li>
+    </ul>
+
+    <h2>Key Lessons</h2>
+    <ol>
+        <li><strong>Off-chain infrastructure is part of the attack surface:</strong> As DeFi systems use more external services and cloud infrastructure, the attack surface expands far beyond the blockchain itself</li>
+        <li><strong>On-chain controls are the last line of defense:</strong> Real-time monitoring and automated response mechanisms are now a necessity—exploits unfold in minutes</li>
+        <li><strong>Code audits aren't enough:</strong> Resolv had undergone 18 audits, but the hack came from compromised cloud infrastructure, not smart contract bugs</li>
+    </ol>
+
+    <h2>How It Could Have Been Prevented</h2>
+    <p>Chainalysis Hexagate could have detected:</p>
+    <ul>
+        <li><strong>Anomalous minting events:</strong> A $100K USDC deposit authorizing 50M USR is obviously anomalous (flag at 1.5x normal ratios)</li>
+        <li><strong>Contract event monitoring:</strong> Combined with GateSigner to automatically pause the contract before damage</li>
+    </ul>
+
+    <hr>
+    <p><small>Explored from Hacker News (news.ycombinator.com) | 2026-03-24</small></p>

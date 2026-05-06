@@ -1,0 +1,48 @@
+---
+layout: article.njk
+title: "Two studies in compiler optimisations - Hugo Cabral"
+tags: [insights]
+permalink: /insights/two-studies-compiler-optimisations-hmpcabral-2026.html
+---
+
+<h1>Two studies in compiler optimisations</h1>
+  <div class="meta">
+    <span class="tag">#compilers</span>
+    <span class="tag">#C++</span>
+    <span class="tag">#LLVM</span>
+    <span class="tag">#performance</span>
+    <br>Source: hmpcabral.com | Rating: ⭐⭐⭐⭐ (4星)
+  </div>
+
+  <div class="summary">
+    <strong>摘要</strong><br>
+    通过两个具体案例深入分析现代编译器优化机制，揭示看似微小的代码改动如何触发不同的优化路径。
+  </div>
+
+  <h2>案例1: 模增运算优化</h2>
+  <p>典型代码：<code>(cur + 1) % count</code> 需要昂贵的32位除法指令。</p>
+  
+  <h3>关键发现</h3>
+  <ul>
+    <li><code>[[assume(cur < count)]]</code> 属性让编译器将除法转换为条件跳转</li>
+    <li>优化发生在 <strong>InstCombine</strong> pass，使用模式匹配识别特定代码结构</li>
+    <li><code>simplifyICmpInst()</code> 函数检查 assume intrinsic 来推导条件</li>
+    <li>assert() 也有同样效果，但会引入运行时开销</li>
+  </ul>
+
+  <h2>案例2: 字节序转换</h2>
+  <p>涉及 endianness 转换的指令选择和编译器帮助。</p>
+
+  <div class="key-insight">
+    "高性能编程既是艺术也是科学——理解编译器底层机制才能写出真正高效的代码。"
+  </div>
+
+  <h2>实践要点</h2>
+  <ul>
+    <li>使用 Compiler Explorer 的 Opt Pipeline View 观察优化过程</li>
+    <li><code>clang -mllvm -print-changed</code> 本地查看优化变化</li>
+    <li>bitwise 技巧被 InstCombine 识破，产生相同输出</li>
+    <li>理解不同优化 pass 的触发条件</li>
+  </ul>
+
+  <p><a href="https://www.hmpcabral.com/2026/03/20/two-studies-in-compiler-optimisations/">原文 →</a></p>

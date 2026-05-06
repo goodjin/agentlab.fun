@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You can&#39;t imitation-learn how to continual-learn - LessWrong</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>You can't imitation-learn how to continual-learn</h1>
+    <div class="meta">
+        <span class="quality">4.5★ 优秀</span>
+        <p>来源: LessWrong (180 points, Curated) | 作者: Steven Byrnes | 日期: 2026-03-16</p>
+        <p>原始链接: <a href="https://lesswrong.com/posts/9rCTjbJpZB4KzqhiQ/you-can-t-imitation-learn-how-to-continual-learn" target="_blank">lesswrong.com</a></p>
+    </div>
+
+    <h2>核心发现</h2>
+    <div class="key-insights">
+        <strong>深度论证为什么LLM无法实现真正的持续学习</strong>
+    </div>
+
+    <h2>主要内容</h2>
+    <p>作者Steven Byrnes提出一个教育学观点：LLM具有人类学习没有的限制。其中核心论点是：LLM本质上只是imitation learning，无法实现真正的持续学习(continual learning)。</p>
+
+    <h2>关键洞见</h2>
+    <ul>
+        <li><strong>区分"信息"vs"知识"</strong>：LLM只能获取信息（information），无法构建新知识（knowledge）</li>
+        <li><strong>真正的持续学习示例</strong>：AlphaZero从随机初始化通过100万场自我对弈成长为专家；人类用20年从新手变成世界专家</li>
+        <li><strong>LLM只是imitation learning</strong>：Transformer的假设空间太窄，无法实现真正的持续学习</li>
+        <li><strong>Context window无济于事</strong>：增加context window不能解决根本问题——没有办法让GPT-2变成GPT-5</li>
+        <li><strong>Dario Amodei的thought experiment</strong>：关于"datacenter中的天才国家"——如果完全密封，给他们100年虚拟现实环境，会发现他们发明了全新的科学和哲学</li>
+        <li><strong>关键问题</strong>：LLM无法理解、批评并建立在全新的、训练数据中不存在的知识体系之上</li>
+    </ul>
+
+    <h2>对比表格</h2>
+    <table style="width:100%; border-collapse: collapse; margin: 15px 0;">
+        <tr style="background: #f5f5f5;">
+            <th style="padding: 10px; border: 1px solid #ddd;">方式</th>
+            <th style="padding: 10px; border: 1px solid #ddd;">假设空间</th>
+        </tr>
+        <tr>
+            <td style="padding: 10px; border: 1px solid #ddd;">Solomonoff induction模仿学习</td>
+            <td style="padding: 10px; border: 1px solid #ddd;">所有可计算算法</td>
+        </tr>
+        <tr>
+            <td style="padding: 10px; border: 1px solid #ddd;">Transformer模仿学习</td>
+            <td style="padding: 10px; border: 1px solid #ddd;">所有可能的训练Transformer</td>
+        </tr>
+    </table>
+
+    <h2>核心论点</h2>
+    <p>如果用一个transformer观察deep Q network从随机初始化开始玩Atari Breakout，玩了100万次越来越好，然后冻结权重用作模仿学习者：</p>
+    <ul>
+        <li><strong>Snapshot imitation</strong>：当前时刻的模仿 ✓ 可能实现</li>
+        <li><strong>Long-term learning imitation</strong>：如果继续玩，会继续变好吗？✗ 不可能</li>
+        <li><strong>Transfer imitation</strong>：如果转移到新游戏Space Invaders，会通过经验学习变好吗？✗ 不可能</li>
+    </ul>
+
+    <h2>作者澄清</h2>
+    <p>作者明确这不是说"LLM很笨"或"LLM不可能扩展到超级智能"，而是一个狭窄的教育学观点。</p>
+
+    <h2>相关研究</h2>
+    <ul>
+        <li>Deep Q networks (2013)</li>
+        <li>AlphaZero (2017)</li>
+        <li>Von Oswald et al. 2022 on in-context learning</li>
+    </ul>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

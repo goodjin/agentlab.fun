@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloudflare rewrites Next.js with AI - Pragmatic Engineer</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <h1>⚡ Cloudflare一周AI重写Next.js</h1>
+        <div class="meta">
+            <span class="star">⭐⭐⭐⭐⭐</span> 5星 | 
+            <span class="tag">AI</span>
+            <span class="tag">Open Source</span>
+            <span class="tag">Cloudflare</span>
+            <span class="tag">Next.js</span>
+        </div>
+        
+        <p><strong>来源:</strong> The Pragmatic Engineer by Gergely Orosz</p>
+        <p><strong>URL:</strong> <a href="https://blog.pragmaticengineer.com/the-pulse-cloudflare-rewrites-next-js-as-ai-rewrites-commercial-open-source/" target="_blank">原文链接</a></p>
+        
+        <div class="warning">
+            <strong>⚠️ 重要背景:</strong> vinext是实验性的，所谓的"生产环境"只是一个beta站点(CIO.gov)，无实质流量。
+        </div>
+        
+        <h2>事件概述</h2>
+        <p>2026年3月，Cloudflare宣布用<strong>一个工程师+AI，一周时间+1100美元tokens</strong>，重写了Next.js核心部分：</p>
+        <ul>
+            <li>用Vite替换Turbopack构建工具</li>
+            <li>创建"vinext"——Next.js的drop-in替代品</li>
+            <li>构建速度提升<strong>4倍</strong></li>
+            <li>客户端bundle小<strong>57%</strong></li>
+        </ul>
+        
+        <h2>代码量对比</h2>
+        <ul>
+            <li><strong>Next.js核心:</strong> ~194,000行代码</li>
+            <li><strong>vinext:</strong> ~67,000行代码</li>
+            <li>vinext目前支持<strong>94%</strong>的Next.js API</li>
+        </ul>
+        
+        <div class="quote">
+            "AI将重写现有软件的工程时间成本降低了约100倍。"
+        </div>
+        
+        <h2>Vercel vs Cloudflare: 商业开源护城河被打破</h2>
+        <ul>
+            <li><strong>Vercel的策略:</strong> 开源Next.js，但使用专有的build output格式</li>
+            <li><strong>护城河:</strong> 最佳部署目标是Vercel，因为其基础架构针对Turbopack输出优化</li>
+            <li><strong>Cloudflare的反击:</strong> 用标准化的Vite输出替代，任何云提供商都可以部署</li>
+        </ul>
+        
+        <h2>深层影响</h2>
+        <ul>
+            <li><strong>维护成本剧降:</strong> 以前需要数年工程时间的项目，现在一周完成</li>
+            <li><strong>商业开源价值受挑战:</strong> "我们知道它会被维护"作为购买理由被削弱</li>
+            <li><strong>安全风险:</strong> Vercel CEO指出vinext存在安全漏洞，AI生成代码需要大量审计</li>
+            <li><strong>未来趋势:</strong> 单个工程师可能就能维护以前需要团队的项目</li>
+        </ul>
+        
+        <h2>关键洞察</h2>
+        <p>这不是关于"AI slop"(低质量AI代码) vs 优质代码的问题，而是<strong>经济范式的转变</strong>：</p>
+        <ul>
+            <li>过去：重写/fork开源项目需要多年和大量资源</li>
+            <li>现在：AI让成本降至约1/100</li>
+            <li>未来：商业开源公司需要重新思考护城河</li>
+        </ul>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

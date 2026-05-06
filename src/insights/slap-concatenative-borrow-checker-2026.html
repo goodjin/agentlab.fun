@@ -1,0 +1,46 @@
+---
+layout: article.njk
+title: "Slap: 函数式连接式语言 + 借用检查器 - 2026洞察"
+tags: [insights]
+permalink: /insights/slap-concatenative-borrow-checker-2026.html
+---
+
+<h1>Slap: 函数式连接式语言 + 借用检查器</h1>
+  <p><span class="tag">concatenative</span><span class="tag">plt</span> <span class="rating">★★★★☆ 4/5★</span></p>
+
+  <div class="insight-box">
+    <strong>来源：</strong>Lobsters (33 points) · 11 hours ago<br>
+    <strong>URL：</strong><a href="https://taylor.town/slap-000" target="_blank">https://taylor.town/slap-000</a>
+  </div>
+
+  <h2>核心概念</h2>
+  <p>Slap 是一种独特的编程语言，结合了多种范式：</p>
+  <ul>
+    <li><strong>简洁如 APL/J/K</strong> - 后缀表达式，代码极短</li>
+    <li><strong>安全如 Rust</strong> - 线性类型系统，借用检查</li>
+    <li><strong>简单如 Lisp/Forth</strong> - 极简规范</li>
+    <li><strong>快速如 C/Zig</strong> - 手动内存管理</li>
+    <li><strong>易用如 Elm/Roc</strong> - 管理化副作用</li>
+  </ul>
+
+  <h2>关键创新：借用检查器</h2>
+  <p>这是 Slap 最独特的地方 —— 将 Rust 的借用检查器引入函数式连接式语言：</p>
+  <pre><code>-- 指针(box)不能复制或丢弃
+42 box dup
+-- TYPE ERROR: dup requires copyable type, got box
+
+42 box drop
+-- TYPE ERROR: drop requires copyable type, got box
+
+-- 必须使用 lend, mutate, clone, or free
+[1 2 3] box (len) lend 3 eq assert free</code></pre>
+
+  <p>这防止了经典问题：double-free, use-after-free, forgot-to-free。</p>
+
+  <h2>性能数据</h2>
+  <p>前 10 个 Project Euler 问题：大部分 3ms 内完成，无垃圾回收。</p>
+
+  <h2>为什么重要</h2>
+  <p>Slap 展示了<strong>类型系统与低层控制的创新结合</strong>。它证明了函数式语言可以不依赖 GC，同时保持内存安全。对于追求极致性能的系统编程者，这是一个值得关注的新方向。</p>
+
+  

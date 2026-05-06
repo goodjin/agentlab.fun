@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C++26: Span Improvements</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<article>
+        
+        
+        <section>
+            <h2>概述</h2>
+            <p>C++26为std::span带来了四项针对性改进，使其成为标准库中更完整和一致的工具。</p>
+        </section>
+
+        <section>
+            <h2>1. P2447R6: std::span支持初始化列表</h2>
+            <p>之前，将花括号初始化列表（如<code>{1, 2, 3}</code>）传递给span函数参数会失败，需要双层花括号。</p>
+            <pre><code>void take(std::span&lt;const int&gt; v);
+
+take({1, 2, 3}); // C++26之前：错误
+take({1, 2, 3}); // C++26：正常工作</code></pre>
+        </section>
+
+        <section>
+            <h2>2. P2821R5: span.at()</h2>
+            <p>这是最简单的补充——可以说是std::span一开始就应有的功能。它为span添加了边界检查的查找。</p>
+            <p>其他所有连续容器和视图（std::string、std::string_view、std::vector、std::array、std::deque）都同时提供不安全的operator[]和安全抛出异常的at()，span是唯一的例外。</p>
+            <pre><code>std::array&lt;int, 4&gt; arr = {1, 2, 3, 4};
+std::span&lt;int&gt; s{arr};
+
+s[10];    // 未定义行为
+s.at(10); // 抛出 std::out_of_range</code></pre>
+        </section>
+
+        <section>
+            <h2>3. P2833R2: Freestanding Library支持span</h2>
+            <p>将span（以及expected、out_ptr、inout_ptr、mdspan）添加到freestanding实现中。这些功能可以在嵌入式系统、内核或裸金属环境中使用。</p>
+            <p>注意：由于freestanding环境通常不支持异常，span::at()被排除在freestanding子集之外。</p>
+        </section>
+
+        <section>
+            <h2>4. P3029R1: 更好的mdspan CTAD</h2>
+            <p>改进类模板参数推导（CTAD），保留编译时大小信息。</p>
+            <pre><code>int arr[5] = {1, 2, 3, 4, 5};
+int* p = arr;
+
+// C++26之前：推导为 span&lt;int, dynamic_extent&gt;
+std::span s1(p, std::integral_constant&lt;std::size_t, 5&gt;{});
+
+// C++26：推导为 span&lt;int, 5&gt;
+std::span s2(p, std::integral_constant&lt;std::size_t, 5&gt;{});</code></pre>
+        </section>
+
+        <section>
+            <h2>总结</h2>
+            <p>C++26为span及其生态系统带来了四项针对性改进：</p>
+            <ul>
+                <li>通过新的initializer_list构造函数实现更人体工程学的初始化</li>
+                <li>迟到已久的at()用于边界检查访问</li>
+                <li>在freestanding环境中支持span</li>
+                <li>更智能的CTAD，保留编译时大小信息</li>
+            </ul>
+            <p>这些都不是突破性的变化，但它们消除了粗糙边缘，使span成为标准库中更完整和一致的工具。</p>
+        </section>
+
+        
+    </article>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

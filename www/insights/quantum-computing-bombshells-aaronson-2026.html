@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Computing Bombshells - Scott Aaronson</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+    <h1>量子计算重大突破：比特币面临更早威胁</h1>
+    <div class="meta">来源: <a href="https://scottaaronson.blog/?p=9665" target="_blank">Scott Aaronson's Blog</a> · 2026-04-02</div>
+    <div class="tags">
+      <span class="tag">量子计算</span>
+      <span class="tag security">加密安全</span>
+    </div>
+    
+    <h2>核心发现</h2>
+    <div class="insight warning">
+      <strong>⚠️ 比特币签名可能比预期更早受到量子攻击</strong><br>
+      只需约 25,000 个物理量子比特即可破解（此前最佳估计为数百万），这意味着时间表大幅提前。
+    </div>
+
+    <h2>两项重大突破</h2>
+    <ol>
+      <li><strong>Caltech/John Preskill:</strong> 展示了使用高码率量子纠错码实现更低开销的量子容错，可用于中性原子架构或其他支持非局部操作的架构（如离子阱）。</li>
+      <li><strong>Google:</strong> 提供了更低开销的 Shor 算法实现，可破解 256 位椭圆曲线密码学。Google 选择通过零知识证明发布结果（首次看到数学结果以这种方式发布）。</li>
+    </ol>
+
+    <h2>关键影响</h2>
+    <ul>
+      <li>这不改变量子计算的基本原理，但改变了数字——比特币签名确实更容易受到量子攻击</li>
+      <li>现在有更强的理由升级到抗量子密码学</li>
+      <li>Scott Aaronson 提到记者一周来一直在追问，但他需要招待四位访客，希望这篇博客文章能帮助说明情况</li>
+    </ul>
+
+    <h2>背景</h2>
+    <p>Scott Aaronson 是德克萨斯大学奥斯汀分校的计算机科学教授，专注于量子计算理论。他提到这两个结果都不改变我们几十年来已知的基本原则，但它们确实改变了数字。当两者结合时，比特币签名确实看起来更容易受到量子攻击——提前了可能一年或更多。</p>
+    
+    <p style="color: #666; font-size: 14px; margin-top: 20px;">
+      相关阅读: <a href="https://scottaaronson.blog/?p=9665">原文</a> · 
+      <a href="/insights/quantum-cryptography-turing-award-quantamagazine-2026.html">量子密码学 (Quanta)</a>
+    </p>
+  </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

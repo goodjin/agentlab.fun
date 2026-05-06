@@ -1,0 +1,74 @@
+---
+layout: article.njk
+title: "Scaling a Monolith to 1M LOC - 113 Pragmatic Lessons"
+tags: [insights]
+permalink: /insights/lobsters-monolith-1m-loc-scaling-2026.html
+---
+
+<div class="container">
+        <h1>Scaling a Monolith to 1M LOC</h1>
+        <div class="meta">
+            <span class="tag">Scaling</span>
+            <span class="tag">Performance</span>
+            <span class="tag">Django</span>
+            <span class="tag">Management</span>
+            <span>Source: semicolonandsons.com | 2026-03 | by Jack Kinsella (MorphMarket CTO)</span>
+        </div>
+
+        <h2>Performance (性能优化)</h2>
+        <div class="section">
+            <ul>
+                <li><strong>分页计数是性能杀手</strong>: 精确的"总页数"在大规模下很难，需要扫描大量行</li>
+                <li><strong>长 Cron 任务能瘫痪系统</strong>: 报表用的低效查询能让整体性能降 50%</li>
+                <li><strong>RAM 压力被低估</strong>: 内存不足会 swap 到磁盘，系统变慢但不崩溃</li>
+                <li><strong>后台任务很有效</strong>: 邮件、推送、WebSocket、webhook 处理都应异步</li>
+                <li><strong>树形数据结构</strong>: 分类等层级数据可用内存缓存替代数据库自连接</li>
+                <li><strong>设置超时</strong>: 防止单点故障耗尽所有线程导致崩溃</li>
+                <li><strong>定期重启 Worker</strong>: 防止内存泄漏，每 10000 请求重启</li>
+                <li><strong>前端性能常见问题</strong>: 表单重复渲染、DOM 元素过多、useEffect 滥用</li>
+                <li><strong>ORDER BY id 而非 created</strong>: id 字段自带索引</li>
+                <li><strong>删除无用数据</strong>: 十年堆积的数据严重影响查询性能</li>
+            </ul>
+        </div>
+
+        <h2>Human (团队与人效)</h2>
+        <div class="section">
+            <ul>
+                <li><strong>全员应成为全栈</strong>: FE/BE/ops 分工导致协调成本高</li>
+                <li><strong>不要责备个人</strong>: 生产问题通常是至少 3 个 cascade failure</li>
+                <li><strong>建立员工期望文档</strong>: 明确什么是"好工作"，员工无法读心</li>
+                <li><strong>Tech Debt 周五</strong>: 周一至四做功能，周五做维护和技术债务</li>
+                <li><strong>Linters 改善结果</strong>: 防止 review 被格式问题分散注意力</li>
+                <li><strong>防止 Long PRs</strong>: 大特性应拆解，每天或每周合并</li>
+                <li><strong>远程公司要多聊天</strong>: 主动提问、展示代码、鼓励互相通话</li>
+                <li><strong>用户投票功能需求</strong>: 让用户决定他们想要什么</li>
+                <li><strong>一次只做一个重大改变</strong>: 变革太多团队无法适应</li>
+                <li><strong>关键系统至少两人精通</strong>: 知识不能只存在一个人脑子里</li>
+            </ul>
+        </div>
+
+        <h2>Monitoring (监控)</h2>
+        <div class="section">
+            <ul>
+                <li><strong>监控即代码</strong>: 确保告警系统本身被测试</li>
+                <li><strong>监控 Worker 队列积压</strong>: 慢查询会让队列阻塞数小时</li>
+                <li><strong>Sentry 清零</strong>: 达到此目标后团队才会认真对待每个异常</li>
+                <li><strong>监控邮件/推送送达率</strong>: 大量用户会遇到送达问题</li>
+                <li><strong>Dead Man Switch</strong>: 监控"某事没发生"比监控"某事发生"更重要</li>
+                <li><strong>N+1 是最大性能风险</strong>: ORM 使用中最常见的性能问题</li>
+                <li><strong>请求队列是关键指标</strong>: 平均应小于 2ms</li>
+                <li><strong>给 DB 连接打标签</strong>: 方便在 pg_stat_activity 中追踪</li>
+                <li><strong>生产日志需要好 UX</strong>: 可搜索、可图形化、可 CLI</li>
+                <li><strong>Top 20 端点设置性能回归告警</strong>：性能问题是渐进式的</li>
+            </ul>
+        </div>
+
+        <div class="highlight">
+            <strong>💡 核心洞见</strong>: 单体扩展不仅是技术问题，更是人效和管理问题。113 条经验来自 20 人团队、Django/React 代码库、100 万行代码的实战总结。
+        </div>
+
+        <p style="margin-top:30px; color:#718096; font-size:12px;">
+            标签: scaling, performance, django, react, management, monitoring<br>
+            探索来源: lobsters (scaling, performance, python, debugging, practices)
+        </p>
+    </div>

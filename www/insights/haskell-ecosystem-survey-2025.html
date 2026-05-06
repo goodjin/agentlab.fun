@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Haskell Ecosystem Survey 2025 - Key Findings</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>Haskell Ecosystem Survey 2025: What Developers Want Changed</h1>
+    <p class="meta">Source: <a href="https://blog.haskell.org/what-would-you-see-changed-in-haskell/">Haskell Blog</a> | Date: April 2, 2026</p>
+    
+    <div class="highlight">
+        <strong>Key Finding:</strong> 553 developers shared their pain points. The top issues: Text instead of String, onboarding, documentation, tooling, and language complexity.
+    </div>
+
+    <h2>Major Topics</h2>
+
+    <h3>1. Text Instead of String</h3>
+    <p>A laser-focused suggestion: replace String with Text as the canonical type for textual data.</p>
+    <div class="quote">
+        "The text library must live from base, because none of the APIs of base can use Text, and when people look at base for examples of well-written Haskell code, they end up using String, which is not the right choice."
+    </div>
+
+    <h3>2. Onboarding of Beginners</h3>
+    <ul>
+        <li>Need for up-to-date content</li>
+        <li>Centralized entry point in the language</li>
+        <li>Haskell Wiki decreasing in contributions</li>
+    </ul>
+
+    <h3>3. Documentation</h3>
+    <p>Library authors encouraged to provide more working examples and documentation beyond simple API references.</p>
+
+    <h3>4. Complexity of the Haskell Language</h3>
+    <ul>
+        <li>Language perceived as too complex</li>
+        <li>Historical cruft and lack of consistency</li>
+        <li>Requests to stop adding language extensions or redesign them holistically</li>
+        <li>Desire for new Haskell Language Report</li>
+    </ul>
+
+    <h3>5. The Record System</h3>
+    <p>Requests for OverloadedRecordDot and NoFieldSelectors to be enabled by default.</p>
+
+    <h2>Tooling Issues</h2>
+
+    <h3>Compilation Times</h3>
+    <div class="quote">
+        "Make GHC 10x faster" is one of the prevalent moods amongst participants.
+    </div>
+
+    <h3>Ecosystem Consolidation</h3>
+    <p>Newcomers confused by fragmentation. Referenced <a href="https://docs.astral.sh/uv/">uv</a> as example of fully-integrated toolchain.</p>
+    <ul>
+        <li>Compilation error messages seen as confusing (for end-users vs implementers)</li>
+        <li>Haskell Language Server memory usage and reliability issues</li>
+    </ul>
+
+    <h2>Pervasive Laziness</h2>
+    <div class="quote">
+        "Anxiety about laziness is a recurring theme, indicating lasting difficulties developers have in reasoning about lazy evaluation."
+    </div>
+    <p>Requests for data structures strict by default, using StrictData extension.</p>
+
+    <h2>Minor Topics</h2>
+
+    <h3>Dependent Haskell</h3>
+    <p>Viewed as unified solution to replace loosely related language extensions.</p>
+
+    <h3>Effect Systems</h3>
+    <p>Interest in base providing algebraic effect systems out of the box. Requests for more MonadIO usage.</p>
+
+    <h3>Debugging</h3>
+    <p>Haskell Debugger mentioned as addressing pain points. "HasCallStack everywhere" mentioned as symptom.</p>
+
+    <h2>Academia vs Industry</h2>
+    <div class="quote">
+        "There needs to be a recognition that there is documentation produced for/by the type theory / heavy mathematics enthusiasts which doesn't translate well as developer documentation."
+    </div>
+
+    <h2>Why This Matters</h2>
+    <p>This survey provides rare insight into a major functional language ecosystem's pain points. The themes - tooling, complexity, documentation - are universal across programming languages. The tension between academic and industry needs is particularly relevant in 2026's AI-dominated landscape.</p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

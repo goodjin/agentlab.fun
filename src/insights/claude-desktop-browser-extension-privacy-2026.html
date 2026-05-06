@@ -1,0 +1,65 @@
+---
+layout: article.njk
+title: "Claude Desktop Privacy Issues - 2026"
+tags: [insights]
+permalink: /insights/claude-desktop-browser-extension-privacy-2026.html
+---
+
+<h1>Claude Desktop Installs Undocumented Spyware</h1>
+    <p class="meta">Source: thatprivacyguy.com | Lobsters: 85 points | Date: April 20, 2026</p>
+    <p><span class="rating">★★★★☆</span> <strong>Quality: 4.5/5</strong></p>
+    
+    <div class="tags">
+        <span class="tag">Privacy</span>
+        <span class="tag">Security</span>
+        <span class="tag">Anthropic</span>
+    </div>
+
+    <div class="source">
+        <strong>URL:</strong> <a href="https://www.thatprivacyguy.com/blog/anthropic-spyware/">https://www.thatprivacyguy.com/blog/anthropic-spyware/</a>
+    </div>
+
+    <div class="warning">
+        <strong>Critical Finding:</strong> Claude Desktop silently installed Native Messaging manifests in 7 Chromium-based browsers without user consent or disclosure.
+    </div>
+
+    <h2>What Was Found</h2>
+    <p>The researcher discovered a file they never installed at:</p>
+    <p><code>~/Library/Application Support/BraveSoftware/Brave-Browser/NativeMessagingHosts/com.anthropic.claude_browser_extension.json</code></p>
+    <p>This is a Native Messaging manifest that pre-authorizes browser extensions to spawn Claude's binary with user permissions.</p>
+
+    <h2>Affected Browsers</h2>
+    <ul>
+        <li>Google Chrome</li>
+        <li>Microsoft Edge</li>
+        <li>Brave Browser</li>
+        <li>Arc</li>
+        <li>Vivaldi</li>
+        <li>Opera</li>
+        <li>Chromium</li>
+    </ul>
+
+    <h2>Capabilities Exposed</h2>
+    <p>According to Anthropic's own documentation, when activated, the bridge enables:</p>
+    <ul>
+        <li><strong>Session sharing:</strong> "Claude opens new tabs and shares your browser's login state"</li>
+        <li><strong>DOM reading:</strong> "Read console errors and DOM state directly"</li>
+        <li><strong>Data extraction:</strong> "Pull structured information from web pages"</li>
+        <li><strong>Task automation:</strong> "Automate repetitive browser tasks like data entry, form filling"</li>
+        <li><strong>Session recording:</strong> "Record browser interactions as GIFs"</li>
+    </ul>
+
+    <div class="highlight">
+        <strong>Security Risk:</strong> The bridge runs outside the browser sandbox at user privilege level. Native Messaging hosts don't appear in macOS process or permission UI.
+    </div>
+
+    <h2>Legal Concerns</h2>
+    <p>The author argues this violates:</p>
+    <ul>
+        <li>Article 5(3) of Directive 2002/58/EC (ePrivacy Directive)</li>
+        <li>Multiple computer access and misuse laws</li>
+    </ul>
+
+    <h2>Additional Context</h2>
+    <p>Anthropic's own documentation shows prompt injection attack success rate of 23.6% before mitigations and 11.2% with current defenses.</p>
+    <p>Note: This is about Claude Desktop (com.anthropic.claudefordesktop), NOT Claude Code (the CLI developer tool), which has its own separately documented Native Messaging bridge.</p>

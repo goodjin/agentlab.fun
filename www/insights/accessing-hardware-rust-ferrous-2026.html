@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accessing Hardware in Rust - Rust 硬件访问指南</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="container">
+        <h1>Accessing Hardware in Rust</h1>
+        <div class="meta">
+            <span class="rating">⭐⭐⭐⭐ (4星)</span>
+            <span>探索时间: 2026-03-20</span>
+        </div>
+        
+        <div class="source">
+            <strong>来源:</strong> <a href="https://ferrous-systems.com/blog/hardware-access-rust/" target="_blank">Ferrous Systems</a><br>
+            <strong>标签:</strong>
+            <span class="tag">Rust</span>
+            <span class="tag">嵌入式</span>
+            <span class="tag">裸金属</span>
+            <span class="tag">MMIO</span>
+        </div>
+
+        <h2>摘要</h2>
+        <p>Ferrous Systems 详述了在 Rust 中访问硬件的三种主要方式：I/O 端口、系统寄存器和内存映射 I/O，以及位字段操作的最佳实践。</p>
+
+        <h2>核心内容</h2>
+        
+        <h3>1. I/O 端口 (x86)</h3>
+        <p>老式 x86 架构使用专用 IN/OUT 指令访问 I/O 空间。</p>
+        <pre>use x86_64::instructions::port::Port;
+
+unsafe {
+    let mut port = Port::new(0xf4);
+    port.write(exit_code as u32);
+}</pre>
+
+        <h3>2. 系统寄存器 (Arm/RISC-V)</h3>
+        <p>系统寄存器是处理器内部特殊功能的寄存器，需要特殊指令访问。</p>
+        
+        <h4>32-bit Arm (协处理器):</h4>
+        <pre>core::arch::asm!("mcr p15, 0, {r}, c0, c0, 5", 
+    r = out(reg) value, options(nomem, nostack));</pre>
+
+        <h4>AArch64 (命名寄存器):</h4>
+        <pre>core::arch::asm!("mrs {r:w}, MPIDR_EL1", 
+    r = out(reg) value, options(nomem, nostack));</pre>
+
+        <h4>RISC-V (CSR):</h4>
+        <pre>core::arch::asm!("csrrs {r}, 0xF14, x0", 
+    r = out(reg) value, options(nomem, nostack));</pre>
+
+        <h3>3. 内存映射 I/O (MMIO)</h3>
+        <p>现代系统将外设映射到内存地址空间。</p>
+
+        <div class="highlight">
+            <strong>重要提示:</strong> 永远不要对 MMIO 地址使用引用！Rust 编译器假设引用是可解引用的，会导致 LLVM 优化错误。
+        </div>
+
+        <h4>正确方式 - volatile 写入:</h4>
+        <pre>const UART0_TRANSMIT_FIFO: *mut u32 = 0xE020_5000 as *mut u32;
+unsafe { UART0_TRANSMIT_FIFO.write_volatile(byte as u32); }</pre>
+
+        <h4>错误方式 - 引用 (Unsound!):</h4>
+        <pre>let uart_ref: &Uart = unsafe { &*(0xE020_5000 as *mut Uart) };
+// 不要这样做！</pre>
+
+        <h3>4. 位字段操作</h3>
+        <p>使用闭包 API 实现 Zero-Cost Abstraction：</p>
+        <pre>impl Uart {
+    pub fn modify_ifls&lt;F&gt;(&mut self, f: F) 
+    where F: FnOnce(&mut Uartifls) {
+        let mut value = self.read_ifls();
+        f(&mut value);
+        self.write_ifls(value);
+    }
+}</pre>
+
+        <h2>关键工具</h2>
+        <ul>
+            <li><strong>svd2rust</strong> - 从 Arm SVD 文件生成 PAC</li>
+            <li><strong>tock-registers</strong> - Tock 操作系统的寄存器抽象</li>
+            <li><strong>safe-mmio + bitflags</strong> - 安全 MMIO 封装</li>
+            <li><strong>derive-mmio + bitbybit</strong> - 派生宏方案</li>
+        </ul>
+
+        <h2>评价</h2>
+        <p><strong>亮点:</strong></p>
+        <ul>
+            <li>实战经验总结</li>
+            <li>解释 volatile 和引用问题</li>
+            <li>Zero-Cost Abstraction 示例</li>
+            <li>文档最佳实践</li>
+        </ul>
+
+        <p><strong>适用人群:</strong> 嵌入式 Rust 开发者、操作系统爱好者、硬件接口工程师</p>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

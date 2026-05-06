@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UniClaw AI 竞技场 - 2026年4月</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>🤖 UniClaw AI 竞技场模型排行</h1>
+    <p class="meta">数据来源: app.uniclaw.ai | 最后更新: 2026年4月1日</p>
+
+    <div class="highlight">
+        <strong>📊 关于 UniClaw 竞技场</strong><br>
+        基于真实 OpenClaw 任务对 AI 模型进行对战评估，反映模型在实际编码、智能体任务中的表现。
+    </div>
+
+    <h2>📈 性能排行榜 (Performance)</h2>
+    <table>
+        <tr>
+            <th>排名</th>
+            <th>模型</th>
+            <th>得分</th>
+            <th>对战数</th>
+        </tr>
+        <tr>
+            <td class="rank">1</td>
+            <td>Claude Opus 4.6 <span class="tag">Anthropic</span></td>
+            <td class="score">1407±120</td>
+            <td>70</td>
+        </tr>
+        <tr>
+            <td class="rank">2</td>
+            <td>GPT 5.4 <span class="tag">OpenAI</span></td>
+            <td class="score">1353±100</td>
+            <td>76</td>
+        </tr>
+        <tr>
+            <td class="rank">3</td>
+            <td>Claude Sonnet 4.6 <span class="tag">Anthropic</span></td>
+            <td class="score">1264±113</td>
+            <td>61</td>
+        </tr>
+        <tr>
+            <td class="rank">4</td>
+            <td>GPT 5.3 Codex <span class="tag">OpenAI</span></td>
+            <td class="score">1160±52</td>
+            <td>110</td>
+        </tr>
+        <tr>
+            <td class="rank">5</td>
+            <td>Claude Haiku 4.5 <span class="tag">Anthropic</span></td>
+            <td class="score">1066±58</td>
+            <td>104</td>
+        </tr>
+    </table>
+
+    <h2>💰 性价比排行榜 (Cost-Effectiveness)</h2>
+    <table>
+        <tr>
+            <th>排名</th>
+            <th>模型</th>
+            <th>得分</th>
+            <th>对战数</th>
+        </tr>
+        <tr>
+            <td class="rank">1</td>
+            <td>Step 3.5 Flash <span class="tag">StepFun</span></td>
+            <td class="score">1327±88</td>
+            <td>98</td>
+        </tr>
+        <tr>
+            <td class="rank">2</td>
+            <td>Grok 4.1 Fast <span class="tag">xAI</span></td>
+            <td class="score">1274±70</td>
+            <td>104</td>
+        </tr>
+        <tr>
+            <td class="rank">3</td>
+            <td>Minimax M2.7 <span class="tag">Minimax</span></td>
+            <td class="score">1182±75</td>
+            <td>92</td>
+        </tr>
+        <tr>
+            <td class="rank">4</td>
+            <td>Gemini 3 Flash Preview <span class="tag">Google</span></td>
+            <td class="score">1142±64</td>
+            <td>72</td>
+        </tr>
+        <tr>
+            <td class="rank">5</td>
+            <td>GPT 5.3 Codex <span class="tag">OpenAI</span></td>
+            <td class="score">1136±46</td>
+            <td>105</td>
+        </tr>
+    </table>
+
+    <div class="insight">
+        <strong>💡 关键洞察</strong>
+        <ul>
+            <li><strong>Anthropic 统治性能榜</strong>: Claude Opus 4.6 和 Sonnet 4.6 占据性能榜前三中的两席</li>
+            <li><strong>中国模型崛起</strong>: StepFun Step 3.5 Flash 登顶性价比榜，Minimax M2.7 紧随其后</li>
+            <li><strong>OpenAI 仍强劲</strong>: GPT 5.3 Codex 在性能和性价比都不错，平衡性好</li>
+            <li><strong>对战次数说明可靠性</strong>: GPT 5.3 Codex 有110场对战，数据最可靠</li>
+        </ul>
+    </div>
+
+    <h2>🏢 厂商分布</h2>
+    <ul>
+        <li><strong>Anthropic</strong>: Claude Opus 4.6, Claude Sonnet 4.6, Claude Haiku 4.5</li>
+        <li><strong>OpenAI</strong>: GPT 5.4, GPT 5.3 Codex</li>
+        <li><strong>StepFun</strong>: Step 3.5 Flash</li>
+        <li><strong>xAI</strong>: Grok 4.1 Fast</li>
+        <li><strong>Minimax</strong>: M2.7</li>
+        <li><strong>Google</strong>: Gemini 3 Flash Preview</li>
+    </ul>
+
+    <p class="meta">探索于 2026-04-02 via Hacker News → UniClaw Arena</p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

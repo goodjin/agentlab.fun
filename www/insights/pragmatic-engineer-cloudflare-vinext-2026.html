@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloudflare用AI一周重写Next.js - Pragmatic Engineer</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<a href="/insights/index.html" class="back">← 返回首页</a>
+<span class="tag">AI</span><span class="tag">开源</span><span class="tag">基础设施</span>
+<h1>Cloudflare用AI一周重写Next.js：开源护城河被颠覆？</h1>
+<div class="meta">来源：The Pragmatic Engineer (Gergely Orosz) · 2026-03-30 · ⭐ 4.5/5</div>
+
+<div class="key-stats">
+<div class="stat"><div class="num">1周</div><div class="label">完成时间</div></div>
+<div class="stat"><div class="num">$1,100</div><div class="label">Token成本</div></div>
+<div class="stat"><div class="num">1人</div><div class="label">工程师</div></div>
+</div>
+
+<h2>事件概述</h2>
+<p>Cloudflare宣布用AI重写了Next.js核心框架：将Turbopack构建工具替换为Vite，产出"vinext"。原本需要数年工程量的工作，一个工程师用一周、$1,100 token成本完成。</p>
+
+<div class="highlight">
+<b>核心数据：</b><br>
+• Next.js核心约194,000行代码 → vinext仅67,000行（更精简，无历史包袱）<br>
+• 构建速度提升<strong>4倍</strong>，客户端包体积减少<strong>57%</strong><br>
+• 当前支持94%的Next.js API
+</div>
+
+<h2>技术背景：Next.js的"护城河"</h2>
+<p>Next.js是最大众化的React全栈框架，约一半React开发者使用它。但其构建输出是专有格式（优化给Vercel），其他托管商必须依赖不稳定的未公开API。</p>
+<p>Vercel的策略很聪明：开源Next.js + 优化Vercel运行专有构建产物 = 让开发者默认选择Vercel。这是商业开源的经典护城河。</p>
+
+<h2>AI正在颠覆什么</h2>
+<ul>
+<li><strong>重写成本下降~100倍</strong>：原本需要数年，现在一周搞定</li>
+<li><strong>维护成本同样下降</strong>：一个人兼职维护成为可能</li>
+<li><strong>开源护城河被侵蚀</strong>：商业开源的核心价值（长期维护）不再稀缺</li>
+</ul>
+
+<blockquote>
+"Cloudflare证明了重写现有软件的成本已经下降到~100倍，token成本对工程时间而言可以忽略不计。"
+</blockquote>
+
+<h2>Vercel反击：质量问题的批评</h2>
+<p>Vercel CEO Guillermo Rauch很快指出vinext的安全问题，并将此与"vibe coding"联系起来——讽刺Cloudflare用$1,100快速构建了一个实验性产品却宣称"已有客户在生产环境运行"。</p>
+<p>实际上"生产环境运行"指的是一个beta站点（CIO.gov），流量几乎为零。</p>
+
+<h2>深层意义：对商业开源的冲击</h2>
+<p>这篇文章的核心洞察不是技术，而是商业：</p>
+<ul>
+<li>Cloudflare不care长期维护——他们的AI工具可以随时重写</li>
+<li>Vercel的护城河（维护者角色）不再具有排他性</li>
+<li>"broken window"问题：用户对未修复bug的容忍度在下降——一旦SaaS体验下降，用户会立刻用AI重建</li>
+</ul>
+
+<h2>文章价值</h2>
+<p>★★★★★ — Gergely Orosz一如既往地提供了深度行业分析，不仅讲述事件本身，还挖掘了背后的商业逻辑和技术影响。对理解AI如何重塑软件工程行业有重要参考价值。</p>
+
+<div class="source">来源：<a href="https://blog.pragmaticengineer.com/the-pulse-cloudflare-rewrites-next-js-as-ai-rewrites-commercial-open-source/" target="_blank">The Pragmatic Engineer</a> · 作者：Gergely Orosz (前Uber, Microsoft, Skype工程师)</div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智谱 GLM-5 实测：对比 Opus 4.6 和 GPT-5.3-Codex</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <span class="tag">AI</span>
+        <span class="tag">大模型</span>
+        <span class="tag">编程</span>
+        <span class="tag">GLM-5</span>
+        <h1>智谱 GLM-5 实测：对比 Opus 4.6 和 GPT-5.3-Codex</h1>
+        <div class="meta">
+            作者：阮一峰 | 日期：2026-02-12 | 评分：<span class="star">⭐⭐⭐⭐⭐</span>
+        </div>
+        
+        <h2>概述</h2>
+        <p>智谱新一代旗舰模型 <strong>GLM-5</strong> 正式发布，正面对比 Anthropic 的 Claude Opus 4.6 和 OpenAI 的 GPT-5.3-Codex。</p>
+        
+        <h2>GLM-5 核心特性</h2>
+        <ul>
+            <li><strong>复杂系统工程</strong>：不单善于生成前端网页，更善于处理后端任务、系统重构、深度调试</li>
+            <li><strong>长程 Agent</strong>：能够跑长程任务，多阶段、长步骤的复杂任务，可自主连续运行数小时</li>
+            <li><strong>完全开源</strong>：作为开源模型，GLM-5 完全对标顶尖闭源模型</li>
+        </ul>
+        
+        <h2>实测对比</h2>
+        <p>使用 HuggingFace 布道师的同一测试题目，对比三个 AI 模型的编程能力：</p>
+        
+        <h3>测试题目</h3>
+        <p>网页设计和重构能力测试，将简陋的信息分类页面重新设计为美观易用的专业页面。</p>
+        
+        <h3>测试结果</h3>
+        <ul>
+            <li><strong>GLM-5</strong>：生成结果美观又专业，所有信息组织得井井有条，带有动画效果，手机浏览也没问题</li>
+            <li><strong>Claude Opus 4.6</strong>：结果可用，设计美观</li>
+            <li><strong>GPT-5.3</strong>：页眉没做成粘性页眉（往下拉就没了），设计上不如另外两者好看</li>
+        </ul>
+        
+        <blockquote>
+            GLM-5 可以完成的任务，已经超越了生成前端 UI，而是可以<strong>生成系统级大型复杂项目</strong>，比如操作系统内核、浏览器内核、V8 引擎之类的。
+        </blockquote>
+        
+        <h2>亮点</h2>
+        <ul>
+            <li>真实编程任务测试，不是泛泛而谈</li>
+            <li>有截图对比，直观展示生成效果</li>
+            <li>开源模型对标闭源顶级模型，值得关注</li>
+            <li>个人开发者可以免费使用</li>
+        </ul>
+        
+        <h2>相关链接</h2>
+        <ul>
+            <li><a href="https://www.ruanyifeng.com/blog/2026/02/glm-5.html">原文</a></li>
+            <li><a href="https://github.com/ruanyf/ai-test-case">测试题目和脚本 GitHub</a></li>
+        </ul>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

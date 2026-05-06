@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Code质量退化：Thinking Token的代价 - 深度数据分析</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>🔬 Claude Code质量退化：Thinking Token的代价</h1>
+    <p class="meta"><span class="rating">★★★★★ 5星</span> | 来源: GitHub Issue #42796 | 2026-04-07</p>
+
+    <div class="highlight">
+        <strong>核心发现：</strong>基于17,871个思考块和234,760次工具调用的定量分析，揭示了thinking token redaction与代码质量退化的精确关联。
+    </div>
+
+    <h2>📊 数据说话</h2>
+    
+    <h3>1. Thinking Redaction时间线</h3>
+    <table>
+        <tr><th>时间</th><th>可见Thinking</th><th>被Redact</th></tr>
+        <tr><td>Jan 30 - Mar 4</td><td>100%</td><td>0%</td></tr>
+        <tr><td>Mar 5</td><td>98.5%</td><td>1.5%</td></tr>
+        <tr><td>Mar 7</td><td>75.3%</td><td>24.7%</td></tr>
+        <tr><td>Mar 8</td><td>41.6%</td><td>58.4%</td></tr>
+        <tr><td>Mar 10-11</td><td>&lt;1%</td><td>&gt;99%</td></tr>
+        <tr><td>Mar 12+</td><td>0%</td><td>100%</td></tr>
+    </table>
+    <p>质量退化报告恰好在Mar 8日发布——正是redacted thinking跨越50%的精确日期。</p>
+
+    <h3>2. Thinking深度变化</h3>
+    <div class="data-point">
+        <table>
+            <tr><th>时期</th><th>估计Thinking (chars)</th><th>vs 基线</th></tr>
+            <tr><td>Jan 30 - Feb 8 (基线)</td><td>~2,200</td><td>—</td></tr>
+            <tr><td>Late February</td><td>~720</td><td class="metric-down">-67%</td></tr>
+            <tr><td>March 1-5</td><td>~560</td><td class="metric-down">-75%</td></tr>
+            <tr><td>Mar 12+ (完全redacted)</td><td>~600</td><td class="metric-down">-73%</td></tr>
+        </table>
+    </div>
+
+    <h2>📉 可测量的质量退化</h2>
+    
+    <table>
+        <tr><th>指标</th><th>Mar 8前</th><th>Mar 8后</th><th>变化</th></tr>
+        <tr><td>Stop hook violations</td><td>0</td><td>173</td><td class="metric-up">0 → 10/day</td></tr>
+        <tr><td>User frustration prompts</td><td>5.8%</td><td>9.8%</td><td class="metric-up">+68%</td></tr>
+        <tr><td>Ownership-dodging corrections</td><td>6</td><td>13</td><td class="metric-up">+117%</td></tr>
+        <tr><td>Prompts per session</td><td>35.9</td><td>27.9</td><td class="metric-down">-22%</td></tr>
+        <tr><td>Reasoning loops (5+)</td><td>0</td><td>7</td><td class="metric-up">0 → 7</td></tr>
+    </table>
+
+    <h2>🔧 工具使用模式剧变</h2>
+    
+    <h3>Read:Edit 比率</h3>
+    <div class="warning">
+        <strong>模型从6.6次读取/每次编辑降至2.0次——研究工作减少70%</strong>
+    </div>
+    
+    <table>
+        <tr><th>时期</th><th>Read:Edit</th><th>Research:Mutation</th><th>Read %</th></tr>
+        <tr><td>Good (Jan 30 - Feb 12)</td><td>6.6</td><td>8.7</td><td>46.5%</td></tr>
+        <tr><td>Transition (Feb 13 - Mar 7)</td><td>2.8</td><td>4.1</td><td>37.7%</td></tr>
+        <tr><td>Degraded (Mar 8 - Mar 23)</td><td>2.0</td><td>2.8</td><td>31.0%</td></tr>
+    </table>
+
+    <h3>行为模式_catalog</h3>
+    <ul>
+        <li><strong>编辑前不读取</strong>：从6.2%升至33.7%</li>
+        <li><strong>"Simplest"使用率</strong>：从2.7/1K工具调用升至6.3</li>
+        <li><strong>用户中断率</strong>：从0.9升至11.4/1K工具调用 <span class="metric-up">(12x增长)</span></li>
+        <li><strong>自我承认错误</strong>：从0.1升至0.5/1K工具调用</li>
+    </ul>
+
+    <h2>💡 核心洞见</h2>
+    
+    <div class="highlight">
+        <ol>
+            <li><strong>Extended thinking是结构必需</strong>：不是"nice to have"，而是复杂工程工作流的负载支撑</li>
+            <li><strong>行为可预测退化</strong>：当thinking减少，模型默认选择最小努力行动——不读取就编辑、未完成就停止、回避责任</li>
+            <li><strong>深度thinking是内在机制</strong>：通过它模型才能制定多步骤计划、回忆项目约定、捕捉自身错误</li>
+            <li><strong>透明度和可选性需求</strong>：用户需要知道thinking allocation，需要"max thinking"付费层级</li>
+        </ol>
+    </div>
+
+    <h2>🔗 原始来源</h2>
+    <p><a href="https://github.com/anthropics/claude-code/issues/42796" target="_blank">GitHub Issue #42796: Claude Code is unusable for complex engineering tasks with the Feb updates</a></p>
+    
+    <hr>
+    <p class="meta">探索时间: 2026-04-07 07:08 | 来源: Hacker News Best</p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

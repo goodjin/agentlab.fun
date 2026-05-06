@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI全自主设计RISC-V CPU内核 — Verkor Design Conductor · IEEE Spectrum 2026</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>AI全自主设计RISC-V CPU内核：Design Conductor的意义</h1>
+<div class="meta">来源：IEEE Spectrum · 2026年4月 · 分类：AI/硬件设计 · 评分：★★★★☆</div>
+
+<div class="rating"><span>★★★★☆</span> 高质量</div>
+
+<p>Verkor.io 的 Design Conductor 系统在12小时内自主完成了一个完整的 <strong>RISC-V CPU内核</strong>（VerCore）的设计，包括寄存器传输级（RTL）文件编写、布局布线、功能验证——全程无需人类介入。这不是AI辅助写代码片段，而是从规格说明书到可流片GDSII文件的全流程自主完成。</p>
+
+<h2>关键进展：从片段到全核</h2>
+
+<p>AI设计芯片的发展脉络：</p>
+<ul>
+<li><strong>2020年</strong>：用GPT-2设计逻辑电路片段</li>
+<li><strong>2023年</strong>：GPT-4辅助设计8位处理器（含新指令集）</li>
+<li><strong>2024年</strong>：多种LLM可设计基础功能芯片（但常有问题）</li>
+<li><strong>2025年12月</strong>：Design Conductor — 从规格到完整内核，自主完成</li>
+</ul>
+
+<h2>Design Conductor 架构</h2>
+
+<p>Design Conductor 不是AI模型，而是一个<strong>Agent Harness</strong>（智能体编排框架）：</p>
+<ul>
+<li>基于LLM构建，模仿人类芯片架构师的工作流</li>
+<li>步骤结构化：规格分析 → RTL编写与调试 → 电源/时序/布局 → 验证</li>
+<li>管理子智能体和关联文件数据库</li>
+<li>使用 OpenROAD 等开源工具辅助布局任务</li>
+<li>仅需输入219词的规格说明，即可输出GDSII文件</li>
+</ul>
+
+<h2>VerCore CPU性能</h2>
+
+<ul>
+<li>时钟频率：<strong>1.48 GHz</strong></li>
+<li>CoreMark跑分：<strong>3,261</strong></li>
+<li>性能对标：Intel Celeron SU2300（2011年 Penryn架构）</li>
+<li>指令集：RISC-V（开放标准）</li>
+<li>工艺节点：ASAP7 PDK（模拟7nm，学术设计套件）</li>
+<li>验证方式：Spike RISC-V ISA模拟器+uCLinux运行</li>
+</ul>
+
+<div class="highlight">
+<strong>尚未物理流片</strong>——目前只在仿真中验证。但这已足够证明AI agentic系统可以从零设计并验证完整CPU内核。设计文件计划于2026年4月底公开发布。
+</div>
+
+<h2>为什么这很重要</h2>
+
+<p>这不是性能最强的CPU，但它是<strong>第一个由AI智能体从规格到验证完整设计的RISC-V内核</strong>。之前的AI芯片设计要么只做片段，要么需要大量人工介入。</p>
+
+<p>一个值得注意的细节：2025年中期，AI模型还无法设计浮点乘法器，但到12月已经能设计完整CPU内核。Ravi Krishna的评价："如果现在做不到，六个月后就可以了。这件事是令人恐惧还是好事？"</p>
+
+<h2>局限性</h2>
+
+<ul>
+<li>性能仅相当于2011年的入门级CPU</li>
+<li>尚未实际流片（仅仿真验证）</li>
+<li>对需要并行化设计任务的提升有限制</li>
+<li>主流EDA厂商（Synopsys/Cadence）尚未宣称达到同等程度的全流程自主</li>
+</ul>
+
+<h2>影响判断</h2>
+
+<blockquote>
+<p>AI芯片设计的"能力边界"正在快速扩展。Design Conductor的意义不在于VerCore本身的性能，而在于证明了端到端自主芯片设计的可行性正在变为现实。</p>
+</blockquote>
+
+<div class="tags">
+<span class="tag">AI</span>
+<span class="tag">RISC-V</span>
+<span class="tag">Agentic AI</span>
+<span class="tag">芯片设计</span>
+<span class="tag">Design Conductor</span>
+<span class="tag">Verkor</span>
+<span class="tag">IEEE Spectrum</span>
+</div>
+
+<div class="related">
+原文：<a href="https://spectrum.ieee.org/ai-chip-design">https://spectrum.ieee.org/ai-chip-design</a>
+</div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

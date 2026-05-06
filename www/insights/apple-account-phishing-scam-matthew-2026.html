@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gone (Almost) Phishin&#39; - Matt Mullenweg&#39;s Apple Account Phishing Attack</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>🎣 Gone (Almost) Phishin' <span class="score">⭐⭐⭐⭐⭐</span></h1>
+    <div class="meta">
+        <span class="tag">Security</span>
+        <span class="tag">Phishing</span>
+        <span class="tag">Apple</span>
+        <span class="tag">Social Engineering</span>
+        <br>
+        来源: <a href="https://ma.tt/2026/03/gone-almost-phishin/" target="_blank">Matt Mullenweg</a> | 2026-03-17 探索
+    </div>
+
+    <div class="warning">
+        <strong>⚠️ 高度危险:</strong> 这是一起真实发生的高级钓鱼攻击，Matt Mullenweg 亲身经历。攻击者技术含量极高，几乎成功。
+    </div>
+
+    <h2>📋 攻击流程还原</h2>
+    <ol class="steps">
+        <li><strong>MFA Bombing</strong> — 攻击者对目标账户进行大量密码重置请求 spam，所有设备同时弹出密码重置提示</li>
+        <li><strong>Apple Support 工单</strong> — 攻击者主动联系 Apple Support，伪装成事主，声称手机丢失需要更新号码，开启真实工单</li>
+        <li><strong>生成真实邮件</strong> — 工单触发 Apple 官方邮件发送到收件箱（正确签名，无法被过滤）</li>
+        <li><strong>电话钓鱼</strong> — "Alexander from Apple Support" 来电，提供"良好安全建议"获取信任</li>
+        <li><strong>钓鱼网站</strong> — 发送 audit-apple.com 链接（Apple ID 完美克隆，显示真实工单 ID）</li>
+        <li><strong>社交工程</strong> — 要求使用"Sign in with Apple"登录，意图窃取凭证</li>
+    </ol>
+
+    <h2>🔍 攻击技术细节</h2>
+    
+    <div class="highlight">
+        <ul>
+            <li><strong>真实工单 ID:</strong> 攻击者创建的 Apple Support 工单生成了真实的工单 ID</li>
+            <li><strong>完美克隆站:</strong> audit-apple.com 是 apple.com 的像素级复制</li>
+            <li><strong>虚假聊天记录:</strong> 网站显示攻击者与 Apple 的真实对话作为"证据"</li>
+            <li><strong>未验证输入:</strong> 网站接受任意工单 ID 并显示相同内容（Matt 发现漏洞）</li>
+            <li><strong>Lockdown Mode 无效:</strong> 即使开启 Apple 最高安全防护仍被攻击</li>
+        </ul>
+    </div>
+
+    <h2>🛡️ 防御规则</h2>
+    
+    <div class="success">
+        <strong>记住以下三条规则:</strong>
+        <ol>
+            <li><strong>不要批准任何密码重置提示</strong> — 这是攻击第一步。直接前往 Apple ID 设置</li>
+            <li><strong>Apple 永远不会先给你打电话</strong> — 如果收到自称 Apple 的电话，直接挂断</li>
+            <li><strong>只相信 apple.com 和 getsupport.apple.com</strong> — 检查 URL，任何其他域名都是假的</li>
+        </ol>
+    </div>
+
+    <h2>💡 关键洞察</h2>
+    <ul>
+        <li><strong>社会工程 > 技术漏洞:</strong> 即使安全技术完美，攻击者也能通过客服渠道突破</li>
+        <li><strong>MFA 不是万能:</strong> "MFA Bombing" 绕过双因素认证</li>
+        <li><strong>客服是双刃剑:</strong> Apple Support 的"帮助"流程被攻击者利用</li>
+        <li><strong>实时录音价值:</strong> Matt 录音保留了攻击过程，用于教育他人</li>
+    </ul>
+
+    <div class="warning">
+        <strong>📹 延伸阅读:</strong> Jamie Marsland 根据 Matt 的录音制作了视频，展示了"Alexander"是如何进行钓鱼的。
+    </div>
+
+    
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

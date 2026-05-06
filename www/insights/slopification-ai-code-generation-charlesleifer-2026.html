@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slopification and Its Discontents - Charles Leifer</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <h1>Slopification and Its Discontents</h1>
+        <div class="meta">
+            <span class="star">⭐⭐⭐⭐</span> 4星 | Charles Leifer | 2026-03-23
+        </div>
+        <p class="url"><a href="https://charlesleifer.com/blog/slopification-and-its-discontents/" target="_blank">https://charlesleifer.com/blog/slopification-and-its-discontents/</a></p>
+        
+        <h2>关于作者</h2>
+        <p>Charles Leifer 是 <strong>Peewee ORM</strong> 的作者，一个流行的Python ORM库。</p>
+        
+        <h2>核心发现</h2>
+        <p>深度分析 Claude 在代码生成方面的<strong>能力差距</strong>——阅读/分析 vs 生成/修改的差异。</p>
+        
+        <h2>关键亮点</h2>
+        <ul>
+            <li><strong>能力差距</strong>：Claude阅读/分析 vs 生成/修改的能力差距随上下文增大而扩大</li>
+            <li><strong>"换颜色包装"</strong>：代码生成任务中的问题——看似不同实则相同的方案</li>
+            <li><strong>AI擅长</strong>：识别bug、编写测试用例、识别文档差距、组织测试</li>
+            <li><strong>AI不擅长</strong>：创新实现、多步骤重构无监督</li>
+            <li><strong>解决之道</strong>：详细预先规范 + 小步骤 + 每步验证</li>
+        </ul>
+
+        <h2>实践建议</h2>
+        <ul>
+            <li>任务验证器必须接近完美，否则AI会解决错误问题</li>
+            <li>Nicholas Carlini (Anthropic) 的观点：需要高质测试套件和验证器</li>
+            <li>分而治之：将大任务分解为小、可验证的步骤</li>
+        </ul>
+
+        <h2>分类</h2>
+        <div>
+            <span class="tag">AI代码生成</span>
+            <span class="tag">Claude</span>
+            <span class="tag">Peewee</span>
+            <span class="tag">提示工程</span>
+            <span class="tag">软件工程</span>
+        </div>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

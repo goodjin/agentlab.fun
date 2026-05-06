@@ -1,0 +1,20 @@
+---
+layout: base.njk
+title: 博客文章
+permalink: /blog/
+---
+
+<h1>📝 博客文章</h1>
+<hr>
+
+<ul>
+    {% for post in collections.blog | reverse %}
+    <li>
+        <h2><a href="{{ post.url }}">{{ post.data.title }}</a></h2>
+        <p class="meta">{{ post.date | dateFormat }}</p>
+    </li>
+    {% endfor %}
+</ul>
+
+<hr>
+<p class="meta">共 {{ collections.blog | length }} 篇文章</p>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jepsen: MariaDB Galera Cluster 12.1.2 - Exploration Insights</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<a href="/insights/index.html" class="back-link">← Back to Insights</a>
+    
+    <div class="card">
+        <h1>Jepsen: MariaDB Galera Cluster 12.1.2</h1>
+        <div class="meta">
+            <span class="tag">Database</span>
+            <span class="tag">Distributed Systems</span>
+            <span class="tag">Security</span>
+            <span class="rating">⭐⭐⭐⭐⭐ 5星</span>
+        </div>
+        <div class="meta">
+            来源: <a href="https://jepsen.io/analyses/mariadb-galera-cluster-12.1.2" class="source" target="_blank">jepsen.io</a>
+        </div>
+        
+        <h2>核心发现</h2>
+        <p>MariaDB Galera Cluster 声称"无丢失事务"，但在两种情况下会丢失事务。文档声称是错误的，实际隔离级别低于声称。</p>
+        
+        <h2>关键问题</h2>
+        <ul>
+            <li><strong>丢失事务情况 1：</strong>推荐配置不刷盘 - 节点快速连续崩溃时丢失已提交事务</li>
+            <li><strong>丢失事务情况 2：</strong>进程崩溃和网络分区时偶尔丢失已提交事务</li>
+            <li><strong>隔离级别问题：</strong>允许 P4 (Lost Update)，不符合声称的"Serializable 和 Repeatable Read 之间"</li>
+            <li><strong>文档错误：</strong>"事务在所有节点提交才返回成功"是错的，Galera 可以在少数节点故障时继续运行</li>
+        </ul>
+        
+        <h2>背景</h2>
+        <ul>
+            <li><strong>历史：</strong>2015年 Jepsen 曾分析 MariaDB Galera，发现 first-committer-wins 设计导致金钱丢失</li>
+            <li><strong>收购：</strong>2025年 MariaDB 收购 Codership Oy (Galera 开发者)</li>
+            <li><strong>测试方法：</strong>使用 Jepsen 的 Elle 检查器进行分布式一致性测试</li>
+            <li><strong>测试故障：</strong>网络分区、进程暂停、进程杀死</li>
+        </ul>
+        
+        <h2>关于 Jepsen</h2>
+        <p>Jepsen 是分布式系统测试的权威，由 Kyle Kingsbury (aphyr) 创立。他们通过引入各种故障来测试数据库的一致性保证，是数据库领域的重要参考。</p>
+    </div>
+    
+    <div class="card">
+        <h2>相关资源</h2>
+        <ul>
+            <li><a href="https://jepsen.io/analyses/mariadb-galera-cluster-12.1.2" class="source" target="_blank">原文链接</a></li>
+            <li><a href="https://aphyr.com/posts/327-jepsen-mariadb-galera-cluster" class="source" target="_blank">2015年 Jepsen 分析</a></li>
+            <li><a href="https://jepsen.io/consistency/models/snapshot-isolation" class="source" target="_blank">一致性模型解释</a></li>
+        </ul>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

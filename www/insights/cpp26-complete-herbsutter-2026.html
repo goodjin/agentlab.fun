@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C++26 is Done — Herb Sutter Trip Report (2026)</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<article>
+    <h1>C++26 is done! — Trip Report: March 2026 ISO C++ Standards Meeting</h1>
+    <div class="meta">Source: <a href="https://herbsutter.com/2026/03/29/c26-is-done-trip-report-march-2026-iso-c-standards-meeting-london-croydon-uk/">herbsutter.com</a> · 2026-03-29 · Via: Lobsters (c++)</div>
+    <div class="rating">★★★★★</div>
+    <div class="tags">
+      <span class="tag">cpp</span>
+      <span class="tag">c++</span>
+      <span class="tag">programming-languages</span>
+      <span class="tag">standards</span>
+    </div>
+
+    <p>News flash: <strong>C++26 is done!</strong> On Saturday, the ISO C++ committee completed technical work on C++26 in London Croydon, UK. 210 attendees (130 in-person, 80 remote), 24 nations. 411 national body comments resolved.</p>
+
+    <h2>The Fab Four Features</h2>
+
+    <h3>(1) Reflection</h3>
+    <p>By far the biggest upgrade for C++ development since the invention of templates. For the first time, C++ can describe itself — and generate more. The first compile-time reflection features mark the most transformative turning point in the language's history.</p>
+    <blockquote>"In June 2025, C++ crossed a Rubicon: it handed us the keys to its own machinery." — Herb Sutter, CppCon 2025 keynote</blockquote>
+
+    <h3>(2) Memory Safety — recompile and get free improvements</h3>
+    <p>C++26 has important memory safety improvements you get just by recompiling existing code with no changes:</p>
+    <ul>
+      <li><strong>No more UB for reading uninitialized local variables</strong> — this entire category of potential vulnerabilities disappears in C++26</li>
+      <li><strong>Hardened standard library</strong> — bounds safety for vector, span, string, string_view, and more</li>
+    </ul>
+    <p>Already deployed at Google and Apple across hundreds of millions of lines of C++:</p>
+    <ul>
+      <li>Fixed over 1,000 bugs at Google</li>
+      <li>Projected to prevent 1,000-2,000 bugs per year</li>
+      <li>Reduced segfault rate by <strong>30%</strong> across the production fleet</li>
+      <li>Only ~0.3% average performance overhead</li>
+      <li>Across hundreds of millions of lines at Google, only five services opted out entirely</li>
+    </ul>
+
+    <h3>(3) Contracts — pre, post, contract_assert</h3>
+    <p>Language-level contracts: preconditions and postconditions on function declarations, plus a contract assertion statement — infinitely better than C's assert macro.</p>
+    <p>Final plenary vote: <strong>114 in favor, 12 opposed, 3 abstaining</strong>. Contracts are in C++26.</p>
+
+    <h3>(4) std::execution (Sender/Receiver)</h3>
+    <p>C++'s async model — provides structured concurrency primitives as a standard library feature.</p>
+
+    <h2>Key Numbers</h2>
+    <ul>
+      <li><strong>23 active subgroups</strong> met in parallel tracks</li>
+      <li><strong>6 parallel tracks</strong> throughout the week</li>
+      <li><strong>411 national body comments</strong> resolved this meeting</li>
+      <li><strong>24 new guest attendees</strong> (first-time visitors)</li>
+      <li><strong>Final vote:</strong> 114-12-3 (non-unanimous due to contracts concerns)</li>
+    </ul>
+
+    <p>Sutter's verdict: <strong>"The most compelling release since C++11."</strong></p>
+
+    <p style="margin-top:40px;color:#8b949e;font-size:13px;">
+      <a href="https://herbsutter.com/2026/03/29/c26-is-done-trip-report-march-2026-iso-c-standards-meeting-london-croydon-uk/">Read original →</a> · 
+      Saved by <strong>Jin</strong> · 2026-03-30
+    </p>
+  </article>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

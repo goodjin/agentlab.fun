@@ -1,0 +1,130 @@
+---
+layout: article.njk
+title: "AI 代理工程实践 - Jin's Insights"
+tags: [insights]
+permalink: /insights/ai-agents.html
+---
+
+
+
+    <main>
+        <!-- Slide 1: Title -->
+        <div class="slide slide-hero">
+            <h1>🤖 AI 代理工程实践</h1>
+            <p>从辅助工具到主力开发者的范式转变</p>
+            <div class="meta">
+                <span>基于 Simon Willison、Sourcegraph 等深度分析</span>
+            </div>
+        </div>
+
+        <!-- Slide 2: Three Stages -->
+        <div class="slide">
+            <span class="slide-number">01</span>
+            <h2 class="slide-title">AI 采用的三个阶段</h2>
+            <div class="slide-content">
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div class="stat-value">Stage 1</div>
+                        <div class="stat-label">ChatGPT 问答</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">Stage 2</div>
+                        <div class="stat-label">编码代理</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">Stage 3</div>
+                        <div class="stat-label">软件工厂</div>
+                    </div>
+                </div>
+                <ul>
+                    <li><strong>Stage 1</strong> - ChatGPT 问答，偶尔帮助 → AI 作为问答工具</li>
+                    <li><strong>Stage 2</strong> - 编码代理写代码，代理写得比人多 → 转折点</li>
+                    <li><strong>Stage 3</strong> - 没人写代码、没人读代码 (StrongDM 模式) → 未来</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 3: TDD + Agent -->
+        <div class="slide">
+            <span class="slide-number">02</span>
+            <h2 class="slide-title">TDD + Agent 工作流</h2>
+            <div class="slide-content">
+                <p class="slide-subtitle">red-green TDD 大幅提升代理代码质量</p>
+                <div class="flow">
+                    <div class="flow-step" style="background: #ef4444;">🔴 Red</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-step" style="background: #22c55e;">🟢 Green</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-step" style="background: #3b82f6;">🔵 Refactor</div>
+                </div>
+                <ul>
+                    <li><strong>Red</strong> - 写一个失败的测试 → AI 生成测试用例</li>
+                    <li><strong>Green</strong> - 让测试通过 → AI 快速迭代代码</li>
+                    <li><strong>Refactor</strong> - 重构代码 → 人工审核 + AI 辅助</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 4: Key Changes -->
+        <div class="slide slide-split">
+            <span class="slide-number">03</span>
+            <h2 class="slide-title">关键变化</h2>
+            <div class="slide-split">
+                <div class="column">
+                    <h3>🎯 测试民主化</h3>
+                    <ul>
+                        <li>以前写测试是负担</li>
+                        <li>AI 代理免费生成测试</li>
+                        <li>不再有借口不写测试</li>
+                        <li>覆盖率大幅提升</li>
+                    </ul>
+                </div>
+                <div class="column">
+                    <h3>⚡ 编程范式转变</h3>
+                    <ul>
+                        <li>StrongDM "软件工厂"模式</li>
+                        <li>CEO 重新参与代码编写</li>
+                        <li>Tobi (Shopify) 用 AI 优化 Liquid</li>
+                        <li>120次实验 → 53%性能提升</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Quote -->
+        <div class="slide slide-quote">
+            <span class="slide-number">04</span>
+            <p class="quote-text">"测试不再是可选。AI 代理写测试是免费的，不再有任何借口不写测试。"</p>
+            <p class="quote-author">— Simon Willison, Pragmatic Summit 2026</p>
+        </div>
+
+        <!-- Slide 6: Best Practices -->
+        <div class="slide">
+            <span class="slide-number">05</span>
+            <h2 class="slide-title">实用建议</h2>
+            <div class="slide-content">
+                <ul>
+                    <li><strong>学习 Prompt 工程</strong> — 理解如何与 AI 代理有效协作</li>
+                    <li><strong>掌握 TDD 流程</strong> — 用 AI 生成测试，人工审核 + AI 修复</li>
+                    <li><strong>保持手动测试习惯</strong> — 自动化通过 ≠ 服务能启动，需用 curl 测试</li>
+                    <li><strong>代码审查依然重要</strong> — AI 生成代码需要人工审核</li>
+                    <li><strong>从小任务开始</strong> — 先用代理处理简单任务，逐步复杂化</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 7: Resources -->
+        <div class="slide">
+            <span class="slide-number">06</span>
+            <h2 class="slide-title">参考资料</h2>
+            <div class="slide-content">
+                <ul>
+                    <li><a href="https://simonwillison.net/" style="color: var(--primary);">Simon Willison Blog</a> — AI工程实践、Django、LLM评测</li>
+                    <li><a href="https://about.sourcegraph.com/blog" style="color: var(--primary);">Sourcegraph Blog</a> — 代码搜索、AI代理工程</li>
+                    <li><a href="https://blog.pragmaticengineer.com/" style="color: var(--primary);">The Pragmatic Engineer</a> — 工程实践、故障复盘</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    

@@ -1,0 +1,66 @@
+---
+layout: article.njk
+title: "Rob Pike's 5 Rules of Programming"
+tags: [insights]
+permalink: /insights/rob-pike-5-rules-programming-2026.html
+---
+
+<div class="header">
+        <h1>Rob Pike's 5 Rules of Programming</h1>
+        <div class="meta">⭐⭐⭐⭐ 4星 | 来源: cs.unc.edu</div>
+    </div>
+    
+    <div class="card">
+        <p>来自 Bell Labs 的经典编程智慧，Rob Pike 提出的 5 条法则。</p>
+    </div>
+    
+    <div class="card">
+        <div class="rule">
+            <div class="rule-number">Rule 1: 不要猜测瓶颈</div>
+            <p>You can't tell where a program is going to spend its time. Bottlenecks occur in surprising places, so don't try to second guess and put in a speed hack until you've proven that's where the bottleneck is.</p>
+        </div>
+        
+        <div class="rule">
+            <div class="rule-number">Rule 2: 先测量</div>
+            <p>Don't tune for speed until you've measured, and even then don't unless one part of the code overwhelms the rest.</p>
+        </div>
+        
+        <div class="rule">
+            <div class="rule-number">Rule 3: 小数据用简单算法</div>
+            <p>Fancy algorithms are slow when n is small, and n is usually small. Fancy algorithms have big constants. Until you know that n is frequently going to be big, don't get fancy.</p>
+        </div>
+        
+        <div class="rule">
+            <div class="rule-number">Rule 4: 简单算法更少 bug</div>
+            <p>Fancy algorithms are buggier than simple ones, and they're much harder to implement. Use simple algorithms as well as simple data structures.</p>
+        </div>
+        
+        <div class="rule">
+            <div class="rule-number">Rule 5: 数据结构为核心</div>
+            <p>Data dominates. If you've chosen the right data structures and organized things well, the algorithms will almost always be self-evident.</p>
+            <p><em>简言之：写"使用智能对象的愚笨代码"</em></p>
+        </div>
+    </div>
+    
+    <div class="card">
+        <h2>名人点评</h2>
+        <ul>
+            <li><strong>Rule 1 & 2</strong> ← Tony Hoare: "Premature optimization is the root of all evil."</li>
+            <li><strong>Rule 3 & 4</strong> ← Ken Thompson: "When in doubt, use brute force."</li>
+            <li><strong>Rule 5</strong> ← Fred Brooks: 《人月神话》</li>
+        </ul>
+    </div>
+    
+    <div class="card">
+        <h2>哲学基础</h2>
+        <p>这些规则是 <strong>KISS 原则</strong> (Keep It Simple, Stupid) 的经典阐述：</p>
+        <ul>
+            <li>数据 > 算法：好的数据结构让算法自明</li>
+            <li>简单 > 复杂：简单算法 bug 更少、易实现</li>
+            <li>测量 > 猜测：优化前先有数据支撑</li>
+        </ul>
+    </div>
+    
+    <div style="text-align: center; margin-top: 30px;">
+        <a href="https://www.cs.unc.edu/~stotts/COMP590-059-f24/robsrules.html" target="_blank">阅读原文 →</a>
+    </div>

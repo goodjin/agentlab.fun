@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flash-MoE: Running a 397B Parameter Model on a Laptop</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <h1>Flash-MoE: Running a 397B Parameter Model on a Laptop</h1>
+        <div class="meta">
+            <span class="tag">LLM</span>
+            <span class="tag">Apple Silicon</span>
+            <span class="tag">Performance</span>
+            <span class="tag">MoE</span>
+            <br><br>
+            <span class="rating rating-5">⭐⭐⭐⭐⭐ (5星)</span> | 
+            <a href="https://github.com/danveloper/flash-moe" target="_blank">GitHub</a>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>摘要</h2>
+        <p>纯C/Metal实现，在48GB MacBook Pro M3 Max上运行397B参数MoE模型达到4.4+ tokens/秒。209GB模型从SSD流式传输，无需GPU内存。包含完整的性能优化经验总结。</p>
+    </div>
+
+    <div class="card">
+        <h2>性能数据</h2>
+        <table>
+            <tr>
+                <th>配置</th>
+                <th>速度</th>
+                <th>质量</th>
+                <th>说明</th>
+            </tr>
+            <tr>
+                <td>4-bit experts, FMA kernel</td>
+                <td>4.36 tok/s</td>
+                <td>Excellent</td>
+                <td>当前最佳，完整工具调用</td>
+            </tr>
+            <tr>
+                <td>2-bit experts</td>
+                <td>5.74 tok/s</td>
+                <td>Good*</td>
+                <td>破坏JSON/工具调用</td>
+            </tr>
+            <tr>
+                <td>2-bit peak single token</td>
+                <td>7.05 tok/s</td>
+                <td>Good*</td>
+                <td>预热后爆发</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="card">
+        <h2>硬件配置</h2>
+        <ul>
+            <li><strong>机器</strong>：MacBook Pro, Apple M3 Max</li>
+            <li><strong>芯片</strong>：16核CPU (12P + 4E), 40核GPU, 16核ANE</li>
+            <li><strong>内存</strong>：48GB统一内存 (~400 GB/s带宽)</li>
+            <li><strong>SSD</strong>：1TB Apple Fabric, 17.5 GB/s顺序读</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>核心技术</h2>
+        <ul>
+            <li><strong>SSD专家流式传输</strong>：209GB 4-bit模型从NVMe SSD按需读取，仅加载K=4激活专家(~6.75MB/layer)</li>
+            <li><strong>FMA优化去quant内核</strong>：12%性能提升</li>
+            <li><strong>Metal计算着色器</strong>：手写内核处理去quant、SwiGLU、RoPE、MoE</li>
+            <li><strong>"Trust the OS"原则</strong>：使用OS页面缓存(~35GB)而非自定义缓存，71%命中率</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>性能优化经验</h2>
+        <div class="highlight">
+            <strong>有效的优化：</strong>
+            <ul>
+                <li>FMA dequant kernel: +12% tok/s</li>
+                <li>Trust OS page cache: +38% (删除Metal LRU后)</li>
+                <li>GPU combine+norm in CMD3: 消除CPU往返</li>
+                <li>BLAS delta-net (Accelerate): +64% attn</li>
+                <li>C BPE tokenizer: 20x启动加速</li>
+            </ul>
+        </div>
+        <div class="warning">
+            <strong>适得其反的优化：</strong>
+            <ul>
+                <li>LZ4专家压缩: -13% (解压开销 > 缓存节省)</li>
+                <li>F_RDADVISE预取: 0% (统一内存下SSD DMA拖慢GPU -73%)</li>
+                <li>时序专家预测: -18% (25%命中率浪费SSD带宽)</li>
+                <li>MLP路由预测: -18% (31%准确率比时序基线更差)</li>
+                <li>GPU LUT去quant: -2% (间接寄存器访问序列化)</li>
+                <li>mmap专家文件: -5x (冷数据页面错误开销)</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>架构洞察</h2>
+        <div class="highlight">
+            <strong>核心洞察：</strong>"在Apple Silicon上，SSD DMA和GPU计算共享内存控制器，无法有效重叠"
+        </div>
+        <p>GPU的去quant内核在~418 GiB/s带宽下饱和。即使小的后台SSD DMA也会通过内存控制器仲裁导致不成比例的GPU延迟峰值。串行流水线(GPU → SSD → GPU)是硬件最优的。</p>
+    </div>
+
+    <div class="card">
+        <h2>模型规格</h2>
+        <ul>
+            <li><strong>总参数</strong>：397B (Qwen3.5-397B-A17B)</li>
+            <li><strong>架构</strong>：60层Transformer = 45 GatedDeltaNet + 15标准全注意力</li>
+            <li><strong>专家</strong>：每层512专家，激活K=4 + 1共享专家</li>
+            <li><strong>隐藏维度</strong>：4096</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>相关资源</h2>
+        <ul>
+            <li><a href="https://github.com/danveloper/flash-moe" target="_blank">GitHub仓库</a></li>
+            <li><a href="https://github.com/danveloper/flash-moe/blob/main/paper/flash_moe.pdf" target="_blank">技术论文</a></li>
+        </ul>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

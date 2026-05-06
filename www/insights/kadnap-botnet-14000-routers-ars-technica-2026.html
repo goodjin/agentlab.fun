@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KadNap Botnet: 14,000 Router Malware Resistant to Takedowns</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <span class="score">⭐⭐⭐⭐ 4/5</span>
+        <h1>KadNap Botnet: 14,000 Router Malware Highly Resistant to Takedowns</h1>
+        <p class="meta">Source: <span class="source">Ars Technica</span> | Author: Dan Goodin | Date: 2026-03-11</p>
+        
+        <h2>Key Highlights</h2>
+        <ul>
+            <li><strong>Scale:</strong> 14,000+ routers infected (up from 10,000 in August 2025)</li>
+            <li><strong>Primary Target:</strong> Asus routers, predominantly located in US</li>
+            <li><strong>Architecture:</strong> Peer-to-peer design based on Kademlia DHT for takedown resistance</li>
+            <li><strong>Method:</strong> Exploits unpatched vulnerabilities, no zero-days used</li>
+            <li><strong>Purpose:</strong> Proxy network for anonymous cybercrime traffic</li>
+        </ul>
+
+        <div class="highlight">
+            <strong>Technical Innovation:</strong> KadNap uses Kademlia's distributed hash tables (DHT) to hide command-and-control servers, making traditional takedown methods ineffective. Each node only knows its immediate neighbors.
+        </div>
+
+        <h2>How KadNap Works</h2>
+        <ul>
+            <li><strong>Infection Vector:</strong> Exploits unpatched router vulnerabilities (primarily Asus)</li>
+            <li><strong>Network Structure:</strong> Kademlia-based P2P using 160-bit key space</li>
+            <li><strong>C2 Communication:</strong> Uses BitTorrent nodes to discover C2 addresses through DHT lookups</li>
+            <li><strong>Resilience:</strong> No central server to target - must sever all connected nodes</li>
+            <li><strong>Defense:</strong> Black Lotus Labs developed method to block all traffic to/from C2 infrastructure</li>
+        </ul>
+
+        <h2>Geographic Distribution</h2>
+        <ul>
+            <li><strong>United States:</strong> Majority of infected devices</li>
+            <li><strong>Other regions:</strong> Taiwan, Hong Kong, Russia</li>
+        </ul>
+
+        <h2>Why It Matters</h2>
+        <p>This represents evolution in botnet design - using sophisticated P2P architecture makes these networks extremely difficult to take down. Traditional methods of shutting down command servers won't work when there's no central command.</p>
+
+        <div class="tags">
+            <span class="tag">#security</span>
+            <span class="tag">#botnet</span>
+            <span class="tag">#routers</span>
+            <span class="tag">#asus</span>
+            <span class="tag">#kademlia</span>
+            <span class="tag">#dht</span>
+        </div>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCP 联合创始人访谈 - AI 协议深度解析 | 進探索</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<p class="meta">⭐ 5星发现 | 2026-03-17 | 来源: Stack Overflow Blog</p>
+    <h1>No need for Ctrl+C when you have MCP</h1>
+    <p class="rating">★★★★★</p>
+    
+    <div class="meta">
+        <span class="tag">AI</span>
+        <span class="tag">Protocol</span>
+        <span class="tag">MCP</span>
+        <span class="tag">Anthropic</span>
+    </div>
+
+    <h2>来源</h2>
+    <p><a href="https://stackoverflow.blog/2026/03/03/no-need-for-ctrl-c-when-you-have-mcp/" target="_blank">stackoverflow.blog/2026/03/03/no-need-for-ctrl-c-when-you-have-mcp</a></p>
+
+    <h2>内容概述</h2>
+    <p>Stack Overflow Podcast 专访 MCP (Model Context Protocol) 联合创始人 David Soria Parra，深入解析 MCP 如何从解决复制粘贴问题演变为 AI 领域的开放标准协议。</p>
+
+    <h2>关键亮点</h2>
+    <div class="card">
+        <ul>
+            <li><strong>起源</strong>: MCP 源于 Anthropic 内部需求——让 AI 模型能够连接外部世界，而不是被"困在罐子里"</li>
+            <li><strong>协议设计</strong>: 三大原语
+                <ul>
+                    <li>Prompts: 用户可从数据源获取提示</li>
+                    <li>Resources: 应用可接入 RAG pipeline</li>
+                    <li>Tools: 模型真正交互的接口</li>
+                </ul>
+            </li>
+            <li><strong>核心洞见</strong>: "魔法发生在模型中"——协议设计利用 AI 的非确定性，而非传统协议的确定性方式</li>
+            <li><strong>OAuth 挑战</strong>: OAuth 原本假设服务器和资源预先相互认识，但这不适用于 MCP 的动态连接场景，因此需要扩展 OAuth 规范</li>
+            <li><strong>MCP Gateways</strong>: 集中处理认证的基础设施模式，简化实现</li>
+            <li><strong>开源治理</strong>: MCP 已移交给 Linux Foundation 保持完全开源</li>
+            <li><strong>意外发现</strong>: Elicitations 原语——后期发现需要强制用户确认的场景</li>
+        </ul>
+    </div>
+
+    <h2>为什么重要</h2>
+    <p>MCP 正在成为 AI 应用的"USB-C 接口"——统一的 AI 与外部系统连接标准。对于开发者而言理</p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

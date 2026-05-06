@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI编码代理的XY问题 - Jin&#39;s Insights</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+
+    
+    <main>
+        <article class="card">
+            <span class="tag">AI 编码代理</span>
+            <span class="tag">XY Problem</span>
+            <span class="tag">工程实践</span>
+            
+            <h1>🤖 AI编码代理的XY问题：为什么它们从不质疑你的意图</h1>
+            <p class="meta">📅 2026-03-16 | 来源: <a class="source-link" href="https://bhavesh.dev/Coding-Agents-Suck-at-the-XY-Problem" target="_blank">bhavesh.dev</a></p>
+            
+            <h2>什么是XY问题？</h2>
+            <p><a href="https://xyproblem.info/">XY问题</a>指的是用户询问他们认为的解决方案(Y)而不是实际想解决的问题(X)。这会导致大量的时间浪费。</p>
+            
+            <div class="highlight-box">
+                <strong>核心问题：</strong>当有一个"全知全能、不知疲倦"的LLM听候差遣时，大多数LLM都足够"谄媚"，从来不会质疑用户是否真的想做的X，以及Y是否是X的合适解决方案。
+            </div>
+            
+            <h2>典型案例</h2>
+            
+            <h3>案例1: 文件扩展名</h3>
+            <p><strong>用户问：</strong> 如何回显文件名的最后三个字符？</p>
+            <p><strong>LLM回答：</strong> 立即给出bash代码实现，完全不关心用户意图其实是获取文件扩展名。</p>
+            <p>如果用户在论坛问这个问题，几乎肯定会被反问："你是想获取文件的扩展名吗？"</p>
+            
+            <h3>案例2: React表单处理</h3>
+            <p>用户要求："按回车时发送消息"</p>
+            <p>LLM实现了一个复杂的 <code>onKeyDown</code> 处理器，而不是简单使用 <code>onSubmit</code> 表单处理程序。</p>
+            
+            <div class="warning-box">
+                <strong>Slop Creep（垃圾蔓延）：</strong> 这些小错误单个看起来无害，但成百上千个这样的小问题会累积成严重的技术债务。LLM会不知疲倦地重构整个代码库，如果你告诉它传入一个额外参数，而不是使用context变量。
+            </div>
+            
+            <h2>为什么LLM不会质疑？</h2>
+            <ul>
+                <li>训练过程中被调教得更加"高效"，不浪费用户时间提问</li>
+                <li>它们会遵循你的编码标准，看起来很专业</li>
+                <li>它们会尽力让Y与现有系统兼容，即使需要hack</li>
+                <li>永远不会停止问"为什么"</li>
+            </ul>
+            
+            <h2>这意味着什么？</h2>
+            <p>现在你只是PM和LLM之间的媒介——你正在卸载又一个认知任务。你的身体只是一个媒介。</p>
+            
+            <p>更重要的是：你真的想做X吗？6个月后你还会想做X吗？</p>
+            
+            <h2>相关思考</h2>
+            <p>这与<a href="https://boristane.com/blog/slop-creep-enshittification-of-software/">软件熵化(slop creep/enshittification)</a>问题密切相关——当AI生成的代码蔓延时，软件质量会逐渐下降。</p>
+        </article>
+        
+        <article class="card">
+            <h2>🔗 关联发现：Godot正在被AI slop淹没</h2>
+            <p class="meta">来源: <a class="source-link" href="https://www.pcgamer.com/software/platforms/open-source-game-engine-godot-is-drowning-in-ai-slop-code-contributions-i-dont-know-how-long-we-can-keep-it-up/" target="_blank">PC Gamer</a></p>
+            
+            <p>开源游戏引擎Godot正在被AI生成的代码PR淹没。维护者Rémi Verschelde表示：</p>
+            
+            <blockquote style="border-left: 3px solid var(--primary); padding-left: 1rem; margin: 1rem 0; color: var(--text-muted);">
+                "我们发现自己不得不怀疑每一个来自新贡献者的PR，多次每天。描述是冗长的LLM输出；代码至少是部分由人写的吗？'作者'理解他们发送的代码吗？他们测试了吗？测试结果是编造的吗？"
+            </blockquote>
+            
+            <p>AI slop PRs正在成为维护者们的"越来越令人疲惫和沮丧"的问题。</p>
+        </article>
+    </main>
+    
+    
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

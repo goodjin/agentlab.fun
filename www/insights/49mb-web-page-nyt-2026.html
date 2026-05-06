@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The 49MB Web Page - 新闻网站的性能噩梦</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>📄 The 49MB Web Page</h1>
+    <span class="rating">⭐⭐⭐⭐⭐ 5/5</span>
+    <div class="meta">新闻网站的性能噩梦 | Last updated: March 16, 2026</div>
+    
+    <div class="source">
+        <strong>来源:</strong> <a href="https://thatshubham.com/blog/news-audit" target="_blank">thatshubham.com/blog/news-audit</a><br>
+        <strong>标签:</strong>
+        <span class="tag">Web Performance</span>
+        <span class="tag">Ad-Tech</span>
+        <span class="tag">Privacy</span>
+        <span class="tag">UX</span>
+    </div>
+
+    <div class="summary">
+        <h2>📋 概述</h2>
+        <p>作者为了"看四个标题"访问了纽约时报网站，结果遭遇了：<strong>422 个网络请求</strong>、<strong>49 MB 数据传输</strong>、页面加载用了<strong>两分钟</strong>才稳定下来。这篇文章深入分析了现代新闻网站的性能问题、追踪器泛滥和敌对用户体验设计。</p>
+    </div>
+
+    <h2>📊 触目惊心的数字</h2>
+    <div class="key-point">
+        <p>
+            <span class="stat">422 请求</span>
+            <span class="stat">49 MB</span>
+            <span class="stat">2 分钟</span>
+            <span class="stat">≈ Windows 95 大小</span>
+            <span class="stat">≈ 10-12 首 MP3</span>
+        </p>
+    </div>
+
+    <h2>🔍 发生了什么</h2>
+    
+    <div class="key-point">
+        <div class="key-point-title">1. 用户请求文本</div>
+        <p>用户只是想看新闻标题，但浏览器被迫下载 <strong>5MB 的追踪 JavaScript</strong>。</p>
+    </div>
+
+    <div class="key-point">
+        <div class="key-point-title">2. 静默的拍卖</div>
+        <p>浏览器在后台运行程序化广告拍卖，向 Rubicon Project、Amazon Ad Systems 等交易所发送数十个并发出价请求。这些请求是异步的，但它们的有效载荷对浏览器主线程极其不友好。</p>
+    </div>
+
+    <div class="key-point">
+        <div class="key-point-title">3. 获胜者注入</div>
+        <p>出价获胜者会注入一个用户完全没要求的弹窗广告。</p>
+    </div>
+
+    <h2>🔐 隐私噩梦</h2>
+    <ul>
+        <li><strong>行为追踪</strong>：持续的心跳监控，用户的一举一动都被追踪</li>
+        <li><strong>POST 信标</strong>：发送到 a.et.nytimes.com/track 的追踪请求</li>
+        <li><strong>隐形像素</strong>：背景中的隐形像素重定向到 doubleclick.net 和 casalemedia</li>
+        <li><strong>跨站身份拼接</strong>：帮助广告网络在不同网站之间建立用户的跨站身份</li>
+        <li><strong>讽刺的是</strong>：追踪初始化伴随着 purr.nytimes.com/tcf（欧洲 IAB 透明度和同意框架）请求。"purr"（猫在翻口袋时发出的声音）—— 太讽刺了！</li>
+    </ul>
+
+    <h2>💰 敌对架构的经济学</h2>
+    
+    <div class="key-point">
+        <div class="key-point-title">Publishers aren't evil but desperate</div>
+        <p>出版商被困在程序化广告的死亡螺旋中，用长期读者留存换取短期的 CPM（千次展示费用）。</p>
+    </div>
+
+    <ul>
+        <li><strong>可查看性（Viewability）和页面停留时间</strong>是最重要的指标</li>
+        <li>每一个敌对的 UX 决策都源于这两个指标</li>
+        <li>读者停留越久，出版商可以收取的 CPM 越高</li>
+        <li><strong>你的挫败感就是产品</strong></li>
+    </ul>
+
+    <h2>🤔 结论</h2>
+    <p>现代新闻 UX 存在一个悖论：你被迫点击的 cookie 同意横幅只是为了保护出版商的法律护盾，而他们却在后台愉快地挖掘你的数据。读者不被软件尊重。出版商被激励系统挟持，这种系统不仅鼓励黑暗模式，还奖励黑暗模式。</p>
+
+    <hr style="margin: 40px 0; border-color: #30363d;">
+    <p style="color: #8b949e; font-size: 0.85em;">
+        🧬 探索自 Hacker News Best | 2026-03-16 | <a href="https://news.ycombinator.com/item?id=47390945">HN 讨论</a>
+    </p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

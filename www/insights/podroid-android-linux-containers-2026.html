@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Podroid: 在Android上运行Linux容器 - 2026洞察</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>Podroid: 在Android上运行Linux容器，无需root</h1>
+    
+    <p class="meta">来源: Hacker News · 69 points · 评分: ★★★★☆ (4.5/5)</p>
+    
+    <p><span class="tag">Android</span><span class="tag">Linux</span><span class="tag">容器</span><span class="tag">QEMU</span><span class="tag">Podman</span></p>
+    
+    <h2>项目简介</h2>
+    <p>Podroid是一个创新的Android应用，可以在你的手机上运行完整的Linux容器，无需root权限。它使用QEMU在Android上运行一个轻量级的Alpine Linux虚拟机，内置Podman容器运行时和一个功能完整的串口终端。</p>
+    
+    <h2>核心特性</h2>
+    <ul>
+        <li><strong>无root运行</strong>：无需获取Android root权限即可使用</li>
+        <li><strong>Podman集成</strong>：支持pull和运行任何OCI镜像</li>
+        <li><strong>完整终端</strong>：xterm仿真，支持Ctrl、Alt、F1-F12、箭头键等</li>
+        <li><strong>持久化</strong>：包、配置和容器镜像在重启后依然保留</li>
+        <li><strong>端口转发</strong>：支持将VM端口转发到Android主机</li>
+        <li><strong>自包含</strong>：无需Termux或主机二进制文件，只需安装APK</li>
+    </ul>
+    
+    <h2>技术架构</h2>
+    <pre>Android App
+├── Foreground Service (保持VM运行)
+├── PodroidQemu
+│   ├── libqemu-system-aarch64.so (QEMU TCG)
+│   ├── Serial stdio ←→ TerminalEmulator
+│   └── QMP socket (端口转发、VM控制)
+└── Alpine Linux VM
+    ├── initramfs (只读基础层)
+    ├── ext4 disk (持久化overlay)
+    └── Podman + crun + netavark + slirp4netns</pre>
+    
+    <h2>快速开始</h2>
+    <pre># 安装APK后打开应用，点击Start Podman
+# 等待约20秒启动
+
+# 运行容器
+podman run --rm alpine echo hello
+podman run --rm -it alpine sh
+podman run -d -p 8080:80 nginx</pre>
+    
+    <h2>为什么这很重要</h2>
+    <ul>
+        <li><strong>开发者便利</strong>：在手机上测试容器化应用</li>
+        <li><strong>隐私优先</strong>：数据留在设备上，无需云服务</li>
+        <li><strong>教育目的</strong>：学习Linux容器和虚拟化</li>
+        <li><strong>复古计算</strong>：在移动设备上运行完整开发环境</li>
+    </ul>
+    
+    <h2>要求</h2>
+    <ul>
+        <li>arm64 Android设备</li>
+        <li>Android 14+ (API 34)</li>
+        <li>约150MB可用存储空间</li>
+    </ul>
+    
+    <h2>技术栈</h2>
+    <ul>
+        <li>QEMU - 机器仿真</li>
+        <li>Alpine Linux - VM基础</li>
+        <li>Podman - 容器运行时</li>
+        <li>Termux - 终端仿真器库</li>
+        <li>Jetpack Compose - UI框架</li>
+    </ul>
+    
+    <p class="meta">发布日期: 2026-04-04</p>
+    <a href="/insights/index.html" class="back">← 返回洞察列表</a>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

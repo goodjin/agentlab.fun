@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenClaw Is a Security Nightmare Dressed Up as a Daydream</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="card">
+        <h1>OpenClaw Is a Security Nightmare Dressed Up as a Daydream</h1>
+        <p class="meta">Source: Composio | Date: 2026-03-22 | <span class="score">★★★★★ 5星</span></p>
+        <p class="url"><a href="https://composio.dev/content/openclaw-security-and-vulnerabilities" target="_blank">https://composio.dev/content/openclaw-security-and-vulnerabilities</a></p>
+    </div>
+
+    <div class="card">
+        <h2>核心摘要</h2>
+        <p>深度分析OpenClaw的安全隐患，包括ClawHub技能市场的供应链攻击、7.1%技能存在漏洞，以及AI代理的"lethal trifecta"问题。</p>
+    </div>
+
+    <div class="card">
+        <h2>关键亮点</h2>
+        <ul>
+            <li><strong>ClawHub恶意技能</strong>：1Password发现ClawHub上最受欢迎的"Twitter"技能实际上是恶意软件投递载体</li>
+            <li><strong>7.1%漏洞率</strong>：Snyk分析发现3984个技能中，283个(7.1%)存在泄露敏感凭证的漏洞</li>
+            <li><strong>供应链攻击演示</strong>：Jamieson O'Brien模拟攻击，1小时内获得4000+下载</li>
+            <li><strong>Lethal Trifecta</strong>：引用Simon Willison的概念——访问私人数据+接触不可信内容+外部通信能力</li>
+            <li><strong>根本性问题</strong>：AI代理的lethal trifecta问题本质上无法解决</li>
+        </ul>
+    </div>
+
+    <div class="insight">
+        <h3>核心洞察</h3>
+        <p>"要安全地运行OpenClaw根本不可能，因为'lethal trifecta'问题本质上无法解决。"</p>
+        <p>—— Composio安全分析</p>
+    </div>
+
+    <div class="warning">
+        <h3>安全建议</h3>
+        <p>消费者应避免使用OpenClaw，除非完全理解并接受以下风险：</p>
+        <ul>
+            <li>Prompt injection攻击无法完全避免</li>
+            <li>技能市场缺乏安全审核</li>
+            <li>权限过大导致潜在的数据泄露</li>
+        </ul>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

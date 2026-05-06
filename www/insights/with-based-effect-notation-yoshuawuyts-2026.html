@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A with-based effect notation - Rust</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<div class="container">
+        <h1>A with-based effect notation</h1>
+        <p class="meta">来源: blog.yoshuawuyts.com | 作者: Yoshua Wuyts | 日期: 2026-03</p>
+        
+        <h2>概述</h2>
+        <p>本文提出了一种基于<strong>with</strong>的效果标记(notation)系统，用于Rust语言中的effect处理。这是作者关于Rust effect系统的后续文章。</p>
+        
+        <div class="highlight">
+            <strong>核心思想：</strong> 不依赖冗长的函数前缀序列(如<code>pub const placing try gen fn foo() {}</code>)，而是将effects分离到自己的声明中。
+        </div>
+
+        <h2>什么是Effects</h2>
+        <p>Effects是函数可以执行但不是其返回值的一部分。例如：</p>
+        <ul>
+            <li><strong>async：</strong> 函数可能暂停执行</li>
+            <li><strong>throw：</strong> 函数可能抛出错误</li>
+            <li><strong>gen：</strong> 函数可能产生多个值</li>
+            <li><strong>const：</strong> 函数可能在编译时运行</li>
+        </ul>
+
+        <h2>Effect语法</h2>
+        <pre><code>// 基本函数
+fn foo() -> i32 { ... }
+
+// 带effect的函数
+fn foo() [async, throws] -> i32 { ... }
+
+// 更Pythonic的写法
+with async, throws:
+    fn foo() -> i32 { ... }</code></pre>
+
+        <h2>Effect Aliases</h2>
+        <p>该notation还提供<strong>effect aliases</strong>：命名一组effect的集合。例如：</p>
+        <pre><code>effect io = { async, throws }
+
+fn foo() [io] -> i32 { ... }</code></pre>
+
+        <h2>Effect参数化</h2>
+        <p>一些effects如iteration和fallibility本身带有泛型参数：</p>
+        <ul>
+            <li>迭代需要知道迭代的值的类型</li>
+            <li>throw需要知道可能的错误类型</li>
+        </ul>
+
+        <h2>Effect泛型</h2>
+        <p>通过引入新的泛型种类<code>eff</code>来实现：</p>
+        <pre><code>fn foo&lt;T, eff&gt;(x: T) [eff] -> T</code></pre>
+
+        <h2>Effect排序</h2>
+        <p>使用Flix模型，个别effect kinds不能重复。效果集合中的排序不重要：</p>
+        <pre><code>fn foo() [async, throws] -> i32
+fn bar() [throws, async] -> i32  // 等价</code></pre>
+
+        <h2>与现有工作的关系</h2>
+        <ul>
+            <li>与Koka语言的effect系统相似</li>
+            <li>与Leijen的"Structured asynchrony with algebraic effects"相关</li>
+            <li>Flix的"Programming with effect exclusion"提供了广泛的条件表达</li>
+        </ul>
+
+        <h2>结论</h2>
+        <p>这个notation为Rust中的effect系统提供了一个清晰的路径，使得effects的声明更加简洁和可读。它借鉴了多种学术研究成果，为Rust的未来发展提供了可能性。</p>
+        
+        <p class="meta">标签: Rust, Effects, 编程语言设计, Algebraic Effects, 系统编程</p>
+    </div>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

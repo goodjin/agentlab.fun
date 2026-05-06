@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSH certificates and git signing - 深度指南</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    
+<h1>SSH certificates and git signing</h1>
+    <p><span class="rating">⭐⭐⭐⭐ 4星</span> <span class="meta">来源: codon.org.uk (Matthew Garrett) | 2026-03</span></p>
+    
+    <div class="url">
+        <a href="https://codon.org.uk/~mjg59/blog/p/ssh-certificates-and-git-signing/" target="_blank">https://codon.org.uk/~mjg59/blog/p/ssh-certificates-and-git-signing/</a>
+    </div>
+
+    <h2>摘要</h2>
+    <p>Matthew Garrett (Google安全工程师) 详解如何使用SSH证书签署git提交，提供比传统PGP更安全的代码签名方案。</p>
+
+    <h2>为什么需要SSH证书</h2>
+    <ul>
+        <li>Author标签可以伪造</li>
+        <li>账户被黑后PR可能被恶意利用</li>
+        <li>GitHub账户被黑可以改变可信密钥集合</li>
+        <li>你需要某种方式来确定哪些密钥可信</li>
+    </ul>
+
+    <h2>SSH证书优势</h2>
+    <ul>
+        <li>由可信方签名的SSH公钥</li>
+        <li>包含元数据：Principals (身份列表)</li>
+        <li>可提供组 membership 信息</li>
+        <li>原生支持转发 (agent forwarding)</li>
+    </ul>
+
+    <h2>本地配置</h2>
+    
+    <h3>1. 设置git使用SSH签名</h3>
+    <div class="code">
+git config set gpg.format ssh
+    </div>
+
+    <h3>2. 设置签名密钥</h3>
+    <p>两种方式：</p>
+    <ul>
+        <li>设置 user.signingkey 为证书路径</li>
+        <li>或设置 gpg.ssh.defaultKeyCommand 为命令查找证书</li>
+    </ul>
+
+    <p>作者提供了 <a href="https://gitlab.com/mjg59/find-ssh-certificate">find-ssh-certificate</a> 工具。</p>
+
+    <h3>3. 签名提交</h3>
+    <div class="code">
+git commit -S
+    </div>
+
+    <h2>验证签名</h2>
+    
+    <div class="code">
+* cert-authority ssh-rsa AAAA...
+    </div>
+    <p>匹配所有principals，验证证书是否由指定CA签名。</p>
+
+    <p>GitHub/GitLab目前不支持此验证方式，作者写了 <a href="https://gitlab.com/mjg59/validate-git-signatures">validate-git-signatures</a> 工具。</p>
+
+    <h2>硬件安全</h2>
+    <ul>
+        <li>证书不能防止私钥被窃</li>
+        <li>使用TPM (PC) 或 Secure Enclave (Mac)</li>
+        <li>Mac: <a href="https://secretious.dev/">Secretious</a></li>
+        <li>Linux: <a href="https://github.com/Foxboron/ssh-tpm-agent">ssh-tpm-agent</a></li>
+    </ul>
+
+    <p>作者写了 <a href="https://gitlab.com/mjg59/attestation-tpm-agent">attestation-tpm-agent</a> 工具。</p>
+
+    <div class="highlight">
+        <strong>核心洞察：</strong>"SSH密钥的裸加密在隔离情况下没有太大帮助，需要某种方式来确定哪些密钥可信。"
+    </div>
+
+    <hr>
+    <p><a href="/insights/index.html">← 返回索引</a></p>
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>

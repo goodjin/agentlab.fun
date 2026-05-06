@@ -1,0 +1,66 @@
+---
+layout: article.njk
+title: "Transforming Ads Personalization with Sequential Modeling and Hetero-MMoE at Uber"
+tags: [insights]
+permalink: /insights/uber-ads-hetero-mmoe-2026.html
+---
+
+<div class="card">
+        <h1>Transforming Ads Personalization with Sequential Modeling and Hetero-MMoE</h1>
+        <div class="meta">
+            <span class="tag">ML</span>
+            <span class="tag">Ads Ranking</span>
+            <span class="tag">Transformer</span>
+            <span class="tag">MMoE</span>
+            <span class="rating">★★★★★</span>
+        </div>
+        <p class="meta">Source: Uber Engineering Blog | Date: March 10, 2026</p>
+        
+        <div class="summary">
+            <h3>核心摘要</h3>
+            <p>Uber 广告系统升级：引入 Sequential User Features + Hetero-MMoE，显著提升广告个性化精度。</p>
+        </div>
+
+        <div class="key-insight">
+            <strong>🚀 核心创新：</strong>
+            <ul>
+                <li>用目标感知 Transformer 编码器保留用户行为时序信息</li>
+                <li>Hetero-MMoE 混合 MLP + DCN + CIN 专家网络，捕获高低阶特征交互</li>
+                <li>MLA 优化将复杂度从 O(N²) 降至 O(N×L)</li>
+            </ul>
+        </div>
+
+        <h3>为什么需要升级？</h3>
+        <ul>
+            <li><strong>旧架构问题：</strong> 静态聚合特征将丰富的时序行为flatten为统计摘要（总点击数、总曝光数），丢失了顺序、时效性和长期上下文</li>
+            <li><strong>MMoE 局限：</strong> 传统 MLP 专家难以学习高阶跨特征交互，难以融合文本、图像、语义embedding等多模态输入</li>
+        </ul>
+
+        <h3>Sequential User Features</h3>
+        <ul>
+            <li><strong>事件序列：</strong> 每个用户交互历史构建为时间序列表</li>
+            <li><strong>特征：</strong> 商户UUID、菜系类型、时间（小时/星期几）、交互类型（点击/加购/下单）</li>
+            <li><strong>Multi-hash Embedding：</strong> 用多个独立哈希函数将高基数特征映射到小 embedding 空间，参数效率高</li>
+        </ul>
+
+        <h3>Target-Aware Transformer Encoder</h3>
+        <ul>
+            <li>将候选广告作为 Query，通过自注意力计算与用户历史事件的相关性分数</li>
+            <li>模型聚焦用户交互序列中最相关的部分，捕捉长期用户意图</li>
+            <li>引入 MLA (Multi-Head Latent Attention) 优化：使用固定大小的潜在 token 作为中介，两阶段注意力：Token→Latent→Token</li>
+        </ul>
+
+        <h3>Hetero-MMoE 框架</h3>
+        <ul>
+            <li><strong>MLP 专家：</strong> 传统前馈网络，学习深度隐式特征交互</li>
+            <li><strong>DCN 专家：</strong> Deep Cross Network，显式建模特征交叉</li>
+            <li><strong>CIN 专家：</strong> Compressed Interaction Network，捕获高阶特征交互</li>
+            <li>多任务学习同时优化 CTR 和 CTO (click-to-order)</li>
+        </ul>
+
+        <h3>架构图</h3>
+        <p>完整流程：用户事件序列 → Multi-hash Embedding → Positional Encoding → Target-aware Transformer (MLA + FFN) → Hetero-MMoE (MLP/DCN/CIN Experts + Gating) → Task Towers (pCTR/pCTO)</p>
+
+        <h3>原文链接</h3>
+        <p><a href="https://www.uber.com/blog/transforming-ads-personalization/">https://www.uber.com/blog/transforming-ads-personalization/</a></p>
+    </div>
