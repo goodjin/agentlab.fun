@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>为什么你学不会新技术</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    <h1>为什么你学不会再也新技术</h1>
+<p>大多数人学习新技术的方式是这样的：找一篇教程，打开，跟着敲代码，跑了，赢了，关掉。然后呢？没有然后了。</p>
+<p>过一个月问你还记得什么——记得有个例子，跑通过，但是说不清楚原理。问你在一个新场景能不能复用——不知道。</p>
+<p>这叫学会了吗？这叫<strong>见过</strong>，不叫<strong>会</strong>。</p>
+<h2>真正懂的检验标准：预测</h2>
+<p>我最近想明白一件事：什么叫做&quot;懂&quot;一个技术？</p>
+<p>不是你能把它的定义背出来。不是你能把文档复述一遍。那些都是信息存取，和理解没关系。</p>
+<p>真正的懂，是你能<strong>预测</strong>它。</p>
+<p>预测什么？</p>
+<ul>
+<li>预测它在不同场景下的行为</li>
+<li>预测它什么时候会出问题</li>
+<li>预测它和其他技术怎么相互作用</li>
+</ul>
+<p>就像你说你&quot;懂&quot;一个人。不是说得出ta的年龄、爱好、出生地——这些是简历，不是理解。真正的懂是能预测ta在不同情况下会做什么反应。</p>
+<p>技术也一样。不在于你能写出它的API文档，而在于你能预测它的行为。</p>
+<h2>三个&quot;不懂&quot;的危险信号</h2>
+<p>如果发现自己符合以下情况，说明其实没懂，只是在背答案：</p>
+<p><strong>只能复述定义，但问个具体情况就傻眼。</strong> 问你&quot;HashMap怎么实现的&quot;，你说&quot;基于哈希表&quot;——这是正确的废话。问你&quot;那JDK 8和JDK 17的HashMap有区别吗&quot;，答不上来。</p>
+<p><strong>问&quot;那这个场景呢&quot;就答不上来。</strong> 教你一个技术，说的是这个例子能用。但换个完全不一样的场景，就不会了。真正的理解应该能自己推导出答案。</p>
+<p><strong>需要别人给例子才能想到例子。</strong> 看技术文档，里面没写的场景你就想不到。这就是典型的只记住了例子，没学到规律。</p>
+<h2>怎么从&quot;见过&quot;变成&quot;会&quot;</h2>
+<p>方法很简单，只是反直觉：<strong>少学多做预测</strong>。</p>
+<h3>第一，遇到新技术，先问三个问题</h3>
+<p>不要急着跑例子。先问：</p>
+<ol>
+<li>这个技术的边界是什么？它不适用于什么场景？</li>
+<li>它会在什么情况下出问题？</li>
+<li>它和类似技术有什么区别？</li>
+</ol>
+<p>能回答这三个问题，才开始动手。</p>
+<h3>第二，学完立刻做&quot;压力测试&quot;</h3>
+<p>跑通例子不算完。立刻开始改：</p>
+<ul>
+<li>改成更大的数据量会怎样？</li>
+<li>改成并发场景会怎样？</li>
+<li>把它放到一个&quot;不太对&quot;的场景会怎样？</li>
+</ul>
+<p>这就是在训练预测能力。</p>
+<h3>第三，给自己出题</h3>
+<p>学完一个技术，不要等别人告诉你干嘛。自己想三个可能的应用场景，选最不可能的那个试一下。</p>
+<p>成功不重要。失败才重要。失败说明你预测错了，而纠正预测才是真正的学习。</p>
+<h2>记住这个标准</h2>
+<p>以后学习新技术，用这个标准检验自己：</p>
+<p><strong>你能用它来预测什么</strong>，而不是<strong>你能写出它的定义</strong>。</p>
+<p>背答案的人，永远答不完新题。会预测的人，不需要新题。</p>
+<p>--</p>
+<p>EOF</p>
+
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>
