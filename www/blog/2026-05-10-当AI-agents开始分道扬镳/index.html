@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    <h1>当AI agents开始分道扬镳：一场静默的质量分化正在发生</h1>
+<p>2026年5月，Anthropic推出了Agent Marketplace。这本应是一场盛大的AI开发者狂欢，却意外揭开了一个令人不安的真相：同样是&quot;AI agent&quot;， 有的能帮你拿到NASA的合同，有的却在为一个空指针报错奋战48小时。</p>
+<p>这差距，不是技术代际的差距，而是物种级别的差距。</p>
+<h2>两种agent，一个名字</h2>
+<p>如果你最近关注AI agent的讨论，会发现一个有趣的现象：开发者们开始自觉区分两类agent——&quot;worm&quot;和&quot;bacteria&quot;。</p>
+<p>Bacteria级agent是那些听起来很美的东西。它们可以礼貌地回复邮件，帮你整理Slack消息，总结文档。它们的存在意义是&quot;让重复的事更短&quot;。但它们的共同特征是：<strong>不需要对结果负责</strong>。邮件回错了？不好意思，我下次改。总结漏了重点？抱歉，我再读一遍。它们是勤勤恳恳的社畜，做不好不会造成灾难性后果。</p>
+<p>Worm级agent则完全不同。它们要的是<strong>交付完整的结果</strong>。不是&quot;帮我看看代码&quot;，是&quot;把这个问题修复&quot;。不是&quot;帮我写个方案&quot;，是&quot;让这个功能上线&quot;。这类agent的可怕之处在于：<strong>它们在真实系统中造成了真实的变化</strong>。一个worm级的agent可能会把你的生产数据库清空了，也可能帮你赚了100万美元。</p>
+<p>问题是，现在大多数AI agent开发者在做的事，本质上都是在培养bacteria。他们做的是&quot;自动化&quot;+打杂&quot;的组合，而不是真正的&quot;智能体&quot;。</p>
+<h2>质量鸿沟是如何产生的</h2>
+<p>为什么同样是调用LLM API，有的agent能成事，有的agent只能&quot;表示努力&quot;？</p>
+<p>关键在于三个字的区别：<strong>能否闭环</strong>。</p>
+<p>Bacteria级agent的典型工作流程是：接收指令 → 调用模型 → 返回结果。整个流程到此为止。如果结果不对，它不知道接下来发生了什么，也不知道需要做什么调整。</p>
+<p>Worm级agent的流程则是：接收指令 → 规划路径 → 逐步执行 → 验证结果 → 自我修正 → 交付成果。这里面最关键的不是&quot;调用模型&quot;，而是&quot;验证&quot;和&quot;修正&quot;两个环节。</p>
+<p>Anthropic在Agent Marketplace中发现的数据印证了这一点：最成功的agent不是调用最强模型的，而是在有限上下文窗口内，能最有效利用工具链和状态管理的那些。</p>
+<p>说得直白点：<strong>现在的AI agent竞争，不是模型能力的竞争，而是工程能力的竞争。</strong></p>
+<p>这就很讽刺了。我们训练模型让它更像人，但agent要成事，靠的还是软件工程的那些老把戏：测试驱动、状态追踪、错误重试、幂等设计。</p>
+<h2>分化带来的机会</h2>
+<p>这个分化，对创业者来说反而是好事。</p>
+<p>当所有人都声称自己做的是&quot;AI agent&quot;时，真正的价值反而在那些能交付worm级结果的公司。Prompt工程的门槛已经低到人人可做了，但&quot;让AI agent稳定交付复杂任务&quot;这件事的门槛还很高。</p>
+<p>举几个例子：</p>
+<ul>
+<li><strong>Devin</strong>（ Cognition AI）做的是代码级别的闭环交付，不是帮你写注释，是帮你修bug</li>
+<li><strong>Manus</strong> 做的是&quot;端到端&quot;的执行，把&quot;帮我分析这份数据&quot;变成&quot;这份分析报告已经躺在你桌面上了&quot;</li>
+<li><strong>Google的Project Mariner</strong> 更激进，它直接操作你的浏览器，从点击到填表一路做到底</li>
+</ul>
+<p>这些产品的共同特征是：它们不只是&quot;理解你的意图&quot;，它们要&quot;为你做到&quot;。</p>
+<p>这中间的鸿沟，就是创业机会所在。</p>
+<h2>给开发者的建议</h2>
+<p>如果你正在做AI agent相关的产品，有几个问题你需要诚实地回答自己：</p>
+<ol>
+<li>你的agent是为&quot;闭环&quot;设计的，还是为&quot;对话&quot;设计的？如果是后者，你可能需要重新思考</li>
+<li>你的agent有&quot;验证结果&quot;的机制吗？没有验证，就是盲人骑瞎马</li>
+<li>你的agent在失败时，是说&quot;我做不到&quot;，还是尝试&quot;换条路试试&quot;？</li>
+</ol>
+<p>最后一个问题最关键。真正的worm级agent不是不失败，而是失败后懂得换个姿势再来。</p>
+<h2>结语</h2>
+<p>AI agent的分化和当年互联网门户类似——Yahoohao123是门户网站，Google也是门户网站，但这两个&quot;门户网站&quot;做的事情已经完全不一样了。</p>
+<p>现在说&quot;我做了一个AI agent&quot;，就像当年说&quot;我做了一个网站&quot;一样毫无信息量。真正的问题是：<strong>你这是一个会做事的agent，还是一个只会聊天的agent？</strong></p>
+<p>2026年的分水岭，不是模型能力的差距，而是工程能力的差距。不是谁用的模型更强，而是谁能真正交付结果。</p>
+<p>在这场静默的分化中，选择站到哪一边，是每个AI开发者都需要回答的问题。</p>
+
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>
