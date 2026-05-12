@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Agent的Prompt陷阱：为什么你不能全靠提示词管理状态</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    <h1>AI Agent的Prompt陷阱：为什么你不能全靠提示词管理状态</h1>
+<p>2026年5月，开源AI编程Agent领域出了一个&quot;里程碑&quot;：<strong>droid</strong> 架构用 <strong>65KB</strong> 的Prompt定义了整个任务编排系统。这个数字震住了不少人——原来用Prompt可以替代传统状态机。</p>
+<p>但仔细看架构细节，我发现一个被忽视的问题：Prompt能帮你&quot;描述&quot;状态机，但它不能帮你&quot;运行&quot;状态机。</p>
+<h2>01 Prompt是描述，不是执行</h2>
+<p>droid 0.1220的架构确实精巧。它用Prompt定义了：</p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>Prompt定义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>任务定义</td>
+<td>JSON Schema</td>
+</tr>
+<tr>
+<td>编排逻辑</td>
+<td>&quot;If error, retry with...&quot;</td>
+</tr>
+<tr>
+<td>质量门控</td>
+<td>&quot;Verify output...&quot;</td>
+</tr>
+<tr>
+<td>执行记录</td>
+<td>上下文自带</td>
+</tr>
+<tr>
+<td>暂停恢复</td>
+<td>状态存进内存</td>
+</tr>
+</tbody>
+</table>
+<p>看起来五脏俱全。但核心问题是：<strong>这些都是Prompt告诉模型的&quot;规则&quot;，不是模型必须遵守的&quot;法律&quot;。</strong></p>
+<p>模型可以&quot;理解&quot;状态机，但它不&quot;执行&quot;状态机。</p>
+<ul>
+<li>Prompt说&quot;检查结果再继续&quot;，模型可能跳过硬查</li>
+<li>Prompt说&quot;三次重试失败就停止&quot;，模型可能第六次还在试</li>
+<li>Prompt说&quot;记住上一步的状态&quot;，上下文丢失时模型当场失忆</li>
+</ul>
+<p>这不是droid的bug，这是<strong>所有Prompt-driven架构的 structural flaw</strong>。</p>
+<h2>02 对比：程序化状态机的确定性强在哪</h2>
+<p>传统状态机是这样的：</p>
+<pre><code>state = IDLE
+if input == &quot;start&quot;:
+    state = RUNNING
+elif input == &quot;stop&quot; and state == RUNNING:
+    state = STOPPING
+</code></pre>
+<p>确定性强在哪：</p>
+<ul>
+<li><strong>状态转移是原子操作</strong>，不存在&quot;模型理解错了&quot;</li>
+<li><strong>状态持久化是显式的</strong>，不存在上下文丢失</li>
+<li><strong>边界条件是强制执行的</strong>，不存在&quot;应该停止但还在跑&quot;</li>
+</ul>
+<p>Prompt驱动做不到这些。Prompt是<strong>指导性</strong>的，不是<strong>强制性</strong>的。</p>
+<h2>03 现实中的断裂：大厂已经意识到这个问题</h2>
+<p>看几个信号：</p>
+<ul>
+<li><strong>Anthropic</strong> 在 Agent Marketplace 实验中加了 human-in-the-loop 审批节点，不是全靠Prompt自驱</li>
+<li><strong>OpenAI</strong> 的 Agents 模式加了&quot;tool use guardrails&quot;，用程序化约束补充Prompt</li>
+<li><strong>Google</strong> Gemini 2.0 的 agentic 模式，状态管理用的是显式 checkpoint，不是纯上下文</li>
+</ul>
+<p>大厂不傻。他们知道Prompt的边界在哪。</p>
+<h2>04 正确的架构思路：Prompt + 程序化双轨</h2>
+<p>droid 架构的真正贡献不是&quot;用Prompt替代状态机&quot;，而是<strong>用Prompt降低状态机的设计成本</strong>。</p>
+<p>正确的双轨模式：</p>
+<table>
+<thead>
+<tr>
+<th>层</th>
+<th>职责</th>
+<th>实现方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>业务逻辑层</td>
+<td>定义&quot;做什么&quot;</td>
+<td>Prompt (可读、可改)</td>
+</tr>
+<tr>
+<td>执行控制层</td>
+<td>强制&quot;怎么做&quot;</td>
+<td>程序化 (原子操作)</td>
+</tr>
+<tr>
+<td>状态持久层</td>
+<td>记住&quot;做到了哪&quot;</td>
+<td>数据库/文件</td>
+</tr>
+<tr>
+<td>质量门控层</td>
+<td>判断&quot;做对了没&quot;</td>
+<td>程序化断言</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Prompt处理不了的部分，强行用代码实现。</strong></p>
+<p>这才是 2026 年 AI Agent 架构的现实解法。</p>
+<h2>05 我的判断</h2>
+<p>65KB Prompt 确实精巧，但别被数字迷惑。</p>
+<ul>
+<li>65KB 可以描述状态机</li>
+<li>但它不能代替状态机</li>
+<li>描述 ≠ 执行</li>
+</ul>
+<p>Prompt是很好的<strong>需求定义语言</strong>，但它不是好的<strong>运行时语言</strong>。</p>
+<p>2026年还在玩纯Prompt驱动的架构，本质上是把<strong>表达能力</strong>当<strong>执行能力</strong>用。区别就像：</p>
+<blockquote>
+<p>菜谱写得好 ≠ 菜做得好</p>
+</blockquote>
+<hr>
+<p><em>分析基于 droid 0.1220 公开架构文档，数据来源：GitHub / HN 讨论</em></p>
+
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>
