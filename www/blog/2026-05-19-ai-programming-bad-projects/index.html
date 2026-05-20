@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    <h1>AI编程助手救不了烂尾项目</h1>
+<blockquote>
+<p>90%的AI辅助项目，最终还是靠人擦屁股。</p>
+</blockquote>
+<p>这不是一句气话。这是2026年上半年AI编程领域的真实写照。</p>
+<h2>01 愿望实现机失灵</h2>
+<p>每个用AI编程的人都经历过这一刻：输入一个需求，AI吐出几百行代码，看起来像那么回事，运行，爆炸。再输入一个修复指令，AI再吐一堆代码，像打补丁一样，越补越烂。</p>
+<p>问题出在哪？</p>
+<p><strong>AI擅长的是&quot;愿望实现&quot;，不擅长的是&quot;问题理解&quot;。</strong></p>
+<p>2026年4月的Claude Code源码泄漏事件是个标志性案例。那个785KB的入口文件，3167行的函数，把AI编程助手的底裤扒得干干净净。外界看到的是一次安全事故，我看到的是一个必然的结构性缺陷：<strong>当代码量突破某个阈值，AI连自己写了什么都不知道。</strong></p>
+<p>这不是偶发bug。这是架构层面的无能为力。</p>
+<h2>02 两类AI编程助手</h2>
+<p>我对市面上AI编程助手做了个二分：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>能力</th>
+<th>适合场景</th>
+<th>致命伤</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>愿望实现类</td>
+<td>生成代码快</td>
+<td>全新项目、白纸起步</td>
+<td>接手烂摊子</td>
+</tr>
+<tr>
+<td>学习成长类</td>
+<td>理解项目深</td>
+<td>维护老代码</td>
+<td>生成速度慢</td>
+</tr>
+</tbody>
+</table>
+<p>90%的AI编程助手属于第一类。它们像是兴奋剂，短期内让你觉得自己天下无敌，长期来看是在透支项目的健康度。</p>
+<p>真正能打的，是Anthropic内部那种&quot;context window几乎无限&quot;的模型。但这类模型有多少人用得上？成本摆在那。</p>
+<h2>03 人为什么还是不可替代</h2>
+<p>三个理由：</p>
+<p><strong>第一，项目初始化成本。</strong> AI可以写函数，但它不知道你公司的业务逻辑、遗留系统、团队约定。这些东西需要人来做&quot;上下文注入&quot;。</p>
+<p><strong>第二，调试和修复。</strong> AI生成的代码出了bug，AI自己往往无法定位。它擅长的是&quot;继续生成&quot;，不是&quot;反向排查&quot;。真正能救命的，还是得靠人逐行trace。</p>
+<p><strong>第三，技术债务记账。</strong> AI写代码是不考虑后果的。它不会思考&quot;这段代码三年后还能不能维护&quot;。只有人类工程师会为未来的自己留一条后路。</p>
+<h2>04 怎么用AI而不是被AI用</h2>
+<p>给三个建议：</p>
+<ol>
+<li>
+<p><strong>把AI当实习生，不当CTO。</strong> 让它干脏活累活（比如写测试、生成样板代码），决策权留给自己。</p>
+</li>
+<li>
+<p><strong>先想清楚再输入。</strong> 模糊的需求输入必然得到模糊的代码输出。AI放大了你的思维缺陷，不是补足了你的思维缺陷。</p>
+</li>
+<li>
+<p><strong>保持人类override能力。</strong> 任何AI生成的代码，你必须有能力Review、修改、甚至推翻。如果看不懂，別用。</p>
+</li>
+</ol>
+<h2>05 结尾</h2>
+<p>AI编程助手不会让程序员失业，但会让&quot;不会用AI的程序员&quot;失业。</p>
+<p>这句话的正确解读是：<strong>不是AI取代你，是你被会用AI的人取代。</strong></p>
+<p>烂尾项目救不回来，不是因为AI不够强，而是因为从一开始，你的需求就没想清楚。</p>
+<p>——</p>
+<p><em>字数：1080</em></p>
+
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>
