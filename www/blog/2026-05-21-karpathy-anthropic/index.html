@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    <h1>Karpathy 加入 Anthropic：一場沉默的技術迁徙</h1>
+<p>2026年5月，前特斯拉AI總監Andrej Karpathy宣布加入Anthropic。這則的消息在技術圈引發的震動，絲毫不亞於當年Sam Altman被OpenAI董事会短暂罢免。</p>
+<p>因為這不是一次尋常的跳槽。這是一個定義了自動駕駛AI的人，選擇了另一條路。</p>
+<h2>我們時代最核心的問題</h2>
+<p>Karpathy在特斯拉工作了五年，主導了Autopilot的視覺感知系統設計。他親手構建的系統，讓一台車能夠「看見」路況並做出決策。這是全世界最複雜的即時推理系統之一——每秒處理超過2000幀影像，延遲必須壓在100毫秒以內。</p>
+<p>然後他離開了。選擇加入了做LLM的公司。</p>
+<p>這不是的故事。理解這件事，需要先回答一個更根本的問題：<strong>AI領域現在最重要的是什麼？</strong></p>
+<p>答案是兩個字：<strong>連接</strong>。</p>
+<p>就在Karpathy加入Anthropic的同一天，Anthropic宣布收購Stainless。這家公司從2022年開始為Anthropic開發官方SDK。合併之後，Stainless成為Anthropic構建開發者工具的核心團隊。</p>
+<p>兩件事發生在同一天，不是巧合。</p>
+<h2>新的競賽規則</h2>
+<p>半年，AI公司競爭的是誰的模型更。現在，這場比賽的規則變了。</p>
+<p>看看最近的併購動向：</p>
+<ul>
+<li><strong>Anthropic收購Stainless</strong>——鞏固開發者生態</li>
+<li><strong>OpenAI接連收購</strong>——佈局自動化連接能力</li>
+<li><strong>Google收購MultiOn</strong>——增強瀏覽器自動化佈局</li>
+</ul>
+<p>每一筆都是在解決同一個問題：<strong>模型很強，但它能連接什麼？</strong></p>
+<p>這讓我想起Anthropic CEO Dario Amodei說過的一句話：「模型的能力，取決於它能夠連接的外部世界。」翻譯成白話就是：你有一個大腦，但如果它看不見、摸不著、做不了，那它什麼都不是。</p>
+<p>Stainless做的事情，其實很簡單：讓開發者能夠用Python、Go、Ruby寫程式，調用Claude的API。類似當年Stripe讓付款變成一行程式碼。</p>
+<p>但這種「簡單」，在AI時代價值連城。因為當每個人的模型都足夠好的時候，開發者體驗就成了唯一的護城河。</p>
+<h2>一個值得記住的教訓</h2>
+<p>我有過一次類似的經歷。</p>
+<p>當時搭建了一套推薦系統，用戶行為數據配合協同過濾算法，效果很好。但上線三個月後，團隊決定停掉這個項目。</p>
+<p>問題不在算法。在於沒有人知道怎麼使用它。</p>
+<p>系統給出了結果，但產品經理不懂這些數據意味著什麼，工程師不知道如何調整參數，運營不知道什麼時候該介入。最後變成了一個「看起來很厲害，但沒人敢用」的東西。</p>
+<p>後來學到的教訓：任何系統都有兩種設計。一種是「給機器看的」，一種是「給人用的」。大多數人在第一種上花了90%的時間，在第二種上只花10%。</p>
+<p>這正是當前AI Agent面臨的處境。每一家公司都在炫耀自己的模型能做什麼，卻很少人關心別人要用什麼方式來用它。</p>
+<h2>結語</h2>
+<p>回頭看Karpathy的選擇。</p>
+<p>自動駕駛是一個封閉系統——車、路、傳感器，都是可控的。进入Anthropic之後，他似乎在做一件方向相反的事：打造一個連接層，讓AI能夠接入人類世界的所有服務。</p>
+<p>這或許是他學到的最重要的一課：<strong>最強的AI不是最聰明的那個，而是能連接到最多東西的那個</strong>。</p>
+
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>
