@@ -5,7 +5,7 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REMOTE="hello@212.64.11.60"
 REMOTE_DIR="/var/www/hello"
 SSH_KEY="$HOME/.ssh/tencent_01_hello"
-BASE_URL="http://212.64.11.60"
+BASE_URL="https://agentlab.fun"
 
 cd "$ROOT_DIR"
 
@@ -31,7 +31,6 @@ rsync -avz --delete \
   --exclude ".DS_Store" \
   --exclude "node_modules/" \
   --exclude "*.bak" \
-  --chmod=D755,F644 \
   -e "ssh -i $SSH_KEY" \
   "$SOURCE_DIR/" "$REMOTE:$REMOTE_DIR/"
 
@@ -51,7 +50,7 @@ urls=(
 
 failed=0
 for url in "${urls[@]}"; do
-  status="$(curl -sS -o /dev/null -w "%{http_code}" "$BASE_URL$url")"
+  status="$(curl -L -sS -o /dev/null -w "%{http_code}" "$BASE_URL$url")"
   printf "%s %s\n" "$status" "$BASE_URL$url"
   if [[ "$status" != "200" ]]; then
     failed=1
