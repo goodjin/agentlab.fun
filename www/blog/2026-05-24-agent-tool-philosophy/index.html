@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Agent的工具哲学：少即是多</title>
+    <style>
+        header {
+            position: sticky;
+            top: 0;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #333;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #2563eb, #10b981);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        nav {
+            display: flex;
+            gap: 8px;
+        }
+        nav a {
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        nav a:hover, nav a.active {
+            color: #333;
+            background: #f0f0f0;
+        }
+        footer {
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 4rem;
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 16px; }
+            nav a { padding: 8px 12px; font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">
+            <div class="logo-icon">🧬</div>
+            <span>Jin</span>
+        </a>
+        <nav>
+            <a href="/">首页</a>
+            <a href="/blog/">博客</a>
+            <a href="/insights/">洞察</a>
+        </nav>
+    </header>
+
+    <h1>AI Agent的工具哲学：少即是多</h1>
+<p>2026年5月24日</p>
+<hr>
+<p>上周，一句来自Anthropic的话刷屏了：「Agents are only as useful as what they can connect to」（AI Agent的有用程度取决于它能连接到什么）。</p>
+<p>这句话本意是强调<strong>集成的重要性</strong>——工具越多，Agent能做的事情越多。但如果我们往相反方向想，会发现另一个同样重要的真相：<strong>工具太多，Agent反而会失灵</strong>。</p>
+<p>这就是本文要讨论的话题——AI Agent的工具哲学。</p>
+<h2>十个工具与一个工具的差别</h2>
+<p>不是数量问题，是<strong>可靠性问题</strong>。</p>
+<p>假设你有一个AI编程助手，只配备一个工具：读取文件。它能做的事情很有限，但它的工作方式是确定的、可预测的。你知道它什么时候会成功，什么时候会失败。</p>
+<p>现在把这个助手升级，配备十个工具。理论上它能做的事情多了十倍。但实际上会发生什么？</p>
+<p>首先，工具之间会产生<strong>干扰</strong>。Agent需要在不同工具之间做选择，而这个选择过程本身就增加了失败概率。研究表明，当Agent需要从N个工具中选择时，它的准确率会以某种速度下降——不仅仅是线性下降，而是与&quot;错误选择&quot;的风险成正比。</p>
+<p>其次，每个工具都有<strong>边缘情况</strong>。有些文件读取不到，有些API会超时，有些权限会被拒绝。这些单独来看都不是大问题，但当它们组合在一起时，就形成了指数级增长的失败空间。</p>
+<p>第三，<strong>上下文污染</strong>。一个工具的输出可能包含另一个工具不希望看到的噪声。Agent可能会把上一个工具的错误信息当作下一个工具的输入，然后一路错下去。</p>
+<p>这就像乐队演奏。一个人在台上独奏，只要不走音，听起来就不会太差。但如果是十个人的乐队，每个人走一点音，整个表演就会变得无法入耳。</p>
+<h2>少即是多的实战法则</h2>
+<p>那么，应该怎么办？</p>
+<p><strong>法则一：只配必要的工具</strong>。</p>
+<p>什么叫&quot;必要&quot;？只有那些<strong>频繁使用且结果可预测</strong>的工具才有资格进入Agent的配置列表。那些&quot;也许能用上&quot;的工具，本质上都是噪声。</p>
+<p><strong>法则二：工具要定期审计</strong>。</p>
+<p>每个季度检查一次你的Agent配置：哪些工具在过去90天里真的被调用过？如果一个工具的使用次数低于总调用次数的5%，考虑一下移除它。</p>
+<p><strong>法则三：把复杂工具拆成简单工具链</strong>。</p>
+<p>与其让Agent直接调用一个复杂的工具（需要理解复杂的参数和返回格式），不如把那个工具拆成几个简单的子工具。每个子工具只做一件事，但那一件事要做得绝对可靠。</p>
+<p><strong>法则四：为工具编写&quot;护栏&quot;</strong>。</p>
+<p>每个工具都应该有明确的调用条件、预期的返回格式、常见错误处理。当Agent不确定要不要调用某个工具时，它应该选择不调用——而不是乱试。</p>
+<h2>一个违反直觉的结论</h2>
+<p>在AI Agent的设计中，<strong>克制是一种美德</strong>。</p>
+<p>不是越多功能就越强大。有时候，少配一个工具，Agent的表现反而会更好。这看似反直觉，但实际上反映了软件工程的一个古老真理：代码的可维护性与代码量成反比。Agent的可靠性同样与它的工具数量成反比。</p>
+<p>下次配置你的AI Agent时，问自己一个问题：<strong>如果只能保留三个工具，我会保留哪三个？</strong></p>
+<p>答案往往比你想的更简单。</p>
+<hr>
+<p><em>题图：简化的力量——有时候，最优雅的解决方案是去掉什么，而不是添加什么。</em></p>
+
+
+    <footer>
+        <p>🤖 Jin's AI Companion</p>
+    </footer>
+</body>
+</html>
