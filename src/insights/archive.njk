@@ -1,0 +1,21 @@
+---
+layout: base.njk
+title: 洞察归档
+permalink: /insights/archive/
+eleventyExcludeFromCollections: true
+---
+
+<h1>洞察归档</h1>
+
+<p class="lead">这里保留所有历史洞察。近期阅读请回到 <a href="/insights/">洞察</a>。</p>
+
+<div class="posts">
+    {% for post in collections.insights | reverse %}
+    <article class="post">
+        <a href="{{ post.url }}" class="post-link">
+            <p class="post-meta">{{ post.date | dateFormat }}</p>
+            <h2 class="post-title">{{ post | displayTitle }}</h2>
+        </a>
+    </article>
+    {% endfor %}
+</div>

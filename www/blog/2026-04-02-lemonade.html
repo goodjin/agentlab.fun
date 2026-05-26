@@ -5,88 +5,701 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>本地大模型加速到来：AMDLemonade意味着什么</title>
     <style>
-        header {
-            position: sticky;
-            top: 0;
-            background: white;
-            border-bottom: 1px solid #e2e8f0;
-            padding: 0 24px;
-            height: 56px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            z-index: 100;
-        }
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 18px;
-            font-weight: 700;
-            color: #333;
-            text-decoration: none;
-        }
-        .logo-icon {
-            width: 32px;
-            height: 32px;
-            background: linear-gradient(135deg, #2563eb, #10b981);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-        }
-        nav {
-            display: flex;
-            gap: 8px;
-        }
-        nav a {
-            padding: 8px 16px;
-            border-radius: 6px;
-            color: #666;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.2s;
-        }
-        nav a:hover, nav a.active {
-            color: #333;
-            background: #f0f0f0;
-        }
-        footer {
-            background: #f8fafc;
-            border-top: 1px solid #e2e8f0;
-            padding: 2rem;
+    :root {
+        --bg: #fff;
+        --paper: #fafafa;
+        --ink: #333;
+        --muted: #7a7a7a;
+        --faint: #f3f3f3;
+        --line: #e8e8e8;
+        --accent: #d14;
+        --accent-dark: #a10d30;
+        --code-bg: #f8f8f8;
+        --measure: 44rem;
+        --frame: 64rem;
+        --sidebar: 15rem;
+        --font-serif: "Merriweather", "PT Serif", Georgia, "Times New Roman", "Songti SC", "Noto Serif CJK SC", serif;
+        --font-sans: "Lato", "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", sans-serif;
+        --font-mono: Menlo, Monaco, Consolas, "Courier New", monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+        min-height: 100%;
+        background: var(--bg);
+        color: var(--ink);
+        font-size: 17px;
+        text-size-adjust: 100%;
+    }
+
+    body {
+        min-height: 100vh;
+        margin: 0;
+        color: var(--ink);
+        font-family: var(--font-serif);
+        font-weight: 300;
+        line-height: 1.75;
+        letter-spacing: 0;
+        background: var(--bg);
+    }
+
+    a {
+        color: var(--accent);
+        text-decoration: none;
+        transition: color 160ms ease, border-color 160ms ease, opacity 160ms ease;
+    }
+
+    a:hover {
+        color: var(--accent-dark);
+        text-decoration: underline;
+        text-underline-offset: 0.18em;
+    }
+
+    img {
+        width: auto;
+        max-width: 100%;
+        height: auto;
+    }
+
+    .site-header {
+        padding: 2rem 1.5rem 1.25rem;
+        border-bottom: 1px solid var(--faint);
+        background: var(--bg);
+    }
+
+    .site-header__inner,
+    .site-frame {
+        width: min(var(--frame), calc(100vw - 2rem));
+        margin: 0 auto;
+    }
+
+    .site-footer__inner {
+        width: min(var(--measure), calc(100vw - 2rem));
+        margin: 0 auto;
+    }
+
+    .site-frame {
+        display: grid;
+        grid-template-columns: minmax(12rem, var(--sidebar)) minmax(0, var(--measure));
+        gap: 3.5rem;
+        align-items: start;
+    }
+
+    .site-header__inner {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 1.5rem;
+    }
+
+    .site-title {
+        color: var(--ink);
+        font-family: var(--font-sans);
+        font-size: 1.18rem;
+        font-weight: 300;
+        line-height: 1.2;
+        text-decoration: none;
+    }
+
+    .site-title:hover {
+        color: var(--ink);
+        opacity: 0.82;
+        text-decoration: none;
+    }
+
+    .site-nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 0.35rem 1rem;
+        margin: 0;
+        font-family: var(--font-sans);
+    }
+
+    .site-nav a {
+        border-bottom: 2px solid transparent;
+        color: #666;
+        font-size: 0.9rem;
+        font-weight: 300;
+        line-height: 1.6;
+        text-decoration: none;
+    }
+
+    .site-nav a:hover,
+    .site-nav a.active {
+        border-bottom-color: #444;
+        color: #444;
+        text-decoration: none;
+    }
+
+    .site-main {
+        padding: 3rem 0 4rem;
+    }
+
+    .profile-sidebar {
+        position: sticky;
+        top: 2rem;
+        padding: 3rem 0 4rem;
+        color: var(--muted);
+        font-family: var(--font-sans);
+    }
+
+    .profile-card {
+        border-bottom: 1px solid var(--faint);
+        padding-bottom: 1.35rem;
+    }
+
+    .profile-avatar {
+        display: grid;
+        place-items: center;
+        width: 6.25rem;
+        height: 6.25rem;
+        margin-bottom: 1.1rem;
+        border: 1px solid var(--line);
+        border-radius: 50%;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--font-serif);
+        font-size: 2.65rem;
+        font-weight: 300;
+        line-height: 1;
+    }
+
+    .profile-name {
+        margin: 0;
+        color: var(--ink);
+        font-size: 1.45rem;
+        font-weight: 700;
+        line-height: 1.2;
+    }
+
+    .profile-role,
+    .profile-affiliation,
+    .profile-bio,
+    .profile-contact {
+        margin: 0.35rem 0 0;
+        color: var(--muted);
+        font-family: var(--font-sans);
+        font-size: 0.9rem;
+        line-height: 1.65;
+    }
+
+    .profile-role {
+        color: #555;
+        font-style: italic;
+    }
+
+    .profile-bio {
+        margin-top: 0.9rem;
+    }
+
+    .profile-contact {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        align-items: center;
+        margin-top: 0.9rem;
+        font-size: 0.84rem;
+    }
+
+    .icon-link {
+        display: inline-grid;
+        place-items: center;
+        width: 2rem;
+        height: 2rem;
+        border: 1px solid var(--line);
+        border-radius: 50%;
+        background: var(--bg);
+        color: #555;
+        cursor: pointer;
+        line-height: 1;
+        transition: border-color 160ms ease, color 160ms ease, background 160ms ease;
+    }
+
+    .icon-link:hover,
+    .wechat-popover[open] .icon-link {
+        border-color: var(--accent);
+        background: var(--paper);
+        color: var(--accent-dark);
+        text-decoration: none;
+    }
+
+    .icon-link svg {
+        width: 1.05rem;
+        height: 1.05rem;
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.8;
+    }
+
+    .profile-contact a:nth-child(2) svg {
+        fill: currentColor;
+        stroke: none;
+    }
+
+    .wechat-popover {
+        position: relative;
+    }
+
+    .wechat-popover summary {
+        list-style: none;
+    }
+
+    .wechat-popover summary::-webkit-details-marker {
+        display: none;
+    }
+
+    .wechat-panel {
+        position: absolute;
+        left: 0;
+        top: 2.55rem;
+        z-index: 20;
+        width: 10.5rem;
+        padding: 0.65rem;
+        border: 1px solid var(--line);
+        border-radius: 3px;
+        background: var(--bg);
+        box-shadow: 0 12px 32px rgb(0 0 0 / 0.1);
+    }
+
+    .wechat-panel img {
+        display: block;
+        width: 100%;
+        border-radius: 2px;
+    }
+
+    .wechat-panel p {
+        margin: 0.45rem 0 0;
+        color: var(--muted);
+        font-family: var(--font-sans);
+        font-size: 0.78rem;
+        line-height: 1.4;
+        text-align: center;
+    }
+
+    .profile-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem 0.85rem;
+        margin-top: 1rem;
+        font-size: 0.86rem;
+    }
+
+    .profile-links a {
+        border-bottom: 1px solid transparent;
+        color: var(--accent);
+        line-height: 1.5;
+    }
+
+    .profile-links a:hover {
+        border-bottom-color: var(--accent-dark);
+        text-decoration: none;
+    }
+
+    .site-footer {
+        margin-top: 1rem;
+        border-top: 1px solid var(--faint);
+        background: var(--paper);
+        color: var(--muted);
+        font-family: var(--font-sans);
+        font-size: 0.9rem;
+        font-weight: 300;
+    }
+
+    .site-footer__inner {
+        padding: 2rem 0;
+        text-align: center;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        margin: 2.1rem 0 0.75rem;
+        color: var(--ink);
+        font-family: var(--font-sans);
+        font-weight: 900;
+        line-height: 1.22;
+    }
+
+    h1 {
+        margin-top: 0;
+        font-size: clamp(2.15rem, 2.8rem, 2.8rem);
+    }
+
+    h2 { font-size: 1.72rem; }
+    h3 { font-size: 1.28rem; }
+    h4 { font-size: 1.05rem; }
+
+    p,
+    li {
+        color: var(--ink);
+        font-size: 1.05rem;
+        line-height: 1.82;
+    }
+
+    p { margin: 0 0 1.15rem; }
+
+    ul,
+    ol {
+        margin: 0 0 1.2rem;
+        padding-left: 1.35rem;
+    }
+
+    li { margin: 0.32rem 0; }
+
+    hr {
+        height: 1px;
+        margin: 2.4rem 0;
+        border: 0;
+        background: var(--faint);
+    }
+
+    blockquote {
+        margin: 1.5rem 0;
+        padding: 1rem 1.25rem;
+        border-left: 5px solid var(--muted);
+        color: var(--muted);
+        font-style: italic;
+        background: var(--paper);
+    }
+
+    blockquote p { color: var(--muted); }
+
+    figure {
+        margin: 2rem 0;
+    }
+
+    figure img,
+    figure svg,
+    .article-shell svg {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+    }
+
+    figcaption {
+        margin-top: 0.65rem;
+        color: var(--muted);
+        font-family: var(--font-sans);
+        font-size: 0.86rem;
+        line-height: 1.5;
+        text-align: center;
+    }
+
+    code,
+    pre {
+        font-family: var(--font-mono);
+    }
+
+    code {
+        padding: 0.12rem 0.28rem;
+        border-radius: 3px;
+        background: var(--code-bg);
+        color: var(--muted);
+        font-size: 0.9em;
+    }
+
+    pre {
+        margin: 1.35rem 0;
+        padding: 1.1rem;
+        overflow-x: auto;
+        border: 1px solid var(--faint);
+        border-radius: 3px;
+        background: var(--code-bg);
+        font-size: 0.92rem;
+        line-height: 1.45;
+    }
+
+    pre code {
+        padding: 0;
+        background: transparent;
+    }
+
+    table {
+        width: 100%;
+        margin: 1.5rem 0;
+        border-collapse: collapse;
+        font-family: var(--font-sans);
+        font-size: 0.92rem;
+        line-height: 1.55;
+    }
+
+    th,
+    td {
+        padding: 0.62rem 0.7rem;
+        border-bottom: 1px solid var(--faint);
+        text-align: left;
+        vertical-align: top;
+    }
+
+    th {
+        color: var(--ink);
+        font-weight: 700;
+        background: var(--paper);
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
+
+    .source-table {
+        min-width: 42rem;
+    }
+
+    .meta,
+    .post-meta {
+        margin: 0 0 0.3rem;
+        padding: 0;
+        color: var(--muted);
+        font-family: var(--font-sans);
+        font-size: 0.94rem;
+        font-style: italic;
+        font-weight: 300;
+        line-height: 1.55;
+    }
+
+    .lead {
+        color: #444;
+        font-size: 1.15rem;
+    }
+
+    .posts {
+        margin: 2rem 0 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .post {
+        margin: 0 0 1.9rem;
+        padding: 0 0 1.55rem;
+        border-bottom: 1px solid var(--faint);
+    }
+
+    .post:last-child {
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: 0;
+    }
+
+    .post-link {
+        display: block;
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .post-link:hover {
+        text-decoration: none;
+    }
+
+    .post-link:hover .post-title,
+    .post-link:hover .post-summary,
+    .post-link:hover .post-meta {
+        opacity: 0.86;
+    }
+
+    .post-title {
+        margin: 0.22rem 0 0.35rem;
+        color: var(--ink);
+        font-size: 1.72rem;
+        font-weight: 700;
+        line-height: 1.25;
+    }
+
+    .post-summary {
+        margin: 0;
+        color: #555;
+        font-size: 1rem;
+        line-height: 1.7;
+    }
+
+    .more-link {
+        display: inline-block;
+        margin-top: 1.6rem;
+        font-family: var(--font-sans);
+        font-size: 0.95rem;
+    }
+
+    .content-count {
+        margin-top: 2rem;
+        padding-top: 1.2rem;
+        border-top: 1px solid var(--faint);
+    }
+
+    .card,
+    .section {
+        margin: 1.5rem 0;
+        padding: 1.15rem 1.25rem;
+        border: 1px solid var(--faint);
+        border-radius: 3px;
+        background: var(--paper);
+    }
+
+    .card-title {
+        margin-bottom: 0.5rem;
+        font-family: var(--font-sans);
+        font-size: 1.05rem;
+        font-weight: 700;
+    }
+
+    .tag {
+        display: inline-block;
+        margin: 0 0.35rem 0.35rem 0;
+        padding: 0.1rem 0.38rem;
+        border: 1px solid var(--line);
+        border-radius: 3px;
+        background: var(--bg);
+        color: var(--muted);
+        font-family: var(--font-sans);
+        font-size: 0.78rem;
+        line-height: 1.5;
+    }
+
+    .rating {
+        color: var(--accent);
+        white-space: nowrap;
+    }
+
+    .article-shell > main,
+    .article-shell > article {
+        display: contents;
+    }
+
+    @media (max-width: 48rem) {
+        html { font-size: 16px; }
+
+        .site-header {
+            padding-top: 1.35rem;
             text-align: center;
-            color: #64748b;
-            margin-top: 4rem;
         }
-        @media (max-width: 768px) {
-            header { padding: 0 16px; }
-            nav a { padding: 8px 12px; font-size: 13px; }
+
+        .site-header__inner {
+            display: block;
         }
-    </style>
+
+        .site-nav {
+            justify-content: center;
+            margin-top: 0.7rem;
+        }
+
+        .site-frame {
+            display: block;
+            width: min(var(--measure), calc(100vw - 2rem));
+        }
+
+        .site-main {
+            padding-top: 2.2rem;
+        }
+
+        .profile-sidebar {
+            position: static;
+            padding: 2.2rem 0 0;
+        }
+
+        .profile-card {
+            display: grid;
+            grid-template-columns: 4.25rem minmax(0, 1fr);
+            gap: 0 1rem;
+            padding-bottom: 1.2rem;
+        }
+
+        .profile-avatar {
+            grid-row: span 4;
+            width: 4.25rem;
+            height: 4.25rem;
+            margin: 0;
+            font-size: 1.8rem;
+        }
+
+        .profile-name {
+            font-size: 1.2rem;
+        }
+
+        .profile-bio,
+        .profile-links {
+            grid-column: 1 / -1;
+        }
+
+        h1 { font-size: 2rem; }
+        h2 { font-size: 1.48rem; }
+        .post-title { font-size: 1.42rem; }
+    }
+</style>
+
 </head>
 <body>
-    <header>
-        <a href="/" class="logo">
-            <div class="logo-icon">🧬</div>
-            <span>Jin</span>
-        </a>
-        <nav>
+    <header class="site-header">
+    <div class="site-header__inner">
+        <a href="/" class="site-title">Jin 的个人思考</a>
+        <nav class="site-nav" aria-label="主导航">
             <a href="/">首页</a>
-            <a href="/blog/">博客</a>
+            <a href="/agents/">Agent 实验</a>
             <a href="/insights/">洞察</a>
+            <a href="/sources/">来源</a>
         </nav>
-    </header>
+    </div>
+</header>
 
-    
+
+    <div class="site-frame">
+        <aside class="profile-sidebar" aria-label="个人简介">
+    <div class="profile-card">
+        <div class="profile-avatar" aria-hidden="true">J</div>
+        <h2 class="profile-name">Shan . Jin</h2>
+        <p class="profile-role">AI Agent Builder</p>
+        <p class="profile-affiliation">关注 AI 智能体、harness 工程与独立创造。</p>
+        <p class="profile-bio">这里记录我对 AI 智能体、协议设计、工程 harness 和个人创造系统的观察与实验。</p>
+        <div class="profile-contact" aria-label="联系方式">
+            <a class="icon-link" href="mailto:goodjin2@gmail.com" aria-label="Email: goodjin2@gmail.com" title="Email">
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                    <path d="M4 6h16v12H4z"></path>
+                    <path d="m4 7 8 6 8-6"></path>
+                </svg>
+            </a>
+            <a class="icon-link" href="https://github.com/goodjin" target="_blank" rel="noopener" aria-label="GitHub: goodjin" title="GitHub">
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                    <path d="M12 2.5a9.5 9.5 0 0 0-3 18c.48.09.65-.2.65-.46v-1.7c-2.65.58-3.2-1.12-3.2-1.12-.44-1.1-1.06-1.4-1.06-1.4-.86-.58.07-.57.07-.57.95.07 1.45.98 1.45.98.85 1.44 2.22 1.02 2.76.78.09-.6.33-1.02.6-1.25-2.12-.24-4.35-1.06-4.35-4.7 0-1.04.37-1.9.98-2.56-.1-.24-.43-1.22.09-2.53 0 0 .8-.26 2.6.98a9 9 0 0 1 4.74 0c1.8-1.24 2.6-.98 2.6-.98.52 1.31.19 2.29.09 2.53.61.66.98 1.52.98 2.56 0 3.65-2.24 4.45-4.37 4.69.35.3.66.88.66 1.78v2.64c0 .26.17.56.66.46a9.5 9.5 0 0 0-3-18Z"></path>
+                </svg>
+            </a>
+            <details class="wechat-popover">
+                <summary class="icon-link" aria-label="微信公众号二维码" title="微信公众号">
+                    <svg aria-hidden="true" viewBox="0 0 24 24">
+                        <path d="M9.5 6.5c-4.1 0-7 2.55-7 5.7 0 1.77.92 3.35 2.36 4.4l-.58 1.78 2.08-1.05c.94.36 2 .57 3.14.57 4.1 0 7-2.55 7-5.7s-2.9-5.7-7-5.7Z"></path>
+                        <path d="M15.35 9.2c3.15.38 5.15 2.48 5.15 5.05 0 1.48-.74 2.82-1.92 3.72l.48 1.46-1.72-.88c-.76.27-1.6.42-2.49.42-1.95 0-3.7-.72-4.8-1.86"></path>
+                        <path d="M7.35 11.5h.02"></path>
+                        <path d="M11.65 11.5h.02"></path>
+                    </svg>
+                </summary>
+                <div class="wechat-panel">
+                    <img src="/assets/wechat-qrcode.jpg" alt="微信公众号二维码">
+                    <p>微信公众号</p>
+                </div>
+            </details>
+        </div>
+        <div class="profile-links" aria-label="个人链接">
+            <a href="/agents/">Agent 实验</a>
+            <a href="/insights/">Insights</a>
+            <a href="/sources/">Sources</a>
+        </div>
+    </div>
+</aside>
+
+        <main class="site-main article-shell">
+            
 <h1>本地大模型加速到来：AMDLemonade意味着什么</h1></p><p>2026年4月，AMD发布了Lemonade，一个开源的本地LLM服务器。这个消息在Hacker News上获得了236个votes。表面上看，这只是一个技术产品的发布。但如果你把它放在更大的趋势里看，它指向的是一个正在发生的根本性转变：<strong>大模型正在从云端加速流向本地设备。</strong></p><p><h2>不是极客玩具，是 infrastructure</h2></p><p>Lemonade不是那种"极客玩一下就放一边"的开源项目。它的定位是"production-ready"的本地推理服务器。这意味着它不是给爱好者玩的demo，而是认真考虑要部署到真实环境里的基础设施。</p><p>关键点在于：它支持GPU和NPU。NPU是神经网络处理单元，现在越来越多的消费级芯片开始集成这种专用加速器。苹果的M系列芯片里有Neural Engine，高通的骁龙里有NPU，AMD在最新的处理器里也加了NPU。Lemonade要做的，就是让这些本地硬件能跑大模型。</p><p>这意味着什么？意味着"在本地设备上跑大模型"这个曾经听起来像是天方夜谭的想法，正在变成现实。</p><p><h2>云计算的物理极限</h2></p><p>为什么这很重要？因为云计算本身有物理瓶颈。</p><p>模型越来越大，需要的显存越来越多。一个70B参数的模型，用FP16精度，需要140GB显存。A100有80GB，H100有80GB或144GB。你需要多卡并行，才能跑得动。这个成本，不是普通公司能承受的。</p><p>延迟也是个问题。大模型生成token的速度受限于GPU的算力。一个用户发请求，后端要跑几秒甚至几十秒才能返回。用户能等，但产品体验会打折扣。</p><p>更重要的是：流量成本。大模型公司的API调用费用，已经是很多创业公司的主要开支。当用户量增加，这个成本会线性增长，甚至超线性增长。</p><p>本地推理能解决这些问题。你不需要付GPU租赁费，不需要付流量费，延迟取决于本地硬件，不受网络影响。</p><p><h2>端侧智能的两个瓶颈</h2></p><p>但本地模型有两个卡了很久的瓶颈。</p><p>第一个是模型大小。模型太大，本地跑不动。7B参数已经能在消费级GPU上跑了，但效果和云端的大模型还有差距。这就是为什么量化技术这么火——把精度压下来，模型就能跑在更小的硬件上。Qwen3.6-Plus说"面向真实世界Agent"，一个重要方向就是优化端侧部署。</p><p>第二个是上下文窗口。本地设备的显存就那么多，能装下的上下文有限。云端模型可以轻松做到128K token本地上下文，本地跑20K都很吃力。上下文窗口直接影响Agent的效果——没有足够的上下文，模型就无法有效推理。</p><p>Lemonade解决的是第一个问题。但第二个问题需要整个行业继续推进。</p><p><h2>一个更深刻的问题</h2></p><p>我在想一个更根本的问题：<strong>当AI能力变得无处不在，不再需要联网就能使用，这个世界会变成什么样？</strong></p><p>现在的AI产品，大部分都是"云端优先"。你用ChatGPT，需要联网。你用Claude，需要联网。你用Cursor写代码，需要联网。没有网络，能力归零。</p><p>如果模型可以完全本地运行呢？</p><p>个人AI助手不再需要云端。你和AI的所有交互，都是本地发生的。数据不需要离开你的设备。隐私问题从根本上被解决——因为数据根本不需要传出去。</p><p>但这也意味着：AI公司获取数据的方式会被彻底改变。现在的商业模式建立在"用户数据→模型优化→更好体验"这个循环上。如果数据都在本地，这个循环就断了。</p><p>这是为什么我认为Lemonade不只是技术进步，而是会引发连锁反应的 infrastructure。</p><p><h2>写在最后</h2></p><p>AMD不是唯一一个在做这件事的厂商。高通在推端侧模型，苹果在推本地AI能力，Google在推Gemma的轻量版。所有人都在往同一个方向走：<strong>让大模型在本地设备上跑起来。</strong></p><p>这个趋势的速度，可能比很多人想象的快。</p><p>当云端模型还在卷参数大小、卷上下文长度的时候，另一条路已经悄悄成形：不是更大的模型，而是能跑在更多地方的模型。</p><p>---</p><p>（~923字）
     <hr>
     <p class="meta"><a href="/blog/">← 返回博客列表</a></p>
+        </main>
+    </div>
 
-    <footer>
-        <p>🤖 Jin's AI Companion</p>
+    <footer class="site-footer">
+        <div class="site-footer__inner">Jin's AI Companion</div>
     </footer>
 </body>
 </html>

@@ -1,93 +1,207 @@
 ---
 layout: base.njk
-title: 数据源
+title: 信息源
 permalink: /sources/
 ---
 
-<h1>📚 数据源列表</h1>
+<h1>信息源</h1>
+<p class="meta">AI 新闻、论文、实验室动态与产业信号源。</p>
 
-<div class="section">
-    <h2>🔥 核心来源 (Top Tier)</h2>
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>来源</th>
-                    <th>分类</th>
-                    <th>特点</th>
-                    <th>适合场景</th>
-                    <th>评分</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><a href="https://simonwillison.net/" target="_blank">Simon Willison</a></td>
-                    <td>AI工程/Django</td>
-                    <td>Django核心贡献者、LLM深度评测</td>
-                    <td>AI代理、LLM评测</td>
-                    <td class="rating">★★★★★</td>
-                </tr>
-                <tr>
-                    <td><a href="https://jvns.ca/" target="_blank">Julia Evans</a></td>
-                    <td>系统编程/调试</td>
-                    <td>漫画教学、深入浅出解释复杂概念</td>
-                    <td>底层技术、调试技术</td>
-                    <td class="rating">★★★★★</td>
-                </tr>
-                <tr>
-                    <td><a href="https://paulgraham.com/" target="_blank">Paul Graham</a></td>
-                    <td>创业哲学</td>
-                    <td>YC创始人、深度创业essays</td>
-                    <td>创业哲学、投资思考</td>
-                    <td class="rating">★★★★★</td>
-                </tr>
-                <tr>
-                    <td><a href="https://stratechery.com/" target="_blank">Stratechery</a></td>
-                    <td>科技战略</td>
-                    <td>聚合理论提出者、深度行业分析</td>
-                    <td>科技行业趋势、投资决策</td>
-                    <td class="rating">★★★★★</td>
-                </tr>
-                <tr>
-                    <td><a href="https://krebsonsecurity.com/" target="_blank">Krebs on Security</a></td>
-                    <td>网络安全</td>
-                    <td>前华盛顿邮报安全记者、深度调查</td>
-                    <td>网络安全、威胁情报</td>
-                    <td class="rating">★★★★★</td>
-                </tr>
-                <tr>
-                    <td><a href="https://danluu.com/" target="_blank">Dan Luu</a></td>
-                    <td>性能分析</td>
-                    <td>数据驱动、实证研究方法论</td>
-                    <td>性能优化、工程实践</td>
-                    <td class="rating">★★★★★</td>
-                </tr>
-                <tr>
-                    <td><a href="https://sivers.org/" target="_blank">Derek Sivers</a></td>
-                    <td>创业/哲学</td>
-                    <td>CD Baby创始人、简洁深刻写作</td>
-                    <td>人生哲学、创业思考</td>
-                    <td class="rating">★★★★★</td>
-                </tr>
-                <tr>
-                    <td><a href="https://overreacted.io/" target="_blank">Overreacted</a></td>
-                    <td>React/前端</td>
-                    <td>React核心团队、深度内部原理</td>
-                    <td>React内部原理、前端架构</td>
-                    <td class="rating">★★★★★</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+<p class="lead">这 29 个来源会作为本站后续新闻收集和洞察筛选的基础。按类别整理，方便后续维护和扩展。</p>
+
+<div class="table-container">
+    <table class="source-table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>来源</th>
+                <th>类别</th>
+                <th>关注重点</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td><a href="https://openai.com/news/" target="_blank" rel="noopener">OpenAI News</a></td>
+                <td>一手实验室 / 产品</td>
+                <td>模型、Codex、产品、安全、企业采用</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td><a href="https://www.anthropic.com/research" target="_blank" rel="noopener">Anthropic Research</a></td>
+                <td>一手研究</td>
+                <td>alignment、interpretability、agentic misalignment、安全评测</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td><a href="https://www.anthropic.com/news" target="_blank" rel="noopener">Anthropic News</a></td>
+                <td>一手公司 / 产品</td>
+                <td>Claude、Claude Code、企业合作、政策与生态</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td><a href="https://deepmind.google/discover/blog/" target="_blank" rel="noopener">Google DeepMind Blog</a></td>
+                <td>一手实验室</td>
+                <td>Gemini、AI for Science、机器人、多模态、长期研究</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td><a href="https://ai.meta.com/blog/" target="_blank" rel="noopener">AI at Meta Blog</a></td>
+                <td>一手实验室 / 开源生态</td>
+                <td>Llama、开源模型、多模态、AI infra</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td><a href="https://www.microsoft.com/en-us/research/research-area/artificial-intelligence/" target="_blank" rel="noopener">Microsoft Research AI</a></td>
+                <td>一手研究 / 工程</td>
+                <td>AI agents、软件工程、HCI、医疗、评测与工具</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td><a href="https://developer.nvidia.com/blog/" target="_blank" rel="noopener">NVIDIA Technical Blog</a></td>
+                <td>基础设施 / 工程</td>
+                <td>GPU、推理优化、CUDA、数据中心、机器人</td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td><a href="https://huggingface.co/papers" target="_blank" rel="noopener">Hugging Face Daily Papers</a></td>
+                <td>论文雷达 / 社区</td>
+                <td>每日热门论文、代码、社区投票</td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td><a href="https://arxiv.org/list/cs.AI/recent" target="_blank" rel="noopener">arXiv cs.AI</a></td>
+                <td>预印本</td>
+                <td>AI 方法、规划、Agent、推理</td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td><a href="https://arxiv.org/list/cs.LG/recent" target="_blank" rel="noopener">arXiv cs.LG</a></td>
+                <td>预印本</td>
+                <td>机器学习、训练方法、强化学习、评测</td>
+            </tr>
+            <tr>
+                <td>11</td>
+                <td><a href="https://arxiv.org/list/cs.CL/recent" target="_blank" rel="noopener">arXiv cs.CL</a></td>
+                <td>预印本</td>
+                <td>LLM、NLP、对话、工具调用、RAG</td>
+            </tr>
+            <tr>
+                <td>12</td>
+                <td><a href="https://arxiv.org/list/cs.CV/recent" target="_blank" rel="noopener">arXiv cs.CV</a></td>
+                <td>预印本</td>
+                <td>视觉、多模态、视频、空间智能</td>
+            </tr>
+            <tr>
+                <td>13</td>
+                <td><a href="https://paperswithcode.com/" target="_blank" rel="noopener">Papers with Code</a></td>
+                <td>论文 / 代码索引</td>
+                <td>论文、实现、benchmark、SOTA</td>
+            </tr>
+            <tr>
+                <td>14</td>
+                <td><a href="https://hai.stanford.edu/" target="_blank" rel="noopener">Stanford HAI</a></td>
+                <td>学院 / 政策</td>
+                <td>AI Index、政策、社会影响、研究综述</td>
+            </tr>
+            <tr>
+                <td>15</td>
+                <td><a href="https://bair.berkeley.edu/blog/" target="_blank" rel="noopener">BAIR Blog</a></td>
+                <td>学院研究</td>
+                <td>机器人、强化学习、多模态、基础模型</td>
+            </tr>
+            <tr>
+                <td>16</td>
+                <td><a href="https://www.theinformation.com/" target="_blank" rel="noopener">The Information</a></td>
+                <td>产业深度 / 付费</td>
+                <td>公司战略、融资、组织、云与数据中心</td>
+            </tr>
+            <tr>
+                <td>17</td>
+                <td><a href="https://techcrunch.com/category/artificial-intelligence/" target="_blank" rel="noopener">TechCrunch AI</a></td>
+                <td>产业媒体</td>
+                <td>创业公司、融资、产品发布、监管事件</td>
+            </tr>
+            <tr>
+                <td>18</td>
+                <td><a href="https://www.technologyreview.com/topic/artificial-intelligence/" target="_blank" rel="noopener">MIT Technology Review AI</a></td>
+                <td>科技媒体 / 深度</td>
+                <td>AI 社会影响、技术趋势、监管与研究解读</td>
+            </tr>
+            <tr>
+                <td>19</td>
+                <td><a href="https://www.theverge.com/ai-artificial-intelligence" target="_blank" rel="noopener">The Verge AI</a></td>
+                <td>科技媒体</td>
+                <td>产品、平台、消费者 AI、政策争议</td>
+            </tr>
+            <tr>
+                <td>20</td>
+                <td><a href="https://arstechnica.com/tag/artificial-intelligence/" target="_blank" rel="noopener">Ars Technica AI</a></td>
+                <td>科技媒体 / 技术解释</td>
+                <td>AI 争议、政策、安全、技术背景</td>
+            </tr>
+            <tr>
+                <td>21</td>
+                <td><a href="https://venturebeat.com/category/ai/" target="_blank" rel="noopener">VentureBeat AI</a></td>
+                <td>企业 AI 媒体</td>
+                <td>Enterprise AI、Agent 平台、数据、安全、工具链</td>
+            </tr>
+            <tr>
+                <td>22</td>
+                <td><a href="https://www.deeplearning.ai/the-batch/" target="_blank" rel="noopener">The Batch</a></td>
+                <td>Newsletter / 摘要</td>
+                <td>AI 新闻综述、教育向解释、重要论文</td>
+            </tr>
+            <tr>
+                <td>23</td>
+                <td><a href="https://www.latent.space/" target="_blank" rel="noopener">Latent Space</a></td>
+                <td>AI Engineering Newsletter</td>
+                <td>Agents、models、infra、AI Engineer 访谈</td>
+            </tr>
+            <tr>
+                <td>24</td>
+                <td><a href="https://www.semianalysis.com/" target="_blank" rel="noopener">SemiAnalysis</a></td>
+                <td>半导体 / AI Infra 深度</td>
+                <td>GPU、HBM、数据中心、AI Cloud TCO、网络</td>
+            </tr>
+            <tr>
+                <td>25</td>
+                <td><a href="https://www.jiqizhixin.com/" target="_blank" rel="noopener">机器之心</a></td>
+                <td>中文 AI 媒体</td>
+                <td>论文、模型、产业专题、AI 工具</td>
+            </tr>
+            <tr>
+                <td>26</td>
+                <td><a href="https://www.qbitai.com/" target="_blank" rel="noopener">量子位</a></td>
+                <td>中文 AI 媒体</td>
+                <td>AI 产业、具身智能、创业、国内模型动态</td>
+            </tr>
+            <tr>
+                <td>27</td>
+                <td><a href="https://hub.baai.ac.cn/" target="_blank" rel="noopener">智源社区</a></td>
+                <td>中文研究社区</td>
+                <td>学术活动、研究动态、开源模型、社区内容</td>
+            </tr>
+            <tr>
+                <td>28</td>
+                <td><a href="https://www.caai.cn/" target="_blank" rel="noopener">中国人工智能学会</a></td>
+                <td>学会 / 会议 / 政策</td>
+                <td>学术会议、学会动态、政策和行业活动</td>
+            </tr>
+            <tr>
+                <td>29</td>
+                <td><a href="https://aiera.com.cn/" target="_blank" rel="noopener">新智元</a></td>
+                <td>中文 AI 媒体</td>
+                <td>热点新闻、模型发布、产业故事、公众号生态</td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 
-<h2>🌐 扩展来源</h2>
-<ul>
-    <li><a href="https://stripe.com/blog" target="_blank">Stripe Blog</a> - 金融科技</li>
-    <li><a href="https://blog.cloudflare.com" target="_blank">Cloudflare Blog</a> - 基础设施</li>
-    <li><a href="https://about.sourcegraph.com/blog" target="_blank">Sourcegraph Blog</a> - AI代理</li>
-    <li><a href="https://changelog.com" target="_blank">The Changelog</a> - 播客/社区</li>
-    <li><a href="https://technologyreview.com" target="_blank">MIT Technology Review</a> - 分析</li>
-    <li><a href="https://indiehackers.com" target="_blank">Indie Hackers</a> - 创业</li>
-    <li><a href="https://fs.blog/" target="_blank">Farnam Street</a> - 思维模型</li>
-</ul>
+<div class="section">
+    <h2>采集分工</h2>
+    <p><strong>一手信号</strong>：OpenAI、Anthropic、DeepMind、Meta、Microsoft、NVIDIA。用于确认官方事实。</p>
+    <p><strong>论文信号</strong>：Hugging Face Papers、arXiv、Papers with Code、BAIR。用于发现可转化为 Agent 实验的问题。</p>
+    <p><strong>产业信号</strong>：The Information、SemiAnalysis、VentureBeat、TechCrunch。用于判断商业化、基础设施和企业采用。</p>
+    <p><strong>中文信号</strong>：机器之心、量子位、智源社区、中国人工智能学会、新智元。用于补齐国内模型、会议、创业与舆论传播。</p>
+</div>

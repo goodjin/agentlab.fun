@@ -1,0 +1,33 @@
+---
+title: "droid的mission模式是怎么设计的"
+date: "2026-05-14T18:16:04+08:00"
+tags:
+  - blog
+permalink: /blog/2026-05-14-droid-mission-mode/
+---
+<h1>droid工具介绍</h1><p>factory.ai推出的AI编程工具droid，号称是<strong>一个能自主完成开发的 AI 团队</strong>。</p><p>崔老板说它是唯一能跑 16 天不崩的企业级编排，够夸张的。</p><p>智能体自主长时运行确实是AI-Agent赛道大家都在争夺的一个热点。</p><p>你有没有碰到过这类问题：agent执行任务时跑着跑着它就停下来了，询问你要不要继续，比如你交待了它要做8件事，它做完3个就停下来了：“我已经完成了1、2、3，要不要继续做剩下的”，即使你在交待任务时告诉它中途不要停也没用。</p><p>这是因为模型普遍存在上下文焦虑，模型本身对于「超长任务什么时候该停」的判断就是模糊的。</p><p>最近A记和O记都推出了goal模式，就是用于让agent一直自主推进任务执行到底用的。</p><p>而droid的mission模式，早就已经实现这个能力了。</p><p>它是怎么做到的？</p><p>长时间运行任务又是怎么运行的？给一句话需求就开始跑个不停吗？</p><p>为了研究这个工具是怎么做的，以及是否真如它所说可以长时运行任务，我在本地采用抓包的方式试运行了几个mission，根据抓到的日志分析了下它的设计思路。</p><p></p><p></p><h2>第一阶段：规划（Planning → Worker Design → Artifacts）</h2><p>从运行流程看，droid的设计跟业界主流的思路是很相似的，在启动mission之前先定义好规约：跟用户讨论需求和实现方案，通过多轮主动询问，澄清边界，定义约束，对齐验收标准，AI特色的feature拆分，将一个mission拆成多个feature，这样方便让多个agent去执行。</p><p>所以droid不是设计用来满足一句话需求，相反，它对需求计划阶段相当重视，将它作为一个完整的阶段来设计，这一阶段必须产出mission相关的说明文档、任务拆解、需要哪些worker来执行以及他们需要的技能。</p><p></p><h3>mission目录</h3><p>droid在第一阶段为每个mission创建了一个持久化目录：</p><p></p><p></p><p></p><p>features:有意思的是任务清单居然是用json格式保存的：features.json，难道它会让程序读取并进行编排？不完全是由大模型来驱动吗？等会我们分析下日志再看看是不是这样。</p><p>在droid的设计里，Feature 是最小执行单元，一个 feature 对应一个原子化开发任务。每个 feature 有完整的元数据：</p><pre><code>{
+   "id": "xctest-component-reader-vm",
+   "description": "...",
+   "skillName": "xctest-worker",      // ← 关联的 worker 类型
+   "preconditions": ["ReaderViewModel.swift exists"],
+   "expectedBehavior": ["15 test cases, all pass"],
+   "verificationSteps": ["xcodebuild -scheme LumenTests test"],
+   "fulfills": ["VAL-CMPT-001", "VAL-CMPT-002"],  // ← 满足的验收标准
+   "milestone": "component-tests",
+   "status": "completed"
+ }
+</code></pre><p>每个feature都定义好了由哪个技能来执行，这些技能是系统根据feature的类型来选择的，属于专用技能。</p><p>依赖项决定了feature的执行顺序，编排器根据这个编排任务。</p><p>Milestone是 Feature 的分组，用于里程碑级别的质量门控，droid在完成一个分组的所有feature后才会进行验证，而不是每完成一个feature都验证。</p><p>handoff目录是各个Worker和Orchestrator这两个Agent之间用来通信用的，droid也是采用了文件系统来作为通信媒介，这样顺便实现了持久化，一举两得。Worker 完成任务后，输出一个标准化 JSON：</p><pre><code>{
+   "salientSummary": "一句话总结",
+   "whatWasImplemented": "详细实现描述",
+   "discoveredIssues": [],
+   "skillFeedback": {"followedProcedure": true}
+}
+</code></pre><p>这个 JSON 会被 Orchestrator 读取，然后更新features.json，决定是继续下一个 feature、生成修复任务，还是忽略某些问题继续推进。</p><p>所以这个设计很关键，它控制了整个系统的流转。</p><h3>TDD</h3><p>目录下有一个validation-contract.md文档和validation-state.json文件，这是为每个功能写的断言，droid也采用了TDD的理念。</p><p>validation-contract.md是给Validator的“验收清单”，每个清单包含了三层信息：</p><p>* 要验证的行为</p><p>* 用什么工具验证</p><p>* 要收集什么证据</p><p>不过，这里的TDD并不是先写测试，再写代码那种传统TDD，而是先写好验收标准，再进行开发，最后根据标准验收，所以这是Mission级别的验收合同。</p><p>并且，写测试和跑测试是交给两个不同的agent来完成的，这跟传统的同一个人来负责写和跑也不一样。</p><p>Validator其实还有几个特别之处，留待下面再介绍。</p><p></p><p>第一阶段这么复杂目的就是为了后面能长程运行而不中断，任务列表、验收标准等一切都准备就绪，马上就要发车了，请坐好扶稳。</p><p></p><h2>第二阶段：执行循环（Managing Execution）</h2><h3>程序化编排还是大模型编排</h3><p>接下来我们分析下droid具体是怎么执行这些任务而不中断的呢？真是由程序来逐个执行feature吗？如果这样droid可能是第一个通过精心设计程序来控制大模型的工具了。</p><p>通过抓包prompt发现不是这样的的，droid也是通过"三板斧"来推进任务执行的：</p><ol><li><strong>编排层（Orchestrator）</strong>：</li></ol><p>   负责编排feature任务，将任务交给各个子agent去执行，它自己不直接执行任务：</p><p>   "<strong>NEVER write implementation code</strong>"</p><p>   droid没有设计并发执行，所有任务都是串行的。</p><p>   所以这是一个没有时间观念的产品，droid执行任务的速度是真慢，虽然从抓包看大模型的请求延时也要负一定责任，但它的编排方式肯定是主要原因。</p><p>   编排器的prompt有65K字符，估计这也是它有点慢的原因之一。</p><p>   有意思的是，从第一阶段开始就是编排器在主导了，由它来规划任务，召唤工人。</p><p>   所以，编排层是整个droid的大脑，它控制着一切，能不能自动从头到尾完成所有任务就靠它的设计了，编排层的prompt值得好好研究。</p><ol><li><strong>执行层（Worker）</strong></li></ol><p>   Worker的prompt只有区区4K字符，可见它的职责很单一：就是干活。</p><p>   一个feature对应一个Worker，老老实实将任务到底：</p><pre><code>   Guidelines:
+   - Never prompt the user. There is no UI for confirmations.
+   - Keep going until all user tasks are completed and verified.
+   - Do exactly what the user asks, no more, no less.
+   </code></pre><p>   Worker只管干活，不理其他，是称职的牛马。</p><ol><li><strong>验证层（Validator）</strong></li></ol><p>   验证器实际也是一种Worker，因为它们本质上是一样：老老实实按照编排器分配的任务干活，既然都是牛马就没必要再为验证器做单独的设计了。大家的职责都是一样的，只是技能不同。</p><p>   前面说过，Validator有几个特殊之处，那就是它是由系统来创建而非编排器决定的。</p><p>   当一个 milestone 的所有 features 都 completed时会触发milestone\_validation\_triggered 事件从而触发系统创建Validator。</p><p>   换句话说：即使 Orchestrator 想跳过验证，也会被系统强制执行。这保证了每个 milestone 都有质量门控。</p><p>   这里也是唯一我发现的由系统程序来控制而非由大模型来控制的部分。</p><p>   系统还会创建一个叫scrutiny-validator的验证器，当它发现有 blocking issues时，会通地handoff通知Orchestrator， 由Orchestrator生成 fix features，而features都会被调度执行，不会跳过。</p><p>   这些机制保证了即使 Orchestrator "想偷懒"或"判断失误"，系统也会强制保证质量门控和执行完整性。</p><p>   不过，由系统来创建这个说法仅为推测，毕竟我们看不到源代码。</p><p>三层Agent都可以单独设置使用的模型，看来Droid也认为不同厂商的模型适合做的事是不一样的，验证器默认选择的是ChatGPT，是认为codex严谨一点，opus太野了？</p><p></p><h3>碰到过什么问题没</h3><p>试用过程中有没有碰到过问题呢？有！</p><p>有几次居然在中途卡住了，也就是一直停在某个任务，虽然显示一直在执行中但就是一直没法完成，卡在那了。</p><p>查询了日志发现它在反复提交，看起来是修复了一处编译错误后导致了另一处问题，接着去修复另一处问题时前面的问题又重新出现了，像打地鼠一样总也打不完。</p><p>> > > > 原因是交给Worker的任务只是整个项目的一个局部功能的开发。
+> > > > 涉及到的程序使用了一个外部全局的变量但没使用正确。
+> > > > 修复时缺乏大局观，给改坏了。
+> > > > 之后反复来回修复，但总也修不好。</p><p>这也给我们提了个醒：虽然使用子代理隔离上下文能让大模型执行得更好是共识，但也要注意给子代理提供的信息并不是越精简越好，有可能会因为信息太少反而执行不到位。</p><p>试用droid的过程中不止一次碰到这种情况，看来它也还有很多待改进之处，至少，任务卡住这种状态需要有更好的反馈和相应处理机制。</p><p></p><h3>我们可以从droid学到什么？</h3><p>首先，编排器的prompt绝对值得学习，长达65k的字符说明最重要的agent要舍得给tokens。</p><p>在任务编排方面，droid证明了大模型是可以编排好任务的，如果平时让大模型执行任务总是容易停下来就要好好分析下我们用到的skill存在什么问题了。</p><p>采用总控和执行分开的策略是合理的，分工明确方便追踪和审计，最主要是上下文有隔离大模型能执行得更好，一个agent只做一件事。</p><p>droid对测试的重视说明大家都意识到了这一点：在AI生成代码速度越来越快的今天，由人工来review代码或测试已经不现实了，怎么设计更严格更完善的验证体系应该成为未来的重点探索方向。</p><p>在文档格式方面，采用了json，在交接任务执行结果时也是用的json，其他一些环节的状态表达上仍然是json，看来json确实是比较适合大模型的格式，比直接用自然语言的方式更好，但是，droid没有更激进一点直接让程序来处理这些json其实有点可惜了。</p><p>Worker由身份和技能组成：身份表明了agent的职责，所有worker的共用同一套身份，但各自的技能不同，这种设计确实是现在比较流行的。但这个设计其实关系到如何更好的抽象一个agent的课题：技能应该属于agent的一部分吗？还是应该独立？可惜droid也受skill的概念束缚没能做出更激进一点的设计，A记发明的skill这个概念真是害人不浅！</p><p></p><h3>遗憾</h3><p>虽然droid在agent编排方面已经做得不错了，但通过我们的抓包分析，它已经在程序控制和大模型编排的协作方面前进了一步，但还不够激进。</p><p>agent该如何抽象，程序该如何与大模型协作，它们之间是否应该定义一套协议？这些都还需要更多的探索。
+</p>

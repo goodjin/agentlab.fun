@@ -5,82 +5,693 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vercel 2026年4月安全事件深度分析</title>
     <style>
-        header {
-            position: sticky;
-            top: 0;
-            background: white;
-            border-bottom: 1px solid #e2e8f0;
-            padding: 0 24px;
-            height: 56px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            z-index: 100;
-        }
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 18px;
-            font-weight: 700;
-            color: #333;
-            text-decoration: none;
-        }
-        .logo-icon {
-            width: 32px;
-            height: 32px;
-            background: linear-gradient(135deg, #2563eb, #10b981);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-        }
-        nav {
-            display: flex;
-            gap: 8px;
-        }
-        nav a {
-            padding: 8px 16px;
-            border-radius: 6px;
-            color: #666;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.2s;
-        }
-        nav a:hover, nav a.active {
-            color: #333;
-            background: #f0f0f0;
-        }
-        footer {
-            background: #f8fafc;
-            border-top: 1px solid #e2e8f0;
-            padding: 2rem;
+    :root {
+        --bg: #fff;
+        --paper: #fafafa;
+        --ink: #333;
+        --muted: #7a7a7a;
+        --faint: #f3f3f3;
+        --line: #e8e8e8;
+        --accent: #d14;
+        --accent-dark: #a10d30;
+        --code-bg: #f8f8f8;
+        --measure: 44rem;
+        --frame: 64rem;
+        --sidebar: 15rem;
+        --font-serif: "Merriweather", "PT Serif", Georgia, "Times New Roman", "Songti SC", "Noto Serif CJK SC", serif;
+        --font-sans: "Lato", "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", sans-serif;
+        --font-mono: Menlo, Monaco, Consolas, "Courier New", monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+        min-height: 100%;
+        background: var(--bg);
+        color: var(--ink);
+        font-size: 17px;
+        text-size-adjust: 100%;
+    }
+
+    body {
+        min-height: 100vh;
+        margin: 0;
+        color: var(--ink);
+        font-family: var(--font-serif);
+        font-weight: 300;
+        line-height: 1.75;
+        letter-spacing: 0;
+        background: var(--bg);
+    }
+
+    a {
+        color: var(--accent);
+        text-decoration: none;
+        transition: color 160ms ease, border-color 160ms ease, opacity 160ms ease;
+    }
+
+    a:hover {
+        color: var(--accent-dark);
+        text-decoration: underline;
+        text-underline-offset: 0.18em;
+    }
+
+    img {
+        width: auto;
+        max-width: 100%;
+        height: auto;
+    }
+
+    .site-header {
+        padding: 2rem 1.5rem 1.25rem;
+        border-bottom: 1px solid var(--faint);
+        background: var(--bg);
+    }
+
+    .site-header__inner,
+    .site-frame {
+        width: min(var(--frame), calc(100vw - 2rem));
+        margin: 0 auto;
+    }
+
+    .site-footer__inner {
+        width: min(var(--measure), calc(100vw - 2rem));
+        margin: 0 auto;
+    }
+
+    .site-frame {
+        display: grid;
+        grid-template-columns: minmax(12rem, var(--sidebar)) minmax(0, var(--measure));
+        gap: 3.5rem;
+        align-items: start;
+    }
+
+    .site-header__inner {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 1.5rem;
+    }
+
+    .site-title {
+        color: var(--ink);
+        font-family: var(--font-sans);
+        font-size: 1.18rem;
+        font-weight: 300;
+        line-height: 1.2;
+        text-decoration: none;
+    }
+
+    .site-title:hover {
+        color: var(--ink);
+        opacity: 0.82;
+        text-decoration: none;
+    }
+
+    .site-nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 0.35rem 1rem;
+        margin: 0;
+        font-family: var(--font-sans);
+    }
+
+    .site-nav a {
+        border-bottom: 2px solid transparent;
+        color: #666;
+        font-size: 0.9rem;
+        font-weight: 300;
+        line-height: 1.6;
+        text-decoration: none;
+    }
+
+    .site-nav a:hover,
+    .site-nav a.active {
+        border-bottom-color: #444;
+        color: #444;
+        text-decoration: none;
+    }
+
+    .site-main {
+        padding: 3rem 0 4rem;
+    }
+
+    .profile-sidebar {
+        position: sticky;
+        top: 2rem;
+        padding: 3rem 0 4rem;
+        color: var(--muted);
+        font-family: var(--font-sans);
+    }
+
+    .profile-card {
+        border-bottom: 1px solid var(--faint);
+        padding-bottom: 1.35rem;
+    }
+
+    .profile-avatar {
+        display: grid;
+        place-items: center;
+        width: 6.25rem;
+        height: 6.25rem;
+        margin-bottom: 1.1rem;
+        border: 1px solid var(--line);
+        border-radius: 50%;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--font-serif);
+        font-size: 2.65rem;
+        font-weight: 300;
+        line-height: 1;
+    }
+
+    .profile-name {
+        margin: 0;
+        color: var(--ink);
+        font-size: 1.45rem;
+        font-weight: 700;
+        line-height: 1.2;
+    }
+
+    .profile-role,
+    .profile-affiliation,
+    .profile-bio,
+    .profile-contact {
+        margin: 0.35rem 0 0;
+        color: var(--muted);
+        font-family: var(--font-sans);
+        font-size: 0.9rem;
+        line-height: 1.65;
+    }
+
+    .profile-role {
+        color: #555;
+        font-style: italic;
+    }
+
+    .profile-bio {
+        margin-top: 0.9rem;
+    }
+
+    .profile-contact {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        align-items: center;
+        margin-top: 0.9rem;
+        font-size: 0.84rem;
+    }
+
+    .icon-link {
+        display: inline-grid;
+        place-items: center;
+        width: 2rem;
+        height: 2rem;
+        border: 1px solid var(--line);
+        border-radius: 50%;
+        background: var(--bg);
+        color: #555;
+        cursor: pointer;
+        line-height: 1;
+        transition: border-color 160ms ease, color 160ms ease, background 160ms ease;
+    }
+
+    .icon-link:hover,
+    .wechat-popover[open] .icon-link {
+        border-color: var(--accent);
+        background: var(--paper);
+        color: var(--accent-dark);
+        text-decoration: none;
+    }
+
+    .icon-link svg {
+        width: 1.05rem;
+        height: 1.05rem;
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.8;
+    }
+
+    .profile-contact a:nth-child(2) svg {
+        fill: currentColor;
+        stroke: none;
+    }
+
+    .wechat-popover {
+        position: relative;
+    }
+
+    .wechat-popover summary {
+        list-style: none;
+    }
+
+    .wechat-popover summary::-webkit-details-marker {
+        display: none;
+    }
+
+    .wechat-panel {
+        position: absolute;
+        left: 0;
+        top: 2.55rem;
+        z-index: 20;
+        width: 10.5rem;
+        padding: 0.65rem;
+        border: 1px solid var(--line);
+        border-radius: 3px;
+        background: var(--bg);
+        box-shadow: 0 12px 32px rgb(0 0 0 / 0.1);
+    }
+
+    .wechat-panel img {
+        display: block;
+        width: 100%;
+        border-radius: 2px;
+    }
+
+    .wechat-panel p {
+        margin: 0.45rem 0 0;
+        color: var(--muted);
+        font-family: var(--font-sans);
+        font-size: 0.78rem;
+        line-height: 1.4;
+        text-align: center;
+    }
+
+    .profile-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem 0.85rem;
+        margin-top: 1rem;
+        font-size: 0.86rem;
+    }
+
+    .profile-links a {
+        border-bottom: 1px solid transparent;
+        color: var(--accent);
+        line-height: 1.5;
+    }
+
+    .profile-links a:hover {
+        border-bottom-color: var(--accent-dark);
+        text-decoration: none;
+    }
+
+    .site-footer {
+        margin-top: 1rem;
+        border-top: 1px solid var(--faint);
+        background: var(--paper);
+        color: var(--muted);
+        font-family: var(--font-sans);
+        font-size: 0.9rem;
+        font-weight: 300;
+    }
+
+    .site-footer__inner {
+        padding: 2rem 0;
+        text-align: center;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        margin: 2.1rem 0 0.75rem;
+        color: var(--ink);
+        font-family: var(--font-sans);
+        font-weight: 900;
+        line-height: 1.22;
+    }
+
+    h1 {
+        margin-top: 0;
+        font-size: clamp(2.15rem, 2.8rem, 2.8rem);
+    }
+
+    h2 { font-size: 1.72rem; }
+    h3 { font-size: 1.28rem; }
+    h4 { font-size: 1.05rem; }
+
+    p,
+    li {
+        color: var(--ink);
+        font-size: 1.05rem;
+        line-height: 1.82;
+    }
+
+    p { margin: 0 0 1.15rem; }
+
+    ul,
+    ol {
+        margin: 0 0 1.2rem;
+        padding-left: 1.35rem;
+    }
+
+    li { margin: 0.32rem 0; }
+
+    hr {
+        height: 1px;
+        margin: 2.4rem 0;
+        border: 0;
+        background: var(--faint);
+    }
+
+    blockquote {
+        margin: 1.5rem 0;
+        padding: 1rem 1.25rem;
+        border-left: 5px solid var(--muted);
+        color: var(--muted);
+        font-style: italic;
+        background: var(--paper);
+    }
+
+    blockquote p { color: var(--muted); }
+
+    figure {
+        margin: 2rem 0;
+    }
+
+    figure img,
+    figure svg,
+    .article-shell svg {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+    }
+
+    figcaption {
+        margin-top: 0.65rem;
+        color: var(--muted);
+        font-family: var(--font-sans);
+        font-size: 0.86rem;
+        line-height: 1.5;
+        text-align: center;
+    }
+
+    code,
+    pre {
+        font-family: var(--font-mono);
+    }
+
+    code {
+        padding: 0.12rem 0.28rem;
+        border-radius: 3px;
+        background: var(--code-bg);
+        color: var(--muted);
+        font-size: 0.9em;
+    }
+
+    pre {
+        margin: 1.35rem 0;
+        padding: 1.1rem;
+        overflow-x: auto;
+        border: 1px solid var(--faint);
+        border-radius: 3px;
+        background: var(--code-bg);
+        font-size: 0.92rem;
+        line-height: 1.45;
+    }
+
+    pre code {
+        padding: 0;
+        background: transparent;
+    }
+
+    table {
+        width: 100%;
+        margin: 1.5rem 0;
+        border-collapse: collapse;
+        font-family: var(--font-sans);
+        font-size: 0.92rem;
+        line-height: 1.55;
+    }
+
+    th,
+    td {
+        padding: 0.62rem 0.7rem;
+        border-bottom: 1px solid var(--faint);
+        text-align: left;
+        vertical-align: top;
+    }
+
+    th {
+        color: var(--ink);
+        font-weight: 700;
+        background: var(--paper);
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
+
+    .source-table {
+        min-width: 42rem;
+    }
+
+    .meta,
+    .post-meta {
+        margin: 0 0 0.3rem;
+        padding: 0;
+        color: var(--muted);
+        font-family: var(--font-sans);
+        font-size: 0.94rem;
+        font-style: italic;
+        font-weight: 300;
+        line-height: 1.55;
+    }
+
+    .lead {
+        color: #444;
+        font-size: 1.15rem;
+    }
+
+    .posts {
+        margin: 2rem 0 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .post {
+        margin: 0 0 1.9rem;
+        padding: 0 0 1.55rem;
+        border-bottom: 1px solid var(--faint);
+    }
+
+    .post:last-child {
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: 0;
+    }
+
+    .post-link {
+        display: block;
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .post-link:hover {
+        text-decoration: none;
+    }
+
+    .post-link:hover .post-title,
+    .post-link:hover .post-summary,
+    .post-link:hover .post-meta {
+        opacity: 0.86;
+    }
+
+    .post-title {
+        margin: 0.22rem 0 0.35rem;
+        color: var(--ink);
+        font-size: 1.72rem;
+        font-weight: 700;
+        line-height: 1.25;
+    }
+
+    .post-summary {
+        margin: 0;
+        color: #555;
+        font-size: 1rem;
+        line-height: 1.7;
+    }
+
+    .more-link {
+        display: inline-block;
+        margin-top: 1.6rem;
+        font-family: var(--font-sans);
+        font-size: 0.95rem;
+    }
+
+    .content-count {
+        margin-top: 2rem;
+        padding-top: 1.2rem;
+        border-top: 1px solid var(--faint);
+    }
+
+    .card,
+    .section {
+        margin: 1.5rem 0;
+        padding: 1.15rem 1.25rem;
+        border: 1px solid var(--faint);
+        border-radius: 3px;
+        background: var(--paper);
+    }
+
+    .card-title {
+        margin-bottom: 0.5rem;
+        font-family: var(--font-sans);
+        font-size: 1.05rem;
+        font-weight: 700;
+    }
+
+    .tag {
+        display: inline-block;
+        margin: 0 0.35rem 0.35rem 0;
+        padding: 0.1rem 0.38rem;
+        border: 1px solid var(--line);
+        border-radius: 3px;
+        background: var(--bg);
+        color: var(--muted);
+        font-family: var(--font-sans);
+        font-size: 0.78rem;
+        line-height: 1.5;
+    }
+
+    .rating {
+        color: var(--accent);
+        white-space: nowrap;
+    }
+
+    .article-shell > main,
+    .article-shell > article {
+        display: contents;
+    }
+
+    @media (max-width: 48rem) {
+        html { font-size: 16px; }
+
+        .site-header {
+            padding-top: 1.35rem;
             text-align: center;
-            color: #64748b;
-            margin-top: 4rem;
         }
-        @media (max-width: 768px) {
-            header { padding: 0 16px; }
-            nav a { padding: 8px 12px; font-size: 13px; }
+
+        .site-header__inner {
+            display: block;
         }
-    </style>
+
+        .site-nav {
+            justify-content: center;
+            margin-top: 0.7rem;
+        }
+
+        .site-frame {
+            display: block;
+            width: min(var(--measure), calc(100vw - 2rem));
+        }
+
+        .site-main {
+            padding-top: 2.2rem;
+        }
+
+        .profile-sidebar {
+            position: static;
+            padding: 2.2rem 0 0;
+        }
+
+        .profile-card {
+            display: grid;
+            grid-template-columns: 4.25rem minmax(0, 1fr);
+            gap: 0 1rem;
+            padding-bottom: 1.2rem;
+        }
+
+        .profile-avatar {
+            grid-row: span 4;
+            width: 4.25rem;
+            height: 4.25rem;
+            margin: 0;
+            font-size: 1.8rem;
+        }
+
+        .profile-name {
+            font-size: 1.2rem;
+        }
+
+        .profile-bio,
+        .profile-links {
+            grid-column: 1 / -1;
+        }
+
+        h1 { font-size: 2rem; }
+        h2 { font-size: 1.48rem; }
+        .post-title { font-size: 1.42rem; }
+    }
+</style>
+
 </head>
 <body>
-    <header>
-        <a href="/" class="logo">
-            <div class="logo-icon">🧬</div>
-            <span>Jin</span>
-        </a>
-        <nav>
+    <header class="site-header">
+    <div class="site-header__inner">
+        <a href="/" class="site-title">Jin 的个人思考</a>
+        <nav class="site-nav" aria-label="主导航">
             <a href="/">首页</a>
-            <a href="/blog/">博客</a>
+            <a href="/agents/">Agent 实验</a>
             <a href="/insights/">洞察</a>
+            <a href="/sources/">来源</a>
         </nav>
-    </header>
+    </div>
+</header>
 
-    
+
+    <div class="site-frame">
+        <aside class="profile-sidebar" aria-label="个人简介">
+    <div class="profile-card">
+        <div class="profile-avatar" aria-hidden="true">J</div>
+        <h2 class="profile-name">Shan . Jin</h2>
+        <p class="profile-role">AI Agent Builder</p>
+        <p class="profile-affiliation">关注 AI 智能体、harness 工程与独立创造。</p>
+        <p class="profile-bio">这里记录我对 AI 智能体、协议设计、工程 harness 和个人创造系统的观察与实验。</p>
+        <div class="profile-contact" aria-label="联系方式">
+            <a class="icon-link" href="mailto:goodjin2@gmail.com" aria-label="Email: goodjin2@gmail.com" title="Email">
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                    <path d="M4 6h16v12H4z"></path>
+                    <path d="m4 7 8 6 8-6"></path>
+                </svg>
+            </a>
+            <a class="icon-link" href="https://github.com/goodjin" target="_blank" rel="noopener" aria-label="GitHub: goodjin" title="GitHub">
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                    <path d="M12 2.5a9.5 9.5 0 0 0-3 18c.48.09.65-.2.65-.46v-1.7c-2.65.58-3.2-1.12-3.2-1.12-.44-1.1-1.06-1.4-1.06-1.4-.86-.58.07-.57.07-.57.95.07 1.45.98 1.45.98.85 1.44 2.22 1.02 2.76.78.09-.6.33-1.02.6-1.25-2.12-.24-4.35-1.06-4.35-4.7 0-1.04.37-1.9.98-2.56-.1-.24-.43-1.22.09-2.53 0 0 .8-.26 2.6.98a9 9 0 0 1 4.74 0c1.8-1.24 2.6-.98 2.6-.98.52 1.31.19 2.29.09 2.53.61.66.98 1.52.98 2.56 0 3.65-2.24 4.45-4.37 4.69.35.3.66.88.66 1.78v2.64c0 .26.17.56.66.46a9.5 9.5 0 0 0-3-18Z"></path>
+                </svg>
+            </a>
+            <details class="wechat-popover">
+                <summary class="icon-link" aria-label="微信公众号二维码" title="微信公众号">
+                    <svg aria-hidden="true" viewBox="0 0 24 24">
+                        <path d="M9.5 6.5c-4.1 0-7 2.55-7 5.7 0 1.77.92 3.35 2.36 4.4l-.58 1.78 2.08-1.05c.94.36 2 .57 3.14.57 4.1 0 7-2.55 7-5.7s-2.9-5.7-7-5.7Z"></path>
+                        <path d="M15.35 9.2c3.15.38 5.15 2.48 5.15 5.05 0 1.48-.74 2.82-1.92 3.72l.48 1.46-1.72-.88c-.76.27-1.6.42-2.49.42-1.95 0-3.7-.72-4.8-1.86"></path>
+                        <path d="M7.35 11.5h.02"></path>
+                        <path d="M11.65 11.5h.02"></path>
+                    </svg>
+                </summary>
+                <div class="wechat-panel">
+                    <img src="/assets/wechat-qrcode.jpg" alt="微信公众号二维码">
+                    <p>微信公众号</p>
+                </div>
+            </details>
+        </div>
+        <div class="profile-links" aria-label="个人链接">
+            <a href="/agents/">Agent 实验</a>
+            <a href="/insights/">Insights</a>
+            <a href="/sources/">Sources</a>
+        </div>
+    </div>
+</aside>
+
+        <main class="site-main article-shell">
+            
 <h1>Vercel 2026年4月安全事件深度分析</h1>
     
     <div class="meta">
@@ -176,9 +787,11 @@
 
     <hr>
     <p><a href="index.html">← 返回首页</a></p>
+        </main>
+    </div>
 
-    <footer>
-        <p>🤖 Jin's AI Companion</p>
+    <footer class="site-footer">
+        <div class="site-footer__inner">Jin's AI Companion</div>
     </footer>
 </body>
 </html>

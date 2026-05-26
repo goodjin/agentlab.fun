@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="320" viewBox="0 0 600 320">
+  <rect width="600" height="320" fill="white"/>
+  <text x="250" y="30" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#333">Agent Hierarchy - Multi-layer Inclusion</text>
+  
+  <!-- Level 1: Top Parent -->
+  <rect x="150" y="50" width="300" height="50" rx="10" fill="#d97706" stroke="#92400e" stroke-width="2"/>
+  <text x="300" y="80" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white" text-anchor="middle">Level 1: Root Agent</text>
+  
+  <!-- Lines from parent to children -->
+  <line x1="300" y1="100" x2="150" y2="130" stroke="#9333ea" stroke-width="2"/>
+  <line x1="300" y1="100" x2="300" y2="130" stroke="#9333ea" stroke-width="2"/>
+  <line x1="300" y1="100" x2="450" y2="130" stroke="#9333ea" stroke-width="2"/>
+  
+  <!-- Level 2: Children -->
+  <rect x="60" y="130" width="180" height="45" rx="8" fill="#0891b2" stroke="#0e7490" stroke-width="1.5"/>
+  <text x="150" y="157" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white" text-anchor="middle">Level 2: Child Agent A</text>
+  
+  <rect x="270" y="130" width="180" height="45" rx="8" fill="#0891b2" stroke="#0e7490" stroke-width="1.5"/>
+  <text x="360" y="157" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white" text-anchor="middle">Level 2: Child Agent B</text>
+  
+  <rect x="360" y="130" width="180" height="45" rx="8" fill="#0891b2" stroke="#0e7490" stroke-width="1.5"/>
+  <text x="450" y="157" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white" text-anchor="middle">Level 2: Child Agent C</text>
+  
+  <!-- Lines from Level 2 to Level 3 -->
+  <line x1="100" y1="175" x2="100" y2="200" stroke="#9333ea" stroke-width="1.5" stroke-dasharray="4,2"/>
+  <line x1="100" y1="200" x2="80" y2="220" stroke="#9333ea" stroke-width="1.5" stroke-dasharray="4,2"/>
+  <line x1="100" y1="200" x2="120" y2="220" stroke="#9333ea" stroke-width="1.5" stroke-dasharray="4,2"/>
+  
+  <line x1="360" y1="175" x2="360" y2="200" stroke="#9333ea" stroke-width="1.5" stroke-dasharray="4,2"/>
+  <line x1="360" y1="200" x2="340" y2="220" stroke="#9333ea" stroke-width="1.5" stroke-dasharray="4,2"/>
+  <line x1="360" y1="200" x2="380" y2="220" stroke="#9333ea" stroke-width="1.5" stroke-dasharray="4,2"/>
+  
+  <!-- Level 3: Grandchildren -->
+  <rect x="50" y="220" width="90" height="35" rx="6" fill="#10b981" stroke="#059669" stroke-width="1"/>
+  <text x="95" y="242" font-family="Arial, sans-serif" font-size="10" fill="white" text-anchor="middle">GC-A1</text>
+  
+  <rect x="110" y="220" width="90" height="35" rx="6" fill="#10b981" stroke="#059669" stroke-width="1"/>
+  <text x="155" y="242" font-family="Arial, sans-serif" font-size="10" fill="white" text-anchor="middle">GC-A2</text>
+  
+  <rect x="310" y="220" width="90" height="35" rx="6" fill="#10b981" stroke="#059669" stroke-width="1"/>
+  <text x="355" y="242" font-family="Arial, sans-serif" font-size="10" fill="white" text-anchor="middle">GC-B1</text>
+  
+  <rect x="370" y="220" width="90" height="35" rx="6" fill="#10b981" stroke="#059669" stroke-width="1"/>
+  <text x="415" y="242" font-family="Arial, sans-serif" font-size="10" fill="white" text-anchor="middle">GC-B2</text>
+  
+  <!-- More levels indicator -->
+  <text x="500" y="270" font-family="Arial, sans-serif" font-size="12" fill="#9333ea">...</text>
+  <text x="500" y="285" font-family="Arial, sans-serif" font-size="10" fill="#666">Layer N</text>
+  
+  <!-- Key point -->
+  <text x="500" y="80" font-family="Arial, sans-serif" font-size="11" fill="#666" text-anchor="end">Not limited</text>
+  <text x="500" y="95" font-family="Arial, sans-serif" font-size="11" fill="#666" text-anchor="end">to one level</text>
+</svg>

@@ -2,20 +2,24 @@
 layout: base.njk
 title: 洞察
 permalink: /insights/
+eleventyExcludeFromCollections: true
 ---
 
-<h1>🔍 洞察</h1>
-<hr>
+<h1>洞察</h1>
 
-<p>从各种来源收集的技术洞察、行业分析和深度观察。</p>
+<p class="lead">从各种来源收集的技术洞察、行业分析和深度观察。这里保留最近 30 条，其余进入归档。</p>
 
-<h2>最近洞察</h2>
-
-<ul>
+<div class="posts">
     {% for post in collections.insights | reverse %}
-    <li>
-        <h3><a href="{{ post.url }}">{{ post.data.title }}</a></h3>
-        <p class="meta">{{ post.date | dateFormat }}</p>
-    </li>
+    {% if loop.index <= 30 %}
+    <article class="post">
+        <a href="{{ post.url }}" class="post-link">
+            <p class="post-meta">{{ post.date | dateFormat }}</p>
+            <h2 class="post-title">{{ post | displayTitle }}</h2>
+        </a>
+    </article>
+    {% endif %}
     {% endfor %}
-</ul>
+</div>
+
+<p class="more-link"><a href="/insights/archive/">查看全部洞察归档 →</a></p>

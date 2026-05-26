@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="350" viewBox="0 0 600 350">
+  <rect width="600" height="350" fill="white"/>
+  <text x="250" y="30" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#333">Agent Structure</text>
+  
+  <!-- Identity -->
+  <rect x="40" y="55" width="500" height="50" rx="8" fill="#3498DB"/>
+  <text x="60" y="82" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white">Identity</text>
+  <text x="130" y="82" font-family="Arial, sans-serif" font-size="12" fill="white">Who is it? Knowledge background?</text>
+  
+  <!-- Behavior Rules -->
+  <rect x="40" y="115" width="500" height="50" rx="8" fill="#2ECC71"/>
+  <text x="60" y="142" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white">Behavior Rules</text>
+  <text x="185" y="142" font-family="Arial, sans-serif" font-size="12" fill="white">Constraints, workflow</text>
+  
+  <!-- Tools -->
+  <rect x="40" y="175" width="500" height="50" rx="8" fill="#E67E22"/>
+  <text x="60" y="202" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white">Tools</text>
+  <text x="130" y="202" font-family="Arial, sans-serif" font-size="12" fill="white">What tools can it call?</text>
+  
+  <!-- Permissions -->
+  <rect x="40" y="235" width="500" height="50" rx="8" fill="#9B59B6"/>
+  <text x="60" y="262" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white">Permissions</text>
+  <text x="170" y="262" font-family="Arial, sans-serif" font-size="12" fill="white">What resources can it access?</text>
+  
+  <!-- Program Logic (NEW) -->
+  <rect x="40" y="295" width="500" height="50" rx="8" fill="#E74C3C"/>
+  <text x="60" y="322" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white">Program Logic</text>
+  <text x="185" y="322" font-family="Arial, sans-serif" font-size="12" fill="white">Execution engine, control flow</text>
+</svg>

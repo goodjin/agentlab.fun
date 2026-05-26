@@ -4,17 +4,20 @@ title: 博客文章
 permalink: /blog/
 ---
 
-<h1>📝 博客文章</h1>
-<hr>
+<h1>博客文章</h1>
+<p class="meta">长文章、观察和阶段性思考。</p>
 
-<ul>
+<div class="posts">
     {% for post in collections.blog | reverse %}
-    <li>
-        <h2><a href="{{ post.url }}">{{ post.data.title }}</a></h2>
-        <p class="meta">{{ post.date | dateFormat }}</p>
-    </li>
+    {% if post.url != "/blog/" %}
+    <article class="post">
+        <a href="{{ post.url }}" class="post-link">
+            <p class="post-meta">{{ post.date | dateFormat }}</p>
+            <h2 class="post-title">{{ post | displayTitle }}</h2>
+        </a>
+    </article>
+    {% endif %}
     {% endfor %}
-</ul>
+</div>
 
-<hr>
-<p class="meta">共 {{ collections.blog | length }} 篇文章</p>
+<p class="meta content-count">共 {{ collections.blog | length }} 篇文章</p>

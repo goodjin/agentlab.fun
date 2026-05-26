@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="280" viewBox="0 0 600 280">
+  <rect width="600" height="280" fill="white"/>
+  <text x="180" y="30" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#333">Paradigm Shift</text>
+  
+  <rect x="30" y="60" width="220" height="180" rx="10" fill="#FFEBEE" stroke="#E74C3C" stroke-width="2"/>
+  <text x="140" y="85" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#E74C3C" text-anchor="middle">Chat Runner</text>
+  <text x="50" y="115" font-family="Arial, sans-serif" font-size="12" fill="#333">LLM controls everything</text>
+  <text x="50" y="135" font-family="Arial, sans-serif" font-size="12" fill="#333">Agent calls tools</text>
+  <text x="50" y="155" font-family="Arial, sans-serif" font-size="12" fill="#333">Tools return results</text>
+  <text x="50" y="175" font-family="Arial, sans-serif" font-size="12" fill="#333">LLM continues deciding</text>
+  <text x="50" y="210" font-family="Arial, sans-serif" font-size="12" fill="#E74C3C">Low efficiency, High risk</text>
+  
+  <polygon points="265,150 285,140 285,160" fill="#50C878"/>
+  
+  <rect x="310" y="60" width="220" height="180" rx="10" fill="#E8F5E9" stroke="#50C878" stroke-width="2"/>
+  <text x="420" y="85" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#50C878" text-anchor="middle">Workflow Runner</text>
+  <text x="330" y="115" font-family="Arial, sans-serif" font-size="12" fill="#333">LLM outputs DSL</text>
+  <text x="330" y="135" font-family="Arial, sans-serif" font-size="12" fill="#333">Program parses and executes</text>
+  <text x="330" y="155" font-family="Arial, sans-serif" font-size="12" fill="#333">Nodes control flow</text>
+  <text x="330" y="175" font-family="Arial, sans-serif" font-size="12" fill="#333">User confirms at key points</text>
+  <text x="330" y="210" font-family="Arial, sans-serif" font-size="12" fill="#50C878">Deterministic, Efficient</text>
+</svg>

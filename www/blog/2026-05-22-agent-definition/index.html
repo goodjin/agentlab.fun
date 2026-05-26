@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent究竟该如何定义？</title>
+    <style>
+    :root {
+        --bg: #fff;
+        --paper: #fafafa;
+        --ink: #333;
+        --muted: #7a7a7a;
+        --faint: #f3f3f3;
+        --line: #e8e8e8;
+        --accent: #d14;
+        --accent-dark: #a10d30;
+        --code-bg: #f8f8f8;
+        --measure: 44rem;
+        --frame: 64rem;
+        --sidebar: 15rem;
+        --font-serif: "Merriweather", "PT Serif", Georgia, "Times New Roman", "Songti SC", "Noto Serif CJK SC", serif;
+        --font-sans: "Lato", "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", sans-serif;
+        --font-mono: Menlo, Monaco, Consolas, "Courier New", monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+        min-height: 100%;
+        background: var(--bg);
+        color: var(--ink);
+        font-size: 17px;
+        text-size-adjust: 100%;
+    }
+
+    body {
+        min-height: 100vh;
+        margin: 0;
+        color: var(--ink);
+        font-family: var(--font-serif);
+        font-weight: 300;
+        line-height: 1.75;
+        letter-spacing: 0;
+        background: var(--bg);
+    }
+
+    a {
+        color: var(--accent);
+        text-decoration: none;
+        transition: color 160ms ease, border-color 160ms ease, opacity 160ms ease;
+    }
+
+    a:hover {
+        color: var(--accent-dark);
+        text-decoration: underline;
+        text-underline-offset: 0.18em;
+    }
+
+    img {
+        width: auto;
+        max-width: 100%;
+        height: auto;
+    }
+
+    .site-header {
+        padding: 2rem 1.5rem 1.25rem;
+        border-bottom: 1px solid var(--faint);
+        background: var(--bg);
+    }
+
+    .site-header__inner,
+    .site-frame {
+        width: min(var(--frame), calc(100vw - 2rem));
+        margin: 0 auto;
+    }
+
+    .site-footer__inner {
+        width: min(var(--measure), calc(100vw - 2rem));
+        margin: 0 auto;
+    }
+
+    .site-frame {
+        display: grid;
+        grid-template-columns: minmax(12rem, var(--sidebar)) minmax(0, var(--measure));
+        gap: 3.5rem;
+        align-items: start;
+    }
+
+    .site-header__inner {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 1.5rem;
+    }
+
+    .site-title {
+        color: var(--ink);
+        font-family: var(--font-sans);
+        font-size: 1.18rem;
+        font-weight: 300;
+        line-height: 1.2;
+        text-decoration: none;
+    }
+
+    .site-title:hover {
+        color: var(--ink);
+        opacity: 0.82;
+        text-decoration: none;
+    }
+
+    .site-nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 0.35rem 1rem;
+        margin: 0;
+        font-family: var(--font-sans);
+    }
+
+    .site-nav a {
+        border-bottom: 2px solid transparent;
+        color: #666;
+        font-size: 0.9rem;
+        font-weight: 300;
+        line-height: 1.6;
+        text-decoration: none;
+    }
+
+    .site-nav a:hover,
+    .site-nav a.active {
+        border-bottom-color: #444;
+        color: #444;
+        text-decoration: none;
+    }
+
+    .site-main {
+        padding: 3rem 0 4rem;
+    }
+
+    .profile-sidebar {
+        position: sticky;
+        top: 2rem;
+        padding: 3rem 0 4rem;
+        color: var(--muted);
+        font-family: var(--font-sans);
+    }
+
+    .profile-card {
+        border-bottom: 1px solid var(--faint);
+        padding-bottom: 1.35rem;
+    }
+
+    .profile-avatar {
+        display: grid;
+        place-items: center;
+        width: 6.25rem;
+        height: 6.25rem;
+        margin-bottom: 1.1rem;
+        border: 1px solid var(--line);
+        border-radius: 50%;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--font-serif);
+        font-size: 2.65rem;
+        font-weight: 300;
+        line-height: 1;
+    }
+
+    .profile-name {
+        margin: 0;
+        color: var(--ink);
+        font-size: 1.45rem;
+        font-weight: 700;
+        line-height: 1.2;
+    }
+
+    .profile-role,
+    .profile-affiliation,
+    .profile-bio,
+    .profile-contact {
+        margin: 0.35rem 0 0;
+        color: var(--muted);
+        font-family: var(--font-sans);
+        font-size: 0.9rem;
+        line-height: 1.65;
+    }
+
+    .profile-role {
+        color: #555;
+        font-style: italic;
+    }
+
+    .profile-bio {
+        margin-top: 0.9rem;
+    }
+
+    .profile-contact {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        align-items: center;
+        margin-top: 0.9rem;
+        font-size: 0.84rem;
+    }
+
+    .icon-link {
+        display: inline-grid;
+        place-items: center;
+        width: 2rem;
+        height: 2rem;
+        border: 1px solid var(--line);
+        border-radius: 50%;
+        background: var(--bg);
+        color: #555;
+        cursor: pointer;
+        line-height: 1;
+        transition: border-color 160ms ease, color 160ms ease, background 160ms ease;
+    }
+
+    .icon-link:hover,
+    .wechat-popover[open] .icon-link {
+        border-color: var(--accent);
+        background: var(--paper);
+        color: var(--accent-dark);
+        text-decoration: none;
+    }
+
+    .icon-link svg {
+        width: 1.05rem;
+        height: 1.05rem;
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.8;
+    }
+
+    .profile-contact a:nth-child(2) svg {
+        fill: currentColor;
+        stroke: none;
+    }
+
+    .wechat-popover {
+        position: relative;
+    }
+
+    .wechat-popover summary {
+        list-style: none;
+    }
+
+    .wechat-popover summary::-webkit-details-marker {
+        display: none;
+    }
+
+    .wechat-panel {
+        position: absolute;
+        left: 0;
+        top: 2.55rem;
+        z-index: 20;
+        width: 10.5rem;
+        padding: 0.65rem;
+        border: 1px solid var(--line);
+        border-radius: 3px;
+        background: var(--bg);
+        box-shadow: 0 12px 32px rgb(0 0 0 / 0.1);
+    }
+
+    .wechat-panel img {
+        display: block;
+        width: 100%;
+        border-radius: 2px;
+    }
+
+    .wechat-panel p {
+        margin: 0.45rem 0 0;
+        color: var(--muted);
+        font-family: var(--font-sans);
+        font-size: 0.78rem;
+        line-height: 1.4;
+        text-align: center;
+    }
+
+    .profile-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem 0.85rem;
+        margin-top: 1rem;
+        font-size: 0.86rem;
+    }
+
+    .profile-links a {
+        border-bottom: 1px solid transparent;
+        color: var(--accent);
+        line-height: 1.5;
+    }
+
+    .profile-links a:hover {
+        border-bottom-color: var(--accent-dark);
+        text-decoration: none;
+    }
+
+    .site-footer {
+        margin-top: 1rem;
+        border-top: 1px solid var(--faint);
+        background: var(--paper);
+        color: var(--muted);
+        font-family: var(--font-sans);
+        font-size: 0.9rem;
+        font-weight: 300;
+    }
+
+    .site-footer__inner {
+        padding: 2rem 0;
+        text-align: center;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        margin: 2.1rem 0 0.75rem;
+        color: var(--ink);
+        font-family: var(--font-sans);
+        font-weight: 900;
+        line-height: 1.22;
+    }
+
+    h1 {
+        margin-top: 0;
+        font-size: clamp(2.15rem, 2.8rem, 2.8rem);
+    }
+
+    h2 { font-size: 1.72rem; }
+    h3 { font-size: 1.28rem; }
+    h4 { font-size: 1.05rem; }
+
+    p,
+    li {
+        color: var(--ink);
+        font-size: 1.05rem;
+        line-height: 1.82;
+    }
+
+    p { margin: 0 0 1.15rem; }
+
+    ul,
+    ol {
+        margin: 0 0 1.2rem;
+        padding-left: 1.35rem;
+    }
+
+    li { margin: 0.32rem 0; }
+
+    hr {
+        height: 1px;
+        margin: 2.4rem 0;
+        border: 0;
+        background: var(--faint);
+    }
+
+    blockquote {
+        margin: 1.5rem 0;
+        padding: 1rem 1.25rem;
+        border-left: 5px solid var(--muted);
+        color: var(--muted);
+        font-style: italic;
+        background: var(--paper);
+    }
+
+    blockquote p { color: var(--muted); }
+
+    figure {
+        margin: 2rem 0;
+    }
+
+    figure img,
+    figure svg,
+    .article-shell svg {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+    }
+
+    figcaption {
+        margin-top: 0.65rem;
+        color: var(--muted);
+        font-family: var(--font-sans);
+        font-size: 0.86rem;
+        line-height: 1.5;
+        text-align: center;
+    }
+
+    code,
+    pre {
+        font-family: var(--font-mono);
+    }
+
+    code {
+        padding: 0.12rem 0.28rem;
+        border-radius: 3px;
+        background: var(--code-bg);
+        color: var(--muted);
+        font-size: 0.9em;
+    }
+
+    pre {
+        margin: 1.35rem 0;
+        padding: 1.1rem;
+        overflow-x: auto;
+        border: 1px solid var(--faint);
+        border-radius: 3px;
+        background: var(--code-bg);
+        font-size: 0.92rem;
+        line-height: 1.45;
+    }
+
+    pre code {
+        padding: 0;
+        background: transparent;
+    }
+
+    table {
+        width: 100%;
+        margin: 1.5rem 0;
+        border-collapse: collapse;
+        font-family: var(--font-sans);
+        font-size: 0.92rem;
+        line-height: 1.55;
+    }
+
+    th,
+    td {
+        padding: 0.62rem 0.7rem;
+        border-bottom: 1px solid var(--faint);
+        text-align: left;
+        vertical-align: top;
+    }
+
+    th {
+        color: var(--ink);
+        font-weight: 700;
+        background: var(--paper);
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
+
+    .source-table {
+        min-width: 42rem;
+    }
+
+    .meta,
+    .post-meta {
+        margin: 0 0 0.3rem;
+        padding: 0;
+        color: var(--muted);
+        font-family: var(--font-sans);
+        font-size: 0.94rem;
+        font-style: italic;
+        font-weight: 300;
+        line-height: 1.55;
+    }
+
+    .lead {
+        color: #444;
+        font-size: 1.15rem;
+    }
+
+    .posts {
+        margin: 2rem 0 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .post {
+        margin: 0 0 1.9rem;
+        padding: 0 0 1.55rem;
+        border-bottom: 1px solid var(--faint);
+    }
+
+    .post:last-child {
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: 0;
+    }
+
+    .post-link {
+        display: block;
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .post-link:hover {
+        text-decoration: none;
+    }
+
+    .post-link:hover .post-title,
+    .post-link:hover .post-summary,
+    .post-link:hover .post-meta {
+        opacity: 0.86;
+    }
+
+    .post-title {
+        margin: 0.22rem 0 0.35rem;
+        color: var(--ink);
+        font-size: 1.72rem;
+        font-weight: 700;
+        line-height: 1.25;
+    }
+
+    .post-summary {
+        margin: 0;
+        color: #555;
+        font-size: 1rem;
+        line-height: 1.7;
+    }
+
+    .more-link {
+        display: inline-block;
+        margin-top: 1.6rem;
+        font-family: var(--font-sans);
+        font-size: 0.95rem;
+    }
+
+    .content-count {
+        margin-top: 2rem;
+        padding-top: 1.2rem;
+        border-top: 1px solid var(--faint);
+    }
+
+    .card,
+    .section {
+        margin: 1.5rem 0;
+        padding: 1.15rem 1.25rem;
+        border: 1px solid var(--faint);
+        border-radius: 3px;
+        background: var(--paper);
+    }
+
+    .card-title {
+        margin-bottom: 0.5rem;
+        font-family: var(--font-sans);
+        font-size: 1.05rem;
+        font-weight: 700;
+    }
+
+    .tag {
+        display: inline-block;
+        margin: 0 0.35rem 0.35rem 0;
+        padding: 0.1rem 0.38rem;
+        border: 1px solid var(--line);
+        border-radius: 3px;
+        background: var(--bg);
+        color: var(--muted);
+        font-family: var(--font-sans);
+        font-size: 0.78rem;
+        line-height: 1.5;
+    }
+
+    .rating {
+        color: var(--accent);
+        white-space: nowrap;
+    }
+
+    .article-shell > main,
+    .article-shell > article {
+        display: contents;
+    }
+
+    @media (max-width: 48rem) {
+        html { font-size: 16px; }
+
+        .site-header {
+            padding-top: 1.35rem;
+            text-align: center;
+        }
+
+        .site-header__inner {
+            display: block;
+        }
+
+        .site-nav {
+            justify-content: center;
+            margin-top: 0.7rem;
+        }
+
+        .site-frame {
+            display: block;
+            width: min(var(--measure), calc(100vw - 2rem));
+        }
+
+        .site-main {
+            padding-top: 2.2rem;
+        }
+
+        .profile-sidebar {
+            position: static;
+            padding: 2.2rem 0 0;
+        }
+
+        .profile-card {
+            display: grid;
+            grid-template-columns: 4.25rem minmax(0, 1fr);
+            gap: 0 1rem;
+            padding-bottom: 1.2rem;
+        }
+
+        .profile-avatar {
+            grid-row: span 4;
+            width: 4.25rem;
+            height: 4.25rem;
+            margin: 0;
+            font-size: 1.8rem;
+        }
+
+        .profile-name {
+            font-size: 1.2rem;
+        }
+
+        .profile-bio,
+        .profile-links {
+            grid-column: 1 / -1;
+        }
+
+        h1 { font-size: 2rem; }
+        h2 { font-size: 1.48rem; }
+        .post-title { font-size: 1.42rem; }
+    }
+</style>
+
+</head>
+<body>
+    <header class="site-header">
+    <div class="site-header__inner">
+        <a href="/" class="site-title">Jin 的个人思考</a>
+        <nav class="site-nav" aria-label="主导航">
+            <a href="/">首页</a>
+            <a href="/agents/">Agent 实验</a>
+            <a href="/insights/">洞察</a>
+            <a href="/sources/">来源</a>
+        </nav>
+    </div>
+</header>
+
+
+    <div class="site-frame">
+        <aside class="profile-sidebar" aria-label="个人简介">
+    <div class="profile-card">
+        <div class="profile-avatar" aria-hidden="true">J</div>
+        <h2 class="profile-name">Shan . Jin</h2>
+        <p class="profile-role">AI Agent Builder</p>
+        <p class="profile-affiliation">关注 AI 智能体、harness 工程与独立创造。</p>
+        <p class="profile-bio">这里记录我对 AI 智能体、协议设计、工程 harness 和个人创造系统的观察与实验。</p>
+        <div class="profile-contact" aria-label="联系方式">
+            <a class="icon-link" href="mailto:goodjin2@gmail.com" aria-label="Email: goodjin2@gmail.com" title="Email">
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                    <path d="M4 6h16v12H4z"></path>
+                    <path d="m4 7 8 6 8-6"></path>
+                </svg>
+            </a>
+            <a class="icon-link" href="https://github.com/goodjin" target="_blank" rel="noopener" aria-label="GitHub: goodjin" title="GitHub">
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                    <path d="M12 2.5a9.5 9.5 0 0 0-3 18c.48.09.65-.2.65-.46v-1.7c-2.65.58-3.2-1.12-3.2-1.12-.44-1.1-1.06-1.4-1.06-1.4-.86-.58.07-.57.07-.57.95.07 1.45.98 1.45.98.85 1.44 2.22 1.02 2.76.78.09-.6.33-1.02.6-1.25-2.12-.24-4.35-1.06-4.35-4.7 0-1.04.37-1.9.98-2.56-.1-.24-.43-1.22.09-2.53 0 0 .8-.26 2.6.98a9 9 0 0 1 4.74 0c1.8-1.24 2.6-.98 2.6-.98.52 1.31.19 2.29.09 2.53.61.66.98 1.52.98 2.56 0 3.65-2.24 4.45-4.37 4.69.35.3.66.88.66 1.78v2.64c0 .26.17.56.66.46a9.5 9.5 0 0 0-3-18Z"></path>
+                </svg>
+            </a>
+            <details class="wechat-popover">
+                <summary class="icon-link" aria-label="微信公众号二维码" title="微信公众号">
+                    <svg aria-hidden="true" viewBox="0 0 24 24">
+                        <path d="M9.5 6.5c-4.1 0-7 2.55-7 5.7 0 1.77.92 3.35 2.36 4.4l-.58 1.78 2.08-1.05c.94.36 2 .57 3.14.57 4.1 0 7-2.55 7-5.7s-2.9-5.7-7-5.7Z"></path>
+                        <path d="M15.35 9.2c3.15.38 5.15 2.48 5.15 5.05 0 1.48-.74 2.82-1.92 3.72l.48 1.46-1.72-.88c-.76.27-1.6.42-2.49.42-1.95 0-3.7-.72-4.8-1.86"></path>
+                        <path d="M7.35 11.5h.02"></path>
+                        <path d="M11.65 11.5h.02"></path>
+                    </svg>
+                </summary>
+                <div class="wechat-panel">
+                    <img src="/assets/wechat-qrcode.jpg" alt="微信公众号二维码">
+                    <p>微信公众号</p>
+                </div>
+            </details>
+        </div>
+        <div class="profile-links" aria-label="个人链接">
+            <a href="/agents/">Agent 实验</a>
+            <a href="/insights/">Insights</a>
+            <a href="/sources/">Sources</a>
+        </div>
+    </div>
+</aside>
+
+        <main class="site-main article-shell">
+            <h1>Agent究竟该如何定义？</h1>
+
+    <section class="topic-block theme-template">
+      <div class="topic-label">01 / Subagent 引子</div>
+      <p>很多使用大模型编排的工作流方案里，都会用到 subagent。</p>
+      <p>理由也很朴素：上下文隔离。</p>
+      <p>一个复杂任务如果全塞进同一个会话里，前面的探索、错误、临时假设、废弃方案都会留在上下文中，越堆越脏。于是大家开始把一部分工作派给 subagent，让它在另一个上下文里完成，再把结果带回来。</p>
+      <p>这当然有用。</p>
+      <p>但 subagent 也是一个值得重新讨论的概念。因为它流行之后，很多人开始把 Agent、subagent、会话、任务执行器混在一起说，最后说得好像它们是一回事。</p>
+      <p>不是。</p>
+      <p>要讨论 Agent，第一步不是问它能不能调用工具，也不是问它能不能自主规划，而是先把概念拆清楚：</p>
+      <p><strong>Agent 是模板，会话是实例。</strong></p>
+      <p>这个区分很重要。</p>
+      <p>有人喜欢用操作系统调度进程来类比多个 Agent 协作，说 Agent 就像操作系统里的进程，看起来好像很有道理：它们各自运行、互相通信、被调度、被终止。</p>
+      <p>但这个类比混淆了 Agent 和会话。</p>
+      <p>会话才更像进程。</p>
+      <p>同一个 Agent 可以启动很多次，每次启动都会产生一个独立会话。就像同一个程序可以打开很多个窗口，每个窗口背后是一个独立运行实例。你打开三个浏览器窗口，不会说你安装了三个浏览器；你启动三个写作 Agent 会话，也不该说你定义了三个 Agent。</p>
+      <p>Agent 更像程序。</p>
+      <p>它定义的是这个会话该怎么运行，应该遵守什么规则，能调用什么工具，能访问什么资源，遇到问题应该按什么流程处理。</p>
+      <p>会话是活的运行过程，Agent 是生成这个运行过程的定义。</p>
+      <figure class="inline-figure"><img src="/assets/ai-era/images/agent-definition-01.png" alt="Agent 是模板，会话是实例"></figure>
+    </section>
+
+    <section class="topic-block theme-structure">
+      <div class="topic-label">02 / Agent 的结构</div>
+      <p>这个混淆，Claude Code 得负一点责任。</p>
+      <p>它总是把在主会话里新起一个隔离会话叫作创建 subagent。这个叫法很顺手，也很容易传播，但久而久之，大家就把“创建一个 Agent 的会话”理解成了“创建一个 Agent”。于是 Agent 从一个可复用的抽象定义，被降格成了一次性的任务执行窗口。</p>
+      <p>这不是小问题。</p>
+      <p>概念一旦错了，架构就会跟着错。</p>
+      <h2>Agent 应该是什么结构？</h2>
+      <p>如果 Agent 是模板，那这个模板至少应该包含几部分：</p>
+      <p>第一，身份定义。</p>
+      <p>它是谁？有什么知识背景？它站在哪个角色上理解问题？</p>
+      <p>一个安全审查 Agent、一个产品需求 Agent、一个写作 Agent，面对同一个输入时不应该看到同一个世界。身份定义不是为了角色扮演，而是为了建立判断框架。</p>
+      <p>第二，行为规则。</p>
+      <p>它应该遵守什么规则？工作流是什么？先做什么，后做什么？什么时候要停下来问人？什么时候可以直接执行？什么时候必须验证？</p>
+      <p>这部分决定了它的工作方式。</p>
+      <p>第三，可用工具集合。</p>
+      <p>它能调用什么工具？能不能读文件？能不能写文件？能不能联网？能不能提交代码？能不能操作浏览器？</p>
+      <p>工具不是装饰品，它决定了 Agent 的行动边界。</p>
+      <p>第四，权限范围。</p>
+      <p>它能操作哪些资源？能看哪些目录？能改哪些文件？能不能访问生产环境？能不能推送远程？能不能删除数据？</p>
+      <p>工具解决“能做什么动作”，权限解决“能对什么东西做动作”。</p>
+      <p>第五，记忆。</p>
+      <p>它应该记住什么？哪些经验可以跨会话复用？哪些错误不能再犯？哪些项目知识应该长期保留？</p>
+      <p>记忆不应该只是聊天记录的延长，而应该是 Agent 定义的一部分。一个 Agent 如果长期服务于某个领域，它理应能积累对这个领域的理解。</p>
+      <p>第六，执行逻辑。</p>
+      <p>这点经常被忽略。</p>
+      <p>很多人一谈 Agent，就只想到系统提示词，好像写一段身份设定、加一段工具说明，就完成了 Agent 定义。</p>
+      <p>不够。</p>
+      <p>Agent 本身的程序执行逻辑也应该算作它的组成部分。不同的执行逻辑，可以生成完全不同类型的 Agent。</p>
+      <p>一个聊天型 Agent，可能就是用户输入、大模型思考、工具调用、返回结果。</p>
+      <p>一个工作流 Agent，可能会先把任务拆成结构化计划，再由程序调度多个子会话执行。</p>
+      <p>一个系统操作 Agent，可能只让大模型生成操作意图，后续步骤由确定性程序接管。</p>
+      <p>一个审查 Agent，可能必须先收集证据，再输出结论，不能凭感觉判断。</p>
+      <p>这些差异不是系统提示词能完全表达的。提示词能约束行为，但程序逻辑能塑造行为。</p>
+      <p>所以，一个更完整的 Agent 定义应该是：</p>
+      <p><strong>Agent 是一套可实例化的智能行为定义，它由身份、规则、工具、权限、记忆和执行逻辑共同组成。每一次运行，都会生成一个会话实例。</strong></p>
+      <figure class="inline-figure"><img src="/assets/ai-era/images/agent-definition-02.png" alt="Agent 的结构"></figure>
+      <p>这个定义比“能自主完成任务的软件实体”更工程化，也更准确。</p>
+    </section>
+
+    <section class="topic-block theme-composition">
+      <div class="topic-label">03 / 拆分与组合</div>
+      <h2>身份和规则为什么要分开？</h2>
+      <p>有人会问：身份定义和行为规则不都是系统提示词吗？为什么还要拆成两部分？</p>
+      <p>是的，在很多实现里，它们最后可能都会被拼进同一段系统提示词。</p>
+      <p>但我们现在讨论的是 Agent 的抽象概念，不是某个框架的具体实现。</p>
+      <p>抽象层面上，它们就应该分开。</p>
+      <p>身份定义回答“它是谁”。</p>
+      <p>行为规则回答“它怎么做事”。</p>
+      <p>一个人可以是医生，但不同医院有不同接诊流程；一个人可以是律师，但不同案件有不同工作规范。身份决定视角，规则决定流程。</p>
+      <p>把它们拆开之后，每个部分都可以单独设计、单独迭代。</p>
+      <p>你可以保留“安全审查专家”的身份，但修改它的审查流程；也可以保留同一套审查流程，但换成“性能专家”“合规专家”“架构专家”来执行。</p>
+      <p>更重要的是，拆开之后，Agent 的结构可以继续扩展。</p>
+      <p>今天加记忆，明天加评价器，后天加预算策略，再以后加协作协议，都不需要重写整个提示词。它不再是一大坨文本，而是一组可以组合、替换、升级的部件。</p>
+      <p>这才是工程化。</p>
+      <h2>Agent 能包含其他 Agent 吗？</h2>
+      <p>谈到结构，就会碰到另一个问题：</p>
+      <p>Agent 能不能包含其他 Agent？</p>
+      <p>上面提到的 subagent，算不算一种包含关系？</p>
+      <p>算，但还不够。</p>
+      <p>在程序语言设计里，如果一个结构体只能包含数字、字符、布尔值这些基本类型，它当然能表达一些东西，但表达能力很有限。</p>
+      <p>一旦结构体可以包含另一个结构体，事情就变了。</p>
+      <p>复杂系统开始出现。</p>
+      <p>树、图、文档、数据库记录、UI 组件、业务对象，几乎都靠这种递归组合能力成长起来。</p>
+      <p>Agent 也一样。</p>
+      <p>如果一个 Agent 只能调用工具，不能组合其他 Agent，它的表达能力就会被限制在单体任务执行器的层面。</p>
+      <p>但如果一个 Agent 可以包含其他 Agent，可以启动它们的会话，可以把任务分发给它们，可以收集结果、校验结果、组织下一步，那么它就不再只是一个会聊天的工具壳，而开始具备系统结构。</p>
+      <p>这时的 Agent 不只是“一个助手”，而是一种可组合的智能模块。</p>
+      <p>问题在于，很多平台虽然提供了 subagent，却把它做成了一个被特殊限制的次级对象。</p>
+      <p>它不能完整继承能力，不能自由调用某些工具，不能继续创建子会话，不能拥有和主 Agent 同等的协作地位。</p>
+      <p>这就很奇怪。</p>
+      <p>如果 Agent 的能力由它自己的定义决定，也就是由它的工具、权限、规则、执行逻辑决定，那为什么只因为它是“子”的，就天然低人一等？</p>
+      <p>一个 Agent 能做什么、不能做什么，应该由它的定义决定，不应该由它是不是 subagent 决定。</p>
+      <p>所有 Agent 都应该平等。</p>
+      <p>只有分工不同，没有身份高低。</p>
+      <p>Claude Code 设计出 subagent，又给它套上各种特殊限制，这个头开得并不好。它让很多人误以为多 Agent 系统天然就是“主会话支配子会话”，而不是“多个 Agent 按协议协作”。</p>
+      <p>前者是聊天工具的延伸。</p>
+      <p>后者才是 Agent 系统。</p>
+      <figure class="inline-figure"><img src="/assets/ai-era/images/agent-definition-03.png" alt="拆分与组合"></figure>
+    </section>
+
+    <section class="topic-block theme-system">
+      <div class="topic-label">04 / Agent 不应只是代理</div>
+      <h2>Claude Code 没有那么神奇</h2>
+      <p>说到 Claude Code，还可以顺手泼一点冷水。</p>
+      <p>当它的源码泄露时，很多人说这下大家可以向 Agent 界的天花板学习了，很多 Agent 工具终于有优秀设计可以抄了。</p>
+      <p>但如果按前面的定义看，Claude Code 并没有多少神奇的地方。</p>
+      <p>它当然做得很好，尤其是在工程体验、工具调用、权限提示、上下文管理这些方面。但从 Agent 体系的角度看，它本质上仍然更像一个 chat runner。</p>
+      <p>用户输入，大模型决策，工具执行，结果回传，大模型继续决策，直到输出答案。</p>
+      <p>这是一条很经典的链路。</p>
+      <p>问题是，这条链路里，Agent 大多数时候只是代理角色。</p>
+      <p>它替大模型调用工具，替大模型管理文件，替大模型拿到上下文，替大模型把结果展示给用户。</p>
+      <p>主角是谁？</p>
+      <p>还是大模型。</p>
+      <p>Agent 更像跑腿的。</p>
+      <p>这就是“agent”这个词最原始的含义：代理人，代办者，替别人行动的人。</p>
+      <p>但在 AI 时代，Agent 只能停留在代理角色吗？</p>
+      <p>我觉得不应该。</p>
+      <h2>Agent 不应该只是代理</h2>
+      <p>如果 Agent 只是代理，那么它的职责很简单：大模型说要调用哪个工具，它就调用哪个工具；大模型说任务完成了，它就把结果交给用户。</p>
+      <p>这适合聊天工具。</p>
+      <p>但不适合复杂工作流。</p>
+      <p>复杂工作流里，真正难的不是“调用工具”，而是“维持秩序”。</p>
+      <p>比如一个研发任务，可能要经历需求澄清、代码搜索、方案设计、实现、测试、修复、复查、提交、推送。</p>
+      <p>如果这些步骤全靠大模型在一个长上下文里记住，很容易出问题：</p>
+      <p>它可能漏掉测试。</p>
+      <p>它可能忘记前面定过的验收标准。</p>
+      <p>它可能跳过复查。</p>
+      <p>它可能在执行到一半时被新信息带偏。</p>
+      <p>这不是大模型笨，而是大模型本来就不擅长做确定性调度。</p>
+      <p>程序才擅长。</p>
+      <p>所以，一个成熟的 Agent 不应该只做代理，还应该承担更多职责。</p>
+      <p>第一，Agent 应该承担编排职责。</p>
+      <p>它应该能把任务拆成节点，识别依赖关系，决定哪些可以并行，哪些必须串行，哪些失败后要重试，哪些失败后要交给人。</p>
+      <p>这里不一定都由大模型决定。大模型可以生成计划，但计划一旦结构化，就应该交给程序调度。</p>
+      <p>第二，Agent 应该承担治理职责。</p>
+      <p>它应该知道哪些动作需要权限，哪些资源不能碰，哪些命令危险，哪些结果必须验证。</p>
+      <p>权限治理不能靠大模型临场自觉。</p>
+      <p>该拦就拦，该问就问，该记录就记录。</p>
+      <p>第三，Agent 应该承担记忆职责。</p>
+      <p>它不只是把历史聊天塞回上下文，而是要把可复用经验沉淀成结构化知识。</p>
+      <p>什么规则长期有效？什么项目约定不能破坏？什么坑已经踩过？什么用户偏好需要保留？</p>
+      <p>这些都应该成为 Agent 下一次运行的起点。</p>
+      <p>第四，Agent 应该承担协议职责。</p>
+      <p>多 Agent 协作不能只靠自然语言互相喊话。自然语言适合表达意图，但不适合承载稳定协议。</p>
+      <p>一个 Agent 发给另一个 Agent 的任务，应该有目标、输入、边界、验收标准、输出格式、失败状态。</p>
+      <p>这套协议越清楚，协作越稳定。</p>
+      <p>第五，Agent 应该承担验收职责。</p>
+      <p>大模型说完成了，不等于真的完成了。</p>
+      <p>Agent 应该能根据事先定义的标准去验证结果。能跑测试就跑测试，能检查文件就检查文件，能对照清单就对照清单。</p>
+      <p>把“完成”从一句主观判断，变成一个可验证状态。</p>
+      <p>这才是 Agent 从代理走向系统的关键。</p>
+      <figure class="inline-figure"><img src="/assets/ai-era/images/agent-definition-04.png" alt="Agent 不应只是代理"></figure>
+      <h2>更好的 Agent 体系是什么样？</h2>
+      <p>一个好的 Agent 体系，应该允许自由创建 Agent。</p>
+      <p>不是只能从平台内置的几个角色里挑，也不是写几个 markdown 文件就假装自己有了完整架构，而是能认真定义身份、规则、工具、权限、记忆、执行逻辑。</p>
+      <p>它也应该允许自由生成会话。</p>
+      <p>需要上下文隔离时，就创建新会话；需要长期运行时，就恢复旧会话；需要并行时，就启动多个会话；需要审查时，就创建独立审查会话。</p>
+      <p>它还应该允许 Agent 组合 Agent。</p>
+      <p>不是只能有一层 subagent，而是能形成多层结构。一个研发总控 Agent 可以包含需求 Agent、架构 Agent、开发 Agent、测试 Agent、审查 Agent；测试 Agent 下面还可以有单元测试 Agent、集成测试 Agent、回归测试 Agent。</p>
+      <p>只要权限和协议设计清楚，层级不该被人为限制。</p>
+      <p>当然，这并不是说层级越多越好。</p>
+      <p>多 Agent 不是为了热闹，而是为了隔离上下文、分离职责、提高确定性。</p>
+      <p>能一个会话做完的事，就别拆成十个。需要拆的时候，就应该拆得干净。</p>
+      <p>最好的 Agent 系统，不是让大模型假装自己是一个公司，也不是让几十个角色在上下文里开会。</p>
+      <p>它应该找到三者之间的平衡点：</p>
+      <p>大模型负责理解、推理、生成不确定性内容。</p>
+      <p>程序负责调度、约束、验证确定性流程。</p>
+      <p>人负责目标、判断、授权和最终责任。</p>
+      <p>Agent 就站在三者之间。</p>
+      <p>它既不是大模型的壳，也不是人的替身，更不是工具调用的传声筒。</p>
+      <p>它应该是一个秩序生成器。</p>
+      <p>把人的目标翻译成机器可执行的流程，把大模型的能力限制在可靠边界内，把程序的确定性接入真实任务。</p>
+    </section>
+
+    <section class="topic-block theme-definition">
+      <div class="topic-label">05 / 最终定义</div>
+      <p>所以，Agent 究竟该如何定义？</p>
+      <p>我的定义是：</p>
+      <p><strong>Agent 是一套可实例化、可组合、可治理的智能行为系统。它以大模型为认知引擎，以程序为执行骨架，以工具和权限为行动边界，以记忆和协议维持长期秩序。</strong></p>
+      <figure class="inline-figure"><img src="/assets/ai-era/images/agent-definition-05.png" alt="最终定义"></figure>
+      <p>如果只把 Agent 当代理，它当然只能替大模型跑腿。</p>
+      <p>但如果把 Agent 当系统，它就能承担编排、治理、记忆、协作和验收。</p>
+      <p>这一步跨过去，Agent 才真正开始像一个工程概念，而不是一个营销词。</p>
+    </section>
+
+        </main>
+    </div>
+
+    <footer class="site-footer">
+        <div class="site-footer__inner">Jin's AI Companion</div>
+    </footer>
+</body>
+</html>

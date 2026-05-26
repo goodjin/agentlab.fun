@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skill与Agent相争谁输谁赢？</title>
+    <style>
+    :root {
+        --bg: #fff;
+        --paper: #fafafa;
+        --ink: #333;
+        --muted: #7a7a7a;
+        --faint: #f3f3f3;
+        --line: #e8e8e8;
+        --accent: #d14;
+        --accent-dark: #a10d30;
+        --code-bg: #f8f8f8;
+        --measure: 44rem;
+        --frame: 64rem;
+        --sidebar: 15rem;
+        --font-serif: "Merriweather", "PT Serif", Georgia, "Times New Roman", "Songti SC", "Noto Serif CJK SC", serif;
+        --font-sans: "Lato", "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", sans-serif;
+        --font-mono: Menlo, Monaco, Consolas, "Courier New", monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+        min-height: 100%;
+        background: var(--bg);
+        color: var(--ink);
+        font-size: 17px;
+        text-size-adjust: 100%;
+    }
+
+    body {
+        min-height: 100vh;
+        margin: 0;
+        color: var(--ink);
+        font-family: var(--font-serif);
+        font-weight: 300;
+        line-height: 1.75;
+        letter-spacing: 0;
+        background: var(--bg);
+    }
+
+    a {
+        color: var(--accent);
+        text-decoration: none;
+        transition: color 160ms ease, border-color 160ms ease, opacity 160ms ease;
+    }
+
+    a:hover {
+        color: var(--accent-dark);
+        text-decoration: underline;
+        text-underline-offset: 0.18em;
+    }
+
+    img {
+        width: auto;
+        max-width: 100%;
+        height: auto;
+    }
+
+    .site-header {
+        padding: 2rem 1.5rem 1.25rem;
+        border-bottom: 1px solid var(--faint);
+        background: var(--bg);
+    }
+
+    .site-header__inner,
+    .site-frame {
+        width: min(var(--frame), calc(100vw - 2rem));
+        margin: 0 auto;
+    }
+
+    .site-footer__inner {
+        width: min(var(--measure), calc(100vw - 2rem));
+        margin: 0 auto;
+    }
+
+    .site-frame {
+        display: grid;
+        grid-template-columns: minmax(12rem, var(--sidebar)) minmax(0, var(--measure));
+        gap: 3.5rem;
+        align-items: start;
+    }
+
+    .site-header__inner {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 1.5rem;
+    }
+
+    .site-title {
+        color: var(--ink);
+        font-family: var(--font-sans);
+        font-size: 1.18rem;
+        font-weight: 300;
+        line-height: 1.2;
+        text-decoration: none;
+    }
+
+    .site-title:hover {
+        color: var(--ink);
+        opacity: 0.82;
+        text-decoration: none;
+    }
+
+    .site-nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 0.35rem 1rem;
+        margin: 0;
+        font-family: var(--font-sans);
+    }
+
+    .site-nav a {
+        border-bottom: 2px solid transparent;
+        color: #666;
+        font-size: 0.9rem;
+        font-weight: 300;
+        line-height: 1.6;
+        text-decoration: none;
+    }
+
+    .site-nav a:hover,
+    .site-nav a.active {
+        border-bottom-color: #444;
+        color: #444;
+        text-decoration: none;
+    }
+
+    .site-main {
+        padding: 3rem 0 4rem;
+    }
+
+    .profile-sidebar {
+        position: sticky;
+        top: 2rem;
+        padding: 3rem 0 4rem;
+        color: var(--muted);
+        font-family: var(--font-sans);
+    }
+
+    .profile-card {
+        border-bottom: 1px solid var(--faint);
+        padding-bottom: 1.35rem;
+    }
+
+    .profile-avatar {
+        display: grid;
+        place-items: center;
+        width: 6.25rem;
+        height: 6.25rem;
+        margin-bottom: 1.1rem;
+        border: 1px solid var(--line);
+        border-radius: 50%;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--font-serif);
+        font-size: 2.65rem;
+        font-weight: 300;
+        line-height: 1;
+    }
+
+    .profile-name {
+        margin: 0;
+        color: var(--ink);
+        font-size: 1.45rem;
+        font-weight: 700;
+        line-height: 1.2;
+    }
+
+    .profile-role,
+    .profile-affiliation,
+    .profile-bio,
+    .profile-contact {
+        margin: 0.35rem 0 0;
+        color: var(--muted);
+        font-family: var(--font-sans);
+        font-size: 0.9rem;
+        line-height: 1.65;
+    }
+
+    .profile-role {
+        color: #555;
+        font-style: italic;
+    }
+
+    .profile-bio {
+        margin-top: 0.9rem;
+    }
+
+    .profile-contact {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        align-items: center;
+        margin-top: 0.9rem;
+        font-size: 0.84rem;
+    }
+
+    .icon-link {
+        display: inline-grid;
+        place-items: center;
+        width: 2rem;
+        height: 2rem;
+        border: 1px solid var(--line);
+        border-radius: 50%;
+        background: var(--bg);
+        color: #555;
+        cursor: pointer;
+        line-height: 1;
+        transition: border-color 160ms ease, color 160ms ease, background 160ms ease;
+    }
+
+    .icon-link:hover,
+    .wechat-popover[open] .icon-link {
+        border-color: var(--accent);
+        background: var(--paper);
+        color: var(--accent-dark);
+        text-decoration: none;
+    }
+
+    .icon-link svg {
+        width: 1.05rem;
+        height: 1.05rem;
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.8;
+    }
+
+    .profile-contact a:nth-child(2) svg {
+        fill: currentColor;
+        stroke: none;
+    }
+
+    .wechat-popover {
+        position: relative;
+    }
+
+    .wechat-popover summary {
+        list-style: none;
+    }
+
+    .wechat-popover summary::-webkit-details-marker {
+        display: none;
+    }
+
+    .wechat-panel {
+        position: absolute;
+        left: 0;
+        top: 2.55rem;
+        z-index: 20;
+        width: 10.5rem;
+        padding: 0.65rem;
+        border: 1px solid var(--line);
+        border-radius: 3px;
+        background: var(--bg);
+        box-shadow: 0 12px 32px rgb(0 0 0 / 0.1);
+    }
+
+    .wechat-panel img {
+        display: block;
+        width: 100%;
+        border-radius: 2px;
+    }
+
+    .wechat-panel p {
+        margin: 0.45rem 0 0;
+        color: var(--muted);
+        font-family: var(--font-sans);
+        font-size: 0.78rem;
+        line-height: 1.4;
+        text-align: center;
+    }
+
+    .profile-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem 0.85rem;
+        margin-top: 1rem;
+        font-size: 0.86rem;
+    }
+
+    .profile-links a {
+        border-bottom: 1px solid transparent;
+        color: var(--accent);
+        line-height: 1.5;
+    }
+
+    .profile-links a:hover {
+        border-bottom-color: var(--accent-dark);
+        text-decoration: none;
+    }
+
+    .site-footer {
+        margin-top: 1rem;
+        border-top: 1px solid var(--faint);
+        background: var(--paper);
+        color: var(--muted);
+        font-family: var(--font-sans);
+        font-size: 0.9rem;
+        font-weight: 300;
+    }
+
+    .site-footer__inner {
+        padding: 2rem 0;
+        text-align: center;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        margin: 2.1rem 0 0.75rem;
+        color: var(--ink);
+        font-family: var(--font-sans);
+        font-weight: 900;
+        line-height: 1.22;
+    }
+
+    h1 {
+        margin-top: 0;
+        font-size: clamp(2.15rem, 2.8rem, 2.8rem);
+    }
+
+    h2 { font-size: 1.72rem; }
+    h3 { font-size: 1.28rem; }
+    h4 { font-size: 1.05rem; }
+
+    p,
+    li {
+        color: var(--ink);
+        font-size: 1.05rem;
+        line-height: 1.82;
+    }
+
+    p { margin: 0 0 1.15rem; }
+
+    ul,
+    ol {
+        margin: 0 0 1.2rem;
+        padding-left: 1.35rem;
+    }
+
+    li { margin: 0.32rem 0; }
+
+    hr {
+        height: 1px;
+        margin: 2.4rem 0;
+        border: 0;
+        background: var(--faint);
+    }
+
+    blockquote {
+        margin: 1.5rem 0;
+        padding: 1rem 1.25rem;
+        border-left: 5px solid var(--muted);
+        color: var(--muted);
+        font-style: italic;
+        background: var(--paper);
+    }
+
+    blockquote p { color: var(--muted); }
+
+    figure {
+        margin: 2rem 0;
+    }
+
+    figure img,
+    figure svg,
+    .article-shell svg {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+    }
+
+    figcaption {
+        margin-top: 0.65rem;
+        color: var(--muted);
+        font-family: var(--font-sans);
+        font-size: 0.86rem;
+        line-height: 1.5;
+        text-align: center;
+    }
+
+    code,
+    pre {
+        font-family: var(--font-mono);
+    }
+
+    code {
+        padding: 0.12rem 0.28rem;
+        border-radius: 3px;
+        background: var(--code-bg);
+        color: var(--muted);
+        font-size: 0.9em;
+    }
+
+    pre {
+        margin: 1.35rem 0;
+        padding: 1.1rem;
+        overflow-x: auto;
+        border: 1px solid var(--faint);
+        border-radius: 3px;
+        background: var(--code-bg);
+        font-size: 0.92rem;
+        line-height: 1.45;
+    }
+
+    pre code {
+        padding: 0;
+        background: transparent;
+    }
+
+    table {
+        width: 100%;
+        margin: 1.5rem 0;
+        border-collapse: collapse;
+        font-family: var(--font-sans);
+        font-size: 0.92rem;
+        line-height: 1.55;
+    }
+
+    th,
+    td {
+        padding: 0.62rem 0.7rem;
+        border-bottom: 1px solid var(--faint);
+        text-align: left;
+        vertical-align: top;
+    }
+
+    th {
+        color: var(--ink);
+        font-weight: 700;
+        background: var(--paper);
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
+
+    .source-table {
+        min-width: 42rem;
+    }
+
+    .meta,
+    .post-meta {
+        margin: 0 0 0.3rem;
+        padding: 0;
+        color: var(--muted);
+        font-family: var(--font-sans);
+        font-size: 0.94rem;
+        font-style: italic;
+        font-weight: 300;
+        line-height: 1.55;
+    }
+
+    .lead {
+        color: #444;
+        font-size: 1.15rem;
+    }
+
+    .posts {
+        margin: 2rem 0 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .post {
+        margin: 0 0 1.9rem;
+        padding: 0 0 1.55rem;
+        border-bottom: 1px solid var(--faint);
+    }
+
+    .post:last-child {
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: 0;
+    }
+
+    .post-link {
+        display: block;
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .post-link:hover {
+        text-decoration: none;
+    }
+
+    .post-link:hover .post-title,
+    .post-link:hover .post-summary,
+    .post-link:hover .post-meta {
+        opacity: 0.86;
+    }
+
+    .post-title {
+        margin: 0.22rem 0 0.35rem;
+        color: var(--ink);
+        font-size: 1.72rem;
+        font-weight: 700;
+        line-height: 1.25;
+    }
+
+    .post-summary {
+        margin: 0;
+        color: #555;
+        font-size: 1rem;
+        line-height: 1.7;
+    }
+
+    .more-link {
+        display: inline-block;
+        margin-top: 1.6rem;
+        font-family: var(--font-sans);
+        font-size: 0.95rem;
+    }
+
+    .content-count {
+        margin-top: 2rem;
+        padding-top: 1.2rem;
+        border-top: 1px solid var(--faint);
+    }
+
+    .card,
+    .section {
+        margin: 1.5rem 0;
+        padding: 1.15rem 1.25rem;
+        border: 1px solid var(--faint);
+        border-radius: 3px;
+        background: var(--paper);
+    }
+
+    .card-title {
+        margin-bottom: 0.5rem;
+        font-family: var(--font-sans);
+        font-size: 1.05rem;
+        font-weight: 700;
+    }
+
+    .tag {
+        display: inline-block;
+        margin: 0 0.35rem 0.35rem 0;
+        padding: 0.1rem 0.38rem;
+        border: 1px solid var(--line);
+        border-radius: 3px;
+        background: var(--bg);
+        color: var(--muted);
+        font-family: var(--font-sans);
+        font-size: 0.78rem;
+        line-height: 1.5;
+    }
+
+    .rating {
+        color: var(--accent);
+        white-space: nowrap;
+    }
+
+    .article-shell > main,
+    .article-shell > article {
+        display: contents;
+    }
+
+    @media (max-width: 48rem) {
+        html { font-size: 16px; }
+
+        .site-header {
+            padding-top: 1.35rem;
+            text-align: center;
+        }
+
+        .site-header__inner {
+            display: block;
+        }
+
+        .site-nav {
+            justify-content: center;
+            margin-top: 0.7rem;
+        }
+
+        .site-frame {
+            display: block;
+            width: min(var(--measure), calc(100vw - 2rem));
+        }
+
+        .site-main {
+            padding-top: 2.2rem;
+        }
+
+        .profile-sidebar {
+            position: static;
+            padding: 2.2rem 0 0;
+        }
+
+        .profile-card {
+            display: grid;
+            grid-template-columns: 4.25rem minmax(0, 1fr);
+            gap: 0 1rem;
+            padding-bottom: 1.2rem;
+        }
+
+        .profile-avatar {
+            grid-row: span 4;
+            width: 4.25rem;
+            height: 4.25rem;
+            margin: 0;
+            font-size: 1.8rem;
+        }
+
+        .profile-name {
+            font-size: 1.2rem;
+        }
+
+        .profile-bio,
+        .profile-links {
+            grid-column: 1 / -1;
+        }
+
+        h1 { font-size: 2rem; }
+        h2 { font-size: 1.48rem; }
+        .post-title { font-size: 1.42rem; }
+    }
+</style>
+
+</head>
+<body>
+    <header class="site-header">
+    <div class="site-header__inner">
+        <a href="/" class="site-title">Jin 的个人思考</a>
+        <nav class="site-nav" aria-label="主导航">
+            <a href="/">首页</a>
+            <a href="/agents/">Agent 实验</a>
+            <a href="/insights/">洞察</a>
+            <a href="/sources/">来源</a>
+        </nav>
+    </div>
+</header>
+
+
+    <div class="site-frame">
+        <aside class="profile-sidebar" aria-label="个人简介">
+    <div class="profile-card">
+        <div class="profile-avatar" aria-hidden="true">J</div>
+        <h2 class="profile-name">Shan . Jin</h2>
+        <p class="profile-role">AI Agent Builder</p>
+        <p class="profile-affiliation">关注 AI 智能体、harness 工程与独立创造。</p>
+        <p class="profile-bio">这里记录我对 AI 智能体、协议设计、工程 harness 和个人创造系统的观察与实验。</p>
+        <div class="profile-contact" aria-label="联系方式">
+            <a class="icon-link" href="mailto:goodjin2@gmail.com" aria-label="Email: goodjin2@gmail.com" title="Email">
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                    <path d="M4 6h16v12H4z"></path>
+                    <path d="m4 7 8 6 8-6"></path>
+                </svg>
+            </a>
+            <a class="icon-link" href="https://github.com/goodjin" target="_blank" rel="noopener" aria-label="GitHub: goodjin" title="GitHub">
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                    <path d="M12 2.5a9.5 9.5 0 0 0-3 18c.48.09.65-.2.65-.46v-1.7c-2.65.58-3.2-1.12-3.2-1.12-.44-1.1-1.06-1.4-1.06-1.4-.86-.58.07-.57.07-.57.95.07 1.45.98 1.45.98.85 1.44 2.22 1.02 2.76.78.09-.6.33-1.02.6-1.25-2.12-.24-4.35-1.06-4.35-4.7 0-1.04.37-1.9.98-2.56-.1-.24-.43-1.22.09-2.53 0 0 .8-.26 2.6.98a9 9 0 0 1 4.74 0c1.8-1.24 2.6-.98 2.6-.98.52 1.31.19 2.29.09 2.53.61.66.98 1.52.98 2.56 0 3.65-2.24 4.45-4.37 4.69.35.3.66.88.66 1.78v2.64c0 .26.17.56.66.46a9.5 9.5 0 0 0-3-18Z"></path>
+                </svg>
+            </a>
+            <details class="wechat-popover">
+                <summary class="icon-link" aria-label="微信公众号二维码" title="微信公众号">
+                    <svg aria-hidden="true" viewBox="0 0 24 24">
+                        <path d="M9.5 6.5c-4.1 0-7 2.55-7 5.7 0 1.77.92 3.35 2.36 4.4l-.58 1.78 2.08-1.05c.94.36 2 .57 3.14.57 4.1 0 7-2.55 7-5.7s-2.9-5.7-7-5.7Z"></path>
+                        <path d="M15.35 9.2c3.15.38 5.15 2.48 5.15 5.05 0 1.48-.74 2.82-1.92 3.72l.48 1.46-1.72-.88c-.76.27-1.6.42-2.49.42-1.95 0-3.7-.72-4.8-1.86"></path>
+                        <path d="M7.35 11.5h.02"></path>
+                        <path d="M11.65 11.5h.02"></path>
+                    </svg>
+                </summary>
+                <div class="wechat-panel">
+                    <img src="/assets/wechat-qrcode.jpg" alt="微信公众号二维码">
+                    <p>微信公众号</p>
+                </div>
+            </details>
+        </div>
+        <div class="profile-links" aria-label="个人链接">
+            <a href="/agents/">Agent 实验</a>
+            <a href="/insights/">Insights</a>
+            <a href="/sources/">Sources</a>
+        </div>
+    </div>
+</aside>
+
+        <main class="site-main article-shell">
+            <h1>Skill与Agent相争谁输谁赢？</h1>
+
+<h2>Skill 是什么</h2>
+
+<p>"技能"（Skill）这个概念，最早是由 Claude Code 提出的。</p>
+
+<p>当我们经常有一些重复的工作需要让大模型去做时，每次都输入重复的提示词就成了一件麻烦事。</p>
+
+<p>所以Claude Code团队里有些大聪明就想出了一个主意：给这些提示词绑定一个简短的快捷指令，每次都只需要输入快捷指令就自动将绑定的提示词提交给大模型，这样一来就省事多了，这个方式就叫Skill。</p>
+
+<p>这个聪明的做法很快得到了大家的欢迎，并且大家发现：</p>
+
+<p>还可以给Skill加上一些描述，告诉大模型"有需要的话你可以主动使用哦，不要客气"，这样连手工输指令都省了。</p>
+
+<p>由于这些提示词是反复使用的，可以得到多次结果反馈，又有利于不断修订进化，比手工提示词好多了哇。</p>
+
+<p>有些Skills逐步打磨迭代都到好几万字符了，这就不仅仅是替代手工输入这么简单了，因为几万字符手工输入早就不现实了。</p>
+
+<p>这时Skill已经算是一种全新的形态了，它的用途也越来越广。</p>
+
+<p>也因为此，skill这个概念在开始流行起来，各种各样的技能仓库、技能市场如雨后春笋般涌现。</p>
+
+<p>skill的内容一般都会写些什么呢？</p>
+
+<p><strong>大部分skill的内容都是关于如何干一件事的描述，相当于一套工作流程</strong>——告诉大模型"做一件事应该怎么做，遵守哪些规则，按哪几个步骤，碰到异常应该如何处理等等"，工作流程往往是可重复使用的，所以很适合用技能来表示。</p>
+
+<hr>
+
+<h2>Skill团队</h2>
+
+<p>但人心都是贪婪的，光有单独的Skill还不够，很快有人用Skill集合搭配来使用以完成更复杂的工作。</p>
+
+<p>比如有人在跨境领域调教了选品、抓取商品信息、分析数据、生成建议等多个skill集合，让它们配合起来去完成一整个业务链路的任务。</p>
+
+<p>还有很多人设计的研发工作流程，也是将需求分析、方案设计、开发、测试、review、总结报告等一系列环节用技能来执行，将它们组合起来完成整个研发链路的工作。</p>
+
+<p>在现实中，这些环节都是由不同岗位的人来完成的，所以有些人还会给这些技能加上一个角色身份背景，比如需求分析技能就会定义"你是一个专业产品经理"之类来蒙骗大模型以这个角色身份来执行任务。</p>
+
+<p>这样看，这些技能集合实际上就是在模拟一个团队了。</p>
+
+<p>但是，对团队的模拟其实很多平台都有做，他们并不是用技能集合，而是叫<strong>Agent Team。</strong></p>
+
+<p>当然，不同平台可能叫法不一样——专家团、Multi-Agent，本质都一样：每个环节配一个角色，各干各的，最后拼成完整任务。</p>
+
+<p><strong>一个是从技能出发组合，一个是角色出发组合。出发点不同，但本质相同：把业务流程拆成环节，每个环节配专用提示词。</strong></p>
+
+<p>每个Skill定义的是"做这件事的步骤，定义的是工作流"。Agent Team中的每个Agent定义的是"这个角色该怎么做，实际上也是工作流"。本质上，Agent能做的，Skill也能做；但Agent能做到的，Skill却未必能。</p>
+
+<div class="image-container">
+    <svg viewBox="0 0 600 280" xmlns="http://www.w3.org/2000/svg">
+        <rect fill="#f8f9fa" width="600" height="280" rx="12"/>
+        <text x="300" y="40" text-anchor="middle" fill="#333" font-size="18" font-weight="bold">殊途同归</text>
+
+        <!-- Skills 组合 -->
+        <rect x="40" y="70" width="240" height="160" rx="10" fill="#667eea" opacity="0.1"/>
+        <text x="160" y="100" text-anchor="middle" fill="#667eea" font-size="14" font-weight="bold">Skills 组合</text>
+        <text x="160" y="125" text-anchor="middle" fill="#666" font-size="12">从抽象工作流程出发</text>
+        <rect x="60" y="145" width="80" height="35" rx="4" fill="#667eea" opacity="0.3"/>
+        <text x="100" y="168" text-anchor="middle" fill="#667eea" font-size="11">选品</text>
+        <rect x="150" y="145" width="80" height="35" rx="4" fill="#667eea" opacity="0.3"/>
+        <text x="190" y="168" text-anchor="middle" fill="#667eea" font-size="11">抓取</text>
+        <rect x="100" y="190" width="80" height="35" rx="4" fill="#667eea" opacity="0.3"/>
+        <text x="140" y="213" text-anchor="middle" fill="#667eea" font-size="11">分析</text>
+
+        <!-- Agent Team -->
+        <rect x="320" y="70" width="240" height="160" rx="10" fill="#764ba2" opacity="0.1"/>
+        <text x="440" y="100" text-anchor="middle" fill="#764ba2" font-size="14" font-weight="bold">Agent Team</text>
+        <text x="440" y="125" text-anchor="middle" fill="#666" font-size="12">从模拟团队协作出发</text>
+        <rect x="340" y="145" width="80" height="35" rx="4" fill="#764ba2" opacity="0.3"/>
+        <text x="380" y="168" text-anchor="middle" fill="#764ba2" font-size="11">选品员</text>
+        <rect x="430" y="145" width="80" height="35" rx="4" fill="#764ba2" opacity="0.3"/>
+        <text x="470" y="168" text-anchor="middle" fill="#764ba2" font-size="11">数据员</text>
+        <rect x="385" y="190" width="80" height="35" rx="4" fill="#764ba2" opacity="0.3"/>
+        <text x="425" y="213" text-anchor="middle" fill="#764ba2" font-size="11">分析师</text>
+
+        <!-- 结论 -->
+        <rect x="100" y="250" width="400" height="30" rx="15" fill="#c41e3a" opacity="0.1"/>
+        <text x="300" y="270" text-anchor="middle" fill="#c41e3a" font-size="12">本质相同：把业务流程拆成环节，每个环节配专用提示词</text>
+    </svg>
+    <div class="caption">图：Skills组合 vs Agent Team</div>
+</div>
+
+<hr>
+
+<h2>Skills 的工程困境</h2>
+
+<p>是不是说，Skill以后完全可以用Agent来替代呢？</p>
+
+<p>有人会说，它们还是不一样的，一个Agent可以使用多个技能，比如在一个会话里可以前后调用不同的技能，Agent类比为人，一个人有多种技能不是很合理吗？</p>
+
+<p>说到这个，就不得不谈谈大模型的上下文工程了。</p>
+
+<p>我们在一个会话里调用了一个技能，过一会又调用另一个，会发生什么呢？</p>
+
+<p>这样下去整个会话不但变得很长，前后的内容也会形成很大的差异，导致大模型出现幻觉、注意力漂移等等问题。</p>
+
+<p>而这也正是上下文工程理念里要尽力避免的，用一句大俗话来说就是：一个会话只做一件事。</p>
+
+<p>所以，在一个会话中调用多个技能并不是好的做法。</p>
+
+<p>流行的做法是每次都创建一个subagent，让subagent去调用这个技能来干活，这样就不会污染主会话，而subagent的上下文也能得到隔离，专心执行技能。</p>
+
+<p>所以，你看，兜兜转转最后还是用一个单独的Agent来执行。</p>
+
+<p>关键在于<strong>每次都创建新的Agent实例</strong>。Skill的问题是在一个会话里反复调用多个技能，会话越来越长，前面聊的A技能内容还在影响后面的B技能。Agent的解法是：需要做需求分析就创建一个"需求分析师Agent"，会话结束就销毁；需要写代码就创建新的"程序员Agent"，上下文干干净净。每个会话只装一件事，自然就不会膨胀。</p>
+
+<p>既然这样，不如定义好一个Agent，将技能的内容赋予它，让技能成为它的内在能力，有需要时直接创建这个Agent的会话不就行了吗？何须在创建后还要叮嘱它一句，请使用xxx技能？这不是多此一举吗？</p>
+
+<div class="image-container">
+    <svg viewBox="0 0 600 320" xmlns="http://www.w3.org/2000/svg">
+        <rect fill="#fff5f5" width="600" height="320" rx="12"/>
+
+        <!-- 问题 -->
+        <text x="150" y="35" text-anchor="middle" fill="#c41e3a" font-size="14" font-weight="bold">Skill 的问题</text>
+        <rect x="30" y="55" width="240" height="100" rx="8" fill="#c41e3a" opacity="0.1"/>
+        <text x="150" y="85" text-anchor="middle" fill="#666" font-size="12">一个会话调用多个技能</text>
+        <text x="150" y="110" text-anchor="middle" fill="#c41e3a" font-size="11">会话越来越长</text>
+        <text x="150" y="130" text-anchor="middle" fill="#c41e3a" font-size="11">上下文相互污染</text>
+        <text x="150" y="150" text-anchor="middle" fill="#c41e3a" font-size="11">大模型幻觉/漂移</text>
+
+        <!-- 箭头 -->
+        <text x="300" y="105" text-anchor="middle" fill="#666" font-size="24">→</text>
+
+        <!-- 解决方案 -->
+        <text x="450" y="35" text-anchor="middle" fill="#48bb78" font-size="14" font-weight="bold">Agent 的解法</text>
+        <rect x="330" y="55" width="240" height="100" rx="8" fill="#48bb78" opacity="0.1"/>
+        <text x="450" y="85" text-anchor="middle" fill="#666" font-size="12">每个任务配独立Agent</text>
+        <text x="450" y="110" text-anchor="middle" fill="#48bb78" font-size="11">上下文隔离</text>
+        <text x="450" y="130" text-anchor="middle" fill="#48bb78" font-size="11">会话结束即销毁</text>
+        <text x="450" y="150" text-anchor="middle" fill="#48bb78" font-size="11">每个会话只装一事</text>
+
+        <!-- 生命周期 -->
+        <text x="300" y="190" text-anchor="middle" fill="#333" font-size="13" font-weight="bold">Agent 实例生命周期</text>
+        <rect x="50" y="210" width="120" height="60" rx="6" fill="#667eea" opacity="0.2"/>
+        <text x="110" y="240" text-anchor="middle" fill="#667eea" font-size="11">需求分析师</text>
+        <text x="110" y="258" text-anchor="middle" fill="#667eea" font-size="10">按需创建</text>
+
+        <text x="200" y="240" text-anchor="middle" fill="#666" font-size="14">→</text>
+
+        <rect x="230" y="210" width="120" height="60" rx="6" fill="#48bb78" opacity="0.2"/>
+        <text x="290" y="240" text-anchor="middle" fill="#48bb78" font-size="11">程序员</text>
+        <text x="290" y="258" text-anchor="middle" fill="#48bb78" font-size="10">任务完成</text>
+
+        <text x="380" y="240" text-anchor="middle" fill="#666" font-size="14">→</text>
+
+        <rect x="410" y="210" width="120" height="60" rx="6" fill="#ed8936" opacity="0.2"/>
+        <text x="470" y="240" text-anchor="middle" fill="#ed8936" font-size="11">测试工程师</text>
+        <text x="470" y="258" text-anchor="middle" fill="#ed8936" font-size="10">销毁</text>
+
+        <!-- 结论 -->
+        <text x="300" y="295" text-anchor="middle" fill="#c41e3a" font-size="13">Agent能做到的，Skill却未必能</text>
+    </svg>
+    <div class="caption">图：上下文隔离 vs 上下文污染</div>
+</div>
+
+<p>Agent与Skill相比还不止这一个优点。</p>
+
+<p>Agent的概念更完整，你可以给它定义身份、背景知识等，概念天然清晰，技能虽然也能这样来编写，但从概念上总是有点别扭。</p>
+
+<p>并且，Agent是可以有记忆的，它能记住踩过的坑，吃过的苦头，技能却做不到。</p>
+
+<p>Agent有工具集，有权限控制，这些都可以根据技能内容进行调整以达到最佳效果，而纯技能根本做不到这一点。</p>
+
+<p>一句话：技能可以做到Agent也能，而Agent能做到的技能却未必能。</p>
+
+<p>在Agent系统里面，究竟Agent是主角还是技能是主角，答案不言而喻。</p>
+
+<hr>
+
+<h2>Skills 的历史偶然性</h2>
+
+<p>Agent这个概念比Skill出现得还要早，为什么还会有Skill这种概念呢？</p>
+
+<p>这又不得不说Claude Code开的坏头。</p>
+
+<p>在Claude Code的设计里没有给创建Agent提供自由的空间，只能使用内置的几个Agent。所以当大家习惯后就不会生出"我要为当前工作流程创建一个专用Agent"的想法，只能退而求其次："创建一个提示词的快捷指令好了"。</p>
+
+<p>有人会说：Skill也有价值啊，Skill更轻量、更简单，不需要创建Agent那么麻烦。</p>
+
+<p>这话没错。但问题是——为什么"不需要创建Agent"成了优点？因为Claude Code没有给你这个选项啊。</p>
+
+<p><strong>是门槛的存在，催生了"绕过门槛"的解法。</strong> 如果一开始就能自由创建Agent，没有人会退而求其次去发明Skill快捷指令。</p>
+
+<p>就像如果Windows自带包管理器，没人会在意winget；如果npm先出现，没人需要yarn.lock。工具的缺位制造了中间解法的繁荣。</p>
+
+<div class="image-container">
+    <svg viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+        <rect fill="#f8f9fa" width="600" height="300" rx="12"/>
+
+        <!-- 时间线 -->
+        <text x="300" y="35" text-anchor="middle" fill="#333" font-size="16" font-weight="bold">历史时间线</text>
+        <line x1="100" y1="80" x2="500" y2="80" stroke="#ddd" stroke-width="3"/>
+
+        <circle cx="150" cy="80" r="12" fill="#667eea"/>
+        <text x="150" y="65" text-anchor="middle" fill="#667eea" font-size="11">Agent概念</text>
+        <text x="150" y="110" text-anchor="middle" fill="#666" font-size="10">早已存在</text>
+
+        <circle cx="300" cy="80" r="12" fill="#c41e3a"/>
+        <text x="300" y="65" text-anchor="middle" fill="#c41e3a" font-size="11">Claude Code</text>
+        <text x="300" y="110" text-anchor="middle" fill="#c41e3a" font-size="10">限制Agent创建</text>
+
+        <circle cx="450" cy="80" r="12" fill="#764ba2"/>
+        <text x="450" y="65" text-anchor="middle" fill="#764ba2" font-size="11">Skill诞生</text>
+        <text x="450" y="110" text-anchor="middle" fill="#764ba2" font-size="10">退而求其次</text>
+
+        <!-- 核心论点 -->
+        <rect x="100" y="140" width="400" height="60" rx="30" fill="#c41e3a" opacity="0.1"/>
+        <text x="300" y="175" text-anchor="middle" fill="#c41e3a" font-size="14" font-weight="bold">是门槛的存在，催生了"绕过门槛"的解法</text>
+
+        <!-- 类比 -->
+        <text x="300" y="230" text-anchor="middle" fill="#333" font-size="13" font-weight="bold">类比：包管理器</text>
+        <rect x="80" y="245" width="200" height="45" rx="6" fill="#667eea" opacity="0.1"/>
+        <text x="180" y="268" text-anchor="middle" fill="#667eea" font-size="11">npm先出现 → yarn.lock不需要</text>
+        <rect x="320" y="245" width="200" height="45" rx="6" fill="#764ba2" opacity="0.1"/>
+        <text x="420" y="268" text-anchor="middle" fill="#764ba2" font-size="11">Windows缺位 → winget火了</text>
+    </svg>
+    <div class="caption">图：工具缺位制造中间解法</div>
+</div>
+
+<p>当有人说将员工蒸馏成技能的时候，就没人想一想：Agent才是类比为人的概念，为什么不是蒸馏成Agent呢？</p>
+
+<p>当然，这不是说Skill马上要消失。迁移需要成本，生态需要时间。但至少新项目应该直接用Agent，而不是继续套Skill的旧模式。</p>
+
+<p>更重要的是，开源社区应该提供更方便的Agent创建工具——让创建Agent的门槛降到跟写一个Skill提示词一样低。到那时，Skill就完成了它的历史使命，可以功成身退了。</p>
+
+<p>是时候让Skill退出历史舞台，让Agent走向前台了。</p>
+
+<div class="ending">
+    <p class="gold-line">别再给AI装技能了，给它装个脑子吧。</p>
+</div>
+
+<div class="image-container">
+    <svg viewBox="0 0 400 180" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <linearGradient id="endingBg" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#667eea"/>
+                <stop offset="100%" style="stop-color:#764ba2"/>
+            </linearGradient>
+        </defs>
+        <rect fill="url(#endingBg)" width="400" height="180" rx="12"/>
+        <text x="200" y="70" text-anchor="middle" fill="white" font-size="22" font-weight="bold">Agent = 类人为概念</text>
+        <text x="200" y="110" text-anchor="middle" fill="white" font-size="16" opacity="0.9">不是装技能</text>
+        <text x="200" y="145" text-anchor="middle" fill="white" font-size="18" font-weight="bold">是装脑子</text>
+    </svg>
+    <div class="caption">图：Agent的真正含义</div>
+</div>
+
+        </main>
+    </div>
+
+    <footer class="site-footer">
+        <div class="site-footer__inner">Jin's AI Companion</div>
+    </footer>
+</body>
+</html>

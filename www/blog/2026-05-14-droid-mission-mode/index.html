@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>droid的mission模式是怎么设计的</title>
+    <style>
+    :root {
+        --bg: #fff;
+        --paper: #fafafa;
+        --ink: #333;
+        --muted: #7a7a7a;
+        --faint: #f3f3f3;
+        --line: #e8e8e8;
+        --accent: #d14;
+        --accent-dark: #a10d30;
+        --code-bg: #f8f8f8;
+        --measure: 44rem;
+        --frame: 64rem;
+        --sidebar: 15rem;
+        --font-serif: "Merriweather", "PT Serif", Georgia, "Times New Roman", "Songti SC", "Noto Serif CJK SC", serif;
+        --font-sans: "Lato", "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", sans-serif;
+        --font-mono: Menlo, Monaco, Consolas, "Courier New", monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+        min-height: 100%;
+        background: var(--bg);
+        color: var(--ink);
+        font-size: 17px;
+        text-size-adjust: 100%;
+    }
+
+    body {
+        min-height: 100vh;
+        margin: 0;
+        color: var(--ink);
+        font-family: var(--font-serif);
+        font-weight: 300;
+        line-height: 1.75;
+        letter-spacing: 0;
+        background: var(--bg);
+    }
+
+    a {
+        color: var(--accent);
+        text-decoration: none;
+        transition: color 160ms ease, border-color 160ms ease, opacity 160ms ease;
+    }
+
+    a:hover {
+        color: var(--accent-dark);
+        text-decoration: underline;
+        text-underline-offset: 0.18em;
+    }
+
+    img {
+        width: auto;
+        max-width: 100%;
+        height: auto;
+    }
+
+    .site-header {
+        padding: 2rem 1.5rem 1.25rem;
+        border-bottom: 1px solid var(--faint);
+        background: var(--bg);
+    }
+
+    .site-header__inner,
+    .site-frame {
+        width: min(var(--frame), calc(100vw - 2rem));
+        margin: 0 auto;
+    }
+
+    .site-footer__inner {
+        width: min(var(--measure), calc(100vw - 2rem));
+        margin: 0 auto;
+    }
+
+    .site-frame {
+        display: grid;
+        grid-template-columns: minmax(12rem, var(--sidebar)) minmax(0, var(--measure));
+        gap: 3.5rem;
+        align-items: start;
+    }
+
+    .site-header__inner {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 1.5rem;
+    }
+
+    .site-title {
+        color: var(--ink);
+        font-family: var(--font-sans);
+        font-size: 1.18rem;
+        font-weight: 300;
+        line-height: 1.2;
+        text-decoration: none;
+    }
+
+    .site-title:hover {
+        color: var(--ink);
+        opacity: 0.82;
+        text-decoration: none;
+    }
+
+    .site-nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 0.35rem 1rem;
+        margin: 0;
+        font-family: var(--font-sans);
+    }
+
+    .site-nav a {
+        border-bottom: 2px solid transparent;
+        color: #666;
+        font-size: 0.9rem;
+        font-weight: 300;
+        line-height: 1.6;
+        text-decoration: none;
+    }
+
+    .site-nav a:hover,
+    .site-nav a.active {
+        border-bottom-color: #444;
+        color: #444;
+        text-decoration: none;
+    }
+
+    .site-main {
+        padding: 3rem 0 4rem;
+    }
+
+    .profile-sidebar {
+        position: sticky;
+        top: 2rem;
+        padding: 3rem 0 4rem;
+        color: var(--muted);
+        font-family: var(--font-sans);
+    }
+
+    .profile-card {
+        border-bottom: 1px solid var(--faint);
+        padding-bottom: 1.35rem;
+    }
+
+    .profile-avatar {
+        display: grid;
+        place-items: center;
+        width: 6.25rem;
+        height: 6.25rem;
+        margin-bottom: 1.1rem;
+        border: 1px solid var(--line);
+        border-radius: 50%;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--font-serif);
+        font-size: 2.65rem;
+        font-weight: 300;
+        line-height: 1;
+    }
+
+    .profile-name {
+        margin: 0;
+        color: var(--ink);
+        font-size: 1.45rem;
+        font-weight: 700;
+        line-height: 1.2;
+    }
+
+    .profile-role,
+    .profile-affiliation,
+    .profile-bio,
+    .profile-contact {
+        margin: 0.35rem 0 0;
+        color: var(--muted);
+        font-family: var(--font-sans);
+        font-size: 0.9rem;
+        line-height: 1.65;
+    }
+
+    .profile-role {
+        color: #555;
+        font-style: italic;
+    }
+
+    .profile-bio {
+        margin-top: 0.9rem;
+    }
+
+    .profile-contact {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        align-items: center;
+        margin-top: 0.9rem;
+        font-size: 0.84rem;
+    }
+
+    .icon-link {
+        display: inline-grid;
+        place-items: center;
+        width: 2rem;
+        height: 2rem;
+        border: 1px solid var(--line);
+        border-radius: 50%;
+        background: var(--bg);
+        color: #555;
+        cursor: pointer;
+        line-height: 1;
+        transition: border-color 160ms ease, color 160ms ease, background 160ms ease;
+    }
+
+    .icon-link:hover,
+    .wechat-popover[open] .icon-link {
+        border-color: var(--accent);
+        background: var(--paper);
+        color: var(--accent-dark);
+        text-decoration: none;
+    }
+
+    .icon-link svg {
+        width: 1.05rem;
+        height: 1.05rem;
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.8;
+    }
+
+    .profile-contact a:nth-child(2) svg {
+        fill: currentColor;
+        stroke: none;
+    }
+
+    .wechat-popover {
+        position: relative;
+    }
+
+    .wechat-popover summary {
+        list-style: none;
+    }
+
+    .wechat-popover summary::-webkit-details-marker {
+        display: none;
+    }
+
+    .wechat-panel {
+        position: absolute;
+        left: 0;
+        top: 2.55rem;
+        z-index: 20;
+        width: 10.5rem;
+        padding: 0.65rem;
+        border: 1px solid var(--line);
+        border-radius: 3px;
+        background: var(--bg);
+        box-shadow: 0 12px 32px rgb(0 0 0 / 0.1);
+    }
+
+    .wechat-panel img {
+        display: block;
+        width: 100%;
+        border-radius: 2px;
+    }
+
+    .wechat-panel p {
+        margin: 0.45rem 0 0;
+        color: var(--muted);
+        font-family: var(--font-sans);
+        font-size: 0.78rem;
+        line-height: 1.4;
+        text-align: center;
+    }
+
+    .profile-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem 0.85rem;
+        margin-top: 1rem;
+        font-size: 0.86rem;
+    }
+
+    .profile-links a {
+        border-bottom: 1px solid transparent;
+        color: var(--accent);
+        line-height: 1.5;
+    }
+
+    .profile-links a:hover {
+        border-bottom-color: var(--accent-dark);
+        text-decoration: none;
+    }
+
+    .site-footer {
+        margin-top: 1rem;
+        border-top: 1px solid var(--faint);
+        background: var(--paper);
+        color: var(--muted);
+        font-family: var(--font-sans);
+        font-size: 0.9rem;
+        font-weight: 300;
+    }
+
+    .site-footer__inner {
+        padding: 2rem 0;
+        text-align: center;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        margin: 2.1rem 0 0.75rem;
+        color: var(--ink);
+        font-family: var(--font-sans);
+        font-weight: 900;
+        line-height: 1.22;
+    }
+
+    h1 {
+        margin-top: 0;
+        font-size: clamp(2.15rem, 2.8rem, 2.8rem);
+    }
+
+    h2 { font-size: 1.72rem; }
+    h3 { font-size: 1.28rem; }
+    h4 { font-size: 1.05rem; }
+
+    p,
+    li {
+        color: var(--ink);
+        font-size: 1.05rem;
+        line-height: 1.82;
+    }
+
+    p { margin: 0 0 1.15rem; }
+
+    ul,
+    ol {
+        margin: 0 0 1.2rem;
+        padding-left: 1.35rem;
+    }
+
+    li { margin: 0.32rem 0; }
+
+    hr {
+        height: 1px;
+        margin: 2.4rem 0;
+        border: 0;
+        background: var(--faint);
+    }
+
+    blockquote {
+        margin: 1.5rem 0;
+        padding: 1rem 1.25rem;
+        border-left: 5px solid var(--muted);
+        color: var(--muted);
+        font-style: italic;
+        background: var(--paper);
+    }
+
+    blockquote p { color: var(--muted); }
+
+    figure {
+        margin: 2rem 0;
+    }
+
+    figure img,
+    figure svg,
+    .article-shell svg {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+    }
+
+    figcaption {
+        margin-top: 0.65rem;
+        color: var(--muted);
+        font-family: var(--font-sans);
+        font-size: 0.86rem;
+        line-height: 1.5;
+        text-align: center;
+    }
+
+    code,
+    pre {
+        font-family: var(--font-mono);
+    }
+
+    code {
+        padding: 0.12rem 0.28rem;
+        border-radius: 3px;
+        background: var(--code-bg);
+        color: var(--muted);
+        font-size: 0.9em;
+    }
+
+    pre {
+        margin: 1.35rem 0;
+        padding: 1.1rem;
+        overflow-x: auto;
+        border: 1px solid var(--faint);
+        border-radius: 3px;
+        background: var(--code-bg);
+        font-size: 0.92rem;
+        line-height: 1.45;
+    }
+
+    pre code {
+        padding: 0;
+        background: transparent;
+    }
+
+    table {
+        width: 100%;
+        margin: 1.5rem 0;
+        border-collapse: collapse;
+        font-family: var(--font-sans);
+        font-size: 0.92rem;
+        line-height: 1.55;
+    }
+
+    th,
+    td {
+        padding: 0.62rem 0.7rem;
+        border-bottom: 1px solid var(--faint);
+        text-align: left;
+        vertical-align: top;
+    }
+
+    th {
+        color: var(--ink);
+        font-weight: 700;
+        background: var(--paper);
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
+
+    .source-table {
+        min-width: 42rem;
+    }
+
+    .meta,
+    .post-meta {
+        margin: 0 0 0.3rem;
+        padding: 0;
+        color: var(--muted);
+        font-family: var(--font-sans);
+        font-size: 0.94rem;
+        font-style: italic;
+        font-weight: 300;
+        line-height: 1.55;
+    }
+
+    .lead {
+        color: #444;
+        font-size: 1.15rem;
+    }
+
+    .posts {
+        margin: 2rem 0 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .post {
+        margin: 0 0 1.9rem;
+        padding: 0 0 1.55rem;
+        border-bottom: 1px solid var(--faint);
+    }
+
+    .post:last-child {
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: 0;
+    }
+
+    .post-link {
+        display: block;
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .post-link:hover {
+        text-decoration: none;
+    }
+
+    .post-link:hover .post-title,
+    .post-link:hover .post-summary,
+    .post-link:hover .post-meta {
+        opacity: 0.86;
+    }
+
+    .post-title {
+        margin: 0.22rem 0 0.35rem;
+        color: var(--ink);
+        font-size: 1.72rem;
+        font-weight: 700;
+        line-height: 1.25;
+    }
+
+    .post-summary {
+        margin: 0;
+        color: #555;
+        font-size: 1rem;
+        line-height: 1.7;
+    }
+
+    .more-link {
+        display: inline-block;
+        margin-top: 1.6rem;
+        font-family: var(--font-sans);
+        font-size: 0.95rem;
+    }
+
+    .content-count {
+        margin-top: 2rem;
+        padding-top: 1.2rem;
+        border-top: 1px solid var(--faint);
+    }
+
+    .card,
+    .section {
+        margin: 1.5rem 0;
+        padding: 1.15rem 1.25rem;
+        border: 1px solid var(--faint);
+        border-radius: 3px;
+        background: var(--paper);
+    }
+
+    .card-title {
+        margin-bottom: 0.5rem;
+        font-family: var(--font-sans);
+        font-size: 1.05rem;
+        font-weight: 700;
+    }
+
+    .tag {
+        display: inline-block;
+        margin: 0 0.35rem 0.35rem 0;
+        padding: 0.1rem 0.38rem;
+        border: 1px solid var(--line);
+        border-radius: 3px;
+        background: var(--bg);
+        color: var(--muted);
+        font-family: var(--font-sans);
+        font-size: 0.78rem;
+        line-height: 1.5;
+    }
+
+    .rating {
+        color: var(--accent);
+        white-space: nowrap;
+    }
+
+    .article-shell > main,
+    .article-shell > article {
+        display: contents;
+    }
+
+    @media (max-width: 48rem) {
+        html { font-size: 16px; }
+
+        .site-header {
+            padding-top: 1.35rem;
+            text-align: center;
+        }
+
+        .site-header__inner {
+            display: block;
+        }
+
+        .site-nav {
+            justify-content: center;
+            margin-top: 0.7rem;
+        }
+
+        .site-frame {
+            display: block;
+            width: min(var(--measure), calc(100vw - 2rem));
+        }
+
+        .site-main {
+            padding-top: 2.2rem;
+        }
+
+        .profile-sidebar {
+            position: static;
+            padding: 2.2rem 0 0;
+        }
+
+        .profile-card {
+            display: grid;
+            grid-template-columns: 4.25rem minmax(0, 1fr);
+            gap: 0 1rem;
+            padding-bottom: 1.2rem;
+        }
+
+        .profile-avatar {
+            grid-row: span 4;
+            width: 4.25rem;
+            height: 4.25rem;
+            margin: 0;
+            font-size: 1.8rem;
+        }
+
+        .profile-name {
+            font-size: 1.2rem;
+        }
+
+        .profile-bio,
+        .profile-links {
+            grid-column: 1 / -1;
+        }
+
+        h1 { font-size: 2rem; }
+        h2 { font-size: 1.48rem; }
+        .post-title { font-size: 1.42rem; }
+    }
+</style>
+
+</head>
+<body>
+    <header class="site-header">
+    <div class="site-header__inner">
+        <a href="/" class="site-title">Jin 的个人思考</a>
+        <nav class="site-nav" aria-label="主导航">
+            <a href="/">首页</a>
+            <a href="/agents/">Agent 实验</a>
+            <a href="/insights/">洞察</a>
+            <a href="/sources/">来源</a>
+        </nav>
+    </div>
+</header>
+
+
+    <div class="site-frame">
+        <aside class="profile-sidebar" aria-label="个人简介">
+    <div class="profile-card">
+        <div class="profile-avatar" aria-hidden="true">J</div>
+        <h2 class="profile-name">Shan . Jin</h2>
+        <p class="profile-role">AI Agent Builder</p>
+        <p class="profile-affiliation">关注 AI 智能体、harness 工程与独立创造。</p>
+        <p class="profile-bio">这里记录我对 AI 智能体、协议设计、工程 harness 和个人创造系统的观察与实验。</p>
+        <div class="profile-contact" aria-label="联系方式">
+            <a class="icon-link" href="mailto:goodjin2@gmail.com" aria-label="Email: goodjin2@gmail.com" title="Email">
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                    <path d="M4 6h16v12H4z"></path>
+                    <path d="m4 7 8 6 8-6"></path>
+                </svg>
+            </a>
+            <a class="icon-link" href="https://github.com/goodjin" target="_blank" rel="noopener" aria-label="GitHub: goodjin" title="GitHub">
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                    <path d="M12 2.5a9.5 9.5 0 0 0-3 18c.48.09.65-.2.65-.46v-1.7c-2.65.58-3.2-1.12-3.2-1.12-.44-1.1-1.06-1.4-1.06-1.4-.86-.58.07-.57.07-.57.95.07 1.45.98 1.45.98.85 1.44 2.22 1.02 2.76.78.09-.6.33-1.02.6-1.25-2.12-.24-4.35-1.06-4.35-4.7 0-1.04.37-1.9.98-2.56-.1-.24-.43-1.22.09-2.53 0 0 .8-.26 2.6.98a9 9 0 0 1 4.74 0c1.8-1.24 2.6-.98 2.6-.98.52 1.31.19 2.29.09 2.53.61.66.98 1.52.98 2.56 0 3.65-2.24 4.45-4.37 4.69.35.3.66.88.66 1.78v2.64c0 .26.17.56.66.46a9.5 9.5 0 0 0-3-18Z"></path>
+                </svg>
+            </a>
+            <details class="wechat-popover">
+                <summary class="icon-link" aria-label="微信公众号二维码" title="微信公众号">
+                    <svg aria-hidden="true" viewBox="0 0 24 24">
+                        <path d="M9.5 6.5c-4.1 0-7 2.55-7 5.7 0 1.77.92 3.35 2.36 4.4l-.58 1.78 2.08-1.05c.94.36 2 .57 3.14.57 4.1 0 7-2.55 7-5.7s-2.9-5.7-7-5.7Z"></path>
+                        <path d="M15.35 9.2c3.15.38 5.15 2.48 5.15 5.05 0 1.48-.74 2.82-1.92 3.72l.48 1.46-1.72-.88c-.76.27-1.6.42-2.49.42-1.95 0-3.7-.72-4.8-1.86"></path>
+                        <path d="M7.35 11.5h.02"></path>
+                        <path d="M11.65 11.5h.02"></path>
+                    </svg>
+                </summary>
+                <div class="wechat-panel">
+                    <img src="/assets/wechat-qrcode.jpg" alt="微信公众号二维码">
+                    <p>微信公众号</p>
+                </div>
+            </details>
+        </div>
+        <div class="profile-links" aria-label="个人链接">
+            <a href="/agents/">Agent 实验</a>
+            <a href="/insights/">Insights</a>
+            <a href="/sources/">Sources</a>
+        </div>
+    </div>
+</aside>
+
+        <main class="site-main article-shell">
+            <h1>droid工具介绍</h1><p>factory.ai推出的AI编程工具droid，号称是<strong>一个能自主完成开发的 AI 团队</strong>。</p><p>崔老板说它是唯一能跑 16 天不崩的企业级编排，够夸张的。</p><p>智能体自主长时运行确实是AI-Agent赛道大家都在争夺的一个热点。</p><p>你有没有碰到过这类问题：agent执行任务时跑着跑着它就停下来了，询问你要不要继续，比如你交待了它要做8件事，它做完3个就停下来了：“我已经完成了1、2、3，要不要继续做剩下的”，即使你在交待任务时告诉它中途不要停也没用。</p><p>这是因为模型普遍存在上下文焦虑，模型本身对于「超长任务什么时候该停」的判断就是模糊的。</p><p>最近A记和O记都推出了goal模式，就是用于让agent一直自主推进任务执行到底用的。</p><p>而droid的mission模式，早就已经实现这个能力了。</p><p>它是怎么做到的？</p><p>长时间运行任务又是怎么运行的？给一句话需求就开始跑个不停吗？</p><p>为了研究这个工具是怎么做的，以及是否真如它所说可以长时运行任务，我在本地采用抓包的方式试运行了几个mission，根据抓到的日志分析了下它的设计思路。</p><p></p><p></p><h2>第一阶段：规划（Planning → Worker Design → Artifacts）</h2><p>从运行流程看，droid的设计跟业界主流的思路是很相似的，在启动mission之前先定义好规约：跟用户讨论需求和实现方案，通过多轮主动询问，澄清边界，定义约束，对齐验收标准，AI特色的feature拆分，将一个mission拆成多个feature，这样方便让多个agent去执行。</p><p>所以droid不是设计用来满足一句话需求，相反，它对需求计划阶段相当重视，将它作为一个完整的阶段来设计，这一阶段必须产出mission相关的说明文档、任务拆解、需要哪些worker来执行以及他们需要的技能。</p><p></p><h3>mission目录</h3><p>droid在第一阶段为每个mission创建了一个持久化目录：</p><p></p><p></p><p></p><p>features:有意思的是任务清单居然是用json格式保存的：features.json，难道它会让程序读取并进行编排？不完全是由大模型来驱动吗？等会我们分析下日志再看看是不是这样。</p><p>在droid的设计里，Feature 是最小执行单元，一个 feature 对应一个原子化开发任务。每个 feature 有完整的元数据：</p><pre><code>{
+   "id": "xctest-component-reader-vm",
+   "description": "...",
+   "skillName": "xctest-worker",      // ← 关联的 worker 类型
+   "preconditions": ["ReaderViewModel.swift exists"],
+   "expectedBehavior": ["15 test cases, all pass"],
+   "verificationSteps": ["xcodebuild -scheme LumenTests test"],
+   "fulfills": ["VAL-CMPT-001", "VAL-CMPT-002"],  // ← 满足的验收标准
+   "milestone": "component-tests",
+   "status": "completed"
+ }
+</code></pre><p>每个feature都定义好了由哪个技能来执行，这些技能是系统根据feature的类型来选择的，属于专用技能。</p><p>依赖项决定了feature的执行顺序，编排器根据这个编排任务。</p><p>Milestone是 Feature 的分组，用于里程碑级别的质量门控，droid在完成一个分组的所有feature后才会进行验证，而不是每完成一个feature都验证。</p><p>handoff目录是各个Worker和Orchestrator这两个Agent之间用来通信用的，droid也是采用了文件系统来作为通信媒介，这样顺便实现了持久化，一举两得。Worker 完成任务后，输出一个标准化 JSON：</p><pre><code>{
+   "salientSummary": "一句话总结",
+   "whatWasImplemented": "详细实现描述",
+   "discoveredIssues": [],
+   "skillFeedback": {"followedProcedure": true}
+}
+</code></pre><p>这个 JSON 会被 Orchestrator 读取，然后更新features.json，决定是继续下一个 feature、生成修复任务，还是忽略某些问题继续推进。</p><p>所以这个设计很关键，它控制了整个系统的流转。</p><h3>TDD</h3><p>目录下有一个validation-contract.md文档和validation-state.json文件，这是为每个功能写的断言，droid也采用了TDD的理念。</p><p>validation-contract.md是给Validator的“验收清单”，每个清单包含了三层信息：</p><p>* 要验证的行为</p><p>* 用什么工具验证</p><p>* 要收集什么证据</p><p>不过，这里的TDD并不是先写测试，再写代码那种传统TDD，而是先写好验收标准，再进行开发，最后根据标准验收，所以这是Mission级别的验收合同。</p><p>并且，写测试和跑测试是交给两个不同的agent来完成的，这跟传统的同一个人来负责写和跑也不一样。</p><p>Validator其实还有几个特别之处，留待下面再介绍。</p><p></p><p>第一阶段这么复杂目的就是为了后面能长程运行而不中断，任务列表、验收标准等一切都准备就绪，马上就要发车了，请坐好扶稳。</p><p></p><h2>第二阶段：执行循环（Managing Execution）</h2><h3>程序化编排还是大模型编排</h3><p>接下来我们分析下droid具体是怎么执行这些任务而不中断的呢？真是由程序来逐个执行feature吗？如果这样droid可能是第一个通过精心设计程序来控制大模型的工具了。</p><p>通过抓包prompt发现不是这样的的，droid也是通过"三板斧"来推进任务执行的：</p><ol><li><strong>编排层（Orchestrator）</strong>：</li></ol><p>   负责编排feature任务，将任务交给各个子agent去执行，它自己不直接执行任务：</p><p>   "<strong>NEVER write implementation code</strong>"</p><p>   droid没有设计并发执行，所有任务都是串行的。</p><p>   所以这是一个没有时间观念的产品，droid执行任务的速度是真慢，虽然从抓包看大模型的请求延时也要负一定责任，但它的编排方式肯定是主要原因。</p><p>   编排器的prompt有65K字符，估计这也是它有点慢的原因之一。</p><p>   有意思的是，从第一阶段开始就是编排器在主导了，由它来规划任务，召唤工人。</p><p>   所以，编排层是整个droid的大脑，它控制着一切，能不能自动从头到尾完成所有任务就靠它的设计了，编排层的prompt值得好好研究。</p><ol><li><strong>执行层（Worker）</strong></li></ol><p>   Worker的prompt只有区区4K字符，可见它的职责很单一：就是干活。</p><p>   一个feature对应一个Worker，老老实实将任务到底：</p><pre><code>   Guidelines:
+   - Never prompt the user. There is no UI for confirmations.
+   - Keep going until all user tasks are completed and verified.
+   - Do exactly what the user asks, no more, no less.
+   </code></pre><p>   Worker只管干活，不理其他，是称职的牛马。</p><ol><li><strong>验证层（Validator）</strong></li></ol><p>   验证器实际也是一种Worker，因为它们本质上是一样：老老实实按照编排器分配的任务干活，既然都是牛马就没必要再为验证器做单独的设计了。大家的职责都是一样的，只是技能不同。</p><p>   前面说过，Validator有几个特殊之处，那就是它是由系统来创建而非编排器决定的。</p><p>   当一个 milestone 的所有 features 都 completed时会触发milestone\_validation\_triggered 事件从而触发系统创建Validator。</p><p>   换句话说：即使 Orchestrator 想跳过验证，也会被系统强制执行。这保证了每个 milestone 都有质量门控。</p><p>   这里也是唯一我发现的由系统程序来控制而非由大模型来控制的部分。</p><p>   系统还会创建一个叫scrutiny-validator的验证器，当它发现有 blocking issues时，会通地handoff通知Orchestrator， 由Orchestrator生成 fix features，而features都会被调度执行，不会跳过。</p><p>   这些机制保证了即使 Orchestrator "想偷懒"或"判断失误"，系统也会强制保证质量门控和执行完整性。</p><p>   不过，由系统来创建这个说法仅为推测，毕竟我们看不到源代码。</p><p>三层Agent都可以单独设置使用的模型，看来Droid也认为不同厂商的模型适合做的事是不一样的，验证器默认选择的是ChatGPT，是认为codex严谨一点，opus太野了？</p><p></p><h3>碰到过什么问题没</h3><p>试用过程中有没有碰到过问题呢？有！</p><p>有几次居然在中途卡住了，也就是一直停在某个任务，虽然显示一直在执行中但就是一直没法完成，卡在那了。</p><p>查询了日志发现它在反复提交，看起来是修复了一处编译错误后导致了另一处问题，接着去修复另一处问题时前面的问题又重新出现了，像打地鼠一样总也打不完。</p><p>> > > > 原因是交给Worker的任务只是整个项目的一个局部功能的开发。
+> > > > 涉及到的程序使用了一个外部全局的变量但没使用正确。
+> > > > 修复时缺乏大局观，给改坏了。
+> > > > 之后反复来回修复，但总也修不好。</p><p>这也给我们提了个醒：虽然使用子代理隔离上下文能让大模型执行得更好是共识，但也要注意给子代理提供的信息并不是越精简越好，有可能会因为信息太少反而执行不到位。</p><p>试用droid的过程中不止一次碰到这种情况，看来它也还有很多待改进之处，至少，任务卡住这种状态需要有更好的反馈和相应处理机制。</p><p></p><h3>我们可以从droid学到什么？</h3><p>首先，编排器的prompt绝对值得学习，长达65k的字符说明最重要的agent要舍得给tokens。</p><p>在任务编排方面，droid证明了大模型是可以编排好任务的，如果平时让大模型执行任务总是容易停下来就要好好分析下我们用到的skill存在什么问题了。</p><p>采用总控和执行分开的策略是合理的，分工明确方便追踪和审计，最主要是上下文有隔离大模型能执行得更好，一个agent只做一件事。</p><p>droid对测试的重视说明大家都意识到了这一点：在AI生成代码速度越来越快的今天，由人工来review代码或测试已经不现实了，怎么设计更严格更完善的验证体系应该成为未来的重点探索方向。</p><p>在文档格式方面，采用了json，在交接任务执行结果时也是用的json，其他一些环节的状态表达上仍然是json，看来json确实是比较适合大模型的格式，比直接用自然语言的方式更好，但是，droid没有更激进一点直接让程序来处理这些json其实有点可惜了。</p><p>Worker由身份和技能组成：身份表明了agent的职责，所有worker的共用同一套身份，但各自的技能不同，这种设计确实是现在比较流行的。但这个设计其实关系到如何更好的抽象一个agent的课题：技能应该属于agent的一部分吗？还是应该独立？可惜droid也受skill的概念束缚没能做出更激进一点的设计，A记发明的skill这个概念真是害人不浅！</p><p></p><h3>遗憾</h3><p>虽然droid在agent编排方面已经做得不错了，但通过我们的抓包分析，它已经在程序控制和大模型编排的协作方面前进了一步，但还不够激进。</p><p>agent该如何抽象，程序该如何与大模型协作，它们之间是否应该定义一套协议？这些都还需要更多的探索。
+</p>
+
+        </main>
+    </div>
+
+    <footer class="site-footer">
+        <div class="site-footer__inner">Jin's AI Companion</div>
+    </footer>
+</body>
+</html>
