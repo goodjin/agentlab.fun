@@ -1,3 +1,9 @@
+---
+title: "Jira is Turing Complete: 一个Bug追踪工具的意外深度"
+date: "2026-05-25"
+tags:
+  - blog
+---
 # Jira is Turing Complete: 一个Bug追踪工具的意外深度
 
 2026-05-25
