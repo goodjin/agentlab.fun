@@ -416,6 +416,43 @@
         background: transparent;
     }
 
+    .code-frame {
+        border: 1px solid #cbd5dc;
+        border-left: 4px solid #246bfe;
+        background: #f7fafc;
+        box-shadow: 0 10px 28px rgba(20, 32, 38, 0.06);
+    }
+
+    .tool-loop-forward path {
+        stroke-dasharray: 10 12;
+        animation: tool-loop-flow 1.8s linear infinite;
+    }
+
+    .tool-loop-return {
+        stroke-dasharray: 18 12;
+        animation: tool-loop-return 1.2s linear infinite;
+        filter: drop-shadow(0 0 4px rgba(249, 115, 22, 0.28));
+    }
+
+    @keyframes tool-loop-flow {
+        to { stroke-dashoffset: -22; }
+    }
+
+    @keyframes tool-loop-return {
+        to { stroke-dashoffset: -30; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .tool-loop-forward path,
+        .tool-loop-return {
+            animation: none;
+        }
+
+        .tool-loop-diagram animateMotion {
+            display: none;
+        }
+    }
+
     table {
         width: 100%;
         margin: 1.5rem 0;
