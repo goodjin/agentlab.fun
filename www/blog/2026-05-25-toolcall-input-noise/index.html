@@ -151,19 +151,15 @@
     }
 
     .profile-avatar {
-        display: grid;
-        place-items: center;
         width: 6.25rem;
         height: 6.25rem;
         margin-bottom: 1.1rem;
         border: 1px solid var(--line);
         border-radius: 50%;
         background: var(--paper);
-        color: var(--ink);
-        font-family: var(--font-serif);
-        font-size: 2.65rem;
-        font-weight: 300;
-        line-height: 1;
+        display: block;
+        object-fit: cover;
+        object-position: center top;
     }
 
     .profile-name {
@@ -422,6 +418,43 @@
         background: transparent;
     }
 
+    .code-frame {
+        border: 1px solid #cbd5dc;
+        border-left: 4px solid #246bfe;
+        background: #f7fafc;
+        box-shadow: 0 10px 28px rgba(20, 32, 38, 0.06);
+    }
+
+    .tool-loop-forward path {
+        stroke-dasharray: 10 12;
+        animation: tool-loop-flow 1.8s linear infinite;
+    }
+
+    .tool-loop-return {
+        stroke-dasharray: 18 12;
+        animation: tool-loop-return 1.2s linear infinite;
+        filter: drop-shadow(0 0 4px rgba(249, 115, 22, 0.28));
+    }
+
+    @keyframes tool-loop-flow {
+        to { stroke-dashoffset: -22; }
+    }
+
+    @keyframes tool-loop-return {
+        to { stroke-dashoffset: -30; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .tool-loop-forward path,
+        .tool-loop-return {
+            animation: none;
+        }
+
+        .tool-loop-diagram animateMotion {
+            display: none;
+        }
+    }
+
     table {
         width: 100%;
         margin: 1.5rem 0;
@@ -614,7 +647,6 @@
             width: 4.25rem;
             height: 4.25rem;
             margin: 0;
-            font-size: 1.8rem;
         }
 
         .profile-name {
@@ -650,7 +682,7 @@
     <div class="site-frame">
         <aside class="profile-sidebar" aria-label="个人简介">
     <div class="profile-card">
-        <div class="profile-avatar" aria-hidden="true">J</div>
+        <img class="profile-avatar" src="/assets/profile/avatar.png" alt="Shan . Jin">
         <h2 class="profile-name">Shan . Jin</h2>
         <p class="profile-role">AI Agent Builder</p>
         <p class="profile-affiliation">关注 AI 智能体、harness 工程与独立创造。</p>
@@ -755,14 +787,14 @@
       <p>过去几年，tool calling 已经成为大模型 Agent 的基础能力，模型看见工具列表，选择一个工具，填好参数，runtime 执行工具，再把结果塞回上下文，模型继续判断下一步。这个循环简单、直接，在模型厂商的专门训练下产生的威力巨大。</p>
       <p>但这里也有一个问题一直困扰着各家厂商：</p>
       <p>模型输出 tool call，runtime 执行工具，然后把 工具调用的JSON、结果stdout、搜索的列表、文件片段或报错信息全都塞回上下文。这样做的目的是保留真实原始信息，让大模型有足够的信息来判断下一步该怎么做。</p>
-      <p>但由于大模型本身没有记忆，每一次的请求都必须把前面调用过的所有工具和结果都发给大模型，当工具调用越来越多，整个上下文就开始变得嘈杂了。</p>
+      <p>但在多数 tool call loop 里，模型下一轮只能依赖当前上下文，因此 runtime 往往需要把前面相关的工具调用和结果继续放进上下文。当工具调用越来越多，整个上下文就开始变得嘈杂了。</p>
       <p>这些“真实原始信息”虽然保留了所有细节，但同时往往也很冗长、结构复杂，模型需要先花注意力去解析它们的结构、区分字段类型、恢复各部分之间的对应关系。</p>
       <p>比如当连续调用工具时，多个tool call连续出现，再跟着多个tool result，大模型需要根据它们的call_id来完成配对，而配对call和result显然跟当前会话的任务无直接关系</p>
       <p>久而久之，模型的注意力就这样被分散了，在面对大量工具调用结果时，就难以快速抓住关键信息并做出有效决策。</p>
       <p>模型厂商一般都会对模型进行工具调用的强化训练：学习成绩不好是吧？多做作业！记不住是吧？多背就会了！</p>
       <p>但应试教育终有其弊端，我们还是应该从源头上解决问题。</p>
       <figure>
-        <svg viewBox="0 0 960 430" role="img" aria-label="tool call loop 中被忽略的结果回传格式">
+        <svg class="tool-loop-diagram" viewBox="0 0 960 430" role="img" aria-label="tool call loop 中被忽略的结果回传格式">
           <rect width="960" height="430" fill="#fbfdfe"/>
           <g fill="#ffffff" stroke="#d8e0e5" stroke-width="2">
             <rect x="70" y="170" width="140" height="72" rx="12"/>
@@ -778,14 +810,17 @@
             <text x="815" y="213">Runtime</text>
             <text x="490" y="328">Tool Result</text>
           </g>
-          <g fill="none" stroke="#246bfe" stroke-width="4" stroke-linecap="round">
+          <g class="tool-loop-forward" fill="none" stroke="#246bfe" stroke-width="4" stroke-linecap="round">
             <path d="M210 188 C250 150 260 130 290 118"/>
             <path d="M440 116 L520 116"/>
             <path d="M670 118 C710 130 724 154 740 188"/>
             <path d="M770 242 C710 292 640 318 575 321"/>
           </g>
-          <path d="M405 321 C330 318 282 280 236 230" fill="none" stroke="#f97316" stroke-width="8" stroke-linecap="round"/>
+          <path class="tool-loop-return" d="M405 321 C330 318 282 280 236 230" fill="none" stroke="#f97316" stroke-width="8" stroke-linecap="round"/>
           <path d="M236 230 l25 4 -13 20 z" fill="#f97316"/>
+          <circle r="7" fill="#f97316" opacity="0.92">
+            <animateMotion dur="2.2s" repeatCount="indefinite" path="M405 321 C330 318 282 280 236 230"/>
+          </circle>
           <rect x="250" y="252" width="320" height="48" rx="24" fill="#fff7ed" stroke="#fed7aa"/>
           <text x="410" y="283" fill="#9a3412" font-size="20" font-weight="900" text-anchor="middle">Observation Formatting?</text>
         </svg>
@@ -806,8 +841,7 @@
         <li>如果需要文件完整内容，应该去哪里取。</li>
       </ul>
       <p>这些信息有些工具结果里已有，但有些需要模型自己推断，有些甚至就没有！</p>
-      <p>所以，我们不仅应该关注工具调用，还应该关注如何组织和呈现工具结果，以帮助模型更好地理解和利用这些信息。</p>
-      <p>是时候重新定义会话上下文的结构了，</p>
+      <p>所以，我们不仅应该关注工具调用，还应该关注如何组织和呈现工具结果，以帮助模型更好地理解和利用这些信息，是时候重新定义会话上下文的结构了。</p>
 
       <figure>
         <svg viewBox="0 0 960 430" role="img" aria-label="原始工具结果直接回传导致上下文污染">
@@ -848,8 +882,8 @@
 
     <section>
       <h2>输入不是日志，而是模型下一轮推理的工作记忆</h2>
-      <p>工具结果进入模型上下文以后，会参与下一轮推理，所以它的角色更应该是工作记忆，而不是归档日志。</p>
-      <p>日志追求的是完整、可复查，而工作记忆要求的是与当前任务相关、层次清楚、证据可靠、能支持下一步判断，这两者不能搞混。</p>
+      <p>现在做法是把工具调用结果当成了日志对待，但工具结果进入模型上下文以后，会参与下一轮推理，所以它的角色更应该是工作记忆，而不是归档日志。</p>
+      <p>日志追求的是完整、可复查，而工作记忆要求的是边界清楚、来源明确、可追溯、能支持下一步判断，这两者不能搞混。</p>
       <p>runtime 可以完整保存工具输出，包括 stdout、搜索结果、文件快照、测试报告、命令状态、时间戳和内部 metadata。但输入给模型的内容应该换一种方式，应该把工具调用结果标注成工作记忆：说明这次调用的目的、执行状态、结果来源、内容类型、可引用位置、结果范围，以及必要时给出简短概览。</p>
       <div class="note">一个好的 runtime observation，至少要回答：执行了什么、为什么执行、用了哪些参数、执行是否成功、每一部分结果从哪里来、是什么类型、对应哪次工具调用、如果结果被折叠或截断，完整内容在哪里查看。</div>
 
@@ -886,29 +920,12 @@
 
     <section>
       <h2>把调用原因带回输入</h2>
-      <p>上面有提到“为什么执行”这一条，也就是在回传工具调用结果时，不能只包含调用了什么工具，结果是什么，还要包含“模型为什么要调用这个工具”，这个 reason 或 purpose 很重要，它是连接“调用动作”和“执行结果”的桥。</p>
+      <p>在回传工具调用结果时，除了包含调用了什么工具，结果是什么，最好还包含“模型为什么要调用这个工具”，这个 reason 或 purpose 很重要，它是连接“调用动作”和“执行结果”的桥。</p>
       <p>因为模型下一轮只能依赖当前上下文。除非上下文里明确写出来，否则它并不天然知道上一次 toolCall 的意图。</p>
-      <p>传统 toolCall loop 里，往往缺少了这一环。有些系统会把模型的 reasoning 或 thinking block 带回后续请求，这对保持推理连续性有帮助，但它更像协议状态，不应该被 runtime 当成可随意改写的解释文本。observation 仍然需要把工具调用本身的目的和结果边界标清楚。</p>
+      <p>有些系统会把 reasoning 或 thinking block 带回后续请求，这有助于保持推理连续性，但它不是专门面向工具结果的说明层。它通常不够稳定、精练，也不一定直接说明某次工具调用的结果结构。</p>
       <p>更好的做法是：当模型发起工具调用时，要求它给出一个简短的 <code>reason</code> 或 <code>purpose</code>。runtime 执行完成后，把这个 reason 一起带回 observation。</p>
-      <p>比如这样：</p>
-      <pre><code>### 工具执行结果
-
-工具：代码搜索
-参数：query = "refreshSession"
-调用原因：定位会话刷新逻辑的定义和调用点，用于判断失败测试应该从实现还是测试断言入手。
-执行状态：成功
-
-结果概览：
-找到了 4 个相关位置，其中 2 个是实现路径，1 个是测试路径，1 个是导出入口。
-
-可引用位置：
-- packages/session/refresh.ts:42 定义了 refreshSession。
-- packages/session/refresh.test.ts:88 覆盖了 token 过期场景。
-
-完整内容：
-- artifact://search/refreshSession
-</code></pre>
       <p>当然，reason 不是神谕。它是模型事前的判断，可能不准确。runtime 不应该把 reason 当成事实结论，只应该把它作为上下文线索：这是当时为什么执行这一步。</p>
+      
       <figure>
         <svg viewBox="0 0 960 430" role="img" aria-label="reason 从调用阶段进入观察阶段">
           <rect width="960" height="430" fill="#fbfdfe"/>
@@ -937,67 +954,11 @@
     </section>
 
     <section>
-      <h2>用语义标注组织 observation</h2>
-      <p>从上面的示例中可以看到，重点不是采用 Markdown，而是对工具结果做了语义标注：调用原因、执行状态、结果来源、内容类型、可引用位置、完整内容引用都被明确标了出来。</p>
-      <p>Markdown transcript 只是一个低摩擦的承载形式。它接近对话上下文，适合混合标题、解释、列表、证据和警告。但如果团队更需要机器校验，也可以用扁平 JSON observation。真正有用的是 annotated result，而不是某一种表面格式。</p>
-      <p>多轮工具调用也是同样的思路。不是说现在的 Agent 会把所有工具结果真的混成一团，而是连续调用时，tool call 和 tool result 的对应关系经常只靠底层字段维持。对模型来说，这种关联不够显眼。</p>
-      <p>分隔的价值在于把这种关联显式摆到上下文里：这段结果来自哪一个 <code>call_id</code>，对应哪个工具，发生在第几步，调用原因是什么，执行状态是什么，完整输出在哪里。这样模型不需要自己从底层结构里恢复“哪个 result 对应哪个 tool call”。</p>
-
-      <pre><code>### Step 1 / call_id: call_search_01
-工具：code_search
-调用原因：定位 refreshSession 的定义和调用点。
-执行状态：成功
-结果来源：tool_result.call_id = call_search_01
-结果结构：2 个文件命中
-完整内容：artifact://tool/call_search_01
-
-### Step 2 / call_id: call_read_02
-工具：read_file
-调用原因：读取 Step 1 中发现的实现文件。
-执行状态：成功
-结果来源：tool_result.call_id = call_read_02
-读取范围：packages/session/refresh.ts:1-120
-完整内容：artifact://tool/call_read_02</code></pre>
-
-      <figure>
-        <svg viewBox="0 0 960 430" role="img" aria-label="原始 JSON 转成带语义标注的 observation">
-          <rect width="960" height="430" fill="#fbfdfe"/>
-          <rect x="58" y="72" width="310" height="280" rx="18" fill="#101923"/>
-          <text x="92" y="116" fill="#e7eef6" font-size="22" font-weight="900">Raw JSON</text>
-          <g fill="#7dd3fc" font-family="monospace" font-size="14">
-            <text x="92" y="152">{ "results": [</text>
-            <text x="112" y="178">{ "file": "...",</text>
-            <text x="112" y="204">"score": 0.91,</text>
-            <text x="112" y="230">"debug": {...},</text>
-            <text x="112" y="256">"elapsed": 318 }</text>
-            <text x="92" y="282">] }</text>
-          </g>
-          <path d="M396 210 L515 210" stroke="#0f8b7a" stroke-width="6" stroke-linecap="round"/>
-          <path d="M515 210 l-18 -12 v24 z" fill="#0f8b7a"/>
-          <text x="456" y="188" fill="#0f6f62" font-size="16" font-weight="900" text-anchor="middle">annotate</text>
-          <rect x="548" y="72" width="354" height="280" rx="18" fill="#ffffff" stroke="#d8e0e5" stroke-width="2"/>
-          <text x="586" y="116" fill="#142026" font-size="22" font-weight="900">Annotated Observation</text>
-          <g>
-            <rect x="586" y="146" width="230" height="26" rx="8" fill="#edfdfa"/>
-            <text x="602" y="165" fill="#0f6f62" font-size="14" font-weight="800">为什么执行</text>
-            <rect x="586" y="184" width="180" height="26" rx="8" fill="#eef3ff"/>
-            <text x="602" y="203" fill="#2553c7" font-size="14" font-weight="800">结果概览</text>
-            <rect x="586" y="222" width="210" height="26" rx="8" fill="#fff7ed"/>
-            <text x="602" y="241" fill="#c2410c" font-size="14" font-weight="800">可引用位置</text>
-            <rect x="586" y="260" width="196" height="26" rx="8" fill="#f1f5f9"/>
-            <text x="602" y="279" fill="#475569" font-size="14" font-weight="800">完整内容引用</text>
-          </g>
-        </svg>
-        <figcaption>关键不是 Markdown 打败 JSON，而是 raw result 变成 annotated observation。</figcaption>
-      </figure>
-    </section>
-
-    <section>
       <h2>搜索代码后的回传格式对比</h2>
       <p>我们可以对比一下搜索 <code>refreshSession</code> 后直接回传原始 JSON，和回传带语义标注的 observation 有什么区别。</p>
 
       <h3>原始 JSON 回传</h3>
-      <pre><code>{
+      <pre class="code-frame"><code>{
   "query": "refreshSession",
   "elapsed": 318,
   "results": [
@@ -1023,7 +984,7 @@
       <p>使用这种格式模型需要自己判断：为什么搜它？命中够不够？哪个结果是实现，哪个是测试？下一步该读什么？轮次多了又容易乱。</p>
 
       <h3>语义标注后的 observation</h3>
-      <pre><code>### 工具执行结果：代码搜索
+      <pre class="code-frame"><code>### 工具执行结果：代码搜索
 
 执行了什么：
 搜索 refreshSession 的定义和调用位置。
@@ -1032,7 +993,7 @@
 定位登录状态刷新链路，判断用户状态丢失可能发生在 token 续期、session 写入还是测试断言阶段。
 
 执行状态：
-成功，找到 2 个高相关结果。
+成功，返回 2 个搜索命中。
 
 结果结构：
 搜索结果包含 1 个实现文件命中和 1 个测试文件命中。
@@ -1083,9 +1044,47 @@
     </section>
 
     <section>
+      <h2>用语义标注组织 observation</h2>
+      <p>上面的方案实际上是对工具结果加了一层语义标注：调用原因、执行状态、结果来源、内容类型、可引用位置、完整内容引用都被明确标了出来。</p>
+      <p>语义标注可以用 Markdown transcript，这是一个低摩擦的承载形式，它接近自然语言，适合混合标题、解释、列表、证据和警告。但 Markdown 不是关键，关键是这层说明要稳定、可预测、字段固定。</p>
+
+      <figure>
+        <svg viewBox="0 0 960 430" role="img" aria-label="原始 JSON 转成带语义标注的 observation">
+          <rect width="960" height="430" fill="#fbfdfe"/>
+          <rect x="58" y="72" width="310" height="280" rx="18" fill="#101923"/>
+          <text x="92" y="116" fill="#e7eef6" font-size="22" font-weight="900">Raw JSON</text>
+          <g fill="#7dd3fc" font-family="monospace" font-size="14">
+            <text x="92" y="152">{ "results": [</text>
+            <text x="112" y="178">{ "file": "...",</text>
+            <text x="112" y="204">"score": 0.91,</text>
+            <text x="112" y="230">"debug": {...},</text>
+            <text x="112" y="256">"elapsed": 318 }</text>
+            <text x="92" y="282">] }</text>
+          </g>
+          <path d="M396 210 L515 210" stroke="#0f8b7a" stroke-width="6" stroke-linecap="round"/>
+          <path d="M515 210 l-18 -12 v24 z" fill="#0f8b7a"/>
+          <text x="456" y="188" fill="#0f6f62" font-size="16" font-weight="900" text-anchor="middle">annotate</text>
+          <rect x="548" y="72" width="354" height="280" rx="18" fill="#ffffff" stroke="#d8e0e5" stroke-width="2"/>
+          <text x="586" y="116" fill="#142026" font-size="22" font-weight="900">Annotated Observation</text>
+          <g>
+            <rect x="586" y="146" width="230" height="26" rx="8" fill="#edfdfa"/>
+            <text x="602" y="165" fill="#0f6f62" font-size="14" font-weight="800">为什么执行</text>
+            <rect x="586" y="184" width="180" height="26" rx="8" fill="#eef3ff"/>
+            <text x="602" y="203" fill="#2553c7" font-size="14" font-weight="800">结果概览</text>
+            <rect x="586" y="222" width="210" height="26" rx="8" fill="#fff7ed"/>
+            <text x="602" y="241" fill="#c2410c" font-size="14" font-weight="800">可引用位置</text>
+            <rect x="586" y="260" width="196" height="26" rx="8" fill="#f1f5f9"/>
+            <text x="602" y="279" fill="#475569" font-size="14" font-weight="800">完整内容引用</text>
+          </g>
+        </svg>
+        <figcaption>关键不是 Markdown 打败 JSON，而是 raw result 变成 annotated observation。</figcaption>
+      </figure>
+    </section>
+
+    <section>
       <h2>如何评估语义标注是否有效</h2>
       <p>当然，这个方向不能只靠感觉判断，需要系统评估。</p>
-      <p>可以从几个维度看：任务成功率、模型轮次、replayed observation tokens、错误恢复质量、context pollution 标注、证据可追溯性、用户可解释性。</p>
+      <p>可以从几个维度看：任务成功率、模型轮次、replayed observation tokens、错误恢复质量、call/result 配对错误率、结果定位耗时、证据可追溯性、用户可解释性。</p>
       <p>一个合理的实验对比可以包括三组：原始 toolCall、toolCall 加语义标注 observation、以及更结构化的 agent-runtime 交互方式。这样可以把“结果标注”的收益，和更大协议设计的收益分开观察。</p>
 
       <figure>
@@ -1119,9 +1118,9 @@
             <text x="188" y="216">turns</text>
             <text x="480" y="216">turns</text>
             <text x="772" y="216">turns</text>
-            <text x="188" y="258">noise labels</text>
-            <text x="480" y="258">noise labels</text>
-            <text x="772" y="258">noise labels</text>
+            <text x="188" y="258">mapping errors</text>
+            <text x="480" y="258">mapping errors</text>
+            <text x="772" y="258">mapping errors</text>
           </g>
         </svg>
         <figcaption>要单独评估“结果语义标注”，不要把它和更大的协议收益混在一起。</figcaption>
@@ -1130,12 +1129,11 @@
 
     <section>
       <h2>结语：优化工具调用，不只是优化调用本身</h2>
-      <p>tool calling 解决了一个关键问题：模型如何请求外部工具。这个问题很重要，但它不是 Agent runtime 的全部。</p>
+      <p>tool calling 解决了一个关键问题：模型如何请求外部工具，这个问题很重要，但它不是 Agent runtime 的全部。</p>
       <p>工具执行之后，结果如何重新进入模型上下文，同样值得设计。</p>
-      <p>直接塞 JSON 或 stdout，是把整理责任推给模型。更好的方向是让 runtime 把结果标注成面向模型推理的 observation：保留调用原因，标明结果来源、内容类型、运行元信息、可引用位置和完整内容引用。runtime 不需要替模型判断哪些是噪声，它只需要把不同部分是怎么产生的讲清楚。</p>
-      <p>这不是要取代 tool calling，也不是说必须引入一套庞大的新协议。它只是提醒我们：Agent 系统的质量，不只取决于模型会不会调用工具，也取决于 runtime 如何把世界整理给模型看。</p>
+      <p>直接塞 JSON 或 stdout，是把整理责任推给模型，更好的做法是让 runtime 把结果标注成面向模型推理的 observation：保留调用原因，标明结果来源、内容类型、运行元信息、可引用位置和完整内容引用。</p>
+      <p>harness 不只是负责调用工具，也要负责把工具结果解释成模型能继续使用的输入。</p>
       <p>下一步值得做的，是把这件事系统评估起来，看它是否真的减少上下文污染，是否减少无效轮次，是否提高错误恢复质量，是否让最终答案更可追溯。</p>
-      <blockquote>工具调用的下半场，不在调用本身，而在 runtime 如何把结果解释成下一次判断的好输入。</blockquote>
 
       <figure>
         <svg viewBox="0 0 960 360" role="img" aria-label="从调用优化到输入优化">

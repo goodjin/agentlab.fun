@@ -151,19 +151,15 @@
     }
 
     .profile-avatar {
-        display: grid;
-        place-items: center;
         width: 6.25rem;
         height: 6.25rem;
         margin-bottom: 1.1rem;
         border: 1px solid var(--line);
         border-radius: 50%;
         background: var(--paper);
-        color: var(--ink);
-        font-family: var(--font-serif);
-        font-size: 2.65rem;
-        font-weight: 300;
-        line-height: 1;
+        display: block;
+        object-fit: cover;
+        object-position: center top;
     }
 
     .profile-name {
@@ -422,6 +418,43 @@
         background: transparent;
     }
 
+    .code-frame {
+        border: 1px solid #cbd5dc;
+        border-left: 4px solid #246bfe;
+        background: #f7fafc;
+        box-shadow: 0 10px 28px rgba(20, 32, 38, 0.06);
+    }
+
+    .tool-loop-forward path {
+        stroke-dasharray: 10 12;
+        animation: tool-loop-flow 1.8s linear infinite;
+    }
+
+    .tool-loop-return {
+        stroke-dasharray: 18 12;
+        animation: tool-loop-return 1.2s linear infinite;
+        filter: drop-shadow(0 0 4px rgba(249, 115, 22, 0.28));
+    }
+
+    @keyframes tool-loop-flow {
+        to { stroke-dashoffset: -22; }
+    }
+
+    @keyframes tool-loop-return {
+        to { stroke-dashoffset: -30; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .tool-loop-forward path,
+        .tool-loop-return {
+            animation: none;
+        }
+
+        .tool-loop-diagram animateMotion {
+            display: none;
+        }
+    }
+
     table {
         width: 100%;
         margin: 1.5rem 0;
@@ -614,7 +647,6 @@
             width: 4.25rem;
             height: 4.25rem;
             margin: 0;
-            font-size: 1.8rem;
         }
 
         .profile-name {
@@ -649,7 +681,7 @@
     <div class="site-frame">
         <aside class="profile-sidebar" aria-label="个人简介">
     <div class="profile-card">
-        <div class="profile-avatar" aria-hidden="true">J</div>
+        <img class="profile-avatar" src="/assets/profile/avatar.png" alt="Shan . Jin">
         <h2 class="profile-name">Shan . Jin</h2>
         <p class="profile-role">AI Agent Builder</p>
         <p class="profile-affiliation">关注 AI 智能体、harness 工程与独立创造。</p>
@@ -741,7 +773,7 @@
         </main>
     </div>
     <footer class="site-footer">
-        <div class="site-footer__inner">Jin's AI Companion | 最后更新: 2026-05-08</div>
+        <div class="site-footer__inner">Jin's AI Companion | 最后更新: 2026-05-22</div>
     </footer>
 </body>
 </html>
