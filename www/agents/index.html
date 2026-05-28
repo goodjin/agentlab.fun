@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agent 实验 - Jin's AI Companion</title>
+    <title>Agent 实验室 - Jin's AI Companion</title>
     <style>
     :root {
         --bg: #fff;
@@ -723,25 +723,105 @@
 
         <main class="site-main">
             
-<h1>Agent 实验</h1>
+<style>
+    .agent-preview-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .agent-preview-card {
+        margin: 0;
+        padding: 1rem 1.1rem;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: var(--paper);
+    }
+
+    .agent-preview-card h3 {
+        margin: 0 0 0.45rem;
+        font-size: 1rem;
+        line-height: 1.35;
+    }
+
+    .agent-preview-card p {
+        margin-bottom: 0.75rem;
+        color: #555;
+        font-family: var(--font-sans);
+        font-size: 0.92rem;
+        line-height: 1.65;
+    }
+
+    .agent-preview-card p:last-child {
+        margin-bottom: 0;
+    }
+
+    .agent-detail-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 1rem;
+        padding: 0.35rem 0.85rem;
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        background: var(--bg);
+        color: var(--accent);
+        font-family: var(--font-sans);
+        font-size: 0.88rem;
+        line-height: 1.4;
+        transition: border-color 160ms ease, color 160ms ease, background 160ms ease;
+    }
+
+    .post-link:hover .agent-detail-button {
+        border-color: var(--accent);
+        background: var(--paper);
+        color: var(--accent-dark);
+    }
+
+    @media (max-width: 48rem) {
+        .agent-preview-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<h1>Agent 实验室</h1>
 <p class="meta">协议、harness 框架与智能体工程实验。</p>
 
-<p class="lead">这里会整理我设计的几个 Agent 协议，以及围绕评测、协作、记忆、工具调用和任务执行 harness 的实验记录。</p>
-
-<div class="section">
-    <h2>协议设计</h2>
-    <p>用于沉淀 Agent 之间如何交换任务、状态、证据、工具结果与决策权的协议草案。</p>
-    <span class="tag">Agent Protocol</span>
-    <span class="tag">Coordination</span>
-    <span class="tag">Execution</span>
-</div>
-
-<div class="section">
-    <h2>Harness 框架</h2>
-    <p>用于验证智能体行为的测试框架、运行环境、日志结构和可复现实验流程。</p>
-    <span class="tag">Evaluation</span>
-    <span class="tag">Observability</span>
-    <span class="tag">Reproducibility</span>
+<div class="posts">
+    
+    <article class="post">
+        <a href="/agents/agent-protocol-dsl/" class="post-link">
+            <p class="post-meta">2026-05-28</p>
+            <h2 class="post-title">Agent Protocol DSL：LLM 与 Runtime 的交互协议</h2>
+            
+            <div class="agent-preview-grid">
+                
+                <section class="agent-preview-card">
+                    <h3>协议定位</h3>
+                    
+                    <p>Agent Protocol DSL 不是多 Agent 治理协议总纲，而是其中的模型交互协议。总纲定义 Harness 的治理愿景、对象关系、状态模型和分层边界；本协议只处理模型与 Runtime 之间如何表达、校验、执行和返回结果。</p>
+                    
+                    <p>它的目标是让模型声明“想做什么”，而不是让模型直接拥有工具执行权。Runtime 接收声明后负责解析、校验、调度、执行、记录、投影和恢复。</p>
+                    
+                </section>
+                
+                <section class="agent-preview-card">
+                    <h3>设计思路</h3>
+                    
+                    <p>模型保留判断、规划和解释能力；Runtime 接管权限、状态、执行、观测和恢复。协议的核心形态是声明式 action graph：模型描述语义动作、依赖关系、上下文引用、结果策略和持久化意图。</p>
+                    
+                    <p>为了适配当前模型能力，协议可以通过 Runtime 拥有的 toolCall carrier 承载，例如 AgentProtocolOutput。ToolCall 只是承载方式，协议边界仍然是 Runtime 接受并归一化后的 Action。</p>
+                    
+                </section>
+                
+            </div>
+            
+            <span class="agent-detail-button">查看详情</span>
+        </a>
+    </article>
+    
 </div>
 
         </main>

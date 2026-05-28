@@ -1,26 +1,99 @@
 ---
 layout: base.njk
-title: Agent 实验
+title: Agent 实验室
 permalink: /agents/
 ---
 
-<h1>Agent 实验</h1>
+<style>
+    .agent-preview-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .agent-preview-card {
+        margin: 0;
+        padding: 1rem 1.1rem;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: var(--paper);
+    }
+
+    .agent-preview-card h3 {
+        margin: 0 0 0.45rem;
+        font-size: 1rem;
+        line-height: 1.35;
+    }
+
+    .agent-preview-card p {
+        margin-bottom: 0.75rem;
+        color: #555;
+        font-family: var(--font-sans);
+        font-size: 0.92rem;
+        line-height: 1.65;
+    }
+
+    .agent-preview-card p:last-child {
+        margin-bottom: 0;
+    }
+
+    .agent-detail-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 1rem;
+        padding: 0.35rem 0.85rem;
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        background: var(--bg);
+        color: var(--accent);
+        font-family: var(--font-sans);
+        font-size: 0.88rem;
+        line-height: 1.4;
+        transition: border-color 160ms ease, color 160ms ease, background 160ms ease;
+    }
+
+    .post-link:hover .agent-detail-button {
+        border-color: var(--accent);
+        background: var(--paper);
+        color: var(--accent-dark);
+    }
+
+    @media (max-width: 48rem) {
+        .agent-preview-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<h1>Agent 实验室</h1>
 <p class="meta">协议、harness 框架与智能体工程实验。</p>
 
-<p class="lead">这里会整理我设计的几个 Agent 协议，以及围绕评测、协作、记忆、工具调用和任务执行 harness 的实验记录。</p>
-
-<div class="section">
-    <h2>协议设计</h2>
-    <p>用于沉淀 Agent 之间如何交换任务、状态、证据、工具结果与决策权的协议草案。</p>
-    <span class="tag">Agent Protocol</span>
-    <span class="tag">Coordination</span>
-    <span class="tag">Execution</span>
-</div>
-
-<div class="section">
-    <h2>Harness 框架</h2>
-    <p>用于验证智能体行为的测试框架、运行环境、日志结构和可复现实验流程。</p>
-    <span class="tag">Evaluation</span>
-    <span class="tag">Observability</span>
-    <span class="tag">Reproducibility</span>
+<div class="posts">
+    {% for post in collections.agents | reverse %}
+    <article class="post">
+        <a href="{{ post.url }}" class="post-link">
+            <p class="post-meta">{{ post.date | dateFormat }}</p>
+            <h2 class="post-title">{{ post | displayTitle }}</h2>
+            {% if post.data.introPanels %}
+            <div class="agent-preview-grid">
+                {% for panel in post.data.introPanels %}
+                <section class="agent-preview-card">
+                    <h3>{{ panel.title }}</h3>
+                    {% for paragraph in panel.body %}
+                    <p>{{ paragraph }}</p>
+                    {% endfor %}
+                </section>
+                {% endfor %}
+            </div>
+            {% else %}
+            {% if post.data.description %}
+            <p class="post-summary">{{ post.data.description }}</p>
+            {% endif %}
+            {% endif %}
+            <span class="agent-detail-button">查看详情</span>
+        </a>
+    </article>
+    {% endfor %}
 </div>
