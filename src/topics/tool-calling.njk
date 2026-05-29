@@ -1,0 +1,42 @@
+---
+layout: base.njk
+title: Tool Calling
+description: Tool Calling 专题，聚合 toolCall 噪音、工具结果压缩、Action 抽象和 Agent 执行模型相关文章。
+permalink: /topics/tool-calling/
+---
+
+<h1>Tool Calling</h1>
+<p class="meta">这里讨论 tool call 如何从“能调用工具”走向“能稳定完成任务”。</p>
+
+<p>tool call 是 Agent 落地的入口，但它也会制造大量中间记录。日志、搜索结果、文件内容、失败输出一轮轮塞回上下文，模型很快要在噪音里继续推理。更稳的做法，是让 Runtime 把底层工具调用整理成更干净的观察和动作记录。</p>
+
+<h2>关键文章</h2>
+<div class="posts">
+    <article class="post">
+        <a href="/blog/2026-05-25-toolcall-agent-noise/" class="post-link">
+            <p class="post-meta">上下文噪音</p>
+            <h3 class="post-title">别再让 toolCall 拖 Agent 后腿了</h3>
+        </a>
+    </article>
+    <article class="post">
+        <a href="/blog/2026-05-25-toolcall-input-noise/" class="post-link">
+            <p class="post-meta">输入治理</p>
+            <h3 class="post-title">ToolCall 输入噪音</h3>
+        </a>
+    </article>
+    <article class="post">
+        <a href="/blog/2026-05-24-agent-tool-philosophy/" class="post-link">
+            <p class="post-meta">工具哲学</p>
+            <h3 class="post-title">Agent 工具调用的设计取舍</h3>
+        </a>
+    </article>
+    <article class="post">
+        <a href="/blog/2026-05-28-why-agent-protocol-runtime/" class="post-link">
+            <p class="post-meta">Action 抽象</p>
+            <h3 class="post-title">为什么 Agent 协议要把 Runtime 推到台前</h3>
+        </a>
+    </article>
+</div>
+
+<h2>适合引用的结论</h2>
+<p>工具调用的难点不只在调用本身，还在调用结果如何被压缩、归因、复用和审计。Agent 系统要减少模型面对的过程噪音。</p>

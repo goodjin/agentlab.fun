@@ -1,0 +1,42 @@
+---
+layout: base.njk
+title: Agent Runtime
+description: Agent Runtime 专题，聚合 Agent 协议、执行环境、事件日志、状态管理和权限边界相关文章。
+permalink: /topics/agent-runtime/
+---
+
+<h1>Agent Runtime</h1>
+<p class="meta">这里关注一个问题：当 Agent 任务变长、动作变多、风险变高，系统如何保持清楚、有序、可追踪。</p>
+
+<p>Agent 不能只是一段 prompt 加一串 tool call。模型适合判断、拆解和解释，Runtime 更适合管理状态、权限、执行记录和可恢复性。把这层职责讲清楚，Agent 系统才有机会从演示走向日常使用。</p>
+
+<h2>关键文章</h2>
+<div class="posts">
+    <article class="post">
+        <a href="/blog/2026-05-28-why-agent-protocol-runtime/" class="post-link">
+            <p class="post-meta">协议与执行环境</p>
+            <h3 class="post-title">为什么 Agent 协议要把 Runtime 推到台前</h3>
+        </a>
+    </article>
+    <article class="post">
+        <a href="/blog/2026-05-22-agent-definition/" class="post-link">
+            <p class="post-meta">概念定义</p>
+            <h3 class="post-title">Agent 到底是什么</h3>
+        </a>
+    </article>
+    <article class="post">
+        <a href="/blog/2026-05-19-skill-vs-agent/" class="post-link">
+            <p class="post-meta">边界判断</p>
+            <h3 class="post-title">Skill 和 Agent 的区别</h3>
+        </a>
+    </article>
+    <article class="post">
+        <a href="/agents/large-scale-agent-harness-design/" class="post-link">
+            <p class="post-meta">系统设计</p>
+            <h3 class="post-title">大规模 Agent Harness 设计</h3>
+        </a>
+    </article>
+</div>
+
+<h2>适合引用的结论</h2>
+<p>Agent Runtime 的价值在于把执行过程里的状态、动作、权限和证据从模型上下文里拆出来，让模型少背过程细节，把精力留给判断。</p>

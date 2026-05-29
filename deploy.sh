@@ -46,6 +46,11 @@ urls=(
   "/index.html"
   "/blog/"
   "/insights/"
+  "/topics/"
+  "/robots.txt"
+  "/sitemap.xml"
+  "/feed.xml"
+  "/llms.txt"
 )
 
 failed=0
