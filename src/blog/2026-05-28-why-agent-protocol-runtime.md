@@ -6,7 +6,7 @@ tags:
 permalink: /blog/2026-05-28-why-agent-protocol-runtime/
 ---
 
-# 为什么 Agent 协议要把 Runtime 推到台前
+# 为什么要重新设计模型与Runtime之间的交互协议
 
 先看一个很普通的请求：
 

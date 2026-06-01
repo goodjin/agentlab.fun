@@ -81,7 +81,7 @@
   </g>
   
   <!-- Title -->
-  <text x="600" y="520" text-anchor="middle" font-family="Arial, sans-serif" font-size="42" font-weight="bold" fill="white">Agent系统的设计思路探讨</text>
+  <text x="600" y="520" text-anchor="middle" font-family="Arial, sans-serif" font-size="42" font-weight="bold" fill="white">让大模型歇一歇，让Agent上</text>
   
   <!-- Subtitle -->
   <rect x="450" y="545" width="300" height="3" rx="1.5" fill="url(#accentGrad)"/>
