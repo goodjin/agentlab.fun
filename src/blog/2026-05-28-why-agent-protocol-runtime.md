@@ -1,5 +1,5 @@
 ---
-title: "为什么 Agent 协议要把 Runtime 推到台前"
+title: "为什么要重新设计模型与Runtime之间的交互协议"
 date: "2026-05-28T14:40:00+08:00"
 tags:
   - blog
