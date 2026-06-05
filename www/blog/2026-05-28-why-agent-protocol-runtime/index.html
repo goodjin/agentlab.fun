@@ -1,9 +1,27 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>为什么 Agent 协议要把 Runtime 推到台前</title>
+    
+    
+    
+    
+    <title>为什么要重新设计模型与Runtime之间的交互协议 - Jin&#39;s AI Companion</title>
+    <meta name="description" content="从 toolCall loop 的问题出发，解释 AI Agent 为什么需要 Runtime、状态管理、权限边界和模型与执行环境之间的新交互协议。">
+    <link rel="canonical" href="https://agentlab.fun/blog/2026-05-28-why-agent-protocol-runtime/">
+    
+    
+    
+    <link rel="alternate" type="application/atom+xml" title="Jin&#39;s AI Companion" href="https://agentlab.fun/feed.xml">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Jin&#39;s AI Companion">
+    <meta property="og:title" content="为什么要重新设计模型与Runtime之间的交互协议">
+    <meta property="og:description" content="从 toolCall loop 的问题出发，解释 AI Agent 为什么需要 Runtime、状态管理、权限边界和模型与执行环境之间的新交互协议。">
+    <meta property="og:url" content="https://agentlab.fun/blog/2026-05-28-why-agent-protocol-runtime/">
+    <meta property="og:image" content="https://agentlab.fun/assets/profile/avatar.png">
+    <meta name="twitter:card" content="summary_large_image">
     <style>
     :root {
         --bg: #fff;
@@ -664,16 +682,46 @@
     }
 </style>
 
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "为什么要重新设计模型与Runtime之间的交互协议",
+        "description": "从 toolCall loop 的问题出发，解释 AI Agent 为什么需要 Runtime、状态管理、权限边界和模型与执行环境之间的新交互协议。",
+        "url": "https://agentlab.fun/blog/2026-05-28-why-agent-protocol-runtime/",
+        "inLanguage": "zh-CN",
+        "datePublished": "2026-05-28T06:40:00.000Z",
+        "dateModified": "2026-05-28T06:40:00.000Z",
+        "image": "https://agentlab.fun/assets/profile/avatar.png",
+        "author": {
+            "@type": "Person",
+            "name": "Jin Shan",
+            "url": "https://agentlab.fun"
+        },
+        "publisher": {
+            "@type": "Person",
+            "name": "Jin Shan"
+        },
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://agentlab.fun/blog/2026-05-28-why-agent-protocol-runtime/"
+        }
+    }
+    </script>
 </head>
 <body>
     <header class="site-header">
     <div class="site-header__inner">
         <a href="/" class="site-title">Jin 的个人思考</a>
         <nav class="site-nav" aria-label="主导航">
+            
             <a href="/">首页</a>
+            <a href="/topics/">专题</a>
             <a href="/agents/">Agent 实验</a>
             <a href="/insights/">洞察</a>
             <a href="/sources/">来源</a>
+            <a href="/en/topics/agent-runtime/">English</a>
+            
         </nav>
     </div>
 </header>
@@ -723,7 +771,7 @@
 </aside>
 
         <main class="site-main article-shell">
-            <h1>为什么 Agent 协议要把 Runtime 推到台前</h1>
+            <h1>为什么要重新设计模型与Runtime之间的交互协议</h1>
 <p>先看一个很普通的请求：</p>
 <blockquote>
 <p>帮我把登录页报错修掉，跑一下测试，没问题就发到线上。</p>
@@ -831,6 +879,18 @@
 <p>协议要补上的，就是这张工作台、这本记录本，以及那些该停下来的红线。</p>
 <p>关于协议本身的结构和完整内容，可以看这里：</p>
 <p><a href="/agents/agent-protocol-dsl/">Agent Protocol DSL：LLM 与 Runtime 的交互协议</a></p>
+<h2>相关专题</h2>
+<ul>
+<li><a href="/topics/agent-runtime/">Agent Runtime：AI Agent 执行环境与协议设计</a></li>
+<li><a href="/topics/tool-calling/">Tool Calling：AI Agent 工具调用与上下文噪音治理</a></li>
+</ul>
+<h2>常见问题</h2>
+<h3>Agent Runtime 为什么要从模型上下文里拆出来？</h3>
+<p>因为长任务里会有日志、状态、权限、失败记录和可恢复点。它们都塞进模型上下文，会消耗注意力，也会让模型反复处理过期信息。Runtime 更适合保存和整理这些过程材料。</p>
+<h3>模型和 Runtime 应该怎么分工？</h3>
+<p>模型负责理解目标、判断方案和解释结果；Runtime 负责执行工具、保存证据、管理状态和控制高风险动作。这个分工能让 Agent 更容易审计，也更容易恢复。</p>
+<h3>新协议要替代 tool calling 吗？</h3>
+<p>不一定要完全替代。更现实的方向是让模型少直接操作底层工具，多表达任务意图；Runtime 再把这些意图落到具体工具调用和执行记录里。</p>
 
         </main>
     </div>

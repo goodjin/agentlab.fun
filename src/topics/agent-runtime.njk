@@ -1,14 +1,31 @@
 ---
 layout: base.njk
-title: Agent Runtime
-description: Agent Runtime 专题，聚合 Agent 协议、执行环境、事件日志、状态管理和权限边界相关文章。
+title: Agent Runtime：AI Agent 执行环境与协议设计
+description: Agent Runtime 专题，解释 AI Agent 为什么需要执行环境、状态管理、权限边界、事件日志和模型与 Runtime 的交互协议。
 permalink: /topics/agent-runtime/
+alternateZh: /topics/agent-runtime/
+alternateEn: /en/topics/agent-runtime/
+alternateDefault: /topics/agent-runtime/
 ---
 
-<h1>Agent Runtime</h1>
-<p class="meta">这里关注一个问题：当 Agent 任务变长、动作变多、风险变高，系统如何保持清楚、有序、可追踪。</p>
+<h1>Agent Runtime：AI Agent 执行环境与协议设计</h1>
+<p class="meta">关键词：Agent Runtime、AI Agent 执行框架、Agent 协议设计、状态管理、权限边界。</p>
 
-<p>Agent 不能只是一段 prompt 加一串 tool call。模型适合判断、拆解和解释，Runtime 更适合管理状态、权限、执行记录和可恢复性。把这层职责讲清楚，Agent 系统才有机会从演示走向日常使用。</p>
+<p class="lead">Agent Runtime 是 AI Agent 的执行环境。它负责把模型给出的目标和判断，落到文件系统、命令、工具、权限、日志和状态管理里。</p>
+
+<p>很多 Agent 原型看起来像一段 prompt 加一串 tool call。短任务可以这样跑，任务一长就会暴露问题：模型要记住每一步工具调用，要从大量日志里找重点，还要判断哪些动作可以自动执行，哪些动作要先问人。Runtime 要补上的，就是这张工作台。</p>
+
+<h2>Agent Runtime 解决什么问题</h2>
+<ul>
+    <li><strong>状态管理：</strong>保存任务进度、失败原因、当前结论和可恢复点。</li>
+    <li><strong>工具调度：</strong>把“收集登录失败证据”这类目标，转换成搜索、读取、测试等具体动作。</li>
+    <li><strong>观察整理：</strong>把原始 stdout、日志和文件内容整理成模型能继续判断的材料。</li>
+    <li><strong>权限边界：</strong>区分读文件、改代码、发邮件、部署线上这类不同风险的动作。</li>
+    <li><strong>事件记录：</strong>让用户能回看 Agent 为什么这么做，跑过什么命令，依据是什么。</li>
+</ul>
+
+<h2>推荐阅读路径</h2>
+<p>如果你刚开始研究 Agent Runtime，可以按这个顺序读：先看 Agent 的定义，再看 tool calling 的噪音问题，最后进入模型与 Runtime 协议设计。</p>
 
 <h2>关键文章</h2>
 <div class="posts">
@@ -38,5 +55,15 @@ permalink: /topics/agent-runtime/
     </article>
 </div>
 
-<h2>适合引用的结论</h2>
+<h2>常见问题</h2>
+<h3>Agent Runtime 和 Agent Framework 有什么区别？</h3>
+<p>Framework 通常提供开发组件，比如工具注册、消息流、图编排和模型调用。Runtime 更偏执行期：它关心任务如何运行、状态如何保存、权限如何控制、证据如何留下。</p>
+
+<h3>为什么不能只靠 tool calling？</h3>
+<p>tool calling 让模型能行动，但它也会把大量中间结果带回上下文。Runtime 可以承担搜索、去重、压缩、缓存和权限判断，让模型少处理过程噪音。</p>
+
+<h3>Agent Runtime 最适合哪些场景？</h3>
+<p>长任务、高风险任务和需要审计的任务最需要 Runtime，例如自动修复代码、批量处理文件、跨系统操作、线上发布和需要人类确认的工作流。</p>
+
+<h2>一句话结论</h2>
 <p>Agent Runtime 的价值在于把执行过程里的状态、动作、权限和证据从模型上下文里拆出来，让模型少背过程细节，把精力留给判断。</p>

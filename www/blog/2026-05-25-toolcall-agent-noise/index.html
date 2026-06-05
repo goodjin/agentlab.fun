@@ -1,9 +1,27 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>别再让 toolCall 拖 Agent 后腿了</title>
+    
+    
+    
+    
+    <title>toolCall一直在拖Agent的后腿 - Jin&#39;s AI Companion</title>
+    <meta name="description" content="分析 AI Agent 中 toolCall 噪音的来源：中间结果污染上下文、工具调用过碎、Runtime 过于被动，以及模型和执行环境的职责分工问题。">
+    <link rel="canonical" href="https://agentlab.fun/blog/2026-05-25-toolcall-agent-noise/">
+    
+    
+    
+    <link rel="alternate" type="application/atom+xml" title="Jin&#39;s AI Companion" href="https://agentlab.fun/feed.xml">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Jin&#39;s AI Companion">
+    <meta property="og:title" content="toolCall一直在拖Agent的后腿">
+    <meta property="og:description" content="分析 AI Agent 中 toolCall 噪音的来源：中间结果污染上下文、工具调用过碎、Runtime 过于被动，以及模型和执行环境的职责分工问题。">
+    <meta property="og:url" content="https://agentlab.fun/blog/2026-05-25-toolcall-agent-noise/">
+    <meta property="og:image" content="https://agentlab.fun/assets/profile/avatar.png">
+    <meta name="twitter:card" content="summary_large_image">
     <style>
     :root {
         --bg: #fff;
@@ -664,16 +682,46 @@
     }
 </style>
 
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "toolCall一直在拖Agent的后腿",
+        "description": "分析 AI Agent 中 toolCall 噪音的来源：中间结果污染上下文、工具调用过碎、Runtime 过于被动，以及模型和执行环境的职责分工问题。",
+        "url": "https://agentlab.fun/blog/2026-05-25-toolcall-agent-noise/",
+        "inLanguage": "zh-CN",
+        "datePublished": "2026-05-24T11:00:00.000Z",
+        "dateModified": "2026-05-24T11:00:00.000Z",
+        "image": "https://agentlab.fun/assets/profile/avatar.png",
+        "author": {
+            "@type": "Person",
+            "name": "Jin Shan",
+            "url": "https://agentlab.fun"
+        },
+        "publisher": {
+            "@type": "Person",
+            "name": "Jin Shan"
+        },
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://agentlab.fun/blog/2026-05-25-toolcall-agent-noise/"
+        }
+    }
+    </script>
 </head>
 <body>
     <header class="site-header">
     <div class="site-header__inner">
         <a href="/" class="site-title">Jin 的个人思考</a>
         <nav class="site-nav" aria-label="主导航">
+            
             <a href="/">首页</a>
+            <a href="/topics/">专题</a>
             <a href="/agents/">Agent 实验</a>
             <a href="/insights/">洞察</a>
             <a href="/sources/">来源</a>
+            <a href="/en/topics/agent-runtime/">English</a>
+            
         </nav>
     </div>
 </header>
@@ -723,7 +771,7 @@
 </aside>
 
         <main class="site-main article-shell">
-            <h1>别再让 toolCall 拖 Agent 后腿了</h1>
+            <h1>toolCall一直在拖Agent的后腿</h1>
 <h2>LLM Agent 的基本运行逻辑</h2>
 <p>toolCall机制在LLM Agent执行复杂任务中起着关键作用，模型要读文件、查资料、跑命令、调 API等等等等，都离不开toolCall。</p>
 <p>所以，可以说toolCall是Agent的核心，是灵魂，今天的Agent 的运行逻辑基本上都是建立在 toolCall loop 上。</p>
@@ -806,6 +854,22 @@
 <li><a href="https://developers.openai.com/api/docs/guides/function-calling">OpenAI Function Calling 文档</a></li>
 <li><a href="https://www.anthropic.com/engineering/advanced-tool-use">Anthropic: Introducing advanced tool use on the Claude Developer Platform</a></li>
 </ul>
+
+<h2>相关专题</h2>
+<ul>
+<li><a href="/topics/tool-calling/">Tool Calling：AI Agent 工具调用与上下文噪音治理</a></li>
+<li><a href="/topics/agent-runtime/">Agent Runtime：AI Agent 执行环境与协议设计</a></li>
+</ul>
+
+<h2>常见问题</h2>
+<h3>toolCall 为什么会拖慢 Agent？</h3>
+<p>因为每一次工具调用都会产生结果，结果又会回到模型上下文。任务越长，日志、搜索结果、文件片段和失败记录越多，模型要处理的噪音也越多。</p>
+
+<h3>减少 toolCall 次数就够了吗？</h3>
+<p>不够。调用次数只是一个指标，关键还在于工具结果如何被整理成模型可用的观察内容。原始输出少一点有帮助，但语义更清楚更重要。</p>
+
+<h3>Runtime 应该接管哪些职责？</h3>
+<p>Runtime 适合接管工具调度、状态保存、结果去重、观察整理、权限控制和证据记录。模型保留判断和解释职责。</p>
 
         </main>
     </div>

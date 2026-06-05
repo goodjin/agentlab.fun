@@ -1,0 +1,69 @@
+---
+layout: base.njk
+lang: en
+title: "Tool Calling: Context Noise and Runtime Observations in AI Agents"
+description: "A practical guide to tool calling in AI agents: function calls, tool result noise, context management, action abstraction, and runtime observations."
+permalink: /en/topics/tool-calling/
+alternateZh: /topics/tool-calling/
+alternateEn: /en/topics/tool-calling/
+alternateDefault: /topics/tool-calling/
+---
+
+<h1>Tool Calling: Context Noise and Runtime Observations in AI Agents</h1>
+<p class="meta">Keywords: tool calling, function calling, AI agent tools, tool result noise, runtime observation.</p>
+
+<p class="lead">Tool calling is how an AI agent acts. Reading files, searching docs, running commands, and calling APIs all pass through this layer.</p>
+
+<p>The trouble starts when tasks get longer. Logs, search results, file fragments, and failed outputs keep returning to the model. The model then has to reason inside a pile of process noise. Tool calling is useful, but raw tool output should not become the model's working memory by default.</p>
+
+<h2>Common Problems in Tool Calling</h2>
+<ul>
+    <li><strong>Dirty context:</strong> raw stdout, old errors, duplicate search hits, and irrelevant files compete for attention.</li>
+    <li><strong>Over-fragmented actions:</strong> the model micromanages low-level calls instead of expressing task intent.</li>
+    <li><strong>Unclear state:</strong> the model has to infer which observations are still valid and which are outdated.</li>
+    <li><strong>Poor reuse:</strong> the same logs and files may be read repeatedly without stable caching or summaries.</li>
+</ul>
+
+<h2>Recommended Reading Path</h2>
+<p>Start with why toolCall noise appears, then read how raw tool output can become model-readable observations, and finally look at how Runtime can take back part of the execution responsibility.</p>
+
+<h2>Core Articles</h2>
+<div class="posts">
+    <article class="post">
+        <a href="/blog/2026-05-25-toolcall-agent-noise/" class="post-link">
+            <p class="post-meta">Context noise</p>
+            <h3 class="post-title">toolCall keeps holding Agents back</h3>
+        </a>
+    </article>
+    <article class="post">
+        <a href="/blog/2026-05-25-toolcall-input-noise/" class="post-link">
+            <p class="post-meta">Input design</p>
+            <h3 class="post-title">How to reduce toolCall noise in model input</h3>
+        </a>
+    </article>
+    <article class="post">
+        <a href="/blog/2026-05-24-agent-tool-philosophy/" class="post-link">
+            <p class="post-meta">Tool design</p>
+            <h3 class="post-title">Design tradeoffs in Agent tools</h3>
+        </a>
+    </article>
+    <article class="post">
+        <a href="/blog/2026-05-28-why-agent-protocol-runtime/" class="post-link">
+            <p class="post-meta">Action abstraction</p>
+            <h3 class="post-title">Why redesign the model-runtime protocol</h3>
+        </a>
+    </article>
+</div>
+
+<h2>FAQ</h2>
+<h3>Is tool calling the same as function calling?</h3>
+<p>In many contexts they overlap: the model emits a structured call and an external system executes it. Tool calling is often the broader topic because it also includes tool selection, result rendering, state management, and safety boundaries.</p>
+
+<h3>Why does tool calling create context noise?</h3>
+<p>Tool output is machine-oriented. A build failure can produce hundreds of lines while only a few lines matter. If Runtime does not filter and annotate the result, the model has to do that work inside the next prompt.</p>
+
+<h3>How can toolCall noise be reduced?</h3>
+<p>Do not only compress tokens. Render observations around task intent: key facts, evidence references, current conclusions, and the specific question the model needs to decide next.</p>
+
+<h2>Takeaway</h2>
+<p>The hard part of tool calling is not only the call itself. It is how the result gets compressed, attributed, reused, audited, and turned back into useful context.</p>

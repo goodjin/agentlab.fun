@@ -116,18 +116,26 @@ npm run serve
 # 然后访问 http://localhost:8080
 ```
 
-### 3.3 部署到服务器
+### 3.3 部署到 Cloudflare Pages
 
-构建后的文件在 `www/` 目录，同步到服务器：
+当前公网主站 `https://agentlab.fun` 由 Cloudflare Pages 服务。构建后的文件在 `www/` 目录，发布命令如下：
 
 ```bash
-rsync -avz -e "ssh -i ~/.ssh/tencent_01_hello" \
-    www/ hello@212.64.11.60:/var/www/hello/
+./build.sh
+npx wrangler pages deploy www --project-name agentlab-fun
 ```
 
-### 3.4 GitHub Pages
+发布后验证关键入口：
 
-推送到 GitHub 后，GitHub Actions 会自动构建并部署。
+```bash
+for path in / /blog/ /insights/ /topics/ /sitemap.xml /feed.xml /llms.txt /robots.txt; do
+  curl -L -sS -o /dev/null -w "$path %{http_code} %{content_type}\n" "https://agentlab.fun$path"
+done
+```
+
+### 3.4 历史服务器
+
+`212.64.11.60:/var/www/hello` 是旧部署目标。它可能仍有一份静态文件副本，但当前访问 `https://agentlab.fun` 命中的不是这台服务器。不要把 rsync 到旧服务器当成正式发布。
 
 ---
 

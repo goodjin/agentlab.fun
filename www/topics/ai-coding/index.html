@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    
+    
+    <title>AI Coding：AI 编程助手、工程质量与代码审查 - Jin&#39;s AI Companion</title>
+    <meta name="description" content="AI Coding 专题，讨论 AI 编程助手、代码生成、项目质量、需求、测试、技术债、代码审查和工程判断。">
+    <link rel="canonical" href="https://agentlab.fun/topics/ai-coding/">
+    <link rel="alternate" hreflang="zh-CN" href="https://agentlab.fun/topics/ai-coding/">
+    <link rel="alternate" hreflang="en" href="https://agentlab.fun/en/topics/ai-coding/">
+    <link rel="alternate" hreflang="x-default" href="https://agentlab.fun/topics/ai-coding/">
+    <link rel="alternate" type="application/atom+xml" title="Jin&#39;s AI Companion" href="https://agentlab.fun/feed.xml">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Jin&#39;s AI Companion">
+    <meta property="og:title" content="AI Coding：AI 编程助手、工程质量与代码审查">
+    <meta property="og:description" content="AI Coding 专题，讨论 AI 编程助手、代码生成、项目质量、需求、测试、技术债、代码审查和工程判断。">
+    <meta property="og:url" content="https://agentlab.fun/topics/ai-coding/">
+    <meta name="twitter:card" content="summary">
+    <style>
+    :root {
+        --bg: #fff;
+        --paper: #fafafa;
+        --ink: #333;
+        --muted: #7a7a7a;
+        --faint: #f3f3f3;
+        --line: #e8e8e8;
+        --accent: #d14;
+        --accent-dark: #a10d30;
+        --code-bg: #f8f8f8;
+        --measure: 44rem;
+        --frame: 64rem;
+        --sidebar: 15rem;
+        --font-serif: "Merriweather", "PT Serif", Georgia, "Times New Roman", "Songti SC", "Noto Serif CJK SC", serif;
+        --font-sans: "Lato", "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", sans-serif;
+        --font-mono: Menlo, Monaco, Consolas, "Courier New", monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+        min-height: 100%;
+        background: var(--bg);
+        color: var(--ink);
+        font-size: 17px;
+        text-size-adjust: 100%;
+    }
+
+    body {
+        min-height: 100vh;
+        margin: 0;
+        color: var(--ink);
+        font-family: var(--font-serif);
+        font-weight: 300;
+        line-height: 1.75;
+        letter-spacing: 0;
+        background: var(--bg);
+    }
+
+    a {
+        color: var(--accent);
+        text-decoration: none;
+        transition: color 160ms ease, border-color 160ms ease, opacity 160ms ease;
+    }
+
+    a:hover {
+        color: var(--accent-dark);
+        text-decoration: underline;
+        text-underline-offset: 0.18em;
+    }
+
+    img {
+        width: auto;
+        max-width: 100%;
+        height: auto;
+    }
+
+    .site-header {
+        padding: 2rem 1.5rem 1.25rem;
+        border-bottom: 1px solid var(--faint);
+        background: var(--bg);
+    }
+
+    .site-header__inner,
+    .site-frame {
+        width: min(var(--frame), calc(100vw - 2rem));
+        margin: 0 auto;
+    }
+
+    .site-footer__inner {
+        width: min(var(--measure), calc(100vw - 2rem));
+        margin: 0 auto;
+    }
+
+    .site-frame {
+        display: grid;
+        grid-template-columns: minmax(12rem, var(--sidebar)) minmax(0, var(--measure));
+        gap: 3.5rem;
+        align-items: start;
+    }
+
+    .site-header__inner {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 1.5rem;
+    }
+
+    .site-title {
+        color: var(--ink);
+        font-family: var(--font-sans);
+        font-size: 1.18rem;
+        font-weight: 300;
+        line-height: 1.2;
+        text-decoration: none;
+    }
+
+    .site-title:hover {
+        color: var(--ink);
+        opacity: 0.82;
+        text-decoration: none;
+    }
+
+    .site-nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 0.35rem 1rem;
+        margin: 0;
+        font-family: var(--font-sans);
+    }
+
+    .site-nav a {
+        border-bottom: 2px solid transparent;
+        color: #666;
+        font-size: 0.9rem;
+        font-weight: 300;
+        line-height: 1.6;
+        text-decoration: none;
+    }
+
+    .site-nav a:hover,
+    .site-nav a.active {
+        border-bottom-color: #444;
+        color: #444;
+        text-decoration: none;
+    }
+
+    .site-main {
+        padding: 3rem 0 4rem;
+    }
+
+    .profile-sidebar {
+        position: sticky;
+        top: 2rem;
+        padding: 3rem 0 4rem;
+        color: var(--muted);
+        font-family: var(--font-sans);
+    }
+
+    .profile-card {
+        border-bottom: 1px solid var(--faint);
+        padding-bottom: 1.35rem;
+    }
+
+    .profile-avatar {
+        width: 6.25rem;
+        height: 6.25rem;
+        margin-bottom: 1.1rem;
+        border: 1px solid var(--line);
+        border-radius: 50%;
+        background: var(--paper);
+        display: block;
+        object-fit: cover;
+        object-position: center top;
+    }
+
+    .profile-name {
+        margin: 0;
+        color: var(--ink);
+        font-size: 1.45rem;
+        font-weight: 700;
+        line-height: 1.2;
+    }
+
+    .profile-role,
+    .profile-affiliation,
+    .profile-bio,
+    .profile-contact {
+        margin: 0.35rem 0 0;
+        color: var(--muted);
+        font-family: var(--font-sans);
+        font-size: 0.9rem;
+        line-height: 1.65;
+    }
+
+    .profile-role {
+        color: #555;
+        font-style: italic;
+    }
+
+    .profile-bio {
+        margin-top: 0.9rem;
+    }
+
+    .profile-contact {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        align-items: center;
+        margin-top: 0.9rem;
+        font-size: 0.84rem;
+    }
+
+    .icon-link {
+        display: inline-grid;
+        place-items: center;
+        width: 2rem;
+        height: 2rem;
+        border: 1px solid var(--line);
+        border-radius: 50%;
+        background: var(--bg);
+        color: #555;
+        cursor: pointer;
+        line-height: 1;
+        transition: border-color 160ms ease, color 160ms ease, background 160ms ease;
+    }
+
+    .icon-link:hover,
+    .wechat-popover[open] .icon-link {
+        border-color: var(--accent);
+        background: var(--paper);
+        color: var(--accent-dark);
+        text-decoration: none;
+    }
+
+    .icon-link svg {
+        width: 1.05rem;
+        height: 1.05rem;
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.8;
+    }
+
+    .profile-contact a:nth-child(2) svg {
+        fill: currentColor;
+        stroke: none;
+    }
+
+    .wechat-popover {
+        position: relative;
+    }
+
+    .wechat-popover summary {
+        list-style: none;
+    }
+
+    .wechat-popover summary::-webkit-details-marker {
+        display: none;
+    }
+
+    .wechat-panel {
+        position: absolute;
+        left: 0;
+        top: 2.55rem;
+        z-index: 20;
+        width: 10.5rem;
+        padding: 0.65rem;
+        border: 1px solid var(--line);
+        border-radius: 3px;
+        background: var(--bg);
+        box-shadow: 0 12px 32px rgb(0 0 0 / 0.1);
+    }
+
+    .wechat-panel img {
+        display: block;
+        width: 100%;
+        border-radius: 2px;
+    }
+
+    .wechat-panel p {
+        margin: 0.45rem 0 0;
+        color: var(--muted);
+        font-family: var(--font-sans);
+        font-size: 0.78rem;
+        line-height: 1.4;
+        text-align: center;
+    }
+
+    .profile-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem 0.85rem;
+        margin-top: 1rem;
+        font-size: 0.86rem;
+    }
+
+    .profile-links a {
+        border-bottom: 1px solid transparent;
+        color: var(--accent);
+        line-height: 1.5;
+    }
+
+    .profile-links a:hover {
+        border-bottom-color: var(--accent-dark);
+        text-decoration: none;
+    }
+
+    .site-footer {
+        margin-top: 1rem;
+        border-top: 1px solid var(--faint);
+        background: var(--paper);
+        color: var(--muted);
+        font-family: var(--font-sans);
+        font-size: 0.9rem;
+        font-weight: 300;
+    }
+
+    .site-footer__inner {
+        padding: 2rem 0;
+        text-align: center;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        margin: 2.1rem 0 0.75rem;
+        color: var(--ink);
+        font-family: var(--font-sans);
+        font-weight: 900;
+        line-height: 1.22;
+    }
+
+    h1 {
+        margin-top: 0;
+        font-size: clamp(2.15rem, 2.8rem, 2.8rem);
+    }
+
+    h2 { font-size: 1.72rem; }
+    h3 { font-size: 1.28rem; }
+    h4 { font-size: 1.05rem; }
+
+    p,
+    li {
+        color: var(--ink);
+        font-size: 1.05rem;
+        line-height: 1.82;
+    }
+
+    p { margin: 0 0 1.15rem; }
+
+    ul,
+    ol {
+        margin: 0 0 1.2rem;
+        padding-left: 1.35rem;
+    }
+
+    li { margin: 0.32rem 0; }
+
+    hr {
+        height: 1px;
+        margin: 2.4rem 0;
+        border: 0;
+        background: var(--faint);
+    }
+
+    blockquote {
+        margin: 1.5rem 0;
+        padding: 1rem 1.25rem;
+        border-left: 5px solid var(--muted);
+        color: var(--muted);
+        font-style: italic;
+        background: var(--paper);
+    }
+
+    blockquote p { color: var(--muted); }
+
+    figure {
+        margin: 2rem 0;
+    }
+
+    figure img,
+    figure svg,
+    .article-shell svg {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+    }
+
+    figcaption {
+        margin-top: 0.65rem;
+        color: var(--muted);
+        font-family: var(--font-sans);
+        font-size: 0.86rem;
+        line-height: 1.5;
+        text-align: center;
+    }
+
+    code,
+    pre {
+        font-family: var(--font-mono);
+    }
+
+    code {
+        padding: 0.12rem 0.28rem;
+        border-radius: 3px;
+        background: var(--code-bg);
+        color: var(--muted);
+        font-size: 0.9em;
+    }
+
+    pre {
+        margin: 1.35rem 0;
+        padding: 1.1rem;
+        overflow-x: auto;
+        border: 1px solid var(--faint);
+        border-radius: 3px;
+        background: var(--code-bg);
+        font-size: 0.92rem;
+        line-height: 1.45;
+    }
+
+    pre code {
+        padding: 0;
+        background: transparent;
+    }
+
+    .code-frame {
+        border: 1px solid #cbd5dc;
+        border-left: 4px solid #246bfe;
+        background: #f7fafc;
+        box-shadow: 0 10px 28px rgba(20, 32, 38, 0.06);
+    }
+
+    .tool-loop-forward path {
+        stroke-dasharray: 10 12;
+        animation: tool-loop-flow 1.8s linear infinite;
+    }
+
+    .tool-loop-return {
+        stroke-dasharray: 18 12;
+        animation: tool-loop-return 1.2s linear infinite;
+        filter: drop-shadow(0 0 4px rgba(249, 115, 22, 0.28));
+    }
+
+    @keyframes tool-loop-flow {
+        to { stroke-dashoffset: -22; }
+    }
+
+    @keyframes tool-loop-return {
+        to { stroke-dashoffset: -30; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        .tool-loop-forward path,
+        .tool-loop-return {
+            animation: none;
+        }
+
+        .tool-loop-diagram animateMotion {
+            display: none;
+        }
+    }
+
+    table {
+        width: 100%;
+        margin: 1.5rem 0;
+        border-collapse: collapse;
+        font-family: var(--font-sans);
+        font-size: 0.92rem;
+        line-height: 1.55;
+    }
+
+    th,
+    td {
+        padding: 0.62rem 0.7rem;
+        border-bottom: 1px solid var(--faint);
+        text-align: left;
+        vertical-align: top;
+    }
+
+    th {
+        color: var(--ink);
+        font-weight: 700;
+        background: var(--paper);
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
+
+    .source-table {
+        min-width: 42rem;
+    }
+
+    .meta,
+    .post-meta {
+        margin: 0 0 0.3rem;
+        padding: 0;
+        color: var(--muted);
+        font-family: var(--font-sans);
+        font-size: 0.94rem;
+        font-style: italic;
+        font-weight: 300;
+        line-height: 1.55;
+    }
+
+    .lead {
+        color: #444;
+        font-size: 1.15rem;
+    }
+
+    .posts {
+        margin: 2rem 0 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .post {
+        margin: 0 0 1.9rem;
+        padding: 0 0 1.55rem;
+        border-bottom: 1px solid var(--faint);
+    }
+
+    .post:last-child {
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: 0;
+    }
+
+    .post-link {
+        display: block;
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .post-link:hover {
+        text-decoration: none;
+    }
+
+    .post-link:hover .post-title,
+    .post-link:hover .post-summary,
+    .post-link:hover .post-meta {
+        opacity: 0.86;
+    }
+
+    .post-title {
+        margin: 0.22rem 0 0.35rem;
+        color: var(--ink);
+        font-size: 1.72rem;
+        font-weight: 700;
+        line-height: 1.25;
+    }
+
+    .post-summary {
+        margin: 0;
+        color: #555;
+        font-size: 1rem;
+        line-height: 1.7;
+    }
+
+    .more-link {
+        display: inline-block;
+        margin-top: 1.6rem;
+        font-family: var(--font-sans);
+        font-size: 0.95rem;
+    }
+
+    .content-count {
+        margin-top: 2rem;
+        padding-top: 1.2rem;
+        border-top: 1px solid var(--faint);
+    }
+
+    .card,
+    .section {
+        margin: 1.5rem 0;
+        padding: 1.15rem 1.25rem;
+        border: 1px solid var(--faint);
+        border-radius: 3px;
+        background: var(--paper);
+    }
+
+    .card-title {
+        margin-bottom: 0.5rem;
+        font-family: var(--font-sans);
+        font-size: 1.05rem;
+        font-weight: 700;
+    }
+
+    .tag {
+        display: inline-block;
+        margin: 0 0.35rem 0.35rem 0;
+        padding: 0.1rem 0.38rem;
+        border: 1px solid var(--line);
+        border-radius: 3px;
+        background: var(--bg);
+        color: var(--muted);
+        font-family: var(--font-sans);
+        font-size: 0.78rem;
+        line-height: 1.5;
+    }
+
+    .rating {
+        color: var(--accent);
+        white-space: nowrap;
+    }
+
+    .article-shell > main,
+    .article-shell > article {
+        display: contents;
+    }
+
+    @media (max-width: 48rem) {
+        html { font-size: 16px; }
+
+        .site-header {
+            padding-top: 1.35rem;
+            text-align: center;
+        }
+
+        .site-header__inner {
+            display: block;
+        }
+
+        .site-nav {
+            justify-content: center;
+            margin-top: 0.7rem;
+        }
+
+        .site-frame {
+            display: block;
+            width: min(var(--measure), calc(100vw - 2rem));
+        }
+
+        .site-main {
+            padding-top: 2.2rem;
+        }
+
+        .profile-sidebar {
+            position: static;
+            padding: 2.2rem 0 0;
+        }
+
+        .profile-card {
+            display: grid;
+            grid-template-columns: 4.25rem minmax(0, 1fr);
+            gap: 0 1rem;
+            padding-bottom: 1.2rem;
+        }
+
+        .profile-avatar {
+            grid-row: span 4;
+            width: 4.25rem;
+            height: 4.25rem;
+            margin: 0;
+        }
+
+        .profile-name {
+            font-size: 1.2rem;
+        }
+
+        .profile-bio,
+        .profile-links {
+            grid-column: 1 / -1;
+        }
+
+        h1 { font-size: 2rem; }
+        h2 { font-size: 1.48rem; }
+        .post-title { font-size: 1.42rem; }
+    }
+</style>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "AI Coding：AI 编程助手、工程质量与代码审查",
+        "description": "AI Coding 专题，讨论 AI 编程助手、代码生成、项目质量、需求、测试、技术债、代码审查和工程判断。",
+        "url": "https://agentlab.fun/topics/ai-coding/",
+        "inLanguage": "zh-CN",
+        "isPartOf": {
+            "@type": "WebSite",
+            "name": "Jin's AI Companion",
+            "url": "https://agentlab.fun"
+        },
+        "author": {
+            "@type": "Person",
+            "name": "Jin Shan"
+        }
+    }
+    </script>
+</head>
+<body>
+    <header class="site-header">
+    <div class="site-header__inner">
+        <a href="/" class="site-title">Jin 的个人思考</a>
+        <nav class="site-nav" aria-label="主导航">
+            
+            <a href="/">首页</a>
+            <a href="/topics/">专题</a>
+            <a href="/agents/">Agent 实验</a>
+            <a href="/insights/">洞察</a>
+            <a href="/sources/">来源</a>
+            <a href="/en/topics/agent-runtime/">English</a>
+            
+        </nav>
+    </div>
+</header>
+
+    <div class="site-frame">
+        <aside class="profile-sidebar" aria-label="个人简介">
+    <div class="profile-card">
+        <img class="profile-avatar" src="/assets/profile/avatar.png" alt="Shan . Jin">
+        <h2 class="profile-name">Shan . Jin</h2>
+        <p class="profile-role">AI Agent Builder</p>
+        <p class="profile-affiliation">关注 AI 智能体、harness 工程与独立创造。</p>
+        <p class="profile-bio">这里记录我对 AI 智能体、协议设计、工程 harness 和个人创造系统的观察与实验。</p>
+        <div class="profile-contact" aria-label="联系方式">
+            <a class="icon-link" href="mailto:goodjin2@gmail.com" aria-label="Email: goodjin2@gmail.com" title="Email">
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                    <path d="M4 6h16v12H4z"></path>
+                    <path d="m4 7 8 6 8-6"></path>
+                </svg>
+            </a>
+            <a class="icon-link" href="https://github.com/goodjin" target="_blank" rel="noopener" aria-label="GitHub: goodjin" title="GitHub">
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                    <path d="M12 2.5a9.5 9.5 0 0 0-3 18c.48.09.65-.2.65-.46v-1.7c-2.65.58-3.2-1.12-3.2-1.12-.44-1.1-1.06-1.4-1.06-1.4-.86-.58.07-.57.07-.57.95.07 1.45.98 1.45.98.85 1.44 2.22 1.02 2.76.78.09-.6.33-1.02.6-1.25-2.12-.24-4.35-1.06-4.35-4.7 0-1.04.37-1.9.98-2.56-.1-.24-.43-1.22.09-2.53 0 0 .8-.26 2.6.98a9 9 0 0 1 4.74 0c1.8-1.24 2.6-.98 2.6-.98.52 1.31.19 2.29.09 2.53.61.66.98 1.52.98 2.56 0 3.65-2.24 4.45-4.37 4.69.35.3.66.88.66 1.78v2.64c0 .26.17.56.66.46a9.5 9.5 0 0 0-3-18Z"></path>
+                </svg>
+            </a>
+            <details class="wechat-popover">
+                <summary class="icon-link" aria-label="微信公众号二维码" title="微信公众号">
+                    <svg aria-hidden="true" viewBox="0 0 24 24">
+                        <path d="M9.5 6.5c-4.1 0-7 2.55-7 5.7 0 1.77.92 3.35 2.36 4.4l-.58 1.78 2.08-1.05c.94.36 2 .57 3.14.57 4.1 0 7-2.55 7-5.7s-2.9-5.7-7-5.7Z"></path>
+                        <path d="M15.35 9.2c3.15.38 5.15 2.48 5.15 5.05 0 1.48-.74 2.82-1.92 3.72l.48 1.46-1.72-.88c-.76.27-1.6.42-2.49.42-1.95 0-3.7-.72-4.8-1.86"></path>
+                        <path d="M7.35 11.5h.02"></path>
+                        <path d="M11.65 11.5h.02"></path>
+                    </svg>
+                </summary>
+                <div class="wechat-panel">
+                    <img src="/assets/wechat-qrcode.jpg" alt="微信公众号二维码">
+                    <p>微信公众号</p>
+                </div>
+            </details>
+        </div>
+        <div class="profile-links" aria-label="个人链接">
+            <a href="/agents/">Agent 实验</a>
+            <a href="/insights/">Insights</a>
+            <a href="/sources/">Sources</a>
+        </div>
+    </div>
+</aside>
+
+        <main class="site-main">
+            
+<h1>AI Coding：AI 编程助手、工程质量与代码审查</h1>
+<p class="meta">关键词：AI Coding、AI 编程助手、代码生成、代码审查、技术债、软件工程质量。</p>
+
+<p class="lead">AI 编程助手能加快局部编码，但软件质量仍然取决于需求、架构、测试、边界处理和维护节奏。</p>
+
+<p>代码生成变快以后，判断成本没有消失，只是更早暴露出来。需求不清、测试薄弱、架构欠账和代码边界模糊，会被 AI 放大。用好 AI 编程，不是让它多写代码，而是让它参与解释、审查、验证和修复闭环。</p>
+
+<h2>AI Coding 的核心问题</h2>
+<ul>
+    <li><strong>需求是否清楚：</strong>AI 擅长执行明确指令，不擅长替你发明产品边界。</li>
+    <li><strong>架构是否稳：</strong>坏结构会让代码生成速度变成技术债积累速度。</li>
+    <li><strong>测试是否跟上：</strong>没有测试，AI 写得越快，回归风险越难看清。</li>
+    <li><strong>审查是否认真：</strong>AI 可以帮忙找 bug，但最终取舍仍要人来判断。</li>
+</ul>
+
+<h2>推荐阅读路径</h2>
+<p>先看 AI 编程助手为什么救不了烂尾项目，再看慢一点写代码的工作流，最后看 AI 编程的价值如何从“写代码”转向“放大工程判断”。</p>
+
+<h2>关键文章</h2>
+<div class="posts">
+    <article class="post">
+        <a href="/blog/2026-05-28-ai-programming-assistant-cannot-save-you/" class="post-link">
+            <p class="post-meta">项目质量</p>
+            <h3 class="post-title">AI 编程助手救不了烂尾项目</h3>
+        </a>
+    </article>
+    <article class="post">
+        <a href="/blog/2026-05-27-ai-slow-coding-is-correct/" class="post-link">
+            <p class="post-meta">工程节奏</p>
+            <h3 class="post-title">AI 时代，慢一点写代码可能是对的</h3>
+        </a>
+    </article>
+    <article class="post">
+        <a href="/blog/2026-05-24-ai-programming-real-value/" class="post-link">
+            <p class="post-meta">价值判断</p>
+            <h3 class="post-title">AI 编程的真实价值</h3>
+        </a>
+    </article>
+    <article class="post">
+        <a href="/blog/ai-era-quality-trench.html" class="post-link">
+            <p class="post-meta">质量护城河</p>
+            <h3 class="post-title">AI 时代的质量壕沟</h3>
+        </a>
+    </article>
+</div>
+
+<h2>常见问题</h2>
+<h3>AI 编程助手适合从零做项目吗？</h3>
+<p>适合做局部实现和原型验证，但不适合替你决定需求、架构和业务规则。越是从零开始，越要先把目标、边界和验证方式写清楚。</p>
+
+<h3>AI 写代码为什么容易让项目失控？</h3>
+<p>因为生成速度会掩盖理解不足。代码很快堆起来，但模块边界、错误处理、测试和维护约定没有同步建立，后面就会越来越难改。</p>
+
+<h3>AI Coding 更好的工作流是什么？</h3>
+<p>让 AI 先解释方案、列风险、写测试、做代码审查，再进入实现。慢一点，但更容易留下能维护的代码。</p>
+
+<h2>一句话结论</h2>
+<p>AI 编程会降低写代码的摩擦，也会让需求含混、测试薄弱和架构欠账更快显形。能不能用好它，关键在工程约束是否跟上。</p>
+
+        </main>
+    </div>
+    <footer class="site-footer">
+        <div class="site-footer__inner">Jin's AI Companion | 最后更新: 2026-05-29</div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,11 @@
+/en/*
+  ! X-Robots-Tag
+
+/topics/*
+  ! X-Robots-Tag
+
+/blog/*
+  ! X-Robots-Tag
+
+/*
+  Cache-Control: public, max-age=0, must-revalidate

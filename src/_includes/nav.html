@@ -1,12 +1,20 @@
 <header class="site-header">
     <div class="site-header__inner">
         <a href="/" class="site-title">Jin 的个人思考</a>
-        <nav class="site-nav" aria-label="主导航">
+        <nav class="site-nav" aria-label="{% if lang == "en" %}Main navigation{% else %}主导航{% endif %}">
+            {% if lang == "en" %}
+            <a href="/en/topics/agent-runtime/">Agent Runtime</a>
+            <a href="/en/topics/tool-calling/">Tool Calling</a>
+            <a href="/en/topics/ai-coding/">AI Coding</a>
+            <a href="/topics/">中文</a>
+            {% else %}
             <a href="/">首页</a>
             <a href="/topics/">专题</a>
             <a href="/agents/">Agent 实验</a>
             <a href="/insights/">洞察</a>
             <a href="/sources/">来源</a>
+            <a href="/en/topics/agent-runtime/">English</a>
+            {% endif %}
         </nav>
     </div>
 </header>

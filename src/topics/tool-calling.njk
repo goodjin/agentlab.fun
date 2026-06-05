@@ -1,14 +1,30 @@
 ---
 layout: base.njk
-title: Tool Calling
-description: Tool Calling 专题，聚合 toolCall 噪音、工具结果压缩、Action 抽象和 Agent 执行模型相关文章。
+title: Tool Calling：AI Agent 工具调用与上下文噪音治理
+description: Tool Calling 专题，解释 AI Agent 工具调用、toolCall 噪音、工具结果压缩、Action 抽象和 Runtime 观察整理。
 permalink: /topics/tool-calling/
+alternateZh: /topics/tool-calling/
+alternateEn: /en/topics/tool-calling/
+alternateDefault: /topics/tool-calling/
 ---
 
-<h1>Tool Calling</h1>
-<p class="meta">这里讨论 tool call 如何从“能调用工具”走向“能稳定完成任务”。</p>
+<h1>Tool Calling：AI Agent 工具调用与上下文噪音治理</h1>
+<p class="meta">关键词：Tool Calling、toolCall 噪音、函数调用、Agent 工具调用、Runtime Observation。</p>
 
-<p>tool call 是 Agent 落地的入口，但它也会制造大量中间记录。日志、搜索结果、文件内容、失败输出一轮轮塞回上下文，模型很快要在噪音里继续推理。更稳的做法，是让 Runtime 把底层工具调用整理成更干净的观察和动作记录。</p>
+<p class="lead">Tool Calling 是 AI Agent 执行动作的入口。模型要读文件、查资料、跑命令、调用 API，都离不开工具调用。</p>
+
+<p>问题出在长任务里。日志、搜索结果、文件内容、失败输出一轮轮塞回上下文，模型很快要在噪音里继续推理。工具调用没有错，但原始工具结果不应该全部原样交给模型。</p>
+
+<h2>Tool Calling 常见问题</h2>
+<ul>
+    <li><strong>上下文变脏：</strong>大量无关 stdout、搜索命中和旧错误会挤占模型注意力。</li>
+    <li><strong>调用太碎：</strong>模型一步一步调用底层工具，任务变长后成本和错误都会放大。</li>
+    <li><strong>状态混乱：</strong>模型要自己判断哪些观察还有效，哪些已经过期。</li>
+    <li><strong>结果不可复用：</strong>同一批文件和日志可能被反复读取，缺少稳定缓存和摘要。</li>
+</ul>
+
+<h2>推荐阅读路径</h2>
+<p>先看 toolCall 噪音为什么出现，再看如何把工具输出整理成模型可读输入，最后看 Runtime 如何重新接管一部分执行职责。</p>
 
 <h2>关键文章</h2>
 <div class="posts">
@@ -38,5 +54,15 @@ permalink: /topics/tool-calling/
     </article>
 </div>
 
-<h2>适合引用的结论</h2>
+<h2>常见问题</h2>
+<h3>Tool Calling 和 Function Calling 是一回事吗？</h3>
+<p>很多场景里两者指向相近：模型输出结构化调用，由外部系统执行函数或工具。Tool Calling 的讨论范围更宽，它还包括工具选择、结果整理、状态管理和安全边界。</p>
+
+<h3>为什么工具调用会制造噪音？</h3>
+<p>工具返回的是机器输出，不是模型推理所需的工作记忆。一次构建失败可能有几百行日志，真正有用的只有几行。Runtime 如果不整理，模型就要在噪音里继续判断。</p>
+
+<h3>怎么降低 toolCall 噪音？</h3>
+<p>不要只压缩 token。更有效的做法是按任务目标整理观察：保留事实、证据引用、当前判断和下一步需要模型决定的问题。</p>
+
+<h2>一句话结论</h2>
 <p>工具调用的难点不只在调用本身，还在调用结果如何被压缩、归因、复用和审计。Agent 系统要减少模型面对的过程噪音。</p>

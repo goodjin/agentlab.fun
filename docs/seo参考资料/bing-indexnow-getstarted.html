@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to add IndexNow to your website | Bing Webmaster Tools</title>
+    <meta name="description" content="Learn to easily add IndexNow to your website. Find CMSs &#xD;&#xA;    with built-in support, compatible CDNs, and API integration steps for non-supported systems" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="/indexnow/microSite.css">
+    <link rel="shortcut icon" href="/indexnow/img/favicon.ico" type="image/x-icon">
+    <script type="text/javascript">
+        (function (c, l, a, r, i, t, y) {
+            c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
+            t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
+            y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, "clarity", "script", "8v9oce90yr");
+    </script>
+    <style id="antiClickjack">
+        body {
+            display: none !important;
+        }
+    </style>
+    <script type="text/javascript">
+        if (self === top) {
+            var antiClickjack = document.getElementById("antiClickjack");
+            antiClickjack.parentNode.removeChild(antiClickjack);
+        } else {
+            top.location = self.location;
+        }
+    </script>
+</head>
+<body>
+    
+<header class="header d-flex flex-wrap justify-content-between align-items-center shadow-lg bg-body sticky-top">
+    <div class="logo mr-auto col-sm-12 col-md-12 col-lg-4 align-items-center">
+        <div id="headerBrand">
+            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="18" viewBox="0 0 17 18" fill="none">
+                <path d="M7.91075 0.474609H0V8.38535H7.91075V0.474609Z" fill="#F25022" />
+                <path d="M16.6451 0.474609H8.73438V8.38535H16.6451V0.474609Z" fill="#7FBA00" />
+                <path d="M7.91075 9.20596H0V17.1167H7.91075V9.20596Z" fill="#02A4EF" />
+                <path d="M16.6451 9.20593H8.73438V17.1167H16.6451V9.20593Z" fill="#FFB900" />
+            </svg>
+            <h3 class="logo-text">Microsoft Bing Webmaster Tools  |  IndexNow</h3>
+        </div>
+    </div>
+    <div class="d-none d-lg-block">
+        <ul class="header-list p-0 m-0 col-sm-12 col-md-12">
+            <li class="header-links d-inline-block">
+                <a class="anchor-link" href="/indexnow/">Why IndexNow?</a>
+            </li>
+            <li class="header-links d-inline-block" id="getstarted-nav-button" style='border-style:none none solid none;'>
+                <a class="anchor-link" style='color: #0078D4;' href="/indexnow/getstarted">Get Started</a>
+            </li>
+            <li class="header-links d-inline-block" id="implementation-nav-button">
+                <a class="anchor-link" href="/indexnow/getstarted#implementation">Implementation</a>
+            </li>
+            <li class="header-links d-inline-block">
+                <a href="https://www.indexnow.org" class="anchor-link" id="goToProtocolWebsite">IndexNow.org ></a>
+            </li>
+        </ul>
+    </div>
+    <div class="hamburger-menu ml-auto d-sm-flex d-lg-none" onclick="toggleHamburger()">
+        <img width="40" height="40" src="/indexnow/img/list.svg" alt="hamburger icon">
+    </div>
+
+    <div class="text-center flex-grow-1 d-none mt-auto" id="mobileMenu">
+        <ul class="header-list p-0 m-0 col-sm-12 col-md-12">
+            <li class="header-links d-inline-block">
+                <a class="anchor-link" href="/indexnow/">Why IndexNow?</a>
+            </li>
+            <li class="header-links d-inline-block">
+                <a class="anchor-link" href="/indexnow/getstarted">Get Started</a>
+            </li>
+            <li class="header-links d-inline-block">
+                <a class="anchor-link" href="/indexnow/getstarted#implementation">Implementation</a>
+            </li>
+            <li class="header-links d-inline-block">
+                <a href="https://www.indexnow.org" class="anchor-link" id="goToProtocolWebsite_mobile">IndexNow.org ></a>
+            </li>
+        </ul>
+    </div>
+</header>
+
+<!-- Intro section with teaser text -->
+
+<div class="intro-section">
+    <div class="intro-container">
+        <div class="intro-text">
+            <h1 class="intro-heading">
+                Take control of your SEO game with real-time indexing
+            </h1>
+            <br />
+            <p class="teaser-text">
+                Don’t wait for crawlers! Elevate your website’s performance and visibility with immediate content updates in multiple search engines.
+            </p>
+
+            <button id="getStartedButton" onclick="window.location.href='/indexnow'">
+                Why IndexNow?
+            </button>
+        </div>
+        <div class="intro-video">
+            <video class="video-player" controls controlslist="nodownload">
+                <source src="https://indexnowvideos.azureedge.net/indexnowvideos/IndexNow-1920x1080.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+</div>
+
+<!-- Why IndexNow-->
+<div class="WhyIndexNowHeader">
+    <div>
+        <svg width="200" height="1" viewBox="0 0 200 1" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <line opacity="0.4" y1="0.5" x2="200" y2="0.5" stroke="#2F69C5" />
+        </svg>
+
+        <h3>GET STARTED</h3>
+        <svg width="200" height="1" viewBox="0 0 200 1" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <line opacity="0.4" y1="0.5" x2="200" y2="0.5" stroke="#2F69C5" />
+        </svg>
+
+    </div>
+    <h1>
+        How to add IndexNow to your website
+    </h1>
+    <p>
+        Adopting IndexNow is fast and easy and you may already have IndexNow. To check if your website is already publishing your latest URLs (added, modified, deleted)
+        via IndexNow to search engines, connect to the <a href="https://www.bing.com/webmasters" target="_blank">Bing Webmaster Tools Portal</a>. If not, follow the steps below.
+    </p>
+</div>
+
+<!-- CMS -->
+<div class="BodyAndCards">
+    <div class="Body">
+        <h1>IndexNow is built into the following Content Management Solutions. </h1>
+        <p>No setup needed. You’re already using IndexNow.</p>
+    </div>
+</div>
+<div class="PlugInCards">
+    <div class="Card">
+        <div class="LogoSection">
+            <img src="https://indexnowvideos.azureedge.net/logos/wix-studio.png">
+        </div>
+        <div class="LinksSection">
+            <span class="Link"><a href="https://support.wix.com/en/article/how-wix-uses-indexnow-to-inform-search-engines-about-your-site-changes" target="_blank">Learn More</a></span>
+        </div>
+    </div>
+    <div class="Card">
+        <div class="LogoSection">
+            <img src="https://indexnowvideos.azureedge.net/logos/31Duda.png">
+        </div>
+        <div class="LinksSection">
+            <span class="Link"><a href="https://support.duda.co/hc/en-us/articles/4413233373335-IndexNow" target="_blank">Learn More</a></span>
+        </div>
+    </div>
+    <div class="Card">
+        <div class="LogoSection">
+            <img style="width: 65%" src="https://indexnowvideos.azureedge.net/logos/GD_LOCKUP_RGB_BW_Correct.svg">
+        </div>
+        <div class="LinksSection">
+            <span class="Link"><a href="https://www.godaddy.com/websites/website-builder" target="_blank">Learn More</a></span>
+        </div>
+    </div>
+    <div class="Card">
+        <div class="LogoSection">
+            <img src="https://indexnowvideos.azureedge.net/logos/xenforo.png">
+        </div>
+        <div class="LinksSection">
+            <span class="Link"><a href="https://xenforo.com/docs/xf2/seo#indexnow" target="_blank">Learn More</a></span>
+        </div>
+    </div>
+</div>
+<div class="PlugInCards">
+    <div class="Card">
+        <div class="LogoSection">
+            <img src="https://indexnowvideos.azureedge.net/logos/Milestone%20Logo%20Blue.png">
+        </div>
+        <div class="LinksSection">
+            <span class="Link"><a href="https://www.milestoneinternet.com/" target="_blank">Learn More</a></span>
+        </div>
+    </div>
+    <div class="Card">
+        <div class="LogoSection">
+            <img src="https://indexnowvideos.azureedge.net/logos/Shopify%20Logo.png">
+        </div>
+        <div class="LinksSection">
+            <span class="Link"><a href="https://apps.shopify.com/instaindex" target="_blank">Learn More</a></span>
+        </div>
+    </div>
+    <div class="Card HiddenCard"></div>
+    <div class="Card HiddenCard"></div>
+</div>
+<!-- Plugins -->
+<div class="BodyAndCards">
+    <div class="Body">
+        <h1>IndexNow can be enabled in minutes by installing the following third-party plugins*</h1>
+    </div>
+</div>
+
+<div class="PlugInCards">
+    <div class="Card">
+        <div class="LogoSection">
+            <h1>WordPress</h1>
+        </div>
+        <div class="LinksSection" style="text-align:left;">
+            <ul>
+                <li class="Link"><a href="https://wordpress.org/plugins/indexnow/" target="_blank">IndexNow plugin</a></li>
+                <li class="Link"><a href="https://yoast.com/what-is-indexnow/" target="_blank">Yoast</a></li>
+                <li class="Link"><a href="https://rankmath.com/kb/how-to-use-indexnow/" target="_blank">RankMath</a></li>
+                <li class="Link"><a href="https://aioseo.com/docs/integrating-with-indexnow-to-instantly-re-index-your-content/" target="_blank">AIOSEO</a></li>
+                <li class="Link"><a href="https://www.seopress.org/support/guides/google-indexing-api-with-seopress/#automatically-request-indexing-with-indexnow-api" target="_blank">SEOPress</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="Card">
+        <div class="LogoSection">
+            <h1>Shopify</h1>
+        </div>
+        <div class="LinksSection" style="text-align:left;">
+            <ul>
+                <li class="Link"><a href="https://apps.shopify.com/instaindex" target="_blank">InstaIndex</a></li>
+                <li class="Link"><a href="https://community.shopify.com/c/technical-q-a/indexnow-org-implementation/m-p/2022539/highlight/true#M124586" target="_blank">Method #2</a></li>
+                <li class="Link"><a href="https://codepal.ai/code-generator/query/48ZfCRcm/integrate-indexnow-into-shopify" target="_blank">Method #3 (Coding required)</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="Card">
+        <div class="LogoSection">
+            <h1>Joomla!</h1>
+        </div>
+        <div class="LinksSection" style="text-align:left;">
+            <ul>
+                <li class="Link"><a href="https://extensions.joomla.org/extension/aimy-sitemap-pro/" target="_blank">Aimy Sitemap PRO</a></li>
+                <li class="Link"><a href="https://extensions.joomla.org/extension/jsitemap/" target="_blank">JSitemap</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="Card">
+        <div class="LogoSection">
+            <h1>Bitrix24</h1>
+        </div>
+        <div class="LinksSection" style="text-align:left;">
+            <ul>
+                <li class="Link"><a href="https://marketplace.1c-bitrix.ru/solutions/vayti.reindex/" target="_blank">ReIndex (Russian)</a></li>
+                <li class="Link"><a href="https://marketplace.1c-bitrix.ru/solutions/madmen.indexnow/" target="_blank">TurboIndex (Russian)</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="PlugInCards">
+    <div class="Card">
+        <div class="LogoSection">
+            <h1>Drupal</h1>
+        </div>
+        <div class="LinksSection">
+            <span class="Link"><a href="https://www.drupal.org/project/index_now" target="_blank">Learn More</a></span>
+        </div>
+    </div>
+    <div class="Card">
+        <div class="LogoSection">
+            <h1>PrestaShop</h1>
+        </div>
+        <div class="LinksSection">
+            <span class="Link"><a href="https://addons.prestashop.com/en/seo-natural-search-engine-optimization/88693-op-art-indexnow-improve-indexability-automatically.html" target="_blank">Learn More</a></span>
+        </div>
+    </div>
+    <div class="Card">
+        <div class="LogoSection">
+            <h1>MODX</h1>
+        </div>
+        <div class="LinksSection">
+            <span class="Link"><a href="https://k2studio.pro/blog/post3.html" target="_blank">Learn More</a></span>
+        </div>
+    </div>
+    <div class="Card">
+        <div class="LogoSection">
+            <h1>Shopware</h1>
+        </div>
+        <div class="LinksSection">
+            <span class="Link"><a href="https://store.shopware.com/en/fishn32546318596m/bing-index-now.html" target="_blank">Learn More</a></span>
+        </div>
+    </div>
+</div>
+<div class="PlugInCards">
+    <div class="Card">
+        <div class="LogoSection">
+            <h1>Opencart</h1>
+        </div>
+        <div class="LinksSection">
+            <span class="Link"><a href="https://www.opencart.com/index.php?route=marketplace/extension/info&extension_id=43538&filter_search=indexnow" target="_blank">Learn More</a></span>
+            <!-- <span class="Link"><a href="https://www.opencart.com/index.php?route=marketplace/extension/info&extension_id=45420&filter_search=indexnow" target="_blank">Learn More</a></span> -->
+        </div>
+    </div>
+    <div class="Card">
+        <div class="LogoSection">
+            <h1>Typo3</h1>
+        </div>
+        <div class="LinksSection">
+            <span class="Link"><a href="https://packagist.org/packages/jweiland/indexnow" target="_blank">Learn More</a></span>
+            <!-- <span class="Link"><a href="https://github.com/jweiland-net/indexnow" target="_blank">Learn More</a></span> -->
+        </div>
+    </div>
+    <div class="Card">
+        <div class="LogoSection">
+            <h1>Umbraco</h1>
+        </div>
+        <div class="LinksSection">
+            <span class="Link"><a href="https://www.dyfort.com/products/umbraco-indexnow/" target="_blank">Learn More</a></span>
+        </div>
+    </div>
+    <div class="Card HiddenCard"></div>
+</div>
+
+<!-- CDN -->
+<div class="BodyAndCards">
+    <div class="Body">
+        <h1>IndexNow is supported by the following Content Delivery Networks:</h1>
+        <p>For a more managed IndexNow experience, we recommend using one of the above IndexNow Content Management Solutions, 
+        or following the instructions below to utilize an API for integration.</p>
+    </div>
+    <div class="Cards Cds">
+        <div class="Card">
+            <div class="LogoSection">
+                <img src="https://indexnowvideos.azureedge.net/logos/24CloudFlare.png">
+            </div>
+            <div class="LinksSection">
+                <span>Enable Crawler Hints in your Cloudflare account </span>
+                <span class="Link"><a href="https://blog.cloudflare.com/cloudflare-now-supports-indexnow/" target="_blank">Learn More</a></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ImplementationSteps -->
+
+<div class="implementation-steps">
+    <h1>If your website is not currently supported with any of the above systems, follow the simple, four-step process to integrate IndexNow in your website.</h1>
+    <div class="steps">
+        <div class="step">
+            <div class="step-number d-flex justify-content-center align-items-center">1</div>
+            <a href="#implementation" class="step-link">
+                Generate API Key
+            </a>
+            <p>
+                An API key is needed to match the ownership of the domain with submitted URLs.
+            </p>
+        </div>
+        <div class="step">
+            <div class="step-number d-flex justify-content-center align-items-center">2</div>
+            <a href="#implementation" class="step-link">
+                Host your API key
+            </a>
+            <p>
+                Host your UTF-8 key file in either the root of your website or
+                <a href="https://www.indexnow.org/documentation" target="_blank">other location</a> within your host
+            </p>
+        </div>
+        <div class="step">
+            <div class="step-number d-flex justify-content-center align-items-center">3</div>
+            <a href="#implementation" class="step-link">
+                Submit URLs
+            </a>
+            <p>
+                Submit individual or bulk URLs with your key location as your URL parameter.
+            </p>
+        </div>
+        <div class="step">
+            <div class="step-number d-flex justify-content-center align-items-center">4</div>
+            <a href="#implementation" class="step-link">
+                Verify URLs
+            </a>
+            <p>
+                Use Bing Webmaster Tools to verify if your URLs are received by search engines.
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Implementation Details -->
+<div class="samples container-fluid" id="implementation">
+    <div class="samples-body container-fluid">
+        <div class="implementationFirstRow">
+            <div class="implementationDetailCard">
+                <div class="header">
+                    <div class="stepNumber">1</div>
+                    <div class="stepTitle">Generate API Key</div>
+                </div>
+                <div class="body">
+                    <p>
+                        An API key is needed to match the ownership of the domain with submitted URLs.
+                    </p>
+                    <div class="generate-api-key" id="generateApiKey">
+                        <div class="input-grp">
+                            <div class="key-div">
+                                <text class="guid">IndexNow key</text>
+                            </div>
+                            <div class="downloadIcon" id="download-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
+                                     class="bi bi-download" viewBox="0 0 16 16">
+                                    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
+                                    <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <button class="generate-button" onClick="handleGenerate()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                                <path d="M9 1.5C4.85786 1.5 1.5 4.85786 1.5 9C1.5 13.1421 4.85786 16.5 9 16.5C13.1421 16.5 16.5 13.1421 16.5 9C16.5 8.6236 16.4723 8.2538 16.4188 7.8923C16.3515 7.4382 16.6839 7 17.1429 7C17.5138 7 17.839 7.2562 17.8953 7.6228C17.9642 8.0718 18 8.5317 18 9C18 13.9706 13.9706 18 9 18C4.02944 18 0 13.9706 0 9C0 4.02944 4.02944 0 9 0C11.3051 0 13.4077 0.86656 15 2.29168V1.25C15 0.83579 15.3358 0.5 15.75 0.5C16.1642 0.5 16.5 0.83579 16.5 1.25V4.25C16.5 4.66421 16.1642 5 15.75 5H12.75C12.3358 5 12 4.66421 12 4.25C12 3.83579 12.3358 3.5 12.75 3.5H14.0991C12.7609 2.25883 10.9691 1.5 9 1.5Z" fill="white" />
+                            </svg>
+                            Generate
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="implementationDetailCard">
+                <div class="header">
+                    <div class="stepNumber">2</div>
+                    <div class="stepTitle">Host your API key</div>
+                </div>
+                <div class="body">
+                    <p>
+                        <strong>Option 1</strong>: Host your UTF-8 key file at the root of your website: <a href="#implementation">https://www.example.com/<span class="key"></span>.txt</a>
+                        This file must contain the key <span class="key"></span>
+                    </p>
+                    <br>
+                    <p>
+                        <strong>Option 2</strong>: Host one to many UTF-8 encoded text key files in other locations within the same host. 
+                        <br><strong>Note</strong>: If you submit a URL,
+                        you must specify the key file location as keyLocation URLs parameter value: <a href="#implementation">
+                        https://&lt;searchengine&gt;/indexnow?url=http://www.example.com/product.html&key=<span class="key"></span>&keyLocation=http://www.example.com/myIndexNowKey63638.txt</a></p>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="implementationDetailCard">
+            <div class="header">
+                <div class="stepNumber">3</div>
+                <div class="stepTitle">Submit URLs</div>
+            </div>
+            <div class="body">
+                <p>
+                    Submit individual or bulk URLs with your key location as your URL parameter: <a href="#">Send one URL via an HTTP request</a>
+                </p>
+            </div>
+        </div>
+        <div class="CodeBlock">
+            <p>
+                <strong>
+                    Submitting a set of URL via an HTTP request
+                </strong>
+            </p>
+            <div class="code-block-row row">
+                <div class="col-sm-12 col-md-12 col-lg-6 container-fluid">
+                    <div class="code-block-title p-3 d-flex align-items-center">
+                        Request
+                    </div>
+                    <pre>
+                    <code>POST /IndexNow HTTP/1.1</code>
+                    <code>Content-Type: application/json; charset=utf-8</code>
+                    <code>Host: api.indexnow.org</code>
+                    <code>{</code>
+                    <code>  "host": "www.example.org",</code>
+                    <code>  "key": "<span class="key"></span>",</code>
+                    <code>  "keyLocation": "https://www.example.org/<text class="key"></text>.txt",</code>
+                    <code>  "urlList": [</code>
+                    <code>      "https://www.example.org/url1",</code>
+                    <code>      "https://www.example.org/folder/url2",</code>
+                    <code>      "https://www.example.org/url3"</code>
+                    <code>      ]</code>
+                    <code>}</code>
+                </pre>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-6">
+                    <div class="code-block-title p-3 d-flex align-items-center">
+                        Response
+                    </div>
+                    <div class="code-block-body p-3 align-items-center ">
+                        <div class="error-codes row">
+                            <div class="col-2"><b>HTTP Code</b></div>
+                            <div class="col-4"><b>Response</b></div>
+                            <div class="col-6"><b>Reasons</b></div>
+                        </div>
+                        <div class="error-codes row">
+                            <div class="col-2">200</div>
+                            <div class="col-4">Ok</div>
+                            <div class="col-6">URL submitted successfully</div>
+                        </div>
+                        <div class="error-codes row">
+                            <div class="col-2">400</div>
+                            <div class="col-4">Bad request</div>
+                            <div class="col-6">Invalid format</div>
+                        </div>
+                        <div class="error-codes row">
+                            <div class="col-2">403</div>
+                            <div class="col-4">Forbidden</div>
+                            <div class="col-6">In case of key not valid (e.g. key not found, file found but key not in the file)</div>
+                        </div>
+                        <div class="error-codes row">
+                            <div class="col-2">422</div>
+                            <div class="longWordInText col-4">Unprocessable Entity</div>
+                            <div class="col-6">In case of URLs don’t belong to the host or the key is not matching the schema in the protocol</div>
+                        </div>
+                        <div class="error-codes row">
+                            <div class="col-2">429</div>
+                            <div class="col-4">Too Many Requests</div>
+                            <div class="col-6">Too Many Requests (potential Spam)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="implementationDetailCard">
+            <div class="header">
+                <div class="stepNumber">4</div>
+                <div class="stepTitle">Verify URLs</div>
+            </div>
+            <div class="body">
+                <p>
+                    Use <a href="https://www.bing.com/webmasters">Bing Webmaster Tools</a> to verify if your URLs are received by search engines.
+                </p>
+            </div>
+        </div>
+        <p>
+            For more detailed information on integrating IndexNow into your website, please visit our documentation page at  <a href="https://www.indexnow.org/documentation" target="_blank">https://www.indexnow.org/documentation</a>.
+        </p>
+    </div>
+</div>
+
+<!-- FAQs -->
+
+<div class="faq container text-center" id="faq">
+    <h2 class="section-header">
+        FAQs
+    </h2>
+    <hr />
+    <div class="custom-accordion" tabindex="0">
+        <div class="custom-accordion-header">
+            <question>I submitted a URL, but I don’t see the URL indexed?</question>
+        </div>
+        <div class="custom-accordion-body d-none">
+            <answer>
+                Using IndexNow ensures that search engines are aware of your website changes. Using IndexNow does
+                not guarantee that web pages will be crawled or indexed by search engines. It may take time for the
+                change to reflect in search engines.
+            </answer>
+        </div>
+    </div>
+    <hr />
+    <div class="custom-accordion" tabindex="0">
+        <div class="custom-accordion-header">
+            <question>I just started using IndexNow, should I publish URLs changed last year?</question>
+        </div>
+        <div class="custom-accordion-body d-none">
+            <answer>
+                No, you should publish only URLs changing (added, updated, or deleted) since the time you start to
+                use IndexNow.
+            </answer>
+        </div>
+    </div>
+    <hr />
+    <div class="custom-accordion" tabindex="0">
+        <div class="custom-accordion-header show">
+            <question>Does the URLs submitted count on my crawl quota?</question>
+        </div>
+        <div class="custom-accordion-body">
+            <answer>
+                Yes, every crawl counts towards your crawl quota. By publishing them to INDEXNOW, you notify
+                search engines that you care about these URLs, search engines will generally prioritize crawling
+                these URLs versus other URLs they know.
+            </answer>
+        </div>
+    </div>
+    <hr />
+</div>
+<div class="see-more-faq container" onclick="redirectToIndexNowFaq()">
+    More FAQs >>
+</div>
+
+<!-- Footer -->
+
+<footer class="microsite-footer d-flex justify-content-center">
+    <div class="col-sm-12 col-md-12 col-lg-8 d-flex flex-row flex-wrap justify-content-between">
+        <div class="my-2 p-2 col-sm-12 col-lg-3">
+            <h2 class="footer-column-heading">
+                Dev Centers
+            </h2>
+            <ul class="footer-list">
+                <li class="footer-column-list"><a class="footer-anchor" href="https://dev.windows.com/" target="_blank">Windows</a></li>
+                <li class="footer-column-list">
+                    <a class="footer-anchor" href="https://developer.microsoft.com/en-us/office"
+                       target="_blank">Office</a>
+                </li>
+                <li class="footer-column-list">
+                    <a class="footer-anchor" href="https://www.visualstudio.com/" target="_blank">
+                        Visual
+                        Studio
+                    </a>
+                </li>
+                <li class="footer-column-list">
+                    <a class="footer-anchor" href="https://azure.microsoft.com/documentation"
+                       target="_blank">Microsoft Azure</a>
+                </li>
+                <li class="footer-column-list">
+                    <a class="footer-anchor" href="https://msdn.microsoft.com/developer-centers-msdn"
+                       target="_blank">More..</a>
+                </li>
+            </ul>
+        </div>
+        <div class="my-2 p-2 col-sm-12 col-lg-3">
+            <h2 class="footer-column-heading">
+                Bing Services
+            </h2>
+            <ul class="footer-list">
+                <li class="footer-column-list"><a class="footer-anchor" href="https://www.bing.com/webmasters" target="_blank">Bing Webmaster Tools</a></li>
+                <li class="footer-column-list"><a class="footer-anchor" href="https://www.bing.com/partners" target="_blank">Bing for partners</a></li>
+                <li class="footer-column-list"><a class="footer-anchor" href="https://bingplaces.com/" target="_blank">Bing Places</a></li>
+                <li class="footer-column-list">
+                    <a class="footer-anchor" href="http://about.ads.microsoft.com/en-us/home" target="_blank">
+                        Microsoft
+                        Advertising
+                    </a>
+                </li>
+                <li class="footer-column-list"><a class="footer-anchor" href="https://www.bing.com/dev/dev-center" target="_blank">Bing Developer Center</a></li>
+                <li class="footer-column-list">
+                    <a class="footer-anchor" href="https://www.bing.com/widget/knowledge" target="_blank">
+                        Bing Knowledge
+                        widget
+                    </a>
+                </li>
+                <li class="footer-column-list">
+                    <a class="footer-anchor" href="https://www.microsoft.com/translator/business/web/" target="_blank">
+                        Bing
+                        Translator
+                        widget
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="my-2 p-2 col-sm-12 col-lg-3">
+            <h2 class="footer-column-heading">
+                Blogs
+            </h2>
+            <ul class="footer-list">
+                <li class="footer-column-list"><a class="footer-anchor" href="http://blogs.bing.com/webmaster" target="_blank">Bing Webmaster blog</a></li>
+                <li class="footer-column-list"><a class="footer-anchor" href="http://blogs.bing.com/search" target="_blank">Bing Search blog</a></li>
+            </ul>
+
+            <h2 class="footer-column-heading">
+                Follow us on
+            </h2>
+            <ul class="footer-list">
+                <li class="footer-column-list">
+                    <a class="footer-anchor" href="https://www.facebook.com/Bingwebmaster/" target="_blank">
+                        <span class="label">Facebook</span>
+                    </a>
+                </li>
+                <li class="footer-column-list">
+                    <a class="footer-anchor" href="https://twitter.com/BingWMC" target="_blank">
+                        <span class="label">Twitter</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuidv4.min.js"
+        integrity="sha512-BCMqEPl2dokU3T/EFba7jrfL4FxgY6ryUh4rRC9feZw4yWUslZ3Uf/lPZ5/5UlEjn4prlQTRfIPYQkDrLCZJXA=="
+        crossorigin="anonymous"></script>
+<script src="/indexnow/scripts/IndexNowViewScript.js"></script>
+<script>handleGenerate()</script>
+</body>
+</html>

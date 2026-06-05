@@ -1,9 +1,27 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>如何优化 toolCall 给大模型带来的噪音问题</title>
+    
+    
+    
+    
+    <title>如何优化 toolCall 给大模型带来的噪音问题 - Jin&#39;s AI Companion</title>
+    <meta name="description" content="讨论如何把原始工具输出整理成模型可读的 Runtime Observation，降低 toolCall 给大模型上下文带来的噪音。">
+    <link rel="canonical" href="https://agentlab.fun/blog/2026-05-25-toolcall-input-noise/">
+    
+    
+    
+    <link rel="alternate" type="application/atom+xml" title="Jin&#39;s AI Companion" href="https://agentlab.fun/feed.xml">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Jin&#39;s AI Companion">
+    <meta property="og:title" content="如何优化 toolCall 给大模型带来的噪音问题">
+    <meta property="og:description" content="讨论如何把原始工具输出整理成模型可读的 Runtime Observation，降低 toolCall 给大模型上下文带来的噪音。">
+    <meta property="og:url" content="https://agentlab.fun/blog/2026-05-25-toolcall-input-noise/">
+    <meta property="og:image" content="https://agentlab.fun/assets/profile/avatar.png">
+    <meta name="twitter:card" content="summary_large_image">
     <style>
     :root {
         --bg: #fff;
@@ -664,16 +682,46 @@
     }
 </style>
 
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "如何优化 toolCall 给大模型带来的噪音问题",
+        "description": "讨论如何把原始工具输出整理成模型可读的 Runtime Observation，降低 toolCall 给大模型上下文带来的噪音。",
+        "url": "https://agentlab.fun/blog/2026-05-25-toolcall-input-noise/",
+        "inLanguage": "zh-CN",
+        "datePublished": "2026-05-26T12:00:00.000Z",
+        "dateModified": "2026-05-26T12:00:00.000Z",
+        "image": "https://agentlab.fun/assets/profile/avatar.png",
+        "author": {
+            "@type": "Person",
+            "name": "Jin Shan",
+            "url": "https://agentlab.fun"
+        },
+        "publisher": {
+            "@type": "Person",
+            "name": "Jin Shan"
+        },
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://agentlab.fun/blog/2026-05-25-toolcall-input-noise/"
+        }
+    }
+    </script>
 </head>
 <body>
     <header class="site-header">
     <div class="site-header__inner">
         <a href="/" class="site-title">Jin 的个人思考</a>
         <nav class="site-nav" aria-label="主导航">
+            
             <a href="/">首页</a>
+            <a href="/topics/">专题</a>
             <a href="/agents/">Agent 实验</a>
             <a href="/insights/">洞察</a>
             <a href="/sources/">来源</a>
+            <a href="/en/topics/agent-runtime/">English</a>
+            
         </nav>
     </div>
 </header>
@@ -1150,6 +1198,26 @@
         </svg>
         <figcaption>Agent runtime 的质量，一半在调用工具，一半在整理世界给模型看。</figcaption>
       </figure>
+    </section>
+
+    <section>
+      <h2>相关专题</h2>
+      <ul>
+        <li><a href="/topics/tool-calling/">Tool Calling：AI Agent 工具调用与上下文噪音治理</a></li>
+        <li><a href="/topics/agent-runtime/">Agent Runtime：AI Agent 执行环境与协议设计</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>常见问题</h2>
+      <h3>Runtime Observation 是什么？</h3>
+      <p>它是 Runtime 整理后的观察内容，不是原始 stdout 或 JSON。它应该说明为什么执行、结果是什么、证据在哪里、哪些信息需要模型继续判断。</p>
+
+      <h3>为什么不直接把工具结果塞回模型？</h3>
+      <p>原始工具结果面向机器，不面向推理。模型需要的是能支持下一步判断的工作记忆，而不是所有中间材料。</p>
+
+      <h3>优化 toolCall 输入最该看什么指标？</h3>
+      <p>可以看任务成功率、模型轮次、上下文 token、错误恢复质量、证据可追溯性，以及最终答案是否能对应到真实执行记录。</p>
     </section>
 
         </main>

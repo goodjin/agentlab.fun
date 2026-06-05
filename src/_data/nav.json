@@ -2,6 +2,7 @@
     "items": [
         { "label": "首页", "url": "/" },
         { "label": "博客", "url": "/blog/" },
+        { "label": "专题", "url": "/topics/" },
         { "label": "洞察", "url": "/insights/" }
     ]
 }

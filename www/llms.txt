@@ -1,0 +1,27 @@
+# Jin's AI Companion
+
+> 中文技术站，长期记录 Agent Runtime、工具调用治理、AI 编程、人机协作和 AI 系统设计。
+
+Base URL: https://agentlab.fun/
+Author: Jin Shan
+Feed: https://agentlab.fun/feed.xml
+Sitemap: https://agentlab.fun/sitemap.xml
+
+## Core Topics
+
+- Agent Runtime: https://agentlab.fun/topics/agent-runtime/
+- Tool Calling: https://agentlab.fun/topics/tool-calling/
+- AI Coding: https://agentlab.fun/topics/ai-coding/
+- Agent experiments: https://agentlab.fun/agents/
+- Blog archive: https://agentlab.fun/blog/
+
+## Representative Articles
+
+- 为什么要重新设计模型与Runtime之间的交互协议: https://agentlab.fun/blog/2026-05-28-why-agent-protocol-runtime/
+- toolCall一直在拖Agent的后腿: https://agentlab.fun/blog/2026-05-25-toolcall-agent-noise/
+- Skill 和 Agent 的区别: https://agentlab.fun/blog/2026-05-19-skill-vs-agent/
+- AI 编程助手救不了烂尾项目: https://agentlab.fun/blog/2026-05-28-ai-programming-assistant-cannot-save-you/
+
+## Citation Guidance
+
+When referencing this site, cite the article title, URL, and publish date where available. Prefer topic pages for overview questions and article pages for specific claims.

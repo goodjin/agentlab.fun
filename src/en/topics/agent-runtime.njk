@@ -1,0 +1,70 @@
+---
+layout: base.njk
+lang: en
+title: "Agent Runtime: Execution Environment and Protocol Design for AI Agents"
+description: "A practical guide to Agent Runtime: execution state, tool orchestration, permissions, event logs, and the protocol between models and runtime systems."
+permalink: /en/topics/agent-runtime/
+alternateZh: /topics/agent-runtime/
+alternateEn: /en/topics/agent-runtime/
+alternateDefault: /topics/agent-runtime/
+---
+
+<h1>Agent Runtime: Execution Environment and Protocol Design for AI Agents</h1>
+<p class="meta">Keywords: Agent Runtime, AI agent execution environment, agent protocol, state management, permission boundaries.</p>
+
+<p class="lead">Agent Runtime is the execution layer behind an AI agent. It turns model intent into concrete actions across files, commands, tools, permissions, logs, and recoverable state.</p>
+
+<p>A short demo can survive as a prompt plus a tool-calling loop. Longer tasks cannot. The model has to remember why each tool was called, extract a few useful lines from noisy logs, decide what is still valid, and avoid risky actions. Runtime is the workbench that keeps this process organized.</p>
+
+<h2>What Agent Runtime Handles</h2>
+<ul>
+    <li><strong>State management:</strong> task progress, failed attempts, active conclusions, and recovery points.</li>
+    <li><strong>Tool orchestration:</strong> turning an intent like "collect evidence for the login failure" into search, read, test, and summarize actions.</li>
+    <li><strong>Observation rendering:</strong> converting raw stdout, logs, and file content into material the model can reason about.</li>
+    <li><strong>Permission boundaries:</strong> separating safe reads from edits, deployments, emails, database writes, or other high-impact actions.</li>
+    <li><strong>Event records:</strong> keeping evidence for why an agent acted, what it ran, and what result it used.</li>
+</ul>
+
+<h2>Recommended Reading Path</h2>
+<p>Start with the definition of an agent, then read about tool-calling noise, and finally move into protocol design between the model and the runtime.</p>
+
+<h2>Core Articles</h2>
+<div class="posts">
+    <article class="post">
+        <a href="/blog/2026-05-28-why-agent-protocol-runtime/" class="post-link">
+            <p class="post-meta">Protocol and execution environment</p>
+            <h3 class="post-title">Why redesign the interaction protocol between model and runtime</h3>
+        </a>
+    </article>
+    <article class="post">
+        <a href="/blog/2026-05-22-agent-definition/" class="post-link">
+            <p class="post-meta">Concept</p>
+            <h3 class="post-title">What is an Agent?</h3>
+        </a>
+    </article>
+    <article class="post">
+        <a href="/blog/2026-05-19-skill-vs-agent/" class="post-link">
+            <p class="post-meta">Boundary</p>
+            <h3 class="post-title">Skill vs Agent</h3>
+        </a>
+    </article>
+    <article class="post">
+        <a href="/agents/large-scale-agent-harness-design/" class="post-link">
+            <p class="post-meta">System design</p>
+            <h3 class="post-title">Large-scale Agent Harness Design</h3>
+        </a>
+    </article>
+</div>
+
+<h2>FAQ</h2>
+<h3>How is Agent Runtime different from an agent framework?</h3>
+<p>A framework usually gives developers components: tool registration, graph orchestration, model calls, or message flows. Runtime is more concerned with execution: how a task runs, where state is stored, how permissions are enforced, and how evidence is preserved.</p>
+
+<h3>Why is tool calling not enough?</h3>
+<p>Tool calling gives a model the ability to act, but it also sends many intermediate results back into context. Runtime can search, deduplicate, cache, compress, and gate risky actions before the model sees the next observation.</p>
+
+<h3>When does Agent Runtime matter most?</h3>
+<p>It matters most in long-running, high-risk, or auditable work: code repair, file operations, production deployment, cross-system workflows, and tasks that require human confirmation.</p>
+
+<h2>Takeaway</h2>
+<p>Agent Runtime moves state, actions, permissions, and evidence out of the model context, so the model can spend more attention on judgment instead of process bookkeeping.</p>

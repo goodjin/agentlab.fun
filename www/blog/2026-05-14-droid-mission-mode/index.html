@@ -1,9 +1,27 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>droid的mission模式是怎么设计的</title>
+    
+    
+    
+    
+    <title>droid的mission模式设计分析 - Jin&#39;s AI Companion</title>
+    <meta name="description" content="droid的mission模式设计分析 factory.ai推出的AI编程工具droid，号称是 一个能自主完成开发的 AI 团队 。 崔老板说它是唯一能跑 16 天不崩的企业级编排，够夸张的。 智能体自主长时运行确实是AI-Agent赛道大家都在争夺的一个热点。 你有没有碰到过这类问题：agent执行任务时跑着跑着它...">
+    <link rel="canonical" href="https://agentlab.fun/blog/2026-05-14-droid-mission-mode/">
+    
+    
+    
+    <link rel="alternate" type="application/atom+xml" title="Jin&#39;s AI Companion" href="https://agentlab.fun/feed.xml">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Jin&#39;s AI Companion">
+    <meta property="og:title" content="droid的mission模式设计分析">
+    <meta property="og:description" content="droid的mission模式设计分析 factory.ai推出的AI编程工具droid，号称是 一个能自主完成开发的 AI 团队 。 崔老板说它是唯一能跑 16 天不崩的企业级编排，够夸张的。 智能体自主长时运行确实是AI-Agent赛道大家都在争夺的一个热点。 你有没有碰到过这类问题：agent执行任务时跑着跑着它...">
+    <meta property="og:url" content="https://agentlab.fun/blog/2026-05-14-droid-mission-mode/">
+    <meta property="og:image" content="https://agentlab.fun/assets/profile/avatar.png">
+    <meta name="twitter:card" content="summary_large_image">
     <style>
     :root {
         --bg: #fff;
@@ -664,16 +682,46 @@
     }
 </style>
 
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "droid的mission模式设计分析",
+        "description": "droid的mission模式设计分析 factory.ai推出的AI编程工具droid，号称是 一个能自主完成开发的 AI 团队 。 崔老板说它是唯一能跑 16 天不崩的企业级编排，够夸张的。 智能体自主长时运行确实是AI-Agent赛道大家都在争夺的一个热点。 你有没有碰到过这类问题：agent执行任务时跑着跑着它...",
+        "url": "https://agentlab.fun/blog/2026-05-14-droid-mission-mode/",
+        "inLanguage": "zh-CN",
+        "datePublished": "2026-05-14T10:16:04.000Z",
+        "dateModified": "2026-05-14T10:16:04.000Z",
+        "image": "https://agentlab.fun/assets/profile/avatar.png",
+        "author": {
+            "@type": "Person",
+            "name": "Jin Shan",
+            "url": "https://agentlab.fun"
+        },
+        "publisher": {
+            "@type": "Person",
+            "name": "Jin Shan"
+        },
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://agentlab.fun/blog/2026-05-14-droid-mission-mode/"
+        }
+    }
+    </script>
 </head>
 <body>
     <header class="site-header">
     <div class="site-header__inner">
         <a href="/" class="site-title">Jin 的个人思考</a>
         <nav class="site-nav" aria-label="主导航">
+            
             <a href="/">首页</a>
+            <a href="/topics/">专题</a>
             <a href="/agents/">Agent 实验</a>
             <a href="/insights/">洞察</a>
             <a href="/sources/">来源</a>
+            <a href="/en/topics/agent-runtime/">English</a>
+            
         </nav>
     </div>
 </header>
@@ -723,7 +771,7 @@
 </aside>
 
         <main class="site-main article-shell">
-            <h1>droid工具介绍</h1><p>factory.ai推出的AI编程工具droid，号称是<strong>一个能自主完成开发的 AI 团队</strong>。</p><p>崔老板说它是唯一能跑 16 天不崩的企业级编排，够夸张的。</p><p>智能体自主长时运行确实是AI-Agent赛道大家都在争夺的一个热点。</p><p>你有没有碰到过这类问题：agent执行任务时跑着跑着它就停下来了，询问你要不要继续，比如你交待了它要做8件事，它做完3个就停下来了：“我已经完成了1、2、3，要不要继续做剩下的”，即使你在交待任务时告诉它中途不要停也没用。</p><p>这是因为模型普遍存在上下文焦虑，模型本身对于「超长任务什么时候该停」的判断就是模糊的。</p><p>最近A记和O记都推出了goal模式，就是用于让agent一直自主推进任务执行到底用的。</p><p>而droid的mission模式，早就已经实现这个能力了。</p><p>它是怎么做到的？</p><p>长时间运行任务又是怎么运行的？给一句话需求就开始跑个不停吗？</p><p>为了研究这个工具是怎么做的，以及是否真如它所说可以长时运行任务，我在本地采用抓包的方式试运行了几个mission，根据抓到的日志分析了下它的设计思路。</p><p></p><p></p><h2>第一阶段：规划（Planning → Worker Design → Artifacts）</h2><p>从运行流程看，droid的设计跟业界主流的思路是很相似的，在启动mission之前先定义好规约：跟用户讨论需求和实现方案，通过多轮主动询问，澄清边界，定义约束，对齐验收标准，AI特色的feature拆分，将一个mission拆成多个feature，这样方便让多个agent去执行。</p><p>所以droid不是设计用来满足一句话需求，相反，它对需求计划阶段相当重视，将它作为一个完整的阶段来设计，这一阶段必须产出mission相关的说明文档、任务拆解、需要哪些worker来执行以及他们需要的技能。</p><p></p><h3>mission目录</h3><p>droid在第一阶段为每个mission创建了一个持久化目录：</p><p></p><p></p><p></p><p>features:有意思的是任务清单居然是用json格式保存的：features.json，难道它会让程序读取并进行编排？不完全是由大模型来驱动吗？等会我们分析下日志再看看是不是这样。</p><p>在droid的设计里，Feature 是最小执行单元，一个 feature 对应一个原子化开发任务。每个 feature 有完整的元数据：</p><pre><code>{
+            <h1>droid的mission模式设计分析</h1><p>factory.ai推出的AI编程工具droid，号称是<strong>一个能自主完成开发的 AI 团队</strong>。</p><p>崔老板说它是唯一能跑 16 天不崩的企业级编排，够夸张的。</p><p>智能体自主长时运行确实是AI-Agent赛道大家都在争夺的一个热点。</p><p>你有没有碰到过这类问题：agent执行任务时跑着跑着它就停下来了，询问你要不要继续，比如你交待了它要做8件事，它做完3个就停下来了：“我已经完成了1、2、3，要不要继续做剩下的”，即使你在交待任务时告诉它中途不要停也没用。</p><p>这是因为模型普遍存在上下文焦虑，模型本身对于「超长任务什么时候该停」的判断就是模糊的。</p><p>最近A记和O记都推出了goal模式，就是用于让agent一直自主推进任务执行到底用的。</p><p>而droid的mission模式，早就已经实现这个能力了。</p><p>它是怎么做到的？</p><p>长时间运行任务又是怎么运行的？给一句话需求就开始跑个不停吗？</p><p>为了研究这个工具是怎么做的，以及是否真如它所说可以长时运行任务，我在本地采用抓包的方式试运行了几个mission，根据抓到的日志分析了下它的设计思路。</p><p></p><p></p><h2>第一阶段：规划（Planning → Worker Design → Artifacts）</h2><p>从运行流程看，droid的设计跟业界主流的思路是很相似的，在启动mission之前先定义好规约：跟用户讨论需求和实现方案，通过多轮主动询问，澄清边界，定义约束，对齐验收标准，AI特色的feature拆分，将一个mission拆成多个feature，这样方便让多个agent去执行。</p><p>所以droid不是设计用来满足一句话需求，相反，它对需求计划阶段相当重视，将它作为一个完整的阶段来设计，这一阶段必须产出mission相关的说明文档、任务拆解、需要哪些worker来执行以及他们需要的技能。</p><p></p><h3>mission目录</h3><p>droid在第一阶段为每个mission创建了一个持久化目录：</p><p></p><p></p><p></p><p>features:有意思的是任务清单居然是用json格式保存的：features.json，难道它会让程序读取并进行编排？不完全是由大模型来驱动吗？等会我们分析下日志再看看是不是这样。</p><p>在droid的设计里，Feature 是最小执行单元，一个 feature 对应一个原子化开发任务。每个 feature 有完整的元数据：</p><pre><code>{
    "id": "xctest-component-reader-vm",
    "description": "...",
    "skillName": "xctest-worker",      // ← 关联的 worker 类型

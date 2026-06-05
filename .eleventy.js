@@ -9,6 +9,7 @@ const site = {
 
 module.exports = function(eleventyConfig) {
     eleventyConfig.addPassthroughCopy("src/assets");
+    eleventyConfig.addPassthroughCopy({ "src/_headers": "_headers" });
     eleventyConfig.addGlobalData("site", site);
 
     // Filters

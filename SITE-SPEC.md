@@ -338,15 +338,16 @@ tags: ["标签1", "标签2"]
 
 ---
 
-## 六、更新流��
+## 六、更新流程
 
 ### 6.1 每日任务
 
 1. 写一篇深度博客 → `blog/YYYY-MM-DD.md`
 2. 生成 HTML → `blog/YYYY-MM-DD.html`
 3. 更新博客列表 → `blog/index.html`
-4. 同步到服务器
-5. 验证页面
+4. 构建 Eleventy 输出 → `www/`
+5. 发布到 Cloudflare Pages
+6. 验证页面
 
 ### 6.2 自动化脚本
 
@@ -354,7 +355,7 @@ tags: ["标签1", "标签2"]
 1. 更新 insights 索引
 2. 生成博客 HTML
 3. 生成博客列表
-4. 同步到服务器
+4. 构建站点输出
 5. 验证页面
 
 ---
@@ -379,7 +380,7 @@ tags: ["标签1", "标签2"]
 │     ↓                                      │
 │  6. 更新博客列表 (generate-blog-index.js)      │
 │     ↓                                      │
-│  7. 同步到服务器                           │
+│  7. 发布到 Cloudflare Pages                 │
 └──────────────────────────────────────────────────────────┘
 ```
 
@@ -461,10 +462,10 @@ tags: ["标签1", "标签2"]
 
 ```bash
 # 检查背景色
-curl -s http://212.64.11.60/blog/2026-05-01.html | grep "background"
+curl -L -s https://agentlab.fun/blog/2026-05-01.html | grep "background"
 
 # 检查导航栏
-curl -s http://212.64.11.60/blog/2026-05-01.html | grep "nav"
+curl -L -s https://agentlab.fun/blog/2026-05-01.html | grep "nav"
 ```
 
 ---
@@ -485,49 +486,39 @@ node scripts/generate-blog-html.js
 node scripts/generate-blog-index.js
 ```
 
-### 9.2 ��务器同步
+### 9.2 Cloudflare Pages 发布
 
 ```bash
-# 同步博客目录
-rsync -avz -e "ssh -i ~/.ssh/tencent_01_hello" \
-    www/blog/ hello@212.64.11.60:/var/www/hello/blog/
-
-# 同步首页
-rsync -avz -e "ssh -i ~/.ssh/tencent_01_hello" \
-    www/index.html www/home.html hello@212.64.11.60:/var/www/hello/
+./build.sh
+npx wrangler pages deploy www --project-name agentlab-fun
 ```
 
-### 9.3 权限修复
+### 9.3 历史服务器同步
 
-```bash
-# SSH 到服务器修复权限
-ssh -i ~/.ssh/tencent_01_hello hello@212.64.11.60 "
-    chmod -R 755 /var/www/hello/blog/
-    chmod 644 /var/www/hello/blog/*.html
-"
-```
+`212.64.11.60:/var/www/hello` 是旧部署目标。当前 `https://agentlab.fun` 由 Cloudflare Pages 服务，日常发布不要使用 rsync 到旧服务器。
 
 ### 9.4 验证命令
 
 ```bash
 # 检查所有关键页面
-for page in "/" "/blog/" "/blog/2026-05-01.html" "/insights/"; do
-    status=$(curl -s -o /dev/null -w "$page: %{http_code}\n" http://212.64.11.60$page)
+for page in "/" "/blog/" "/blog/2026-05-01.html" "/insights/" "/topics/" "/sitemap.xml" "/feed.xml" "/llms.txt" "/robots.txt"; do
+    status=$(curl -L -s -o /dev/null -w "$page: %{http_code} %{content_type}\n" "https://agentlab.fun$page")
     echo -e "$status"
 done
 ```
 
 ---
 
-## 十、服务器信息
+## 十、部署信息
 
 | 项目 | 值 |
 |------|------|
-| 域名/IP | 212.64.11.60 |
-| SSH 用户 | hello |
-| SSH 密钥 | ~/.ssh/tencent_01_hello |
-| 网站根目录 | /var/www/hello/ |
-| 访问 URL | http://212.64.11.60/ |
+| 主域名 | https://agentlab.fun/ |
+| 部署平台 | Cloudflare Pages |
+| Pages 项目 | agentlab-fun |
+| 构建输出 | www/ |
+| 发布命令 | `npx wrangler pages deploy www --project-name agentlab-fun` |
+| 历史服务器 | `212.64.11.60:/var/www/hello`，不作为当前主发布面 |
 
 ---
 
@@ -536,8 +527,8 @@ done
 ### 11.1 每日检查
 
 - [ ] 今天已生成博客
-- [ ] 博客已同步到服务器
-- [ ] 服务器可访问
+- [ ] 已发布到 Cloudflare Pages
+- [ ] https://agentlab.fun/ 可访问
 - [ ] 博客详情页无返回按钮
 - [ ] 背景色为白色
 
@@ -552,12 +543,12 @@ done
 
 - [ ] 清理过期文件
 - [ ] 更新规范文档
-- [ ] 检查服务器磁盘空间
+- [ ] 检查 Cloudflare Pages 部署记录
 - [ ] 审查内容质量
 
 ---
 
 **维护者：** 進 (Jin)  
-**版本：** 1.0  
-**更新：** 2026-05-01  
-**下次审查：** 2026-05-07
+**版本：** 1.1  
+**更新：** 2026-06-01  
+**下次审查：** 2026-07-01

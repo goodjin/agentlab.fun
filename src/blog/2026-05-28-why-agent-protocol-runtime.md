@@ -1,5 +1,6 @@
 ---
 title: "为什么要重新设计模型与Runtime之间的交互协议"
+description: "从 toolCall loop 的问题出发，解释 AI Agent 为什么需要 Runtime、状态管理、权限边界和模型与执行环境之间的新交互协议。"
 date: "2026-05-28T14:40:00+08:00"
 tags:
   - blog
@@ -170,3 +171,22 @@ Runtime 在需要纪律的地方出现：文件怎么读，命令怎么跑，状
 关于协议本身的结构和完整内容，可以看这里：
 
 [Agent Protocol DSL：LLM 与 Runtime 的交互协议](/agents/agent-protocol-dsl/)
+
+## 相关专题
+
+- [Agent Runtime：AI Agent 执行环境与协议设计](/topics/agent-runtime/)
+- [Tool Calling：AI Agent 工具调用与上下文噪音治理](/topics/tool-calling/)
+
+## 常见问题
+
+### Agent Runtime 为什么要从模型上下文里拆出来？
+
+因为长任务里会有日志、状态、权限、失败记录和可恢复点。它们都塞进模型上下文，会消耗注意力，也会让模型反复处理过期信息。Runtime 更适合保存和整理这些过程材料。
+
+### 模型和 Runtime 应该怎么分工？
+
+模型负责理解目标、判断方案和解释结果；Runtime 负责执行工具、保存证据、管理状态和控制高风险动作。这个分工能让 Agent 更容易审计，也更容易恢复。
+
+### 新协议要替代 tool calling 吗？
+
+不一定要完全替代。更现实的方向是让模型少直接操作底层工具，多表达任务意图；Runtime 再把这些意图落到具体工具调用和执行记录里。

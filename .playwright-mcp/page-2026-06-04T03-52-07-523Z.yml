@@ -1,0 +1,359 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "Jin 的个人思考" [ref=e4] [cursor=pointer]:
+        - /url: /
+      - navigation "主导航" [ref=e5]:
+        - link "首页" [ref=e6] [cursor=pointer]:
+          - /url: /
+        - link "专题" [ref=e7] [cursor=pointer]:
+          - /url: /topics/
+        - link "Agent 实验" [ref=e8] [cursor=pointer]:
+          - /url: /agents/
+        - link "洞察" [ref=e9] [cursor=pointer]:
+          - /url: /insights/
+        - link "来源" [ref=e10] [cursor=pointer]:
+          - /url: /sources/
+  - generic [ref=e11]:
+    - complementary "个人简介" [ref=e12]:
+      - generic [ref=e13]:
+        - img "Shan . Jin" [ref=e14]
+        - heading "Shan . Jin" [level=2] [ref=e15]
+        - paragraph [ref=e16]: AI Agent Builder
+        - paragraph [ref=e17]: 关注 AI 智能体、harness 工程与独立创造。
+        - paragraph [ref=e18]: 这里记录我对 AI 智能体、协议设计、工程 harness 和个人创造系统的观察与实验。
+        - generic "联系方式" [ref=e19]:
+          - 'link "Email: goodjin2@gmail.com" [ref=e20] [cursor=pointer]':
+            - /url: mailto:goodjin2@gmail.com
+            - img [ref=e21]
+          - 'link "GitHub: goodjin" [ref=e24] [cursor=pointer]':
+            - /url: https://github.com/goodjin
+            - img [ref=e25]
+          - group [ref=e27]:
+            - generic "微信公众号二维码" [ref=e28] [cursor=pointer]:
+              - img [ref=e29]
+        - generic "个人链接" [ref=e32]:
+          - link "Agent 实验" [ref=e33] [cursor=pointer]:
+            - /url: /agents/
+          - link "Insights" [ref=e34] [cursor=pointer]:
+            - /url: /insights/
+          - link "Sources" [ref=e35] [cursor=pointer]:
+            - /url: /sources/
+    - main [ref=e36]:
+      - article [ref=e38]:
+        - generic [ref=e39]:
+          - generic [ref=e40]: Open Agent Harness
+          - heading "大规模 Agent 系统的 Harness设计" [level=1] [ref=e41]
+          - paragraph [ref=e42]: 从 tool calling wrapper 到可治理的 agent operating environment。本文讨论 Agent 规模化之后，如何防止模型失控，并让 Runtime、Action、State、Trace、Context、Workflow、UI 和人形成可控协作。
+          - generic "文章元信息" [ref=e43]:
+            - generic [ref=e44]: 面向 Agent Runtime 技术读者
+            - generic [ref=e45]: 关注治理、状态与恢复
+            - generic [ref=e46]: 基于 Open Agent Harness 协议设计
+        - navigation "文章目录" [ref=e47]:
+          - strong [ref=e48]: 目录
+          - list [ref=e49]:
+            - listitem [ref=e50]:
+              - link "规模化之后，如何防止模型失控" [ref=e51] [cursor=pointer]:
+                - /url: "#why-scale"
+            - listitem [ref=e52]:
+              - link "Harness：可治理的 agent operating environment" [ref=e53] [cursor=pointer]:
+                - /url: "#definition"
+            - listitem [ref=e54]:
+              - link "Runtime：Agent 系统的治理中心" [ref=e55] [cursor=pointer]:
+                - /url: "#runtime"
+            - listitem [ref=e56]:
+              - link "准确地说：Agent 是模板，Session 才执行任务" [ref=e57] [cursor=pointer]:
+                - /url: "#session"
+            - listitem [ref=e58]:
+              - link "Action 表意，用声明式替代命令式 Tool Call" [ref=e59] [cursor=pointer]:
+                - /url: "#action"
+            - listitem [ref=e60]:
+              - link "系统状态治理：Event Log、Projection、Trace" [ref=e61] [cursor=pointer]:
+                - /url: "#state"
+            - listitem [ref=e62]:
+              - link "Context：不是简单 transcript 回放" [ref=e63] [cursor=pointer]:
+                - /url: "#context"
+            - listitem [ref=e64]:
+              - link "Agent Session 不直接通信" [ref=e65] [cursor=pointer]:
+                - /url: "#collaboration"
+            - listitem [ref=e66]:
+              - link "Workflow：协议支持直接生成，又不止于 Workflow" [ref=e67] [cursor=pointer]:
+                - /url: "#workflow"
+            - listitem [ref=e68]:
+              - link "人的位置：UI 治理操作面，人也是生产环境的一环" [ref=e69] [cursor=pointer]:
+                - /url: "#ui"
+            - listitem [ref=e70]:
+              - link "与常见 Harness 理念的不同之处" [ref=e71] [cursor=pointer]:
+                - /url: "#comparison"
+            - listitem [ref=e72]:
+              - link "大规模 Agent 协作的关键是可控" [ref=e73] [cursor=pointer]:
+                - /url: "#ending"
+        - generic [ref=e74]:
+          - heading "1. 规模化之后，如何防止模型失控" [level=2] [ref=e75]
+          - paragraph [ref=e76]: 模型失控不一定表现为“模型有了自己的意志”。在工程系统里，它更常见的样子是：模型连续行动，却没有稳定状态边界；工具调用不断发生，却没人能解释哪些动作被接受；多个会话都在推进任务，却没有统一的事实来源。
+          - paragraph [ref=e77]: 单个 Agent loop 里，这些问题容易被聊天记录掩盖。系统规模变大后，长任务、多会话、多工具、多 Agent、人工审批、Workflow 和 UI 操作会同时出现。此时要防止失控，不能只靠更长 prompt 或更严格的工具描述，而要回答一组运行时问题：谁能改变状态？哪些事实被系统接受？失败后从哪里恢复？后续 Session 应该读什么？UI 展示的是自然语言解释，还是系统当前状态？
+          - paragraph [ref=e78]: Harness 的第一职责，就是把模型的行动冲动放进可治理边界。模型可以声明意图，可以提出下一步，可以请求工具、委派任务或生成 Workflow；但状态变更、权限校验、执行调度、事件记录和恢复路径要由 Runtime 接管。
+          - figure "规模化之后，失控来自多个执行主体、状态源、操作入口和恢复路径同时存在。Harness 先要把模型行动放进治理边界。" [ref=e79]:
+            - img "从单 Agent 循环到大规模 Agent 系统 左侧是单模型工具循环，右侧是多个会话、工具、状态、UI 和人工决策共同参与的运行环境。" [ref=e80]:
+              - generic [ref=e82]: Model
+              - generic [ref=e83]: plan / act
+              - generic [ref=e85]: Tool
+              - generic [ref=e86]: observation
+              - generic [ref=e89]: 单 Agent loop
+              - generic [ref=e90]: 能跑，但状态边界很薄
+              - generic [ref=e91]:
+                - generic [ref=e93]: Runtime
+                - generic [ref=e94]: 治理控制面
+                - generic [ref=e96]: Model
+                - generic [ref=e98]: Tools
+                - generic [ref=e100]: State
+                - generic [ref=e102]: UI
+                - generic [ref=e104]: Human
+                - generic [ref=e106]: Sessions
+                - generic [ref=e113]: 大规模 Agent 系统
+                - generic [ref=e114]: 重点从“会调用工具”变成“可治理运行”
+            - generic [ref=e115]: 规模化之后，失控来自多个执行主体、状态源、操作入口和恢复路径同时存在。Harness 先要把模型行动放进治理边界。
+        - generic [ref=e116]:
+          - heading "2. Harness：可治理的 agent operating environment" [level=2] [ref=e117]
+          - paragraph [ref=e118]: 常见资料会把 Harness 描述成模型外部的基础设施：orchestration loop、tools、memory、context management、state persistence、guardrails、verification loops、sandbox、observability。这些描述有用，但更像组件清单。
+          - paragraph [ref=e119]: 更适合大规模 Agent 系统的定义是：Harness 是一个可治理的 agent operating environment。它不是模型，不是 prompt 模板集合，也不是 tool calling wrapper。它提供的是一套运行环境，让模型会话、工具、工作流、人工决策、长期记忆和 UI 操作都能被同一套 Runtime 状态规则管理。
+          - paragraph [ref=e120]: “可治理”意味着每个动作都有对象、权限、证据、状态和恢复位置。模型生成的内容不是事实，工具跑出的结果也不是事实；只有 Runtime 接受、记录并投影之后，它们才进入系统的操作视图。
+          - figure "Harness 不是把所有外部组件堆在模型旁边，而是把这些组件放进 Runtime 可治理、可记录、可恢复、可投影的运行环境。" [ref=e121]:
+            - img "Harness 作为可治理运行环境 Harness 将模型交互、执行、状态、上下文、Adapter 和 UI 放在统一治理边界中。" [ref=e122]:
+              - generic [ref=e124]: Harness Governance Boundary
+              - generic [ref=e126]: Model
+              - generic [ref=e127]: 声明意图
+              - generic [ref=e129]: Runtime
+              - generic [ref=e130]: state / policy / schedule
+              - generic [ref=e131]: event / projection / recovery
+              - generic [ref=e133]: Executor
+              - generic [ref=e134]: 执行动作
+              - generic [ref=e136]: State
+              - generic [ref=e137]: 事实与视图
+              - generic [ref=e139]: Adapter
+              - generic [ref=e140]: workflow / eval / monitor
+              - generic [ref=e142]: UI
+              - generic [ref=e143]: 操作与观察
+            - generic [ref=e150]: Harness 不是把所有外部组件堆在模型旁边，而是把这些组件放进 Runtime 可治理、可记录、可恢复、可投影的运行环境。
+        - generic [ref=e151]:
+          - heading "3. Runtime：Agent 系统的治理中心" [level=2] [ref=e152]
+          - paragraph [ref=e153]: Runtime 不应该只是把模型输出转成工具调用的胶水层。大规模 Agent 系统里，Runtime 是治理中心：它决定哪些请求可以被接受，哪些动作需要 Gate，哪些结果能进入状态，哪些失败需要恢复或升级给人。
+          - paragraph [ref=e154]: 具体来说，Runtime 接受结构化 Command、Action 或 adapter operation，完成 schema 校验、权限校验、Gate 判断、Executor 选择、Assignment 创建、Event 追加、Projection 更新、Trace 维护和恢复管理。模型可以提出行动，Runtime 才能让行动发生。
+          - paragraph [ref=e155]: 这个边界让系统的控制权保持清楚：模型负责判断、计划、解释和声明；Runtime 负责接受、校验、调度、记录和恢复。长任务和多主体协作能不能持续，主要取决于这条边界是否稳定。
+          - figure "Runtime 是 Agent 系统的治理中心：模型声明意图，Runtime 校验和调度，执行后再生成 Event 并更新 Projection。" [ref=e156]:
+            - img "Runtime 控制状态变更 模型声明意图，Runtime 归一化为 Action，经过 Gate 和 Routing，执行后生成 Event 并更新 Projection。" [ref=e157]:
+              - generic [ref=e159]: Model
+              - generic [ref=e160]: intent
+              - generic [ref=e162]: Normalize
+              - generic [ref=e163]: to Action
+              - generic [ref=e165]: Validate
+              - generic [ref=e166]: policy / gate
+              - generic [ref=e168]: Route
+              - generic [ref=e169]: executor
+              - generic [ref=e171]: Executor
+              - generic [ref=e172]: tool / agent / human
+              - generic [ref=e174]: Event
+              - generic [ref=e175]: accepted fact
+              - generic [ref=e177]: Projection
+              - generic [ref=e178]: operational view
+              - generic [ref=e180]: UI
+              - generic [ref=e181]: observe
+            - generic [ref=e188]: Runtime 是 Agent 系统的治理中心：模型声明意图，Runtime 校验和调度，执行后再生成 Event 并更新 Projection。
+        - generic [ref=e189]:
+          - heading "4. 准确地说：Agent 是模板，真正执行任务的是 Session" [level=2] [ref=e190]
+          - paragraph [ref=e191]: 大规模 Agent 系统里，“Agent”这个词很容易被用得太宽。准确地说，Agent 是模板：它定义 persona、entry、capability、permission profile、模型偏好和运行策略。它描述一个可复用执行角色，但不直接执行任务。
+          - paragraph [ref=e192]: 真正执行任务的是 Session，也就是 Runtime 基于 Agent 模板创建出来的 Agent Session。Runtime 把 Assignment、authority、context refs、artifact refs 和 trace refs 绑定给这个 Session，让每次执行都有稳定 session id、session log、状态、权限边界和 trace。
+          - paragraph [ref=e193]: 这个区分能避免两类混乱：第一，把模板配置误认为执行权限；第二，把一个长对话当成所有任务共享的上下文容器。模板可以复用，Session 应该绑定具体任务边界。
+          - figure "Agent 是可复用模板，Session 才是任务执行边界。权限、上下文、日志、状态和 trace 都应该绑定在 Session 上。" [ref=e194]:
+            - img "Agent 模板与 Agent Session Runtime 从 Agent 模板创建多个 Agent Session，并给每个 Session 绑定 Assignment、Authority、Session Log 和 Trace。" [ref=e195]:
+              - generic [ref=e197]: Agent Template
+              - generic [ref=e198]: persona / entry
+              - generic [ref=e199]: capability / permission
+              - generic [ref=e200]: model preference
+              - generic [ref=e202]: Runtime
+              - generic [ref=e203]: binds work
+              - generic [ref=e205]: Session A
+              - generic [ref=e206]: assignment / authority
+              - generic [ref=e208]: Session B
+              - generic [ref=e209]: session log / trace
+              - generic [ref=e211]: Session C
+              - generic [ref=e212]: status / artifact refs
+            - generic [ref=e218]: Agent 是可复用模板，Session 才是任务执行边界。权限、上下文、日志、状态和 trace 都应该绑定在 Session 上。
+        - generic [ref=e219]:
+          - heading "5. Action 表意，用声明式替代命令式 Tool Call" [level=2] [ref=e220]
+          - paragraph [ref=e221]: Tool Call 的默认语气是命令式的：调用哪个工具，传什么参数，马上执行。这个方式适合简单工具循环，但在大规模 Agent 系统里会把模型推到执行控制位上。模型一旦直接决定工具、参数、顺序和副作用，Runtime 就很难治理。
+          - paragraph [ref=e222]: Action 的作用是表意。它描述“我要做什么语义工作”：读哪些资源、产生什么结果、有什么副作用、依赖什么、期望什么返回粒度、建议由哪类 Executor 处理。模型声明 Action，Runtime 再决定是否允许、如何执行、如何记录。
+          - paragraph [ref=e223]: Tool Call 仍然可以作为 carrier，因为当前模型和 provider 都擅长这个机制。但它进入 Runtime 后要被归一化为 Action。这样一来，读文件、委派 review、请求用户批准、启动 workflow 都能走同一条治理链路，而不是散落成不同的命令通道。
+          - figure "Action 是表意层。Tool Call 可以继续作为 carrier，但不能以命令式方式绕过 Runtime 的策略、Gate、执行和记录链路。" [ref=e224]:
+            - img "Action 用声明式表达模型意图 不同 carrier 进入 Runtime 后统一归一化为 Action，Action 表达语义意图，再路由到不同 Executor。" [ref=e225]:
+              - generic [ref=e227]: Harness DSL
+              - generic [ref=e229]: Tool Call
+              - generic [ref=e231]: Recovered Request
+              - generic [ref=e233]: Normalized Action
+              - generic [ref=e234]: operation / resource
+              - generic [ref=e235]: side effects / result policy
+              - generic [ref=e237]: Tool
+              - generic [ref=e239]: Agent Session
+              - generic [ref=e241]: Runtime Service
+              - generic [ref=e243]: Human
+              - generic [ref=e245]: Adapter
+            - generic [ref=e256]: Action 是表意层。Tool Call 可以继续作为 carrier，但不能以命令式方式绕过 Runtime 的策略、Gate、执行和记录链路。
+        - generic [ref=e257]:
+          - heading "6. 系统状态治理：Event Log、Projection、Trace" [level=2] [ref=e258]
+          - paragraph [ref=e259]: 系统状态治理的第一步，是不要把所有状态混成一团。聊天记录像事实，数据库行像事实，UI 当前显示也像事实，工具输出也像事实。等系统失败时，团队会发现没人知道该相信哪一个。
+          - paragraph [ref=e260]: 协议需要把状态拆成不同角色。Event Log 是 Runtime 接受事实的追加式记录。Projection 是由 Event 和状态规则推导出的当前操作视图。Materialized State 是为了查询、展示、调度和恢复而保存的状态形态。Trace 是把 Event、Action、Assignment、executor invocation、Artifact、Gate、Decision 和 error 串起来的证据链。
+          - paragraph [ref=e261]: Event Log 回答“系统接受了什么”。Projection 回答“现在应该怎么操作”。Trace 回答“为什么会走到这里，证据在哪里”。这三类问题都很具体，不能交给一个非结构化 transcript 来承担。
+          - figure "系统状态治理要分清事实、视图和证据链。Event Log、Projection、Trace 分离后，审计、回放、调试、评测和恢复才有稳定基础。" [ref=e262]:
+            - img "Event Log、Projection 与 Trace Command 通过 Runtime 验证后写入 Event Log，再推导 Projection，同时生成 Trace 证据链。" [ref=e263]:
+              - generic [ref=e265]: Command
+              - generic [ref=e266]: state request
+              - generic [ref=e268]: Validate
+              - generic [ref=e269]: schema / authority
+              - generic [ref=e271]: Event Log
+              - generic [ref=e272]: accepted facts
+              - generic [ref=e274]: Projection
+              - generic [ref=e275]: current view
+              - generic [ref=e277]: Trace
+              - generic [ref=e278]: evidence chain
+              - generic [ref=e280]: Materialized State
+              - generic [ref=e281]: fast query / recovery
+            - generic [ref=e288]: 系统状态治理要分清事实、视图和证据链。Event Log、Projection、Trace 分离后，审计、回放、调试、评测和恢复才有稳定基础。
+        - generic [ref=e289]:
+          - heading "7. Context：不是简单 transcript 回放" [level=2] [ref=e290]
+          - paragraph [ref=e291]: Context 不是把 transcript 原样回放给模型。很多 Agent 系统默认把历史消息、工具输出、失败尝试和旧计划塞回上下文。缓存可以降低成本，但不能消除语义噪声。陈旧 trace、长 stdout、被替代的 plan 和无关 child session 摘要仍然会影响模型注意力。
+          - paragraph [ref=e292]: Context 应该由 Runtime 构造。Runtime 根据当前 Assignment 的目标、当前 Projection、Memory scope、Artifact refs、环境信息、约束和可见性策略，生成 Context Bundle。模型看到的是适合当前判断的输入，不是系统历史的堆叠。
+          - paragraph [ref=e293]: Session Log 仍然重要，但它是持久记录，不等于下一次模型调用的输入。当前 Projection 应该优先于历史 Memory，完整输出应该以 Artifact 或 log 保存，模型默认读取摘要和引用。Context 的价值在于选择，而不是堆满。
+          - figure "Context 不是 transcript 回放。Runtime 根据当前任务选择 Projection、Memory、Artifact 和 Session Log 的可见部分，构造模型输入。" [ref=e294]:
+            - img "Runtime 构造 Context Bundle Projection、Memory、Artifact refs、Session Log 和 Visibility Policy 进入 Runtime，生成模型可见的 Context Bundle。" [ref=e295]:
+              - generic [ref=e297]: Projection
+              - generic [ref=e299]: Memory
+              - generic [ref=e301]: Artifacts
+              - generic [ref=e303]: Session Log
+              - generic [ref=e305]: Runtime
+              - generic [ref=e306]: visibility policy
+              - generic [ref=e307]: context shaping
+              - generic [ref=e309]: Context Bundle
+              - generic [ref=e310]: goal / refs / summaries
+              - generic [ref=e311]: constraints / evidence
+            - generic [ref=e318]: Context 不是 transcript 回放。Runtime 根据当前任务选择 Projection、Memory、Artifact 和 Session Log 的可见部分，构造模型输入。
+        - generic [ref=e319]:
+          - heading "8. Agent Session 之间不直接通信" [level=2] [ref=e320]
+          - paragraph [ref=e321]: 多 Agent 的收益来自上下文隔离、并行探索、独立评估和明确交接。但多 Agent 也会带来成本、冲突和状态一致性问题。让 Agent Session 互相转发自然语言消息，看起来直接，实际会把系统带回不可审计的聊天网络。
+          - paragraph [ref=e322]: 更稳的方式是：Agent Session 之间不直接通信。Agent A 可以提交结果、Artifact、风险、未决问题或下一步 Action 建议。Runtime 接受这些内容后，生成 Event、更新 Projection、创建 Handoff 或 Assignment，再把结构化 Context Bundle 交给 Agent B。
+          - paragraph [ref=e323]: 这样每一次交接都有 contract、authority、evidence、budget、unresolved issues 和 trace continuity。协作不靠自由文本延续，而靠 Runtime 管理的任务边界和证据传递。
+          - figure "多 Agent 协作的核心不是互相聊天，而是通过 Runtime 保留任务边界、证据和状态连续性。" [ref=e324]:
+            - img "Agent Session 通过 Runtime 协作 Agent Session A 不直接把消息发给 B，而是通过 Runtime 的 Event、Artifact、Projection、Handoff 和 Assignment 完成交接。" [ref=e325]:
+              - generic [ref=e327]: Agent Session A
+              - generic [ref=e328]: result / risk / artifact
+              - generic [ref=e330]: Runtime
+              - generic [ref=e331]: Event + Projection
+              - generic [ref=e332]: Handoff + Assignment
+              - generic [ref=e334]: Agent Session B
+              - generic [ref=e335]: new context bundle
+              - generic [ref=e337]: Artifact
+              - generic [ref=e339]: Trace
+              - generic [ref=e341]: Projection
+              - generic [ref=e346]: 不直接通信
+            - generic [ref=e350]: 多 Agent 协作的核心不是互相聊天，而是通过 Runtime 保留任务边界、证据和状态连续性。
+        - generic [ref=e351]:
+          - heading "9. Workflow：协议支持直接生成 Workflow，又不止于 Workflow" [level=2] [ref=e352]
+          - paragraph [ref=e353]: "协议应该支持直接生成 Workflow。多阶段、并行、多 Agent、可恢复、需要进度和审计的任务，适合由 Workflow Runner 生成 durable DAG，并通过 Runtime-owned 的 `workflow.create`、`workflow.start`、`workflow.decide` 等入口运行。"
+          - paragraph [ref=e354]: 但 Harness 不止于 Workflow。Workflow 是基于 Harness 基础 DSL 的 durable orchestration adapter，用来表达一类长任务编排。短生命周期的 action graph、普通 tool action、Agent delegation、human approval、release gate、evaluation loop，也应该落在同一套 Runtime 治理模型里。
+          - paragraph [ref=e355]: 这个边界很关键。Workflow 可以定义 DAG、node state、artifact、decision record 和 failure policy，但 Runtime 仍然拥有 validation、state transition、scheduling、permission、event、projection 和 gate。Workflow 描述编排状态，不应该变成绕过 Runtime 的脚本语言。
+          - figure "协议支持直接生成 Workflow，但 Workflow 只是长任务编排 Adapter。短 action、delegation、approval、gate 和 evaluation 仍共享同一套治理对象。" [ref=e356]:
+            - img "Workflow 作为 Durable Orchestration Adapter Workflow DAG 由 Runtime 调度，节点状态、Artifact 和 Decision 都投影回统一 Harness run state。" [ref=e357]:
+              - generic [ref=e359]: Workflow Adapter Store
+              - generic [ref=e361]: Runtime Scheduler
+              - generic [ref=e362]: validate / route / gate
+              - generic [ref=e364]: Research
+              - generic [ref=e366]: Implement
+              - generic [ref=e368]: Test
+              - generic [ref=e370]: Review
+              - generic [ref=e372]: Gate
+              - generic [ref=e380]: DAG 表达依赖，Runtime 决定实际调度、权限、状态迁移和恢复
+            - generic [ref=e381]: 协议支持直接生成 Workflow，但 Workflow 只是长任务编排 Adapter。短 action、delegation、approval、gate 和 evaluation 仍共享同一套治理对象。
+        - generic [ref=e382]:
+          - heading "10. 人的位置：UI 治理操作面，人也是生产环境的一环" [level=2] [ref=e383]
+          - paragraph [ref=e384]: 大规模 Agent 系统里，人不是站在系统外的观察者。人会批准、暂停、恢复、回答 Decision、处理异常、审查结果、设定偏好，也会承担 owner、reviewer、operator 等生产角色。人的动作同样需要进入治理链路。
+          - paragraph [ref=e385]: UI 是人的治理操作面，而不是聊天记录渲染器。UI 应该读取 Projection、Event、Artifact、Trace、Memory 和 Concept。UI 中所有会改变系统状态的操作，都应该提交为 Runtime Command 或受控 Action。暂停、恢复、重试、取消、回答 Decision、重新验证，都不能只改前端状态。
+          - paragraph [ref=e386]: 更进一步，UI projection、Artifact summary 和 Trace export 都应该 agent-readable。它们既给人看，也给后续 Agent Session 读。稳定 id、状态、summary、refs、evidence、actor、time 和 visibility metadata，是把“人”纳入生产环境的基础。
+          - figure "人也是生产环境的一环。UI 的读路径来自 Projection、Event、Trace 和 Artifact；写路径回到 Runtime Command。" [ref=e387]:
+            - img "UI 作为人的治理操作面 人通过 UI 读取 Projection、Event、Trace 和 Artifact，并通过 Command 改变状态。" [ref=e388]:
+              - generic [ref=e390]: Harness UI
+              - generic [ref=e391]: observe + command
+              - generic [ref=e392]: not transcript inference
+              - generic [ref=e394]: Projection
+              - generic [ref=e396]: Event Log
+              - generic [ref=e398]: Trace
+              - generic [ref=e400]: Artifact
+              - generic [ref=e402]: Runtime
+              - generic [ref=e403]: Command API
+              - generic [ref=e411]: pause / retry / approve / decide
+            - generic [ref=e412]: 人也是生产环境的一环。UI 的读路径来自 Projection、Event、Trace 和 Artifact；写路径回到 Runtime Command。
+        - generic [ref=e413]:
+          - heading "11. 与常见 Harness 理念的不同之处" [level=2] [ref=e414]
+          - paragraph [ref=e415]: 常见 Harness 理念通常从“让模型能工作”出发：给模型工具、上下文、沙箱、记忆、评测、可观测性和工作流。这些能力都必要，但它们仍然偏向能力拼装。
+          - paragraph [ref=e416]: OpenAI、Anthropic 和 Agent Harness Survey 的资料都指向一个趋势：Agent 可靠性不能只靠模型能力，模型外部的执行环境、上下文、状态、验证、可观测性和治理会显著影响结果。OpenAI 更强调 agent-first 工程组织、SDK primitives、sandbox、manifest、state externalization 和 durable execution。Anthropic 更强调 session / harness / sandbox 解耦、长任务 handoff、planner / generator / evaluator、多 Agent 成本和 trace-based eval。Survey 则把 Harness 分成 Execution、Tooling、Context、Lifecycle、Observability、Verification、Governance 等层。
+          - paragraph [ref=e417]: Open Agent Harness 的不同之处在于，它不把 Harness 写成组件百科，也不把 Workflow 当成全部答案。它把能力收敛到 Runtime 可执行的协议对象：Model 声明，Runtime 治理，Action 表意，Executor 执行，Event 记录，Projection 操作，Trace 举证，Context 构造，Adapter 扩展，UI 操作。
+          - figure "常见理念更偏能力拼装；这里的取舍是用 Runtime 控制面把能力落成可执行、可审计、可恢复的协议对象。" [ref=e418]:
+            - img "常见理解与本协议取舍 不同外部资料强调组件、工程实践和研究分类，Open Agent Harness 收敛到 Runtime 治理对象。" [ref=e419]:
+              - generic [ref=e421]: 组件清单
+              - generic [ref=e422]: tools / memory / sandbox
+              - generic [ref=e424]: 工程实践
+              - generic [ref=e425]: docs / repo / validation
+              - generic [ref=e427]: 研究分类
+              - generic [ref=e428]: ETCLOVG layers
+              - generic [ref=e430]: Runtime Governance
+              - generic [ref=e431]: 统一对象模型
+              - generic [ref=e432]: Action / Event / Projection
+              - generic [ref=e434]: State
+              - generic [ref=e436]: Executor
+              - generic [ref=e438]: Context
+              - generic [ref=e440]: UI / Adapter
+            - generic [ref=e450]: 常见理念更偏能力拼装；这里的取舍是用 Runtime 控制面把能力落成可执行、可审计、可恢复的协议对象。
+          - table [ref=e451]:
+            - rowgroup [ref=e452]:
+              - row "常见理解 价值 本协议的取舍" [ref=e453]:
+                - columnheader "常见理解" [ref=e454]
+                - columnheader "价值" [ref=e455]
+                - columnheader "本协议的取舍" [ref=e456]
+            - rowgroup [ref=e457]:
+              - row "Tool calling wrapper 让模型能访问外部能力 Tool Call 是 carrier；Action 才是表意层和治理入口" [ref=e458]:
+                - cell "Tool calling wrapper" [ref=e459]
+                - cell "让模型能访问外部能力" [ref=e460]
+                - cell "Tool Call 是 carrier；Action 才是表意层和治理入口" [ref=e461]
+              - row "Agent loop 实现 plan-act-observe 循环 loop 被拆成 Runtime 可治理的状态迁移" [ref=e462]:
+                - cell "Agent loop" [ref=e463]
+                - cell "实现 plan-act-observe 循环" [ref=e464]
+                - cell "loop 被拆成 Runtime 可治理的状态迁移" [ref=e465]
+              - row "Workflow engine 支撑长任务、并行和恢复 协议支持生成 Workflow，但 Harness 不止于 Workflow" [ref=e466]:
+                - cell "Workflow engine" [ref=e467]
+                - cell "支撑长任务、并行和恢复" [ref=e468]
+                - cell "协议支持生成 Workflow，但 Harness 不止于 Workflow" [ref=e469]
+              - row "Observability stack 记录执行路径和失败原因 Trace 是治理证据层，连接 Event、Action、Artifact 和 Decision" [ref=e470]:
+                - cell "Observability stack" [ref=e471]
+                - cell "记录执行路径和失败原因" [ref=e472]
+                - cell "Trace 是治理证据层，连接 Event、Action、Artifact 和 Decision" [ref=e473]
+              - row "UI console 让用户观察和操作系统 UI 读取 Projection / Event / Trace，并通过 Command 改变状态" [ref=e474]:
+                - cell "UI console" [ref=e475]
+                - cell "让用户观察和操作系统" [ref=e476]
+                - cell "UI 读取 Projection / Event / Trace，并通过 Command 改变状态" [ref=e477]
+        - generic [ref=e478]:
+          - heading "12. 结尾：大规模 Agent 协作的关键是可控" [level=2] [ref=e479]
+          - paragraph [ref=e480]: 大规模 Agent 协作当然需要更强的模型、更好的工具、更长的上下文和更稳定的沙箱。但这些只能扩大能力半径，不能自动带来可控性。系统能不能持续运行，取决于它是否有稳定的治理协议。
+          - paragraph [ref=e481]: 可控不是限制模型思考，而是让模型的行动进入协议。模型声明意图，Runtime 判断和执行，Event 记录事实，Projection 提供当前视图，Trace 保留证据，Context 控制输入，Workflow 扩展长任务，UI 承载人的操作。
+          - paragraph [ref=e482]: 当 Agent 从一次性对话走向长期运行环境，Harness 就不再是外壳。它变成了 Agent 系统的操作环境，也变成了人、模型、工具和流程之间的治理边界。大规模 Agent 协作的关键，不是放大自主性，而是让自主性可控。
+          - figure "大规模 Agent 协作的关键是可控：模型可以更主动，但每次行动都要进入可验证、可恢复、可审计的运行闭环。" [ref=e483]:
+            - img "可治理自主性的闭环 模型声明意图，经 Runtime 治理后执行，产生 Event、Projection、Trace，并反馈给 Context 和 UI。" [ref=e484]:
+              - generic [ref=e487]: Runtime
+              - generic [ref=e488]: 治理中心
+              - generic [ref=e490]: Model Intent
+              - generic [ref=e492]: Executor
+              - generic [ref=e494]: Event
+              - generic [ref=e496]: Projection
+              - generic [ref=e498]: Trace
+              - generic [ref=e500]: UI / Context
+            - generic [ref=e508]: 大规模 Agent 协作的关键是可控：模型可以更主动，但每次行动都要进入可验证、可恢复、可审计的运行闭环。
+        - paragraph [ref=e510]: 本文基于 Open Agent Harness 的治理协议文档撰写，并参考 OpenAI、Anthropic 与 Agent Harness Engineering Survey 相关资料的工程背景。参考资料在本文中只作为背景，不作为综述结构。
+  - contentinfo [ref=e511]:
+    - generic [ref=e512]: Jin's AI Companion

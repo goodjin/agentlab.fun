@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+{% set pageLang = lang or "zh-CN" %}
+<html lang="{{ pageLang }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +11,9 @@
     <title>{{ pageTitle }} - {{ site.title }}</title>
     <meta name="description" content="{{ pageDescription }}">
     <link rel="canonical" href="{{ canonicalUrl | absoluteUrl }}">
+    {% if alternateZh %}<link rel="alternate" hreflang="zh-CN" href="{{ alternateZh | absoluteUrl }}">{% endif %}
+    {% if alternateEn %}<link rel="alternate" hreflang="en" href="{{ alternateEn | absoluteUrl }}">{% endif %}
+    {% if alternateDefault %}<link rel="alternate" hreflang="x-default" href="{{ alternateDefault | absoluteUrl }}">{% endif %}
     <link rel="alternate" type="application/atom+xml" title="{{ site.title }}" href="{{ "/feed.xml" | absoluteUrl }}">
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="{{ site.title }}">
@@ -26,6 +30,7 @@
         "headline": {{ pageTitle | jsString | safe }},
         "description": {{ pageDescription | jsString | safe }},
         "url": {{ (canonicalUrl | absoluteUrl) | jsString | safe }},
+        "inLanguage": {{ pageLang | jsString | safe }},
         "datePublished": {{ page.date | htmlDateString | jsString | safe }},
         "dateModified": {{ (updated or page.date) | htmlDateString | jsString | safe }},
         "image": {{ (imageUrl | absoluteUrl) | jsString | safe }},

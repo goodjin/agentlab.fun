@@ -1,9 +1,27 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agent系统的设计思路探讨</title>
+    
+    
+    
+    
+    <title>让大模型歇一歇，让Agent上 - Jin&#39;s AI Companion</title>
+    <meta name="description" content="让大模型歇一歇，让Agent上 在需要大模型调用大量工具的场景定义一套DSL，大模型只需要生成一系列语句来表达一个复杂的任务，由Agent来执行这些语句从而避免让大模型调用大量工具，这样既提高了性能，又获得了稳定执行的效果，还节省了tokens，这就是我给工作流里任务编排设计的方案。 这套方案不仅适用于工作流，还适用于...">
+    <link rel="canonical" href="https://agentlab.fun/blog/2026-05-18-agent-system-design/">
+    
+    
+    
+    <link rel="alternate" type="application/atom+xml" title="Jin&#39;s AI Companion" href="https://agentlab.fun/feed.xml">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Jin&#39;s AI Companion">
+    <meta property="og:title" content="让大模型歇一歇，让Agent上">
+    <meta property="og:description" content="让大模型歇一歇，让Agent上 在需要大模型调用大量工具的场景定义一套DSL，大模型只需要生成一系列语句来表达一个复杂的任务，由Agent来执行这些语句从而避免让大模型调用大量工具，这样既提高了性能，又获得了稳定执行的效果，还节省了tokens，这就是我给工作流里任务编排设计的方案。 这套方案不仅适用于工作流，还适用于...">
+    <meta property="og:url" content="https://agentlab.fun/blog/2026-05-18-agent-system-design/">
+    <meta property="og:image" content="https://agentlab.fun/assets/profile/avatar.png">
+    <meta name="twitter:card" content="summary_large_image">
     <style>
     :root {
         --bg: #fff;
@@ -664,16 +682,46 @@
     }
 </style>
 
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "让大模型歇一歇，让Agent上",
+        "description": "让大模型歇一歇，让Agent上 在需要大模型调用大量工具的场景定义一套DSL，大模型只需要生成一系列语句来表达一个复杂的任务，由Agent来执行这些语句从而避免让大模型调用大量工具，这样既提高了性能，又获得了稳定执行的效果，还节省了tokens，这就是我给工作流里任务编排设计的方案。 这套方案不仅适用于工作流，还适用于...",
+        "url": "https://agentlab.fun/blog/2026-05-18-agent-system-design/",
+        "inLanguage": "zh-CN",
+        "datePublished": "2026-05-20T08:37:00.000Z",
+        "dateModified": "2026-05-20T08:37:00.000Z",
+        "image": "https://agentlab.fun/assets/profile/avatar.png",
+        "author": {
+            "@type": "Person",
+            "name": "Jin Shan",
+            "url": "https://agentlab.fun"
+        },
+        "publisher": {
+            "@type": "Person",
+            "name": "Jin Shan"
+        },
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://agentlab.fun/blog/2026-05-18-agent-system-design/"
+        }
+    }
+    </script>
 </head>
 <body>
     <header class="site-header">
     <div class="site-header__inner">
         <a href="/" class="site-title">Jin 的个人思考</a>
         <nav class="site-nav" aria-label="主导航">
+            
             <a href="/">首页</a>
+            <a href="/topics/">专题</a>
             <a href="/agents/">Agent 实验</a>
             <a href="/insights/">洞察</a>
             <a href="/sources/">来源</a>
+            <a href="/en/topics/agent-runtime/">English</a>
+            
         </nav>
     </div>
 </header>
@@ -723,266 +771,217 @@
 </aside>
 
         <main class="site-main article-shell">
-            <h1>Agent系统的设计思路探讨</h1>
+            
+<h1>让大模型歇一歇，让Agent上</h1>
 
-        <div class="chapter-img">
-            <img src="/assets/ai-era/images/cover.png" alt="封面" style="border-radius: 12px;">
-        </div>
+<blockquote>
+    <p>在需要大模型调用大量工具的场景定义一套DSL，大模型只需要生成一系列语句来表达一个复杂的任务，由Agent来执行这些语句从而避免让大模型调用大量工具，这样既提高了性能，又获得了稳定执行的效果，还节省了tokens，这就是我给工作流里任务编排设计的方案。</p>
+</blockquote>
 
-        <p>Agent的架构大体上是这样的：</p>
+<p>这套方案不仅适用于工作流，还适用于所有能支持DSL的场景。</p>
 
-        <div class="chapter-img">
-            <img src="/assets/ai-era/images/agent-loop.svg" alt="Agent架构">
-        </div>
+<p>下面我来讲讲这套方案是怎么设计出来的。</p>
 
-        <div class="quote-box">
-            <p>用户输入需求，大模型利用推理能力输出结果要求调用工具，Agent替大模型调用工具，将结果返回给大模型，大模型决定下一步的操作，当大模型决定不需要调用工具时输出一段结果给Agent，Agent判断当前轮次结束，展示大模型输出结果后等待用户再次输入。</p>
-        </div>
+<p>首先，传统的Agent架构大体上是这样设计的：</p>
 
-        <br />
+<blockquote>
+    <p>用户输入需求，大模型利用推理能力判断决定调用哪个工具，Agent替大模型调用工具后将结果返回给大模型，大模型决定下一步是否继续调用工具，需要的话继续上面的步骤，不需要的话输出一段结果给Agent，Agent判断当前轮次结束，展示大模型输出结果后等待用户再次输入。</p>
+</blockquote>
 
-        <p>Agent的设计目的是替大模型调用工具，这也是Agent这个词的本来含义：代理。Claude Code是这样设计的，OpenCode、Cursor等有名的编程Agent都是这个架构。</p>
+<p>Agent设计的目的就是替大模型干活，这也是Agent这个词的本来含义：代理。</p>
 
-        <br />
+<p>Claude Code是这样设计的，OpenCode、Cursor等有名的编程Agent都是这个架构。</p>
 
-        <p>所以很多人说：Agent的架构一点也不复杂，里面也没有多大技术含量。</p>
+<p>所以很多人说：Agent的架构一点也不复杂，里面也没有多大技术含量。</p>
 
-        <p>话说的虽然没错，但Agent的架构只能有这一种吗？可以有其它的设计方式吗？</p>
+<p>话说的虽然没错，但我们还想问一问：Agent的架构只能有这一种吗？Agent就只能用来帮大模型调工具吗？</p>
 
-        <br />
+<p>大模型调用完多轮工具后输出结果就会停下来等待用户输入，这本质上还是AI聊天工具的设计逻辑，是一种chat runner。</p>
 
-        <h2>Chat Runner的局限</h2>
+<p>让chat runner跳出聊天，去面对更多场景的时候总觉得跟它的聊天架构有些冲突有些别扭。</p>
 
-        <p>大模型调用完工具后输出结果就会停下来等待用户输入，这本质上是AI聊天工具的设计逻辑，是一种chat runner。</p>
+<p>比如，大模型调用工具会存在一些问题：</p>
 
-        <p>这个流程的特点是：在人-Agent-大模型这三者中，只有人和大模型有"主动行为"，Agent没有，在聊天的场景里它也确实不需要。</p>
+<blockquote>
+    <ol>
+        <li>每次工具调用结果都需要回传大模型，需要反复请求，效率很低，tokens却很费</li>
+        <li>整个过程都需要由大模型来控制，调用工具多了上下文持续增长时大模型容易有注意力漂移、产生幻觉，越跑越偏的风险。</li>
+        <li>由于上下文的限制，如果工具调用的结果很长，往往只能截断后再给大模型，容易缺失信息。</li>
+    </ol>
+</blockquote>
 
-        <p>但Agent面临的场景却远不止于聊天。</p>
+<p>在我们Agent特区（<a href="https://www.agentszone.ai/">https://www.agentszone.ai/</a>）的讨论群里，有人说，那是因为你给大模型的任务颗粒度不够细，大模型完成小颗粒度的任务是很准确的，只能怪你不会拆任务，不要怨我们亲爱的大模型。</p>
 
-        <div class="quote-box">
-            <p>比如这个场景：有一个复杂的系统功能繁多很难操作，用户经常搞不清楚所需要的功能到底藏在哪里，需要我们在系统里开发一个Agent来协助用户。</p>
-        </div>
+<p>这话听着在夸大模型，实际上在暗示它没能力完成复杂的任务，明褒实贬啊。</p>
 
-        <p>按照聊天工具的设计思路，我们将系统的操作知识和用户的输入提交给大模型，让大模型指导用户怎么操作。如果要更进步一点，可以在系统上再开发一套CLI，这样大模型就可以通过工具调用来替用户操作了。</p>
+<p>但他说得其实有一定的道理，大模型执行任务时本质上是在一个空间中求解，当任务的复杂度太高时，解的空间也变大了，大模型在一个过大的空间中求解时出错的概率也就跟着变高了。</p>
 
-        <p>但是，一套复杂系统往往很难将所有功能都事无巨细提供相应的CLI操作，二来有很多环节可能需要用户的介入确认，输入密码之类的敏感操作，聊天系统很难解决这类问题。</p>
+<p>这也是为什么一些SDD框架比如BMAD要将用户的需求先拆成多个story，多个epic了，将颗粒度拆细了才能提高大模型的准确率。</p>
 
-        <p>另外，大模型调用工具也存在一些问题：</p>
+<p>但是，即使任务能拆细，当拆得足够多时，怎么编排这些任务又成了问题。</p>
 
-        <blockquote>
-            <ol>
-                <li>每次工具调用结果都需要回传大模型，需要反复请求，效率很低，tokens却很费，</li>
-                <li>整个过程都由大模型来控制，但当上下文持续增长时有失控的风险。</li>
-                <li>由于上下文的限制，如果工具的调用结果很长，只能截断后再给大模型，容易缺失信息。</li>
-            </ol>
-        </blockquote>
+<h2>编排难题</h2>
 
-        <br />
+<p>我们以研发工作流为例来进行说明，很多研发工作流的过程是这样的：</p>
 
-        <p>你可以试想一下这种场景：你的Agent告诉你他帮你选购了一个iPhone手机，打9折很便宜，给你发了几张iPhone的照片和价格，让你确认下单，你敢确认吗？如果它让你输入密码，你愿意在聊天框中输吗？</p>
+<blockquote>
+    <ul>
+        <li>大模型理解用户需求大模型生成开发计划。</li>
+        <li>比如拆分原子任务、制定验收标准等，生成了多个任务。</li>
+        <li>大模型决定逐个执行任务。</li>
+        <li>大模型收到任务执行完通知决定验收。</li>
+        <li>大模型发现验收不通过决定执行修复动作。</li>
+        <li>大模型最终判断所有任务都执行完了高兴地向用户汇报。</li>
+    </ul>
+</blockquote>
 
-        <p>但如果，它是打开淘宝界面真实选购了一个iPhone手机，确实打9折，所有信息都像自己购物一样可以真实查看到，是不是就没这么多顾虑了？</p>
+<p>大模型在执行每一个子任务时大都没什么毛病，问题出在这整个工作流程的推进和控制上，很多人都碰到过类似问题：</p>
 
-        <h2>让Agent自己跑起来</h2>
+<blockquote>
+    <ul>
+        <li>大模型执行了几个任务后突然停下来了。</li>
+        <li>大模型执行过程中漏掉了一个任务。</li>
+        <li>大模型把两个任务顺序搞反了等等。</li>
+    </ul>
+</blockquote>
 
-        <p>像这种操作具体要怎么设计呢？</p>
+<p>为什么会这样呢？</p>
 
-        <p>大模型只负责理解用户的需求，输出一套Agent能识别的操作步骤，Agent自己主动运行相应的程序来执行这些操作步骤，由于是在原系统上执行，所有过程都会遵守原系统的设定，不会越权，不会将输入的密码提交给大模型，用户能看到操作过程，能理解操作结果。</p>
+<p>因为大模型在控制任务的编排时本质上还是靠的工具调用，比如任务拆完了可能会调用todoWrite来记录任务，收到todoWrite结果后又会开始调用下一个工具。</p>
 
-        <div class="chapter-img">
-            <img src="/assets/ai-era/images/ch03-paradigm-shift.svg" alt="范式转变">
-        </div>
+<p>每个任务都是一堆工具调用，每次工具调用后都要重新做一次判断：下一步该干嘛，要继续调用下一个工具还是停止？当前任务是否已结束等等。</p>
 
-        <p>这一切当然也可以设计成工具让大模型来调用工具来实现，也可以干脆让大模型直接操作浏览器，但这些方案与让Agent主动运行程序来实现有着本质的区别：</p>
+<p>所以，大模型编排任务的过程很不符合直觉：明明任务都规划好了，但它每调用一次工具都要重新判断一次下一步究竟要干啥？</p>
 
-        <div class="quote-box red">
-            <p>工具调用是由大模型作主，大模型在这个场景里是主角，一切由它控制，在这个场景里工具调用的结果本身也会影响大模型的判断，如果是操作浏览器准确性也存在问题，看看层不出穷的浏览器操作工具就知道，谁都还没有做到最好。</p>
-        </div>
+<p>这是因为大模型内部是没有记忆的，它不知道任务早就规划好了，也不记得刚刚调用了什么工具，它忘却了初心。</p>
 
-        <div class="quote-box">
-            <p>而由Agent本身的程序来执行动作的方案就只需要大模型负责识别用户意图，生成操作步骤就够了，这一步才是大模型擅长的，后面的步骤都由程序负责，我们可以预先设计好哪些节点要人来确认，即使大模型生成的步骤里没有说明要确认也没关系，程序绝不会跳过，在这个场景里大模型不再是主角而是协助，程序也是协助，人才是主角。</p>
-        </div>
+<p>大模型每次都只能根据请求里的信息重新理解一遍前面都做了哪些事，调用了多少工具，每次都要重新推理判断，每次的判断都有小概率会出错。</p>
 
-        <p>程序的优势是确定性强，没有跑偏、丢三落四的毛病，执行效率也比大模型高，所以对于工作流这样的场景我们可以多利用程序来发挥它的优势，不必一切都依赖大模型。</p>
+<p>如果调用了上百次工具，就要做上百次的回顾、判断，可怕吧？</p>
 
-        <p>如果你还没理解，我们可以用研发工作流程这个场景来进行说明：</p>
+<p>不仅如此，每调用一次工具都会收到一次调用结果，有大量的工具调用就会有大量的调用结果，这些结果都会附加到会话里，使上下文会变得越来越长，这就又回到了我们上面提到过的问题：大模型的注意力开始漂移，它疲劳了。</p>
 
-        <blockquote>
-            <ul>
-                <li>大模型理解用户需求</li>
-                <li>大模型生成开发计划，比如拆分原子任务、验收标准等，总之是生成了10个任务。</li>
-                <li>大模型决定逐个执行任务</li>
-                <li>大模型收到任务执行完通知决定验收</li>
-                <li>大模型发现验收不通过决定执行修复动作</li>
-                <li>大模型最终判断所有任务都执行完了高兴地向用户汇报</li>
-            </ul>
-        </blockquote>
+<p>所以长程任务的持续执行一直是大模型的难点。</p>
 
-        <p>整个过程都是大模型在决策，在控制，Agent只负责调用工具，没做其他的事情。</p>
+<p>各家模型几乎都在大模型长时间稳定调用工具方面做了很多训练，这也反过来说明它的难度之大。</p>
 
-        <p>很多人应该都碰到过类似的问题：</p>
+<h2>有没有别的方案呢？</h2>
 
-        <blockquote>
-            <ul>
-                <li>大模型执行了几个任务后突然停下来了。</li>
-                <li>大模型执行过程中漏掉了一个任务。</li>
-                <li>大模型把两个任务顺序搞反了等等。</li>
-            </ul>
-        </blockquote>
+<p>特别是，有没有符合我们直觉的方案：任务规划好了，就按规划逐个推进，不用每次都重新判断呢？</p>
 
-        <p>为什么呢？因为大模型普遍存在上下文污染，跑偏，幻觉，注意力漂移等问题，确定性不是大模型的强项。</p>
+<p>答案是让程序来做，不依赖大模型。</p>
 
-        <p>为此业界提出了很多SDD框架，harness工程方法论等，都是在尝试控制大模型的这种不够稳定的行为。</p>
+<p>要知道如果想稳定地执行计划，程序才是最佳的选择，因为程序没有自己的心思，它只会按事先定义好的规则来执行。</p>
 
-        <p>虽然很多方法都不错，但这些都只是围绕着控制大模型做文章，没有尝试改造一下Agent的程序设计，去利用程序的优势。</p>
+<p>传统的Agent设计思路都是围绕着怎么协助大模型调用好工具，怎么给大模型提供足够的环境信息等等，都是围绕着怎么服务好大模型在设计。</p>
 
-        <p>要知道如果想稳定地执行计划，程序才是最佳的选择，因为程序没有自己的心思，它只会按事先定义好的规则来执行。</p>
+<p>但是，程序本身也可以主动做一些事，无需事事麻烦大模型，可以让大模型也歇一歇。</p>
 
-        <p>大模型擅长的是语义识别和推理，而程序擅长的是确定性，如果能让两者互补岂不是更好？</p>
+<p>我们完全可以打破Agent架构设计的思维惯性，不要只把Agent仅仅当成工具调用的代理，不要局限于它的名称，不要事事都去问大模型靠大模型决策。</p>
 
-        <h2>DSL：让大模型和程序对话</h2>
+<h2>具体怎么做呢？</h2>
 
-        <p>怎么互补呢？</p>
+<p>什么时候让大模型做判断做决策什么时候又交由程序来主动上呢？</p>
 
-        <p>我们需要为大模型与Agent程序制定一套协议，大模型的输出必须符合协议规定的格式，这样程序才能正确识别，自然语言是不行的。</p>
+<p>这需要一套大模型与程序之间的协议，大模型按照协议输出，程序根据协议判断下一步还需要麻烦大模型还是说该自己主动上了。</p>
 
-        <p>还是上面那个例子，大模型识别用户意图分析完用户需求后，将设计出来的任务列表以JSON格式输出，程序是可以解析JSON的，这样就能提取出这些任务，按照任务的依赖关系进行编排执行，是串行还是并行？执行失败应该跳到哪个节点等等程序都能自己判断，不需要大模型来决策，程序执行的确定性让人完全不担心会跑偏。</p>
+<p>比如，当大模型拆分好任务后可以以数组形式输出任务列表，Agent识别到这种数组就采用最简单的程序遍历，逐个提取数组中的任务执行，最后将所有执行结果返回给大模型就够了。</p>
 
-        <p>在执行过程中每个具体的任务要怎么执行呢？还是提交给大模型，仍然由大模型调用各类工具来完成，只是每个任务都是一个单独的会话，由一个相应的Agent来执行，这样不但能并行，还做到了天然的上下文隔离。</p>
+<p>整个过程是程序在控制着任务的编排执行，大模型再也不用不停地调用工具然后判断该不该继续，下一步该干嘛了，会话上下文也不会堆积反而更干净了。</p>
 
-        <p>这套协议，本质上就是一套DSL，在不同的领域可以设计不同的协议格式，设计专用的Agent来执行任务。</p>
+<p>当然，程序在执行具体任务时仍然是调用大模型，每个具体的任务可以使用一个单独的会话，调用相匹配的Agent来执行，这样不但能并行，还做到了天然的上下文隔离。</p>
 
-        <div class="chapter-img">
-            <img src="/assets/ai-era/images/ch04-dsl.svg" alt="DSL工作流程">
-        </div>
+<p>任务也不一定要用数组来表示，对于复杂一点的任务编排，可以让大模型生成一个workflow，程序按照workflow来控制运行。</p>
 
-        <p>比如上面说的编排任务的DSL：</p>
+<p>如果是workflow，那这套协议，本质上就是一套DSL，让大模型按照DSL的规范来生成workflow，下面是用json格式来展示的一个例子：</p>
 
-        <pre><code>{
-  "id": "wf_20260517_103012_a8f3",
-  "schema": 1,
-  "goal": "Fix SDK generation and verify the result.",
-  "status": "running",
-  "nodes": [
+<pre><code>{
+  &quot;id&quot;: &quot;wf_20260517_103012_a8f3&quot;,
+  &quot;schema&quot;: 1,
+  &quot;goal&quot;: &quot;Fix SDK generation and verify the result.&quot;,
+  &quot;status&quot;: &quot;running&quot;,
+  &quot;created_at&quot;: &quot;2026-05-17T10:30:12Z&quot;,
+  &quot;updated_at&quot;: &quot;2026-05-17T10:35:00Z&quot;,
+  &quot;assumptions&quot;: [
+    &quot;The JavaScript SDK is regenerated by packages/sdk/js/script/build.ts.&quot;,
+    &quot;Typecheck is the minimum verification gate.&quot;
+  ],
+  &quot;success_criteria&quot;: [
+    &quot;The requested code change is implemented.&quot;,
+    &quot;The SDK is regenerated when API shapes changed.&quot;,
+    &quot;Relevant package typechecks pass.&quot;
+  ],
+  &quot;nodes&quot;: [
     {
-      "id": "research",
-      "type": "research",
-      "title": "Inspect SDK generation flow",
-      "depends_on": []
+      &quot;id&quot;: &quot;research&quot;,
+      &quot;type&quot;: &quot;research&quot;,
+      &quot;title&quot;: &quot;Inspect SDK generation flow&quot;,
+      &quot;file&quot;: &quot;nodes/research.json&quot;,
+      &quot;depends_on&quot;: []
     },
     {
-      "id": "implement",
-      "type": "implementation",
-      "title": "Apply the code change",
-      "depends_on": ["research"]
+      &quot;id&quot;: &quot;implement&quot;,
+      &quot;type&quot;: &quot;implementation&quot;,
+      &quot;title&quot;: &quot;Apply the code change&quot;,
+      &quot;file&quot;: &quot;nodes/implement.json&quot;,
+      &quot;depends_on&quot;: [&quot;research&quot;]
     },
     {
-      "id": "test",
-      "type": "test",
-      "title": "Verify the change",
-      "depends_on": ["implement"]
+      &quot;id&quot;: &quot;test&quot;,
+      &quot;type&quot;: &quot;test&quot;,
+      &quot;title&quot;: &quot;Verify the change&quot;,
+      &quot;file&quot;: &quot;nodes/test.json&quot;,
+      &quot;depends_on&quot;: [&quot;implement&quot;]
     },
     {
-      "id": "review",
-      "type": "review",
-      "title": "Review implementation",
-      "depends_on": ["test"]
+      &quot;id&quot;: &quot;review&quot;,
+      &quot;type&quot;: &quot;review&quot;,
+      &quot;title&quot;: &quot;Review implementation and verification&quot;,
+      &quot;file&quot;: &quot;nodes/review.json&quot;,
+      &quot;depends_on&quot;: [&quot;test&quot;]
+    },
+    {
+      &quot;id&quot;: &quot;gate&quot;,
+      &quot;type&quot;: &quot;gate&quot;,
+      &quot;title&quot;: &quot;Accept workflow result&quot;,
+      &quot;file&quot;: &quot;nodes/gate.json&quot;,
+      &quot;depends_on&quot;: [&quot;review&quot;]
     }
   ],
-  "policies": {
-    "on_node_failed": "ask_decision",
-    "max_attempts": 2
+  &quot;policies&quot;: {
+    &quot;on_node_failed&quot;: &quot;ask_decision&quot;,
+    &quot;on_blocked&quot;: &quot;ask_decision&quot;,
+    &quot;max_attempts&quot;: 2
   }
 }</code></pre>
 
-        <p>这一类Agent不再是chat runner，而是workflow runner，你也可以设计其他类型的runner，思路不必局限于聊天工具。</p>
+<p>DSL不是只能有一套，在不同的领域可以设计不同的DSL，让大模型生成workflow再设计专用的Agent来执行。</p>
 
-        <p>适合用DSL的场景也还很多，比如低代码领域：低代码系统本身就有一套DSL，可以基于此设计一套使用低代码的Agent工具来协助用户进行开发。</p>
+<p>这一类Agent也不再是chat runner，而是workflow runner，你也可以设计其他类型的runner，总之思路不要局限于聊天工具。</p>
 
-        <p>总之，在需要确定性的场景，我们可以让大模型来负责语义识别和推理，让Agent程序来负责确定性，而不用在大模型的缺点上跟大模型死磕。</p>
+<p>如果你面对的场景适合定义一套DSL，那么就可以考虑用类似的方式来实现你的Agent。</p>
 
-        <h2>重新定义Agent</h2>
+<p>比如如果要开发一个Agent协助用户去操作一个系统，可以将系统可操作的元素、步骤定义成一套DSL，让大模型根据需求和DSL定义生成一个workflow，这比传统的做法每操作一个步骤都回传给大模型判断推理一次要高效和稳定得多。</p>
 
-        <p>首先我们来定义一下什么是Agent。</p>
+<p>像低代码领域这种本来就有DSL的场景，也可以考虑类似设计。</p>
 
-        <p>很多使用大模型来编排的工作流设计方案里都会用到 subagent来达到上下文隔离的效果，subagent也是另一个值得讨论的话题。</p>
+<p>当然，并不是定义一套DSL，每次让大模型去生成workflow让程序执行就万事大吉了。</p>
 
-        <p>有人用操作系统调度进程来类比多个Agent的协作，将Agent类比成操作系统中的进程，看起来好像很有道理，但实际上混淆了Agent和会话的概念。</p>
+<p>哪些部分交给大模型，哪些交给Agent程序本身，大模型与Agent之间如何交互等等，都需要根据实际场景好好设计。</p>
 
-        <p><strong>Agent是一个模板，我们每次创建的都是它的实例，也就是会话。</strong></p>
+<p>下面是我利用Agent程序执行workflow的一个实验：</p>
 
-        <p>比如，同一个Agent我们可以开多个窗口分别启动，这时就是创建了多个会话。</p>
+<div class="chapter-img">
+    <img src="/assets/ai-era/agent-workflow-dsl/workflow-experiment.png" alt="Agent workflow执行实验">
+</div>
 
-        <p>会话才是应该类比于进程的概念，而Agent是进程所对应的程序，它定义了会话的行为规范。</p>
+<p>实验完后发现，主会话总共只有6次工具调用，实在是太省了。</p>
 
-        <p>这个混淆Claude Code得负一定责任，Claude Code总是把在主会话中新起一个会话称之为创建subagent，大家习惯了之后就把Agent和会话给混为一谈了。</p>
+<div class="chapter-img">
+    <img src="/assets/ai-era/agent-workflow-dsl/toolcall-count.png" alt="主会话工具调用次数">
+</div>
 
-        <p>Agent应该有什么样的结构呢？可以这样：</p>
-
-        <blockquote>
-            <ul>
-                <li>身份定义：它是谁，有什么知识背景？</li>
-                <li>行为规则：它应该遵守什么规则约束，工作流是怎样的？</li>
-                <li>可用工具集合：它能调用什么工具？</li>
-                <li>权限范围：它能操作哪些资源？</li>
-            </ul>
-        </blockquote>
-
-        <div class="chapter-img">
-            <img src="/assets/ai-era/images/ch05-agent-structure.svg" alt="Agent结构">
-        </div>
-
-        <p>身份定义和行为规则不都是系统提示词吗？为什么拆成两部分？是的，确实都是系统提示词，但我们这里要定义的是一个Agent的抽象概念，而不是定义Agent实际要怎么实现。</p>
-
-        <p>把它定义成多个部分后，每个部分都可以单独设计，单独迭代，这样就方便多了。</p>
-
-        <p>并且，后面要添加新的部分也简单，比如最近很火热的Agent的记忆，也适合将它添加作为Agent的一部分，不需要考虑重写整个提示词。</p>
-
-        <p>Agent本身的程序执行逻辑算不算它的组成部分？其实也应该算，不同的执行逻辑可以实现不同类型的Agent，比单纯定义系统提示词要灵活很多。</p>
-
-        <h2>Agent能包含Agent吗？</h2>
-
-        <p>上面提到的subagent算不算一种包含关系呢？算，但还不够。</p>
-
-        <p>在程序语言设计里，当我们设计一个结构体只能包含数字、字符等基本数据类型的时候，它的表达能力会很受限，仅仅能做一些很简单的事。</p>
-
-        <p>但当我们允许一个结构包含其他结构体的时候，它就爆发出了无限的潜力，可以编写出非常复杂的程序。</p>
-
-        <div class="chapter-img">
-            <img src="/assets/ai-era/images/ch06-agent-hierarchy.svg" alt="Agent包含关系">
-        </div>
-
-        <p>所以，要发挥Agent的威力，我们也应该要允许Agent包含，并且不能像subagent那样仅仅只允许包含一层。</p>
-
-        <p>另外，一个Agent能做什么不能做什么应该由Agent本身的定义来决定，也就是由它定义的工具和权限来决定，不能像现在的subagent一样受到很多特殊限制。</p>
-
-        <p>所有的Agent都平等，只有分工的不同，它们都有幸福的未来。</p>
-
-        <p>Claude Code设计出subagent又要限制它的能力带了个坏头。</p>
-
-        <h2>对Claude Code的反思</h2>
-
-        <p>说到Claude Code，当它的源码泄露的时候，很多人说这下大家都可以向Agent界的天花板学习了，很多Agent工具又有优秀的设计可以抄了。</p>
-
-        <p>但从我们上面的讨论看，Claude Code并没有多少神奇的地方，它发明的SubAgent概念反而限制了Agent的威力，它本质上也只是一个chat runner。</p>
-
-        <p>一个好的Agent体系应该允许自由创建Agent，允许自由生成子会话，应该充分利用好Agent程序本身的能力，找到大模型与程序与人三者之间交互的平衡点。</p>
-
-        <h2>下一步：Skill需要存在吗？</h2>
-
-        <p>有人可能会说，Skill就是Claude Code发明的，它还是很优秀的，前面在讨论Agent的设计时怎么就没有讨论Skill呢？</p>
-
-        <p>是的，Skill这个概念很火，现在的Skill满天飞，几乎没有人不用它，编排任务用Skill，执行任务用Skill，测试用Skill，修复用Skill，几乎所有活都用Skill在干了。</p>
-
-        <p>但很少有人停下来反思：这个概念真的合理吗？它设计得真的足够好吗？</p>
-
-        <p class="highlight">我的观点是：在一个Agent自由的王国里，Skill可能是不必要的。它的用途可以有更好的方案，更简单的方式来承载。</p>
-
-        <div class="separator">◆ ◆ ◆</div>
-
-        <div class="conclusion">
-            <p><strong>核心观点</strong>：大模型擅长语义识别和推理，程序擅长确定性执行。让它们各司其职，而不是让大模型既当大脑又当手脚。</p>
-        </div>
+<p>这么节省的方案，谁能不爱呢？</p>
 
         </main>
     </div>

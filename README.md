@@ -4,7 +4,9 @@
 
 ## 🌐 在线访问
 
-**服务器**: https://agentlab.fun/
+**主站**: https://agentlab.fun/
+
+当前公网主站部署在 Cloudflare Pages，域名由 Cloudflare 托管并代理。旧的 `212.64.11.60:/var/www/hello` 服务器只作为历史部署目标保留，不是当前 `agentlab.fun` 的主发布面。
 
 ## 📁 网站结构
 
@@ -37,9 +39,24 @@ www/
 
 ## 🛠️ 技术栈
 
-- 纯 HTML/CSS/JS
+- Eleventy 静态站点
+- Cloudflare Pages 部署
 - 响应式设计
-- 无需构建工具
+
+## 🚀 发布
+
+```bash
+./build.sh
+npx wrangler pages deploy www --project-name agentlab-fun
+```
+
+发布后验证：
+
+```bash
+for path in / /blog/ /insights/ /topics/ /sitemap.xml /feed.xml /llms.txt /robots.txt; do
+  curl -L -sS -o /dev/null -w "$path %{http_code} %{content_type}\n" "https://agentlab.fun$path"
+done
+```
 
 ## 📝 说明
 

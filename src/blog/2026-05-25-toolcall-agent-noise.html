@@ -1,5 +1,6 @@
 ---
 title: "toolCall一直在拖Agent的后腿"
+description: "分析 AI Agent 中 toolCall 噪音的来源：中间结果污染上下文、工具调用过碎、Runtime 过于被动，以及模型和执行环境的职责分工问题。"
 date: "2026-05-24T19:00:00+08:00"
 tags:
   - blog
@@ -88,3 +89,19 @@ permalink: /blog/2026-05-25-toolcall-agent-noise/
 <li><a href="https://developers.openai.com/api/docs/guides/function-calling">OpenAI Function Calling 文档</a></li>
 <li><a href="https://www.anthropic.com/engineering/advanced-tool-use">Anthropic: Introducing advanced tool use on the Claude Developer Platform</a></li>
 </ul>
+
+<h2>相关专题</h2>
+<ul>
+<li><a href="/topics/tool-calling/">Tool Calling：AI Agent 工具调用与上下文噪音治理</a></li>
+<li><a href="/topics/agent-runtime/">Agent Runtime：AI Agent 执行环境与协议设计</a></li>
+</ul>
+
+<h2>常见问题</h2>
+<h3>toolCall 为什么会拖慢 Agent？</h3>
+<p>因为每一次工具调用都会产生结果，结果又会回到模型上下文。任务越长，日志、搜索结果、文件片段和失败记录越多，模型要处理的噪音也越多。</p>
+
+<h3>减少 toolCall 次数就够了吗？</h3>
+<p>不够。调用次数只是一个指标，关键还在于工具结果如何被整理成模型可用的观察内容。原始输出少一点有帮助，但语义更清楚更重要。</p>
+
+<h3>Runtime 应该接管哪些职责？</h3>
+<p>Runtime 适合接管工具调度、状态保存、结果去重、观察整理、权限控制和证据记录。模型保留判断和解释职责。</p>

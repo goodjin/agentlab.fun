@@ -1,33 +1,38 @@
 ---
 layout: base.njk
-title: 专题
-description: agentlab.fun 的核心专题入口，聚合 Agent Runtime、工具调用治理和 AI 编程相关文章。
+title: AI Agent 与 AI Coding 专题
+description: agentlab.fun 的核心专题入口，聚合 Agent Runtime、Tool Calling、AI Coding、工程质量和 Agent 协议设计相关文章。
 permalink: /topics/
 ---
 
-<h1>专题</h1>
-<p class="meta">把零散文章收束成几个长期问题，方便人读，也方便搜索和 AI 工具理解这个站点。</p>
+<h1>AI Agent 与 AI Coding 专题</h1>
+<p class="meta">把零散文章收束成几个长期问题：Agent 怎么运行，工具调用怎么治理，AI 编程怎么落到工程质量上。</p>
+
+<p class="lead">这里是 agentlab.fun 的主题入口。每个专题都围绕一个可长期搜索的问题组织：概念解释、核心文章、常见问题和进一步阅读路径。</p>
 
 <div class="posts">
     <article class="post">
         <a href="/topics/agent-runtime/" class="post-link">
             <p class="post-meta">Agent 系统设计</p>
-            <h2 class="post-title">Agent Runtime</h2>
-            <p>协议、状态、事件日志、权限边界和执行环境。</p>
+            <h2 class="post-title">Agent Runtime：AI Agent 执行环境与协议设计</h2>
+            <p>解释 Agent Runtime 为什么需要状态管理、事件日志、权限边界和模型与 Runtime 的交互协议。</p>
         </a>
     </article>
     <article class="post">
         <a href="/topics/tool-calling/" class="post-link">
             <p class="post-meta">工具调用治理</p>
-            <h2 class="post-title">Tool Calling</h2>
-            <p>toolCall 噪音、Action 归一化和模型与 runtime 的职责分工。</p>
+            <h2 class="post-title">Tool Calling：AI Agent 工具调用与上下文噪音治理</h2>
+            <p>讨论 toolCall 噪音、工具结果压缩、Action 抽象和模型与 Runtime 的职责分工。</p>
         </a>
     </article>
     <article class="post">
         <a href="/topics/ai-coding/" class="post-link">
             <p class="post-meta">AI 编程</p>
-            <h2 class="post-title">AI Coding</h2>
-            <p>AI 编程助手、项目质量、测试、需求和工程判断。</p>
+            <h2 class="post-title">AI Coding：AI 编程助手、工程质量与代码审查</h2>
+            <p>梳理 AI 编程助手、代码生成、测试、技术债、代码审查和工程判断之间的关系。</p>
         </a>
     </article>
 </div>
+
+<h2>怎么读这个站</h2>
+<p>如果你关心 Agent 系统设计，先读 Agent Runtime；如果你正在做工具调用或函数调用，先读 Tool Calling；如果你想把 AI 编程用在真实项目里，先读 AI Coding。</p>
