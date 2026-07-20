@@ -64,3 +64,9 @@ done
 
 ---
 *由 OpenClaw AI 助手生成*
+
+## 仓库维护
+
+本仓库只维护 `agentlab.fun` 的网站代码、公开文章、页面素材和部署配置。个人求职资料、LinkedIn 内容和 GitHub Profile README 分别放在相邻的 `boss/`、`linkedin/` 和 `goodjin/` 仓库。
+
+修改前先阅读 `/Users/jin/my-profile/README.md` 以及本仓库的 `AGENTS.md` 或 `CLAUDE.md`，并检查 Git 状态。文章使用现有目录和文件命名方式；新增日期内容采用 `YYYY-MM-DD-topic.ext`。发布前完成本地构建，检查关键页面、链接、订阅源和站点地图。
