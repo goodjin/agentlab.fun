@@ -1,0 +1,117 @@
+{
+  "format": 1,
+  "title": {
+    "zh": "goodjin 的 DSH 插件",
+    "en": "goodjin's DSH plugins"
+  },
+  "description": {
+    "zh": "外部 coding agent 接入、额度胶囊、规格先行开发预设与聊天区增强。",
+    "en": "External coding-agent integrations, quota pills, a spec-driven development preset, and conversation-area enhancements."
+  },
+  "metadata": {
+    "categories": {
+      "agents": { "title": { "zh": "Agent 接入", "en": "Agent integrations" } },
+      "workflow": { "title": { "zh": "工作流", "en": "Workflow" } },
+      "ui": { "title": { "zh": "界面增强", "en": "UI enhancements" } }
+    },
+    "labels": {
+      "quota": { "title": { "zh": "额度显示", "en": "Quota display" } },
+      "presets": { "title": { "zh": "Agent 预设", "en": "Agent presets" } }
+    }
+  },
+  "plugins": [
+    {
+      "name": "@goodjin2/dsh-acp-agent",
+      "title": {
+        "zh": "ACP 接入 + 额度胶囊（Codex / Claude / Grok / Cursor / Qoder / GLM / MiniMax）",
+        "en": "ACP integrations + quota pills (Codex / Claude / Grok / Cursor / Qoder / GLM / MiniMax)"
+      },
+      "description": {
+        "zh": "把外部 coding agent 接进 DSH：各家 ACP 方言、模型客户端、权限桥接与进程视图；内置额度胶囊——GLM/MiniMax 套餐、Codex 用量、Claude 周窗、Grok 周窗，以及 DeepSeek 官方账号余额。",
+        "en": "Connect external coding agents to DSH: per-agent ACP dialects, model clients, approval bridging and process views. Ships quota pills for GLM/MiniMax plans, Codex usage, the Claude weekly window, the Grok weekly window, and the DeepSeek account balance."
+      },
+      "author": "goodjin",
+      "homepage": "https://github.com/goodjin/dsh-acp-agent",
+      "repository": { "url": "https://github.com/goodjin/dsh-acp-agent" },
+      "metadata": {
+        "category": "agents",
+        "keywords": ["codex", "claude", "grok", "cursor", "qoder", "glm", "zcode", "minimax", "deepseek", "acp", "quota"],
+        "labels": ["quota"]
+      },
+      "versions": [
+        {
+          "version": "0.3.0",
+          "publishTimestamp": 1793783415,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/goodjin/dsh-acp-agent",
+            "commit": "0e9a9c4a10a90897ff633d6f1bfed42a6d5dcae3"
+          },
+          "engines": { "dsh": ">=0.2.1-rc.2 <0.3" }
+        }
+      ]
+    },
+    {
+      "name": "@goodjin2/dsh-superpowers",
+      "title": {
+        "zh": "Superpowers 预设（规格先行开发）",
+        "en": "Superpowers preset (spec-driven development)"
+      },
+      "description": {
+        "zh": "把 Superpowers 装进 DSH：十五项技能与 agent 预设，每个技能可单独指定子代理模型。",
+        "en": "Run Superpowers inside DSH: fifteen skills and an agent preset, with a per-skill subagent model."
+      },
+      "author": "goodjin",
+      "homepage": "https://github.com/goodjin/dsh-superpowers",
+      "repository": { "url": "https://github.com/goodjin/dsh-superpowers" },
+      "metadata": {
+        "category": "workflow",
+        "keywords": ["superpowers", "spec-driven", "skills", "subagent", "preset"],
+        "labels": ["presets"]
+      },
+      "versions": [
+        {
+          "version": "0.3.1",
+          "publishTimestamp": 1793783415,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/goodjin/dsh-superpowers",
+            "commit": "38dabedc9c2d05603ae3c3b6be7bd96ca6d5f3ed"
+          },
+          "engines": { "dsh": ">=0.2.0-rc.2 <0.3" }
+        }
+      ]
+    },
+    {
+      "name": "@goodjin2/dsh-chat-area",
+      "title": {
+        "zh": "聊天区增强 + Mermaid 渲染",
+        "en": "Conversation-area enhancements + Mermaid rendering"
+      },
+      "description": {
+        "zh": "回答卡片、可编辑文件卡片、Mermaid 渲染与会话工具，另含文件/浏览器/终端工具区。",
+        "en": "Answer cards, editable file cards, Mermaid rendering and session utilities, plus the files/browser/terminal tool area."
+      },
+      "author": "goodjin",
+      "homepage": "https://github.com/goodjin/dsh-chat-area",
+      "repository": { "url": "https://github.com/goodjin/dsh-chat-area" },
+      "metadata": {
+        "category": "ui",
+        "keywords": ["chat", "mermaid", "file-cards", "terminal", "conversation"],
+        "labels": []
+      },
+      "versions": [
+        {
+          "version": "0.3.0",
+          "publishTimestamp": 1793780179,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/goodjin/dsh-chat-area",
+            "commit": "1a9261fd169e81aa112695df114bf1174a05ea18"
+          },
+          "engines": { "dsh": ">=0.2.0-rc.2 <0.3" }
+        }
+      ]
+    }
+  ]
+}
