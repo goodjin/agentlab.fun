@@ -123,11 +123,9 @@
       "versions": [
         {
           "version": "0.3.1",
-          "publishTimestamp": 1793783415,
+          "publishTimestamp": 1793786389,
           "source": {
-            "type": "git",
-            "url": "https://github.com/goodjin/dsh-superpowers",
-            "commit": "38dabedc9c2d05603ae3c3b6be7bd96ca6d5f3ed"
+            "type": "npm"
           },
           "engines": {
             "dsh": ">=0.2.0-rc.2 <0.3"
