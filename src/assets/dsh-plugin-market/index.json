@@ -162,11 +162,9 @@
       "versions": [
         {
           "version": "0.3.0",
-          "publishTimestamp": 1793780179,
+          "publishTimestamp": 1793787376,
           "source": {
-            "type": "git",
-            "url": "https://github.com/goodjin/dsh-chat-area",
-            "commit": "1a9261fd169e81aa112695df114bf1174a05ea18"
+            "type": "npm"
           },
           "engines": {
             "dsh": ">=0.2.0-rc.2 <0.3"
